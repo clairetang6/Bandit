@@ -8,6 +8,7 @@ myState.preload = function(){
 	//this.addTextureAtlas('textureAtlas','spritesheet.png','textureAtlasJSON','spritesheet.json');
 	this.addSpriteSheet('characters','spritesheet.png',59,77);
 	this.addImage('background','f22_A.png');
+	this.addImage('row_of_blocks','Block_row.png');
 }
 
 myState.create = function(){
@@ -46,8 +47,10 @@ myState.create = function(){
 	this.red.animation.play('idleleft');
 
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'],20,20);
+	this.ground = new Kiwi.GameObjects.StaticImage(this, this.textures['row_of_blocks'],400,373);
 
 	this.addChild(this.background);
+	this.addChild(this.ground);
 	this.addChild(this.blue);
 	this.addChild(this.red);
 
