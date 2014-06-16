@@ -1,0 +1,53 @@
+{"name":"spritesheet",
+
+"cells:" : [
+
+{
+
+	"x":2,"y":155,"w":55,"h":74
+
+},
+{
+	
+	"x":2,"y":231,"w":55,"h":73
+
+},
+{
+	
+	"x":2,"y":2,"w":55,"h":75
+
+},
+{
+
+	"x":2,"y":79,"w":55,"h":74
+
+}],
+
+"sequences" : [
+	{
+		"name":"red_left",
+		"cells":[0],
+		"loop":false,
+		"speed":0
+	}
+	{
+		"name":"red_right",
+		"cells":[1],
+		"loop":false,
+		"speed":0
+	}
+	{
+		"name":"blue_left",
+		"cells":[2],
+		"loop":false,
+		"speed":0
+	}	
+	{
+		"name":"blue_right",
+		"cells":[3],
+		"loop":false,
+		"speed":0
+	}
+]
+
+}
