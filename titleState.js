@@ -3,6 +3,7 @@ var titleState = new Kiwi.State('titleState');
 titleState.preload = function(){
 	Kiwi.State.prototype.preload.call(this);
 	this.addImage('title','title_1.png');
+	this.addImage('level1','level1_screen.png');
 }
 
 titleState.create = function(){
@@ -12,19 +13,36 @@ titleState.create = function(){
 	myGame.stage.resize(1480,1000);
 
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['title'],0,0);
+	this.level1 = new Kiwi.GameObjects.StaticImage(this, this.textures['level1'],0,0);
+
+
 
 	this.addChild(this.background);
 
 	this.mouse = this.game.input.mouse;
 
 
+	this.timer = this.game.time.clock.createTimer('start_game',1,0,false);
+	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.start_game,this);
+	
 	//this.game.states.switchState('gameState')
 
 }
 
+titleState.start_game = function(){
+	this.game.states.switchState('gameState');
+}
+
 titleState.update = function(){
 	Kiwi.State.prototype.update.call(this);
+	//console.log(this.clock.elapsedSinceLastPaused());
 	if(this.mouse.isDown){
-		this.game.states.switchState('gameState');
+		this.addChild(this.level1);
+		
+		this.timer.start();
+	
+		
+		//this.game.states.switchState('gameState');
 	}
 }
+

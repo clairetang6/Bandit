@@ -3,11 +3,12 @@ var gameState = new Kiwi.State('gameState');
 gameState.preload = function(){
 	Kiwi.State.prototype.preload.call(this);
 	//this.addTextureAtlas('textureAtlas','spritesheet.png','textureAtlasJSON','spritesheet.json');
-	this.addSpriteSheet('characters','character_spritesheet.png',54,64);
-	this.addImage('background','canvas_2.png');
+	this.addSpriteSheet('bandits','bandit_spritesheet.png',54,64);
+	this.addImage('background','canvas_1.png');
 	this.addImage('row_of_blocks','Block_row.png');
 	this.addSpriteSheet('ghoul','ghoul_spritesheet.png',73,74);
 	this.addImage('ladder','ladder_1.png');
+	this.addSpriteSheet('coin','coin_spritesheet.png',74,75);
 }
 
 gameState.create = function(){
@@ -25,7 +26,17 @@ gameState.create = function(){
 	this.ghoul.animation.play('idleleft');
 	this.ghoul_facing = 'left';
 
-	this.blue = new Kiwi.GameObjects.Sprite(this, this.textures['characters'],0,0);
+	for(var i = 0; i<5;i++){
+
+	this.coin = new Kiwi.GameObjects.Sprite(this, this.textures['coin'],370+(2+i)*74,854-7*73);
+	this.coin.animation.add('spin',[0,1,2,3],0.1,true);
+	this.coin.animation.play('spin');	
+
+
+	}
+	
+
+	this.blue = new Kiwi.GameObjects.Sprite(this, this.textures['bandits'],0,0);
 
 	this.blue_leftKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.A);
 	this.blue_rightKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.D);
@@ -33,17 +44,18 @@ gameState.create = function(){
 	this.blue_downKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.S);
 	this.blue_fireKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SHIFT);
 
-	this.blue.animation.add('idleleft',[31],0.1,false);
-	this.blue.animation.add('idleright',[16],0.1,false);
-	this.blue.animation.add('moveright',[17,18,19,20,21,22],0.1,true);
-	this.blue.animation.add('moveleft',[30,29,28,27,26,25],0.1,true);
-	this.blue.animation.add('fireleft',[24],0.1,false);
-	this.blue.animation.add('fireright',[23],0.1,false);
+	this.blue.animation.add('climb',[10,11],0.1,true);
+	this.blue.animation.add('idleleft',[45],0.1,false);
+	this.blue.animation.add('idleright',[26],0.1,false);
+	this.blue.animation.add('moveright',[27,28,29,30,31,32],0.1,true);
+	this.blue.animation.add('moveleft',[44,43,42,41,40,39],0.1,true);
+	this.blue.animation.add('fireleft',[38],0.1,false);
+	this.blue.animation.add('fireright',[33],0.1,false);
 
 	this.blue_facing = 'left';
 	this.blue.animation.play('idleleft');
 
-	this.red = new Kiwi.GameObjects.Sprite(this, this.textures['characters'],400,300);
+	this.red = new Kiwi.GameObjects.Sprite(this, this.textures['bandits'],400,300);
 
 	this.red_leftKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.LEFT);
 	this.red_rightKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.RIGHT);
@@ -51,12 +63,13 @@ gameState.create = function(){
 	this.red_downKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.DOWN);
 	this.red_fireKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SPACEBAR);
 
-	this.red.animation.add('idleleft',[15],0.1,false);
-	this.red.animation.add('idleright',[0],0.1,false);
-	this.red.animation.add('moveright',[1,2,3,4,5,6],0.1,true);
-	this.red.animation.add('moveleft',[14,13,12,11,10,9],0.1,true);
-	this.red.animation.add('fireright',[7],0.1,false);
-	this.red.animation.add('fireleft',[8],0.1,false);
+	this.red.animation.add('climb',[0,1],0.1,true);
+	this.red.animation.add('idleleft',[21],0.1,false);
+	this.red.animation.add('idleright',[2],0.1,false);
+	this.red.animation.add('moveright',[3,4,5,6,7,8],0.1,true);
+	this.red.animation.add('moveleft',[20,19,18,17,16,15],0.1,true);
+	this.red.animation.add('fireright',[9],0.1,false);
+	this.red.animation.add('fireleft',[14],0.1,false);
 
 	this.red_facing = 'left';
 	this.red.animation.play('idleleft');
@@ -86,6 +99,10 @@ gameState.create = function(){
 	this.addChild(this.ghoul);
 	this.addChild(this.blue);
 	this.addChild(this.red);
+
+	for (var i = 0; i<5; i++){
+	this.addChild(this.coin);
+	}	
 
 }
 
@@ -121,6 +138,9 @@ gameState.update = function(){
 		if(this.blue.transform.x>370 && this.blue.transform.x<400)
 			if(this.blue.transform.y>353 && this.blue.transform.y<870)
 				this.blue.transform.y-=3;
+			if(this.blue.animation.currentAnimation.name != 'climb')
+				this.blue.animation.play('climb');
+			
 	}
 	else if(this.blue_rightKey.isDown){
 		this.blue_facing = 'right';
@@ -141,6 +161,8 @@ gameState.update = function(){
 			this.blue.transform.y+=5;
 		else 
 			this.blue.transform.y = 866;
+		if(this.blue.animation.currentAnimation.name != 'climb')
+			this.blue.animation.play('climb');
 	}
 	else {
 		if(this.blue.animation.currentAnimation.name != 'idle' + this.blue_facing)
@@ -153,6 +175,9 @@ gameState.update = function(){
 	else if(this.red_upKey.isDown){
 		if(this.red.transform.y>3)
 			this.red.transform.y-=3;
+		if(this.red.animation.currentAnimation.name != 'climb')
+			this.red.animation.play('climb');
+		
 	}
 	else if(this.red_rightKey.isDown){
 		this.red_facing = 'right';
@@ -173,6 +198,8 @@ gameState.update = function(){
 			this.red.transform.y+=10;
 		else
 			this.red.transform.y = 866;
+		if(this.red.animation.currentAnimation.name != 'climb')
+			this.red.animation.play('climb');
 	}
 	else {
 		if(this.red.animation.currentAnimation.name != 'idle' + this.red_facing)
