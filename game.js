@@ -57,10 +57,12 @@ myState.create = function(){
 	this.red.animation.play('idleleft');
 
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'],0,0);
-	this.ground = new Kiwi.GameObjects.StaticImage(this, this.textures['row_of_blocks'],400,373);
+	this.ground1 = new Kiwi.GameObjects.StaticImage(this, this.textures['row_of_blocks'],400,373);
+	this.ground2 = new Kiwi.GameObjects.StaticImage(this, this.textures['row_of_blocks'],0,928);
 
 	this.addChild(this.background);
-	this.addChild(this.ground);
+	this.addChild(this.ground1);
+	this.addChild(this.ground2);
 	this.addChild(this.blue);
 	this.addChild(this.red);
 
@@ -68,60 +70,60 @@ myState.create = function(){
 
 myState.update = function(){
 	Kiwi.State.prototype.update.call(this);
-	if(this.blue_upKey.isDown){
+	if(this.blue_fireKey.isDown){
+		this.blue.animation.play('fire' + this.blue_facing);
+	}	
+	else if(this.blue_upKey.isDown){
 		if(this.blue.transform.y>3)
 			this.blue.transform.y-=3;
 	}
 	else if(this.blue_rightKey.isDown){
 		this.blue_facing = 'right';
 		if(this.blue.transform.x<1500)
-			this.blue.transform.x+=3;
+			this.blue.transform.x+=5;
 		if(this.blue.animation.currentAnimation.name != 'moveright')
 			this.blue.animation.play('moveright');
 	}
 	else if(this.blue_leftKey.isDown){
 		this.blue_facing = 'left';
 		if(this.blue.transform.x>3)
-			this.blue.transform.x-=3;
+			this.blue.transform.x-=5;
 		if(this.blue.animation.currentAnimation.name != 'moveleft')
 			this.blue.animation.play('moveleft');
 	}
 	else if(this.blue_downKey.isDown){
-		if(this.blue.transform.y<600)
-			this.blue.transform.y+=3;
-	}
-	else if(this.blue_fireKey.isDown){
-		this.blue.animation.play('fire' + this.blue_facing);
+		if(this.blue.transform.y<861)
+			this.blue.transform.y+=10;
 	}
 	else {
 		if(this.blue.animation.currentAnimation.name != 'idle' + this.blue_facing)
 			this.blue.animation.play('idle' + this.blue_facing);
 	}
 
-	if(this.red_upKey.isDown){
+ 	if(this.red_fireKey.isDown){
+		this.red.animation.play('fire' + this.red_facing);
+	}
+	else if(this.red_upKey.isDown){
 		if(this.red.transform.y>3)
 			this.red.transform.y-=3;
 	}
 	else if(this.red_rightKey.isDown){
 		this.red_facing = 'right';
 		if(this.red.transform.x<1500)
-			this.red.transform.x+=3;
+			this.red.transform.x+=5;
 		if(this.red.animation.currentAnimation.name != 'moveright')
 			this.red.animation.play('moveright');
 	}
 	else if(this.red_leftKey.isDown){
 		this.red_facing = 'left';
 		if(this.red.transform.x>3)
-			this.red.transform.x-=3;
+			this.red.transform.x-=5;
 		if(this.red.animation.currentAnimation.name != 'moveleft')
 			this.red.animation.play('moveleft');
 	}
 	else if(this.red_downKey.isDown){
-		if(this.red.transform.y<600)
-			this.red.transform.y+=3;
-	}
-	else if(this.red_fireKey.isDown){
-		this.red.animation.play('fire' + this.red_facing);
+		if(this.red.transform.y<862)
+			this.red.transform.y+=10;
 	}
 	else {
 		if(this.red.animation.currentAnimation.name != 'idle' + this.red_facing)
