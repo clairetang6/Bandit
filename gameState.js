@@ -17,8 +17,6 @@ gameState.create = function(){
 	myGame.stage.color = 'AAAABB';
 	myGame.stage.resize(1480,1000);
 
-	//this.blue = new Kiwi.GameObjects.Sprite(this, this.textures.textureAtlas, 350, 300);
-	//this.blue.animation.switchTo(0);
 
 	this.ghoul = new Kiwi.GameObjects.Sprite(this, this.textures['ghoul'],0,858);
 	this.ghoul.animation.add('idleleft',[1],0.1,false);
@@ -26,15 +24,15 @@ gameState.create = function(){
 	this.ghoul.animation.play('idleleft');
 	this.ghoul_facing = 'left';
 
+	this.coinGroup = new Kiwi.Group(this);
 	for(var i = 0; i<5;i++){
-
-	this.coin = new Kiwi.GameObjects.Sprite(this, this.textures['coin'],370+(2+i)*74,854-7*73);
-	this.coin.animation.add('spin',[0,1,2,3],0.1,true);
-	this.coin.animation.play('spin');	
-
-
+		var coin = new Kiwi.GameObjects.Sprite(this, this.textures['coin'],370+(2+i)*74,854-7*73);
+		coin.animation.add('spin',[0,1,2,3],0.1,true);
+		coin.animation.play('spin');
+		this.coinGroup.addChild(coin);
 	}
 	
+	this.banditGroup = new Kiwi.Group(this);
 
 	this.blue = new Kiwi.GameObjects.Sprite(this, this.textures['bandits'],0,0);
 
@@ -73,6 +71,8 @@ gameState.create = function(){
 
 	this.red_facing = 'left';
 	this.red.animation.play('idleleft');
+	this.banditGroup.addChild(this.blue);
+	this.banditGroup.addChild(this.red);
 
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'],0,0);
 	this.ground1 = new Kiwi.GameObjects.StaticImage(this, this.textures['row_of_blocks'],370,854-6*73);
@@ -97,13 +97,23 @@ gameState.create = function(){
 	this.addChild(this.ladder6);
 	this.addChild(this.ladder7);
 	this.addChild(this.ghoul);
-	this.addChild(this.blue);
-	this.addChild(this.red);
+	
+	this.addChild(this.banditGroup);
+	this.addChild(this.coinGroup);
 
-	for (var i = 0; i<5; i++){
-	this.addChild(this.coin);
-	}	
+}
 
+gameState.checkCollision = function(){
+	var coins = this.coinGroup.members;
+	var bandits = this.banditGroup.members;
+
+	for (var i = 0; i <coins.length; i++){
+		for (var j = 0; j<bandits.length; j++){
+			var coinBox = coins[i].box.bounds;
+			if(bandits[j].box.bounds.intersects(coinBox))
+				coins[i].destroy();
+		}
+	}
 }
 
 gameState.update = function(){
@@ -205,4 +215,6 @@ gameState.update = function(){
 		if(this.red.animation.currentAnimation.name != 'idle' + this.red_facing)
 			this.red.animation.play('idle' + this.red_facing);
 	}
+
+	this.checkCollision();
 }
