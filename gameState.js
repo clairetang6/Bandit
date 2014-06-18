@@ -211,45 +211,16 @@ gameState.getGridPosition = function(x,y){
 	return [Math.floor((y-3)/54)+1, Math.floor((x+25)/54)+1];
 }
 
-gameState.onLadder = function(gridPosition){
+gameState.onLadderOfBlockType = function(blocks, gridPosition){
 	var ladderPosition = null;
-	for(var i = 0; i<this.ladderBlocks.length; i++){
-		ladderPosition = this.ladderBlocks[i];
+	for (var i = 0; i<blocks.length; i++){
+		ladderPosition = blocks[i];
 		if(ladderPosition[0]==gridPosition[0] && ladderPosition[1] == gridPosition[1])
-			return true;
+			return true;	
 	}
 	return false;
 }
 
-gameState.onFirstLadder = function(gridPosition){
-	var ladderPosition = null;
-	for(var i = 0; i<this.firstLadderBlocks.length; i++){
-		ladderPosition = this.firstLadderBlocks[i];
-		if(ladderPosition[0]==gridPosition[0] && ladderPosition[1] == gridPosition[1])
-			return true;
-	}
-	return false;	
-}
-
-gameState.onTopLadder = function(gridPosition){
-	var ladderPosition = null;
-	for(var i = 0; i<this.topLadderBlocks.length; i++){
-		ladderPosition = this.topLadderBlocks[i];
-		if(ladderPosition[0]==gridPosition[0] && ladderPosition[1] == gridPosition[1])
-			return true;
-	}
-	return false;	
-}
-
-gameState.onTopTopLadder = function(gridPosition){
-	var ladderPosition = null;
-	for(var i = 0; i<this.topTopLadderBlocks.length; i++){
-		ladderPosition = this.topTopLadderBlocks[i];
-		if(ladderPosition[0]==gridPosition[0] && ladderPosition[1] == gridPosition[1])
-			return true;
-	}
-	return false;	
-}
 
 gameState.levelOver = function(){
 	this.game.states.switchState('titleState');
@@ -330,12 +301,12 @@ gameState.update = function(){
 	}
 	else if(this.red_upKey.isDown){
 		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y);
-		if(this.onLadder(red_gridPosition)){
+		if(this.onLadderOfBlockType(this.ladderBlocks, red_gridPosition)){
 			if(this.red.transform.y>3)
 				this.red.transform.y-=3;
 			if(this.red.animation.currentAnimation.name != 'climb')
 				this.red.animation.play('climb');
-		}else if(this.onTopLadder(red_gridPosition)){
+		}else if(this.onLadderOfBlockType(this.topLadderBlocks, red_gridPosition)){
 			if(this.red.transform.y>3)
 				this.red.transform.y-=1;
 			if(this.red.animation.currentAnimation.name != 'climb')
@@ -359,14 +330,14 @@ gameState.update = function(){
 	}
 	else if(this.red_downKey.isDown){
 		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y);
-		if(this.onLadder(red_gridPosition) && (!this.onFirstLadder(red_gridPosition))){
+		if(this.onLadderOfBlockType(this.ladderBlocks, red_gridPosition) && (!this.onLadderOfBlockType(this.firstLadderBlocks, red_gridPosition))){
 			if(this.red.transform.y<866)
 				this.red.transform.y+=5;
 			else
 				this.red.transform.y = 866;
 			if(this.red.animation.currentAnimation.name != 'climb')
 				this.red.animation.play('climb');
-		}else if (this.onTopLadder(red_gridPosition) || this.onTopTopLadder(red_gridPosition)){
+		}else if (this.onLadderOfBlockType(this.topLadderBlocks, red_gridPosition) || this.onLadderOfBlockType(this.topTopLadderBlocks, red_gridPosition)){
 			if(this.red.transform.y<866)
 				this.red.transform.y+=5;
 			else
