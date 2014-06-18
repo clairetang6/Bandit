@@ -67,6 +67,7 @@ gameState.create = function(){
 	this.red.animation.add('moveleft',[30,29,28,27,26,25],0.1,true);
 	this.red.animation.add('fireright',[23],0.1,false);
 	this.red.animation.add('fireleft',[24],0.1,false);
+	this.red.animation.add('idleclimb',[0],0.1,false);
 
 	this.red_facing = 'left';
 	this.red.animation.play('idleleft');
@@ -84,6 +85,7 @@ gameState.create = function(){
 	this.topLadderBlocks = this.getTopBlocks(this.ladderBlocks);
 	this.topTopLadderBlocks = this.getTopBlocks(this.topLadderBlocks);
 	this.firstLadderBlocks = this.getFirstLadderBlocks(this.ladderBlocks);
+	this.topTopGroundBlocks = this.getTopBlocks(this.topGroundBlocks);
 
 	console.log(this.ladderBlocks);
 	console.log(this.topLadderBlocks);
@@ -207,21 +209,40 @@ gameState.getCol = function(index,width){
 	return index%width+1;
 }
 
-gameState.getGridPosition = function(x,y){
-	return [Math.floor((y-3)/54)+1, Math.floor((x+25)/54)+1];
+gameState.getGridPosition = function(x,y,cardinal){
+	switch (cardinal){
+		case 'north':
+			return [Math.floor((y-3)/54)+1, Math.floor((x+25)/54)+1];
+		case 'south':
+			return [Math.floor((y+54)/54)+1, Math.floor((x+25)/54)+1];
+		default: 
+			return 0;
+	}
+	return 0;
 }
 
-gameState.onLadderOfBlockType = function(blocks, gridPosition){
-	var ladderPosition = null;
+gameState.onBlockType = function(blocks, gridPosition){
+	var blockPosition = null;
 	for (var i = 0; i<blocks.length; i++){
-		ladderPosition = blocks[i];
-		if(ladderPosition[0]==gridPosition[0] && ladderPosition[1] == gridPosition[1])
+		blockPosition = blocks[i];
+		if(blockPosition[0]==gridPosition[0] && blockPosition[1] == gridPosition[1])
 			return true;	
 	}
 	return false;
 }
-
-
+ 
+gameState.getPixelNumberForGridPosition = function(gridPosition, cardinal){
+	switch (cardinal){
+		case 'north':
+			return (gridPosition[0]-1)*54; 
+		case 'south':
+			return gridPosition[0]*54 - 1;
+		case 'west':
+			return (gridPosition[1]-1)*54;
+		case 'east':
+			return gridPosition[1]*54 - 1;
+	}
+}
 gameState.levelOver = function(){
 	this.game.states.switchState('titleState');
 }
@@ -296,19 +317,31 @@ gameState.update = function(){
 	}
 
 
+
+
+	//red player 
  	if(this.red_fireKey.isDown){
 		this.red.animation.play('fire' + this.red_facing);
 	}
 	else if(this.red_upKey.isDown){
-		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y);
-		if(this.onLadderOfBlockType(this.ladderBlocks, red_gridPosition)){
+		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y, 'north');
+		
+		if(this.onBlockType(this.topLadderBlocks, red_gridPosition)){
+			var pixelNum = this.getPixelNumberForGridPosition(red_gridPosition,'north');
+			if(this.red.transform.y>6+pixelNum){
+				this.red.transform.y-=3;
+				if(this.red.animation.currentAnimation.name!='climb'){
+					this.red.animation.play('climb');
+				}				
+			}else{
+				this.red.transform.y=pixelNum+2;
+				if(this.red.animation.currentAnimation.name!='climb'){
+					this.red.animation.play('climb');
+				}				
+			}
+		}else if(this.onBlockType(this.ladderBlocks, red_gridPosition)){
 			if(this.red.transform.y>3)
 				this.red.transform.y-=3;
-			if(this.red.animation.currentAnimation.name != 'climb')
-				this.red.animation.play('climb');
-		}else if(this.onLadderOfBlockType(this.topLadderBlocks, red_gridPosition)){
-			if(this.red.transform.y>3)
-				this.red.transform.y-=1;
 			if(this.red.animation.currentAnimation.name != 'climb')
 				this.red.animation.play('climb');
 		}
@@ -316,28 +349,46 @@ gameState.update = function(){
 	}
 	else if(this.red_rightKey.isDown){
 		this.red_facing = 'right';
-		if(this.red.transform.x<1000)
-			this.red.transform.x+=5;
-		if(this.red.animation.currentAnimation.name != 'moveright')
-			this.red.animation.play('moveright');
+		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y,'south');
+		var pixelNum = this.getPixelNumberForGridPosition(red_gridPosition,'north');
+		if(this.onBlockType(this.groundBlocks, red_gridPosition)){
+			if(this.red.transform.y+54<pixelNum+3){
+				this.red.transform.x+=5;
+				if(this.red.animation.currentAnimation.name != 'moveright')
+					this.red.animation.play('moveright');
+			}
+		}
 	}
 	else if(this.red_leftKey.isDown){
 		this.red_facing = 'left';
-		if(this.red.transform.x>3)
-			this.red.transform.x-=5;
-		if(this.red.animation.currentAnimation.name != 'moveleft')
-			this.red.animation.play('moveleft');
+		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y,'south');
+		var pixelNum = this.getPixelNumberForGridPosition(red_gridPosition,'north');		
+		if(this.onBlockType(this.groundBlocks, red_gridPosition)){
+			if(this.red.transform.y+54<pixelNum+3){
+				this.red.transform.x-=5;
+				if(this.red.animation.currentAnimation.name != 'moveleft')
+					this.red.animation.play('moveleft');
+			}
+		}
 	}
 	else if(this.red_downKey.isDown){
-		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y);
-		if(this.onLadderOfBlockType(this.ladderBlocks, red_gridPosition) && (!this.onLadderOfBlockType(this.firstLadderBlocks, red_gridPosition))){
-			if(this.red.transform.y<866)
-				this.red.transform.y+=5;
-			else
-				this.red.transform.y = 866;
-			if(this.red.animation.currentAnimation.name != 'climb')
-				this.red.animation.play('climb');
-		}else if (this.onLadderOfBlockType(this.topLadderBlocks, red_gridPosition) || this.onLadderOfBlockType(this.topTopLadderBlocks, red_gridPosition)){
+		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y,'south');
+		if(this.onBlockType(this.firstLadderBlocks,red_gridPosition)){
+			var pixelNum = this.getPixelNumberForGridPosition(red_gridPosition,'south');
+			if(this.red.transform.y+54<pixelNum-3){
+				this.red.transform.y+=3;
+				if(this.red.animation.currentAnimation.name!='climb'){
+					this.red.animation.play('climb');
+				}				
+			}
+			else{
+				this.red.transform.y=pixelNum-53+2; 
+				if(this.red.animation.currentAnimation.name!='climb'){
+					this.red.animation.play('climb');
+				}
+			}
+		}
+		else if(this.onBlockType(this.ladderBlocks, red_gridPosition)){
 			if(this.red.transform.y<866)
 				this.red.transform.y+=5;
 			else
@@ -347,15 +398,23 @@ gameState.update = function(){
 		}
 	}
 	else {
-		if(this.red.animation.currentAnimation.name != 'idle' + this.red_facing)
-			this.red.animation.play('idle' + this.red_facing);
+		var red_belowFeetPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y+1,'south');
+		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y-3,'south');
+		if(this.onBlockType(this.ladderBlocks,red_belowFeetPosition) && !this.onBlockType(this.topLadderBlocks,red_gridPosition)){
+			if(this.red.animation.currentAnimation.name != 'idleclimb')
+				this.red.animation.play('idleclimb');
+		}		
+		else if(this.red.animation.currentAnimation.name != 'idle' + this.red_facing)
+			this.red.animation.play('idle' + this.red_facing);	
 	}
 
 	this.checkCollision();
 	this.isLevelOver();
 
 	if(this.mouse.isDown){
-		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y);
+		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y, 'south');
+		console.log(this.red.transform.x + ' ' + this.red.transform.y);
 		console.log(red_gridPosition[0] + ' ' + red_gridPosition[1]);
+
 	}
 }
