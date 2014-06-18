@@ -9,14 +9,19 @@ gameState.preload = function(){
 	this.addSpriteSheet('ghoul','ghoul_spritesheet.png',73,74);
 	this.addImage('ladder','ladder_1.png');
 	this.addSpriteSheet('coin','coin_spritesheet.png',74,75);
+	this.addJSON('level1_tilemap','level1.json');
+	this.addSpriteSheet('tiles','block_ladder.png',74,74);
 }
 
 gameState.create = function(){
 	Kiwi.State.prototype.create.call(this);
 
 	myGame.stage.color = 'AAAABB';
-	myGame.stage.resize(1480,1000);
+	myGame.stage.resize(1480,1110);
 
+	this.ladder = new Kiwi.GameObjects.Sprite(this, this.textures['tiles'],0,0);
+	this.ladder.animation.add('idle',[3],0.1,false);
+	this.ladder.animation.play('idle');
 
 	this.ghoul = new Kiwi.GameObjects.Sprite(this, this.textures['ghoul'],0,858);
 	this.ghoul.animation.add('idleleft',[1],0.1,false);
@@ -75,31 +80,28 @@ gameState.create = function(){
 	this.banditGroup.addChild(this.red);
 
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'],0,0);
-	this.ground1 = new Kiwi.GameObjects.StaticImage(this, this.textures['row_of_blocks'],370,854-6*73);
-	this.ground2 = new Kiwi.GameObjects.StaticImage(this, this.textures['row_of_blocks'],0,927);
-	this.ladder1 = new Kiwi.GameObjects.StaticImage(this, this.textures['ladder'],370,854);
-	this.ladder2 = new Kiwi.GameObjects.StaticImage(this, this.textures['ladder'],370,854-73);
-	this.ladder3 = new Kiwi.GameObjects.StaticImage(this, this.textures['ladder'],370,854-2*73);
-	this.ladder4 = new Kiwi.GameObjects.StaticImage(this, this.textures['ladder'],370,854-3*73);
-	this.ladder5 = new Kiwi.GameObjects.StaticImage(this, this.textures['ladder'],370,854-4*73);
-	this.ladder6 = new Kiwi.GameObjects.StaticImage(this, this.textures['ladder'],370,854-5*73);
-	this.ladder7 = new Kiwi.GameObjects.StaticImage(this, this.textures['ladder'],370,854-6*73);
-	
+
+	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this,'level1_tilemap', this.textures.tiles);
+
+	this.ladderBlocks = this.getLadderBlocks();
+	this.topLadderBlocks = this.getTopLadderBlocks();
+
+	console.log(this.ladderBlocks);
+	console.log(this.topLadderBlocks);
 
 	this.addChild(this.background);
-	this.addChild(this.ground1);
-	this.addChild(this.ground2);
-	this.addChild(this.ladder1);
-	this.addChild(this.ladder2);
-	this.addChild(this.ladder3);
-	this.addChild(this.ladder4);
-	this.addChild(this.ladder5);
-	this.addChild(this.ladder6);
-	this.addChild(this.ladder7);
+	this.addChild(this.tilemap.layers[0]);
+	this.addChild(this.tilemap.layers[1]);
+
 	this.addChild(this.ghoul);
 	
 	this.addChild(this.banditGroup);
 	this.addChild(this.coinGroup);
+	this.addChild(this.ladder);
+
+	this.timer = this.game.time.clock.createTimer('levelOver',.5,0,false);
+	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.levelOver,this);
+	
 
 }
 
@@ -110,9 +112,94 @@ gameState.checkCollision = function(){
 	for (var i = 0; i <coins.length; i++){
 		for (var j = 0; j<bandits.length; j++){
 			var coinBox = coins[i].box.bounds;
-			if(bandits[j].box.bounds.intersects(coinBox))
+			if(bandits[j].box.bounds.intersects(coinBox)){
 				coins[i].destroy();
+			}
 		}
+	}
+}
+
+gameState.getLadderBlocks = function(){
+	var json = JSON.parse(this.game.fileStore.getFile('level1_tilemap').data);
+	var ladderLayerArray = json.layers[1].data;
+	console.log(json);
+	var width = json.width;
+	var ladderBlocks = [];
+	var count = 0;
+	for (var i = 0; i <ladderLayerArray.length; i++){
+		if(ladderLayerArray[i] == 4){
+			ladderBlocks[count] = [this.getRow(i,width), this.getCol(i,width)];
+			count ++;
+		}
+	}
+	return ladderBlocks;
+
+}
+
+gameState.getTopLadderBlocks = function(){
+	var topLadderBlocks = [];
+	var count = 0;
+	for (var i = 0; i<this.ladderBlocks.length; i++){
+		var row_minus_one = this.ladderBlocks[i][0] - 1;
+		var col = this.ladderBlocks[i][1];
+		var isTopLadderBlock = true;
+
+		if(row_minus_one>=0){
+			for (var j = 0; j<this.ladderBlocks.length; j++){
+				if(this.ladderBlocks[j][0] == row_minus_one && this.ladderBlocks[j][1] == col){
+					isTopLadderBlock = false;
+				}
+			}
+			if(isTopLadderBlock){
+				topLadderBlocks[count] = [row_minus_one, col];
+				count ++;
+			}
+		}
+	}
+	return topLadderBlocks;
+}
+
+gameState.getRow = function(index,width){
+	return Math.floor(index/width)+1;
+}
+
+gameState.getCol = function(index,width){
+	return index%width+1;
+}
+
+gameState.getGridPosition = function(x,y){
+	return [Math.floor(y/74)+1, Math.floor(x/74)+1];
+}
+
+gameState.onLadder = function(gridPosition){
+	var ladderPosition = null;
+	for(var i = 0; i<this.ladderBlocks.length; i++){
+		ladderPosition = this.ladderBlocks[i];
+		console.log(ladderPosition);
+		console.log(gridPosition);
+		if(ladderPosition[0]==gridPosition[0] && ladderPosition[1] == gridPosition[1])
+			return true;
+	}
+	return false;
+}
+
+gameState.onTopLadder = function(gridPosition){
+	var ladderPosition = null;
+	for(var i = 0; i<this.topLadderBlocks.length; i++){
+		ladderPosition = this.topLadderBlocks[i];
+		if(ladderPosition[0]==gridPosition[0] && ladderPosition[1] == gridPosition[1])
+			return true;
+	}
+	return false;	
+}
+
+gameState.levelOver = function(){
+	this.game.states.switchState('titleState');
+}
+
+gameState.isLevelOver = function(){
+	if(this.coinGroup.members.length==0){	
+		this.timer.start();
 	}
 }
 
@@ -179,14 +266,23 @@ gameState.update = function(){
 			this.blue.animation.play('idle' + this.blue_facing);
 	}
 
+
  	if(this.red_fireKey.isDown){
 		this.red.animation.play('fire' + this.red_facing);
 	}
 	else if(this.red_upKey.isDown){
-		if(this.red.transform.y>3)
-			this.red.transform.y-=3;
-		if(this.red.animation.currentAnimation.name != 'climb')
-			this.red.animation.play('climb');
+		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y);
+		if(this.onLadder(red_gridPosition)){
+			if(this.red.transform.y>3)
+				this.red.transform.y-=3;
+			if(this.red.animation.currentAnimation.name != 'climb')
+				this.red.animation.play('climb');
+		}else if(this.onTopLadder(red_gridPosition)){
+			if(this.red.transform.y>3)
+				this.red.transform.y-=3;
+			if(this.red.animation.currentAnimation.name != 'climb')
+				this.red.animation.play('climb');
+		}
 		
 	}
 	else if(this.red_rightKey.isDown){
@@ -217,4 +313,5 @@ gameState.update = function(){
 	}
 
 	this.checkCollision();
+	this.isLevelOver();
 }

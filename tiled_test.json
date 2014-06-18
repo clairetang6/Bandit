@@ -1,0 +1,13 @@
+{ "height":10,
+ "layers":[],
+ "orientation":"orthogonal",
+ "properties":
+    {
+
+    },
+ "tileheight":73,
+ "tilesets":[],
+ "tilewidth":73,
+ "version":1,
+ "width":16
+}
