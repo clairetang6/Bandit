@@ -15,6 +15,8 @@ gameState.create = function(){
 	myGame.stage.color = 'AAAABB';
 	myGame.stage.resize(1080,810);
 
+	this.mouse = this.game.input.mouse;
+
 	this.ghoul = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],0,702);
 	this.ghoul.animation.add('idleleft',[7],0.1,false);
 	this.ghoul.animation.add('idleright',[4],0.1,false);
@@ -75,8 +77,13 @@ gameState.create = function(){
 
 	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this,'level1_tilemap', this.textures.tiles);
 
-	this.ladderBlocks = this.getLadderBlocks();
-	this.topLadderBlocks = this.getTopLadderBlocks();
+	var blockArrays = this.parseBlocks('level1_tilemap');
+	this.groundBlocks = this.getGroundBlocks(blockArrays[0],blockArrays[2]);
+	this.ladderBlocks = this.getLadderBlocks(blockArrays[1],blockArrays[2]);
+	this.topGroundBlocks = this.getTopBlocks(this.groundBlocks);
+	this.topLadderBlocks = this.getTopBlocks(this.ladderBlocks);
+	this.topTopLadderBlocks = this.getTopBlocks(this.topLadderBlocks);
+	this.firstLadderBlocks = this.getFirstLadderBlocks(this.ladderBlocks);
 
 	console.log(this.ladderBlocks);
 	console.log(this.topLadderBlocks);
@@ -111,11 +118,20 @@ gameState.checkCollision = function(){
 	}
 }
 
-gameState.getLadderBlocks = function(){
-	var json = JSON.parse(this.game.fileStore.getFile('level1_tilemap').data);
-	var ladderLayerArray = json.layers[1].data;
-	console.log(json);
-	var width = json.width;
+gameState.getGroundBlocks = function(groundLayerArray, width){
+	var groundBlocks = [];
+	var count = 0;
+	for (var i = 0; i<groundLayerArray.length; i++){
+		if(groundLayerArray[i] != 0){
+			groundBlocks[count] = [this.getRow(i,width), this.getCol(i,width)];
+			count ++;
+		}
+	}
+	return groundBlocks;
+	
+}
+
+gameState.getLadderBlocks = function(ladderLayerArray, width){
 	var ladderBlocks = [];
 	var count = 0;
 	for (var i = 0; i <ladderLayerArray.length; i++){
@@ -128,28 +144,60 @@ gameState.getLadderBlocks = function(){
 
 }
 
-gameState.getTopLadderBlocks = function(){
-	var topLadderBlocks = [];
+gameState.parseBlocks = function(level_tilemap){
+	var json = JSON.parse(this.game.fileStore.getFile(level_tilemap).data);
+	var groundLayerArray = json.layers[0].data;
+	var ladderLayerArray = json.layers[1].data;
+	var width = json.width;
+
+	return [groundLayerArray, ladderLayerArray, width];
+}
+
+gameState.getTopBlocks = function(blocks){
+	var topBlocks = [];
 	var count = 0;
-	for (var i = 0; i<this.ladderBlocks.length; i++){
-		var row_minus_one = this.ladderBlocks[i][0] - 1;
-		var col = this.ladderBlocks[i][1];
-		var isTopLadderBlock = true;
+	for (var i = 0; i<blocks.length; i++){
+		var row_minus_one = blocks[i][0] - 1;
+		var col = blocks[i][1];
+		var isTopBlock = true;
 
 		if(row_minus_one>=0){
-			for (var j = 0; j<this.ladderBlocks.length; j++){
-				if(this.ladderBlocks[j][0] == row_minus_one && this.ladderBlocks[j][1] == col){
-					isTopLadderBlock = false;
+			for (var j = 0; j<blocks.length; j++){
+				if(blocks[j][0] == row_minus_one && blocks[j][1] == col){
+					isTopBlock = false;
 				}
 			}
-			if(isTopLadderBlock){
-				topLadderBlocks[count] = [row_minus_one, col];
+			if(isTopBlock){
+				topBlocks[count] = [row_minus_one, col];
 				count ++;
 			}
 		}
 	}
-	return topLadderBlocks;
+	return topBlocks;
 }
+
+gameState.getFirstLadderBlocks = function(ladderBlocks){
+	var firstLadderBlocks = [];
+	var count = 0;
+	for (var i = 0; i<ladderBlocks.length; i++){
+		var row_plus_one = ladderBlocks[i][0] + 1;
+		var col = ladderBlocks[i][1];
+		var isFirstLadderBlock = true;
+		
+		for (var j = 0; j<ladderBlocks.length; j++){
+			if(ladderBlocks[j][0] == row_plus_one && ladderBlocks[j][1] == col){
+				isFirstLadderBlock = false;
+			}
+		}
+		if(isFirstLadderBlock){
+			firstLadderBlocks[count] = [row_plus_one - 1, col];
+			count ++;
+		}
+		
+	}
+	return firstLadderBlocks;
+}
+
 
 gameState.getRow = function(index,width){
 	return Math.floor(index/width)+1;
@@ -160,25 +208,43 @@ gameState.getCol = function(index,width){
 }
 
 gameState.getGridPosition = function(x,y){
-	return [Math.floor((y-4)/54)+1, Math.floor((x+25)/54)+1];
+	return [Math.floor((y-3)/54)+1, Math.floor((x+25)/54)+1];
 }
 
 gameState.onLadder = function(gridPosition){
 	var ladderPosition = null;
 	for(var i = 0; i<this.ladderBlocks.length; i++){
 		ladderPosition = this.ladderBlocks[i];
-		console.log(ladderPosition);
-		console.log(gridPosition);
 		if(ladderPosition[0]==gridPosition[0] && ladderPosition[1] == gridPosition[1])
 			return true;
 	}
 	return false;
 }
 
+gameState.onFirstLadder = function(gridPosition){
+	var ladderPosition = null;
+	for(var i = 0; i<this.firstLadderBlocks.length; i++){
+		ladderPosition = this.firstLadderBlocks[i];
+		if(ladderPosition[0]==gridPosition[0] && ladderPosition[1] == gridPosition[1])
+			return true;
+	}
+	return false;	
+}
+
 gameState.onTopLadder = function(gridPosition){
 	var ladderPosition = null;
 	for(var i = 0; i<this.topLadderBlocks.length; i++){
 		ladderPosition = this.topLadderBlocks[i];
+		if(ladderPosition[0]==gridPosition[0] && ladderPosition[1] == gridPosition[1])
+			return true;
+	}
+	return false;	
+}
+
+gameState.onTopTopLadder = function(gridPosition){
+	var ladderPosition = null;
+	for(var i = 0; i<this.topTopLadderBlocks.length; i++){
+		ladderPosition = this.topTopLadderBlocks[i];
 		if(ladderPosition[0]==gridPosition[0] && ladderPosition[1] == gridPosition[1])
 			return true;
 	}
@@ -271,7 +337,7 @@ gameState.update = function(){
 				this.red.animation.play('climb');
 		}else if(this.onTopLadder(red_gridPosition)){
 			if(this.red.transform.y>3)
-				this.red.transform.y-=3;
+				this.red.transform.y-=1;
 			if(this.red.animation.currentAnimation.name != 'climb')
 				this.red.animation.play('climb');
 		}
@@ -292,12 +358,22 @@ gameState.update = function(){
 			this.red.animation.play('moveleft');
 	}
 	else if(this.red_downKey.isDown){
-		if(this.red.transform.y<866)
-			this.red.transform.y+=10;
-		else
-			this.red.transform.y = 866;
-		if(this.red.animation.currentAnimation.name != 'climb')
-			this.red.animation.play('climb');
+		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y);
+		if(this.onLadder(red_gridPosition) && (!this.onFirstLadder(red_gridPosition))){
+			if(this.red.transform.y<866)
+				this.red.transform.y+=5;
+			else
+				this.red.transform.y = 866;
+			if(this.red.animation.currentAnimation.name != 'climb')
+				this.red.animation.play('climb');
+		}else if (this.onTopLadder(red_gridPosition) || this.onTopTopLadder(red_gridPosition)){
+			if(this.red.transform.y<866)
+				this.red.transform.y+=5;
+			else
+				this.red.transform.y = 866;
+			if(this.red.animation.currentAnimation.name != 'climb')
+				this.red.animation.play('climb');
+		}
 	}
 	else {
 		if(this.red.animation.currentAnimation.name != 'idle' + this.red_facing)
@@ -306,4 +382,9 @@ gameState.update = function(){
 
 	this.checkCollision();
 	this.isLevelOver();
+
+	if(this.mouse.isDown){
+		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y);
+		console.log(red_gridPosition[0] + ' ' + red_gridPosition[1]);
+	}
 }
