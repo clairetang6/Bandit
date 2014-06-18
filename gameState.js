@@ -320,6 +320,7 @@ gameState.update = function(){
 
 
 	//red player 
+	var red_southGridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y,'south');
  	if(this.red_fireKey.isDown){
 		this.red.animation.play('fire' + this.red_facing);
 	}
@@ -349,9 +350,8 @@ gameState.update = function(){
 	}
 	else if(this.red_rightKey.isDown){
 		this.red_facing = 'right';
-		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y,'south');
-		var pixelNum = this.getPixelNumberForGridPosition(red_gridPosition,'north');
-		if(this.onBlockType(this.groundBlocks, red_gridPosition)){
+		var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'north');
+		if(this.onBlockType(this.groundBlocks, red_southGridPosition)){
 			if(this.red.transform.y+54<pixelNum+3){
 				this.red.transform.x+=5;
 				if(this.red.animation.currentAnimation.name != 'moveright')
@@ -361,9 +361,8 @@ gameState.update = function(){
 	}
 	else if(this.red_leftKey.isDown){
 		this.red_facing = 'left';
-		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y,'south');
-		var pixelNum = this.getPixelNumberForGridPosition(red_gridPosition,'north');		
-		if(this.onBlockType(this.groundBlocks, red_gridPosition)){
+		var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'north');		
+		if(this.onBlockType(this.groundBlocks, red_southGridPosition)){
 			if(this.red.transform.y+54<pixelNum+3){
 				this.red.transform.x-=5;
 				if(this.red.animation.currentAnimation.name != 'moveleft')
@@ -372,9 +371,8 @@ gameState.update = function(){
 		}
 	}
 	else if(this.red_downKey.isDown){
-		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y,'south');
-		if(this.onBlockType(this.firstLadderBlocks,red_gridPosition)){
-			var pixelNum = this.getPixelNumberForGridPosition(red_gridPosition,'south');
+		if(this.onBlockType(this.firstLadderBlocks,red_southGridPosition)){
+			var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'south');
 			if(this.red.transform.y+54<pixelNum-3){
 				this.red.transform.y+=3;
 				if(this.red.animation.currentAnimation.name!='climb'){
@@ -388,7 +386,7 @@ gameState.update = function(){
 				}
 			}
 		}
-		else if(this.onBlockType(this.ladderBlocks, red_gridPosition)){
+		else if(this.onBlockType(this.ladderBlocks, red_southGridPosition)){
 			if(this.red.transform.y<866)
 				this.red.transform.y+=5;
 			else
