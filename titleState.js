@@ -10,7 +10,7 @@ titleState.create = function(){
 	Kiwi.State.prototype.create.call(this);
 
 	myGame.stage.color = 'AAAABB';
-	myGame.stage.resize(1480,1000);
+	myGame.stage.resize(1080,810);
 
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['title'],0,0);
 	this.level1 = new Kiwi.GameObjects.StaticImage(this, this.textures['level1'],0,0);

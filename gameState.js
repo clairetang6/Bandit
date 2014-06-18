@@ -3,43 +3,35 @@ var gameState = new Kiwi.State('gameState');
 gameState.preload = function(){
 	Kiwi.State.prototype.preload.call(this);
 	//this.addTextureAtlas('textureAtlas','spritesheet.png','textureAtlasJSON','spritesheet.json');
-	this.addSpriteSheet('bandits','bandit_spritesheet.png',54,64);
+	this.addSpriteSheet('sprites','all_spritesheet.png',54,54);
 	this.addImage('background','canvas_1.png');
-	this.addImage('row_of_blocks','Block_row.png');
-	this.addSpriteSheet('ghoul','ghoul_spritesheet.png',73,74);
-	this.addImage('ladder','ladder_1.png');
-	this.addSpriteSheet('coin','coin_spritesheet.png',74,75);
 	this.addJSON('level1_tilemap','level1.json');
-	this.addSpriteSheet('tiles','block_ladder.png',74,74);
+	this.addSpriteSheet('tiles','block_ladder.png',54,54);
 }
 
 gameState.create = function(){
 	Kiwi.State.prototype.create.call(this);
 
 	myGame.stage.color = 'AAAABB';
-	myGame.stage.resize(1480,1110);
+	myGame.stage.resize(1080,810);
 
-	this.ladder = new Kiwi.GameObjects.Sprite(this, this.textures['tiles'],0,0);
-	this.ladder.animation.add('idle',[3],0.1,false);
-	this.ladder.animation.play('idle');
-
-	this.ghoul = new Kiwi.GameObjects.Sprite(this, this.textures['ghoul'],0,858);
-	this.ghoul.animation.add('idleleft',[1],0.1,false);
+	this.ghoul = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],0,702);
+	this.ghoul.animation.add('idleleft',[7],0.1,false);
 	this.ghoul.animation.add('idleright',[4],0.1,false);
 	this.ghoul.animation.play('idleleft');
 	this.ghoul_facing = 'left';
 
 	this.coinGroup = new Kiwi.Group(this);
 	for(var i = 0; i<5;i++){
-		var coin = new Kiwi.GameObjects.Sprite(this, this.textures['coin'],370+(2+i)*74,854-7*73);
-		coin.animation.add('spin',[0,1,2,3],0.1,true);
+		var coin = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],370+(2+i)*74,854-7*73);
+		coin.animation.add('spin',[8,9,10,11],0.1,true);
 		coin.animation.play('spin');
 		this.coinGroup.addChild(coin);
 	}
 	
 	this.banditGroup = new Kiwi.Group(this);
 
-	this.blue = new Kiwi.GameObjects.Sprite(this, this.textures['bandits'],0,0);
+	this.blue = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],0,0);
 
 	this.blue_leftKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.A);
 	this.blue_rightKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.D);
@@ -47,18 +39,18 @@ gameState.create = function(){
 	this.blue_downKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.S);
 	this.blue_fireKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SHIFT);
 
-	this.blue.animation.add('climb',[10,11],0.1,true);
-	this.blue.animation.add('idleleft',[45],0.1,false);
-	this.blue.animation.add('idleright',[26],0.1,false);
-	this.blue.animation.add('moveright',[27,28,29,30,31,32],0.1,true);
-	this.blue.animation.add('moveleft',[44,43,42,41,40,39],0.1,true);
-	this.blue.animation.add('fireleft',[38],0.1,false);
-	this.blue.animation.add('fireright',[33],0.1,false);
+	this.blue.animation.add('climb',[48,49],0.1,true);
+	this.blue.animation.add('idleleft',[47],0.1,false);
+	this.blue.animation.add('idleright',[32],0.1,false);
+	this.blue.animation.add('moveright',[33,34,35,36,37,38],0.1,true);
+	this.blue.animation.add('moveleft',[46,45,44,43,42,41],0.1,true);
+	this.blue.animation.add('fireleft',[40],0.1,false);
+	this.blue.animation.add('fireright',[39],0.1,false);
 
 	this.blue_facing = 'left';
 	this.blue.animation.play('idleleft');
 
-	this.red = new Kiwi.GameObjects.Sprite(this, this.textures['bandits'],400,300);
+	this.red = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],400,300);
 
 	this.red_leftKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.LEFT);
 	this.red_rightKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.RIGHT);
@@ -67,12 +59,12 @@ gameState.create = function(){
 	this.red_fireKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SPACEBAR);
 
 	this.red.animation.add('climb',[0,1],0.1,true);
-	this.red.animation.add('idleleft',[21],0.1,false);
-	this.red.animation.add('idleright',[2],0.1,false);
-	this.red.animation.add('moveright',[3,4,5,6,7,8],0.1,true);
-	this.red.animation.add('moveleft',[20,19,18,17,16,15],0.1,true);
-	this.red.animation.add('fireright',[9],0.1,false);
-	this.red.animation.add('fireleft',[14],0.1,false);
+	this.red.animation.add('idleleft',[31],0.1,false);
+	this.red.animation.add('idleright',[16],0.1,false);
+	this.red.animation.add('moveright',[17,18,19,20,21,22],0.1,true);
+	this.red.animation.add('moveleft',[30,29,28,27,26,25],0.1,true);
+	this.red.animation.add('fireright',[23],0.1,false);
+	this.red.animation.add('fireleft',[24],0.1,false);
 
 	this.red_facing = 'left';
 	this.red.animation.play('idleleft');
@@ -97,7 +89,7 @@ gameState.create = function(){
 	
 	this.addChild(this.banditGroup);
 	this.addChild(this.coinGroup);
-	this.addChild(this.ladder);
+
 
 	this.timer = this.game.time.clock.createTimer('levelOver',.5,0,false);
 	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.levelOver,this);
@@ -168,7 +160,7 @@ gameState.getCol = function(index,width){
 }
 
 gameState.getGridPosition = function(x,y){
-	return [Math.floor(y/74)+1, Math.floor(x/74)+1];
+	return [Math.floor((y-4)/54)+1, Math.floor((x+25)/54)+1];
 }
 
 gameState.onLadder = function(gridPosition){
@@ -241,7 +233,7 @@ gameState.update = function(){
 	}
 	else if(this.blue_rightKey.isDown){
 		this.blue_facing = 'right';
-		if(this.blue.transform.x<1500)
+		if(this.blue.transform.x<1000)
 			this.blue.transform.x+=5;
 		if(this.blue.animation.currentAnimation.name != 'moveright')
 			this.blue.animation.play('moveright');
@@ -287,7 +279,7 @@ gameState.update = function(){
 	}
 	else if(this.red_rightKey.isDown){
 		this.red_facing = 'right';
-		if(this.red.transform.x<1500)
+		if(this.red.transform.x<1000)
 			this.red.transform.x+=5;
 		if(this.red.animation.currentAnimation.name != 'moveright')
 			this.red.animation.play('moveright');
