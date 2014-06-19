@@ -28,7 +28,7 @@ gameState.create = function(){
 
 	this.coinGroup = new Kiwi.Group(this);
 	for(var i = 0; i<5;i++){
-		var coin = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],370+(2+i)*74,854-7*73);
+		var coin = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],54*10+(2+i)*54,7*54);
 		coin.animation.add('spin',[8,9,10,11],0.1,true);
 		coin.animation.play('spin');
 		this.coinGroup.addChild(coin);
@@ -51,6 +51,7 @@ gameState.create = function(){
 	this.blue.animation.add('moveleft',[46,45,44,43,42,41],0.1,true);
 	this.blue.animation.add('fireleft',[40],0.1,false);
 	this.blue.animation.add('fireright',[39],0.1,false);
+	this.blue.animation.add('idleclimb',[49],0.1,false);
 
 	this.blue_facing = 'left';
 	this.blue.animation.play('idleleft');
@@ -89,6 +90,8 @@ gameState.create = function(){
 	this.topTopLadderBlocks = this.getTopBlocks(this.topLadderBlocks);
 	this.firstLadderBlocks = this.getFirstLadderBlocks(this.ladderBlocks);
 	this.topTopGroundBlocks = this.getTopBlocks(this.topGroundBlocks);
+	this.leftBlockedBlocks = this.getBlockedBlocks(this.groundBlocks,'left');
+	this.rightBlockedBlocks = this.getBlockedBlocks(this.groundBlocks,'right');
 
 
 	this.addChild(this.background);
@@ -177,6 +180,40 @@ gameState.getTopBlocks = function(blocks){
 		}
 	}
 	return topBlocks;
+}
+
+
+gameState.getBlockedBlocks = function(groundBlocks, direction){
+	var blockedBlocks = [];
+	var count = 0;
+	var col_change = 0;
+	switch (direction){
+		case 'left': 
+			col_change = 1;
+			break;
+		case 'right':
+			col_change = -1;
+			break;
+	}
+	for (var i = 0; i <groundBlocks.length; i++){
+		var row = groundBlocks[i][0];
+		var col_different = groundBlocks[i][1] + col_change;
+		var isBlockedBlock = true;
+		if(col_different<21 && col_different >0){
+			for (var j = 0; j<groundBlocks.length; j++){
+				if(groundBlocks[j][0] == row && groundBlocks[j][1] == col_different){
+					isBlockedBlock = false;
+				}
+			}
+		}else{
+			isBlockedBlock = false;
+		}
+		if(isBlockedBlock){
+			blockedBlocks[count] = [row, col_different];
+			count ++;
+		}
+	}
+	return blockedBlocks;
 }
 
 gameState.getFirstLadderBlocks = function(ladderBlocks){
@@ -414,21 +451,40 @@ gameState.update = function(){
 	}
 	else if(this.red_rightKey.isDown){
 		this.red_facing = 'right';
-		if(!this.onBlockType(this.groundBlocks, red_feetPosition)){
-			if(this.red.transform.x<this.STAGE_WIDTH-54-6){
-				this.red.transform.x+=5;
-				if(this.red.animation.currentAnimation.name != 'moveright')
-					this.red.animation.play('moveright');
+		if(this.onBlockType(this.rightBlockedBlocks, red_feetPosition)){
+			var pixelNum = this.getPixelNumberForGridPosition(red_feetPosition,'east');
+			if(this.red.transform.x+54<pixelNum-6){
+				this.red.transform.x +=5;
+			}else{
+				this.red.transform.x = pixelNum-51;
+			}
+		}
+		else{
+			if(!this.onBlockType(this.groundBlocks, red_feetPosition)){
+				if(this.red.transform.x<this.STAGE_WIDTH-54-6){
+					this.red.transform.x+=5;
+					if(this.red.animation.currentAnimation.name != 'moveright')
+						this.red.animation.play('moveright');
+				}
 			}
 		}
 	}
 	else if(this.red_leftKey.isDown){
 		this.red_facing = 'left';
-		if(!this.onBlockType(this.groundBlocks, red_feetPosition)){
-			if(this.red.transform.x>10){
+		if(this.onBlockType(this.leftBlockedBlocks, red_feetPosition)){
+			var pixelNum = this.getPixelNumberForGridPosition(red_feetPosition,'west');
+			if(this.red.transform.x>pixelNum+6){
 				this.red.transform.x-=5;
-				if(this.red.animation.currentAnimation.name != 'moveleft')
-					this.red.animation.play('moveleft');
+			}else{
+				this.red.transform.x = pixelNum;
+			}
+		}else{
+			if(!this.onBlockType(this.groundBlocks, red_feetPosition)){
+				if(this.red.transform.x>10){
+					this.red.transform.x-=5;
+					if(this.red.animation.currentAnimation.name != 'moveleft')
+						this.red.animation.play('moveleft');
+				}
 			}
 		}
 	}
