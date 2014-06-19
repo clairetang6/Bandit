@@ -4,8 +4,10 @@ gameState.preload = function(){
 	Kiwi.State.prototype.preload.call(this);
 	//this.addTextureAtlas('textureAtlas','spritesheet.png','textureAtlasJSON','spritesheet.json');
 	this.addSpriteSheet('sprites','all_spritesheet.png',54,54);
-	this.addImage('background','canvas_1.png');
+	this.addImage('background','canvas_2.png');
+	this.addSpriteSheet('background_spritesheet','canvas_2.png',54,54);
 	this.addJSON('level1_tilemap','level1.json');
+	this.addJSON('level2_tilemap','level2.json');
 	this.addSpriteSheet('tiles','block_ladder.png',54,54);
 }
 
@@ -25,16 +27,24 @@ gameState.create = function(){
 	this.ghoul.animation.add('idleright',[4],0.1,false);
 	this.ghoul.animation.play('idleleft');
 	this.ghoul_facing = 'left';
-
-	this.coinGroup = new Kiwi.Group(this);
-	for(var i = 0; i<5;i++){
-		var coin = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],54*10+(2+i)*54,7*54);
-		coin.animation.add('spin',[8,9,10,11],0.1,true);
-		coin.animation.play('spin');
-		this.coinGroup.addChild(coin);
-	}
+	
+	var blockArrays = this.parseBlocks('level2_tilemap');
 	
 	this.banditGroup = new Kiwi.Group(this);
+
+	this.coinGroup = new Kiwi.Group(this);
+	var coinsLayerArray = blockArrays[2];
+	var width = blockArrays[4];
+	var tileWidth = blockArrays[3];
+	for(var i = 0; i<coinsLayerArray.length;i++){
+		if(coinsLayerArray[i]!=0){
+			var coinPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+			var coin = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],coinPixels[0],coinPixels[1]);
+			coin.animation.add('spin',[8,9,10,11],0.1,true);
+			coin.animation.play('spin');
+			this.coinGroup.addChild(coin);
+		}
+	}
 
 	this.blue = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],0,0);
 
@@ -56,7 +66,7 @@ gameState.create = function(){
 	this.blue_facing = 'left';
 	this.blue.animation.play('idleleft');
 
-	this.red = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],400,300);
+	this.red = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],0,0);
 
 	this.red_leftKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.LEFT);
 	this.red_rightKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.RIGHT);
@@ -80,11 +90,11 @@ gameState.create = function(){
 
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'],0,0);
 
-	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this,'level1_tilemap', this.textures.tiles);
+	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this,'level2_tilemap', this.textures.tiles);
 
-	var blockArrays = this.parseBlocks('level1_tilemap');
-	this.groundBlocks = this.getGroundBlocks(blockArrays[0],blockArrays[2]);
-	this.ladderBlocks = this.getLadderBlocks(blockArrays[1],blockArrays[2]);
+	
+	this.groundBlocks = this.getGroundBlocks(blockArrays[0],blockArrays[4]);
+	this.ladderBlocks = this.getLadderBlocks(blockArrays[1],blockArrays[4]);
 	this.topGroundBlocks = this.getTopBlocks(this.groundBlocks);
 	this.topLadderBlocks = this.getTopBlocks(this.ladderBlocks);
 	this.topTopLadderBlocks = this.getTopBlocks(this.topLadderBlocks);
@@ -93,22 +103,28 @@ gameState.create = function(){
 	this.leftBlockedBlocks = this.getBlockedBlocks(this.groundBlocks,'left');
 	this.rightBlockedBlocks = this.getBlockedBlocks(this.groundBlocks,'right');
 
+	
+
 
 	this.addChild(this.background);
 	this.addChild(this.tilemap.layers[0]);
 	this.addChild(this.tilemap.layers[1]);
-
+	this.addChild(this.coinGroup);
+	
 	this.addChild(this.ghoul);
 	
 	this.addChild(this.banditGroup);
-	this.addChild(this.coinGroup);
+	console.log(this.coinGroup);
+	
 
 
-	this.timer = this.game.time.clock.createTimer('levelOver',.5,0,false);
-	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.levelOver,this);
+	//this.timer = this.game.time.clock.createTimer('levelOver',.5,0,false);
+	//this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.levelOver,this);
 	
 
 }
+
+
 
 gameState.checkCollision = function(){
 	var coins = this.coinGroup.members;
@@ -148,15 +164,6 @@ gameState.getLadderBlocks = function(ladderLayerArray, width){
 	}
 	return ladderBlocks;
 
-}
-
-gameState.parseBlocks = function(level_tilemap){
-	var json = JSON.parse(this.game.fileStore.getFile(level_tilemap).data);
-	var groundLayerArray = json.layers[0].data;
-	var ladderLayerArray = json.layers[1].data;
-	var width = json.width;
-
-	return [groundLayerArray, ladderLayerArray, width];
 }
 
 gameState.getTopBlocks = function(blocks){
@@ -238,6 +245,26 @@ gameState.getFirstLadderBlocks = function(ladderBlocks){
 	return firstLadderBlocks;
 }
 
+gameState.parseBlocks = function(level_tilemap){
+	var json = JSON.parse(this.game.fileStore.getFile(level_tilemap).data);
+	var groundLayerArray = json.layers[0].data;
+	var ladderLayerArray = json.layers[1].data;
+	var coinsLayerArray = json.layers[3].data;
+	var width = json.width;
+	var tileWidth = json.tilewidth;
+
+	return [groundLayerArray, ladderLayerArray, coinsLayerArray, tileWidth, width];
+}
+
+gameState.getPixelPositionFromArrayIndex = function(index, tileWidth, width){
+	var row = this.getRow(index,width);
+	var col = this.getCol(index,width);
+	return [(col-1)*tileWidth, (row-1)*tileWidth];
+}
+
+gameState.getPixelPositionFromRowCol = function(row, col){
+	return [(col-1)*54, (row-1)*54];
+}
 
 gameState.getRow = function(index,width){
 	return Math.floor(index/width)+1;
@@ -281,6 +308,26 @@ gameState.getPixelNumberForGridPosition = function(gridPosition, cardinal){
 			return gridPosition[1]*54 - 1;
 	}
 }
+
+gameState.blockFired = function(gridPosition, facing, groundBlocks){
+	var firedPosition = [0,0];
+	switch(facing){
+		case 'left':
+			if(gridPosition[1]-1>0 && gridPosition[0]+1<16){
+				firedPosition[0] = gridPosition[0]+1;
+				firedPosition[1] = gridPosition[1]-1;
+			}
+			break;
+		case 'right':
+			if(gridPosition[1]+1<21 && gridPosition[0]+1<16){
+				firedPosition[0] = gridPosition[0]+1;
+				firedPosition[1] = gridPosition[1]+1;
+			}
+			break;
+	}
+	return firedPosition;
+}
+
 gameState.levelOver = function(){
 	this.game.states.switchState('titleState');
 }
@@ -289,6 +336,18 @@ gameState.isLevelOver = function(){
 	if(this.coinGroup.members.length==0){	
 		this.timer.start();
 	}
+}
+
+gameState.getArrayIndexFromRowCol = function(row, col){
+	return (row-1)*20 + col-1;
+}
+
+gameState.fireBlock = function(firedBlockPosition){
+	var pixels = this.getPixelPositionFromRowCol(firedBlockPosition[0],firedBlockPosition[1]);
+	this.hiddenBlock = new Kiwi.GameObjects.Sprite(this, this.textures['background_spritesheet'],pixels[0],pixels[1]);
+	this.hiddenBlock.animation.add('hide',[this.getArrayIndexFromRowCol(firedBlockPosition[0],firedBlockPosition[1])],0.1,false);
+	this.hiddenBlock.animation.play('hide');
+	this.addChild(this.hiddenBlock);
 }
 
 gameState.update = function(){
@@ -424,6 +483,8 @@ gameState.update = function(){
  	}
  	if(this.red_fireKey.isDown){
 		this.red.animation.play('fire' + this.red_facing);
+		var blockFiredPosition = this.blockFired(red_feetPosition, this.red_facing, this.groundBlocks);
+		this.fireBlock(blockFiredPosition);
 	}
 	else if(this.red_upKey.isDown){
 		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y, 'north');
