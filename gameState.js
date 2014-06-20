@@ -4,9 +4,9 @@ gameState.preload = function(){
 	Kiwi.State.prototype.preload.call(this);
 	//this.addTextureAtlas('textureAtlas','spritesheet.png','textureAtlasJSON','spritesheet.json');
 	this.addSpriteSheet('sprites','all_spritesheet.png',54,54);
-	this.addImage('background','canvas_3.png');
-	this.addSpriteSheet('background_spritesheet','canvas_3.png',54,54);
-	this.addJSON('level_tilemap','level3.json');
+	this.addImage('background','canvas_2.png');
+	this.addSpriteSheet('background_spritesheet','canvas_2.png',54,54);
+	this.addJSON('level_tilemap','level2.json');
 	this.addSpriteSheet('tiles','block_ladder.png',54,54);
 }
 
@@ -110,14 +110,13 @@ gameState.create = function(){
 	
 	this.groundBlocks = this.getGroundBlocks(blockArrays[0],blockArrays[4]);
 	this.ladderBlocks = this.getLadderBlocks(blockArrays[1],blockArrays[4]);
-	this.updateTopGroundBlocks();
-	this.topLadderBlocks = this.getTopBlocks(this.ladderBlocks);
-	this.topTopLadderBlocks = this.getTopBlocks(this.topLadderBlocks);
 	this.firstLadderBlocks = this.getFirstLadderBlocks(this.ladderBlocks);
-	this.topTopGroundBlocks = this.getTopBlocks(this.topGroundBlocks);
-
+	this.topLadderBlocks = this.getTopBlocks(this.ladderBlocks);
+	
+	this.updateTopGroundBlocks();
 	this.updateBlockedBlocks();
 	
+
 	this.hiddenBlockGroup = new Kiwi.Group(this);
 
 
@@ -242,6 +241,7 @@ gameState.getBlockedBlocks = function(groundBlocks, direction){
 			count ++;
 		}
 	}
+	console.log('updated blocked blocks' + direction);
 	return blockedBlocks;
 }
 
@@ -372,8 +372,8 @@ gameState.blastBlock = function(blastedBlockPosition){
 	hiddenBlock.animation.play('hide');
 	this.hiddenBlockGroup.addChild(hiddenBlock);
 	this.removeFromGroundBlocks(blastedBlockPosition);
-	this.updateTopGroundBlocks;
-	this.updateBlockedBlocks;
+	this.updateTopGroundBlocks();
+	this.updateBlockedBlocks();
 }
 
 gameState.removeFromGroundBlocks = function(blastedBlockPosition){
@@ -386,7 +386,6 @@ gameState.removeFromGroundBlocks = function(blastedBlockPosition){
 	if(index){
 		this.groundBlocks.splice(index,1);
 		console.log('blasted1');
-		
 	}
 }
 
