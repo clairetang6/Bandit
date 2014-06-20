@@ -8,7 +8,7 @@
  </tileset>
  <layer name="Tile Layer 1" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAuYCICo6vDp49Ue8lxEwMD8XYR6z5iwwGfPmLcQon9TESopwYgJ15wyROjj1qAmLRCiluIjVNizSc1jrGZT6obcfmL1hgGAGY+ASE=
+   eJxjYKAuYCICo6vDp48Y+5D1k+MmZHOIsQ+f+wj5h5C95PidGHcSCl9yw58YQE684JInRh+13ExMnJHiFmLjlFjzSY1jbOaT6kZc/qI1hgEAfm4BKQ==
   </data>
  </layer>
  <layer name="ladders" width="20" height="15">
@@ -23,7 +23,7 @@
  </layer>
  <layer name="coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJwTYmBgEKIiJgagq8Onjxj7hLCoR2cTcg8TEXZhM4uQewjZi24GPrNx2UVuPCDrJ0aekvRAqhtJ8QM295IaXsTGHylxTE68oquhFiAmPogJI2zy9AAwuwAN3gn/
+   eJwTYmBgEKIiJgagq8Onjxj7hLCoR2cT4x5y/EfIPaTai89sXHaRGw/I+omRpyQ9kOpGUvyAzb2khhex8UdKHJMTr+hqqAWIiQ9iwgibPD0AzC4ABo4J/Q==
   </data>
  </layer>
 </map>

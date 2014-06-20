@@ -193,7 +193,7 @@ var Ghoul = function(state, x, y, facing){
 				break;
 			case 'right':
 				var checkForGroundBlockPosition = [leftGridPosition[0], leftGridPosition[1]+1];
-				var checkForRightBlockedBlockPosition = [leftGridPosition[0]+1, leftGridPosition[1]+1];
+				var checkForLeftBlockedBlockPosition = [leftGridPosition[0]+1, leftGridPosition[1]+1];
 
 				for (var i =0; i<state.groundBlocks.length; i++){
 					if(state.groundBlocks[i][0] == checkForGroundBlockPosition[0] && state.groundBlocks[i][1] == checkForGroundBlockPosition[1]){
@@ -201,8 +201,8 @@ var Ghoul = function(state, x, y, facing){
 						break;
 					}
 				}
-				for (var i =0; i<state.rightBlockedBlocks.length; i++){
-					if(state.rightBlockedBlocks[i][0] == checkForRightBlockedBlockPosition[0] && state.rightBlockedBlocks[i][1] == checkForRightBlockedBlockPosition[1]){
+				for (var i =0; i<state.leftBlockedBlocks.length; i++){
+					if(state.leftBlockedBlocks[i][0] == checkForLeftBlockedBlockPosition[0] && state.leftBlockedBlocks[i][1] == checkForLeftBlockedBlockPosition[1]){
 						shouldTurn = true;
 						break;
 					}
