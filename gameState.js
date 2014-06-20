@@ -46,7 +46,7 @@ gameState.create = function(){
 	for(var i = 0; i<ghoulsLayerArray.length;i++){
 		if(ghoulsLayerArray[i]==11){
 			var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
-			var ghoul = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],ghoulPixels[0],ghoulPixels[1]);
+			var ghoul = new Ghoul(this,ghoulPixels[0],ghoulPixels[1],'left');
 		 	ghoul.animation.add('idleleft',[7],0.1,false);
 			ghoul.animation.add('idleright',[4],0.1,false);
 			ghoul.animation.play('idleleft');
@@ -138,6 +138,7 @@ gameState.create = function(){
 	
 }
 
+
 gameState.updateBlockedBlocks = function(){
 	this.leftBlockedBlocks = this.getBlockedBlocks(this.groundBlocks,'left');
 	this.rightBlockedBlocks = this.getBlockedBlocks(this.groundBlocks,'right');
@@ -160,6 +161,82 @@ gameState.checkCollision = function(){
 		}
 	}
 }
+
+var Ghoul = function(state, x, y, facing){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
+	this.facing = facing; 
+
+	Ghoul.prototype.update = function(){
+		Kiwi.GameObjects.Sprite.prototype.update.call(this);
+		var rightGridPosition = state.getGridPosition(this.x, this.y, 'east');
+		var leftGridPosition = state.getGridPosition(this.x, this.y, 'west');
+		var shouldTurn = false;		
+
+		switch(this.facing){
+			case 'left':
+				var checkForGroundBlockPosition = [rightGridPosition[0], rightGridPosition[1]-1];
+				var checkForRightBlockedBlockPosition = [rightGridPosition[0]+1, rightGridPosition[1]-1];
+
+				for (var i =0; i<state.groundBlocks.length; i++){
+					if(state.groundBlocks[i][0] == checkForGroundBlockPosition[0] && state.groundBlocks[i][1] == checkForGroundBlockPosition[1]){
+						shouldTurn = true;
+						break;
+					}
+				}
+				for (var i =0; i<state.rightBlockedBlocks.length; i++){
+					if(state.rightBlockedBlocks[i][0] == checkForRightBlockedBlockPosition[0] && state.rightBlockedBlocks[i][1] == checkForRightBlockedBlockPosition[1]){
+						shouldTurn = true;
+						break;
+					}
+				}
+
+				break;
+			case 'right':
+				var checkForGroundBlockPosition = [leftGridPosition[0], leftGridPosition[1]+1];
+				var checkForRightBlockedBlockPosition = [leftGridPosition[0]+1, leftGridPosition[1]+1];
+
+				for (var i =0; i<state.groundBlocks.length; i++){
+					if(state.groundBlocks[i][0] == checkForGroundBlockPosition[0] && state.groundBlocks[i][1] == checkForGroundBlockPosition[1]){
+						shouldTurn = true;
+						break;
+					}
+				}
+				for (var i =0; i<state.rightBlockedBlocks.length; i++){
+					if(state.rightBlockedBlocks[i][0] == checkForRightBlockedBlockPosition[0] && state.rightBlockedBlocks[i][1] == checkForRightBlockedBlockPosition[1]){
+						shouldTurn = true;
+						break;
+					}
+				}
+				break;
+		}
+
+		if (shouldTurn){
+			switch(this.facing){
+				case 'left':
+					this.facing = 'right';
+					this.animation.play('idleright');
+					break;
+				case 'right':
+					this.facing = 'left';
+					this.animation.play('idleleft');
+					break;
+			}
+		}
+
+		switch(this.facing){
+			case 'left':
+				this.x -= 1;
+				break;
+			case 'right':
+				this.x += 1;
+				break;
+		}
+
+		
+
+	}
+}
+Kiwi.extend(Ghoul, Kiwi.GameObjects.Sprite);
 
 gameState.getGroundBlocks = function(groundLayerArray, width){
 	var groundBlocks = [];
@@ -303,6 +380,10 @@ gameState.getGridPosition = function(x,y,cardinal){
 			return [Math.floor((y-3)/54)+1, Math.floor((x+25)/54)+1];
 		case 'south':
 			return [Math.floor((y+54)/54)+1, Math.floor((x+25)/54)+1];
+		case 'east':
+			return [Math.floor((y+51)/54)+1, Math.floor((x+53)/54+1)];
+		case 'west':
+			return [Math.floor((y+51)/54)+1, Math.floor((x+1)/54+1)];
 		default: 
 			return 0;
 	}
@@ -420,7 +501,10 @@ gameState.update = function(){
  			else
  				this.blue.transform.y=pixelNum-53+2;
  		}else{
- 			this.blue.transform.y+=13;
+ 			if(this.blue.transform.y+54<54*15-14)
+ 				this.blue.transform.y+=13;
+ 			else
+ 				this.blue.transform.y=54*15-54;
  		}
  	}
  	if(this.blue_fireKey.isDown){
@@ -532,6 +616,8 @@ gameState.update = function(){
 	var red_southGridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y,'south');
  	var red_belowFeetPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y+1,'south');
  	var red_feetPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y-3,'south');	
+ 	var red_rightGridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y,'east');
+ 	var red_leftGridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y, 'west');
  	if(!(this.onBlockType(this.ladderBlocks,red_southGridPosition) || this.onBlockType(this.groundBlocks, red_southGridPosition))){
  		if(this.onBlockType(this.topGroundBlocks,red_southGridPosition)){
  			var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'south');
@@ -540,7 +626,10 @@ gameState.update = function(){
  			else
  				this.red.transform.y=pixelNum-53+2;
  		}else{
- 			this.red.transform.y+=13;
+ 			if(this.red.transform.y+54<54*15-14)
+ 				this.red.transform.y+=13;
+ 			else
+ 				this.red.transform.y=54*15-54;
  		}
  	}
  	if(this.red_fireKey.isDown){
@@ -576,8 +665,8 @@ gameState.update = function(){
 	}
 	else if(this.red_rightKey.isDown){
 		this.red_facing = 'right';
-		if(this.onBlockType(this.rightBlockedBlocks, red_feetPosition)){
-			var pixelNum = this.getPixelNumberForGridPosition(red_feetPosition,'east');
+		if(this.onBlockType(this.rightBlockedBlocks, red_leftGridPosition)){
+			var pixelNum = this.getPixelNumberForGridPosition(red_leftGridPosition,'east');
 			if(this.red.transform.x+54<pixelNum-6){
 				this.red.transform.x +=5;
 			}else{
@@ -585,7 +674,7 @@ gameState.update = function(){
 			}
 		}
 		else{
-			if(!this.onBlockType(this.groundBlocks, red_feetPosition)){
+			if(!this.onBlockType(this.groundBlocks, red_rightGridPosition)){
 				if(this.red.transform.x<this.STAGE_WIDTH-54-6){
 					this.red.transform.x+=5;
 					if(this.red.animation.currentAnimation.name != 'moveright')
@@ -654,6 +743,7 @@ gameState.update = function(){
 		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y, 'south');
 		console.log(this.red.transform.x + ' ' + this.red.transform.y);
 		console.log(red_gridPosition[0] + ' ' + red_gridPosition[1]);
+		console.log(this.leftBlockedBlocks);
 
 	}
 }
