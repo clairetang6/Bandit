@@ -18,12 +18,12 @@
  </layer>
  <layer name="extras" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYEAAbgbiALHqaAWw2T8Y3TSc7KMVoGaaM6Oh/UMRkOo3ZPVq1HQIFQEA09MA1g==
+   eJxjYEAAbgbiALHqaAWw2T/QbqI3GC7+pWaaM6Oh/UMRkOo3ZPVq1HQIFQEArlsAyw==
   </data>
  </layer>
  <layer name="coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJwTYkAAITwYnxpkOQYs4tgAITXYzMVnPy4+un5sfEJy+PRjs5dYtejqCIkTihNsgJD7iAX43EesXnz+w+dPXP4mxn5i0hkxaZ4Y/fQE2MKBmniwAgCZrAe9
+   eJzNUUEKACAM8g37/2O7huhcRNBgRE3NbQWgHibECaozptM5rSXMHp0nxqS/WG/qzc1CaThPqidX5/6U9+4+3fPUn+N0fOY4fRUne0k8hUlvScNxp7O6yR9jAQO2DE8=
   </data>
  </layer>
 </map>

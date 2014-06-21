@@ -8,22 +8,22 @@
  </tileset>
  <layer name="Tile Layer 1" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYMAETFjEiAVMRGB0dfj0EWMfsn5y3IRsDjH24XMfIf8QspccvxPjTkLhS274EwPIiRdc8sToo5abiYkzUtxCbJwSaz6pcYzNfFLdiMtftMYwAACHpgEr
+   eJxjYCAMWKGYGMBKZYxuNqnuw2YGrdxHyE5S/ELP8MMHRsOPeDtJ8Qstww+fe4nRQ8vwI8bd+NQCAJ0pA0k=
   </data>
  </layer>
  <layer name="ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAuYCFSHl0dLn3UNo+Q+dQ2b7CpI6SHHHNGzcMUo3Z8EEqPxPqNVuZhA5SELS7zAHJ/AKU=
+   eJxjYKAuYKGyfnqbR6o8tc0jBPCpJyesKDWP0vihtnmDzT2kmstChBpamkcNNdS2E1keAAW/AHk=
   </data>
  </layer>
  <layer name="extras" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJzjZsAOuIkUI0aOEkArcwfaLnIAIfcNlPvR7SU17VATEGsPvcNKDUqr45Cnt3vIsY8bjR4IAABZBgEJ
+   eJxjYIAAbgZUgM4nJIdPPTUAsXYOhNuw2UOqO2jpRmLcgs/t9Ai/oZL+SLGHXuFIjD247CaUZqkF1KhghhkQAwBptQGn
   </data>
  </layer>
  <layer name="coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJwTYmBgEELDDFjEiMXEAHR1+PQRY58QFvXobGLcQ47/CLmHVHvxmU1KPBELCKmnNE3g8wshd5EDyA0vYt1GShyTE6/oaqgFiIkPYsIImzw9AMwuANDHCf0=
+   eJytk0sKACEMQ3uG3v+ws3JT8qtOQIQaeZHWrqo268j5phcp8TAey6Dyzfrf2jA3b2GspMbyMabrZ9JflUN5E+bG4/Tid8yb+dvMZI+dMVXe5I5jIo/67+g86S/yfq/fCuc=
   </data>
  </layer>
 </map>
