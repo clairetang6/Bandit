@@ -4,9 +4,24 @@ gameState.preload = function(){
 	Kiwi.State.prototype.preload.call(this);
 	//this.addTextureAtlas('textureAtlas','spritesheet.png','textureAtlasJSON','spritesheet.json');
 	this.addSpriteSheet('sprites','all_spritesheet.png',54,54);
-	this.addImage('background','canvas_1.png');
-	this.addSpriteSheet('background_spritesheet','canvas_1.png',54,54);
-	this.addJSON('level_tilemap','test.json');
+	this.currentLevel = 1; 
+	this.numberOfLevels = 10;
+
+	for (var i = 1; i<=this.numberOfLevels; i++){
+		if(i<=7){
+		this.addImage('background'+i,'canvas_'+i+'.png');
+		this.addSpriteSheet('backgroundSpriteSheet'+i,'canvas_'+i+'.png',54,54);
+		this.addJSON('level_tilemap'+i,'level'+i+'.json');
+		}
+		else{
+		this.addImage('background'+i,'canvas_'+(i%7)+'.png');
+		this.addSpriteSheet('backgroundSpriteSheet'+(i%7),'canvas_'+i+'.png',54,54);
+		this.addJSON('level_tilemap'+i,'level'+i+'.json');		
+		}
+	}
+	//this.addImage('background','canvas_4.png');
+	//this.addSpriteSheet('background_spritesheet','canvas_1.png',54,54);
+	//this.addJSON('level_tilemap','level4.json');
 	this.addSpriteSheet('tiles','block_ladder.png',54,54);
 }
 
@@ -21,7 +36,7 @@ gameState.create = function(){
 
 	this.mouse = this.game.input.mouse;
 
-	var blockArrays = this.parseBlocks('level_tilemap');
+	var blockArrays = this.parseBlocks('level_tilemap'+this.currentLevel);
 
 
 
@@ -54,14 +69,24 @@ gameState.create = function(){
 			ghoul.animation.add('dieright',[2,3],0.1,true);
 			ghoul.animation.add('dieleft',[5,6],0.1,true);
 			ghoul.animation.play('idleleft');
-			//ghoul_facing = 'left';
 			this.ghoulGroup.addChild(ghoul);
 		}
 	}
 	
-	
+	var bluePixels = [0,0];
+	var redPixels = [0,0];
+	for(var i = 0; i<ghoulsLayerArray.length; i++){
+		if(ghoulsLayerArray[i] != 11 && ghoulsLayerArray[i] != 0)
+			console.log(ghoulsLayerArray[i]);
+		if(ghoulsLayerArray[i] == 39 || ghoulsLayerArray[i] == 54){
+			bluePixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+		}
+		if(ghoulsLayerArray[i] == 38){
+			redPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+		}
+	}
 
-	this.blue = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],0,0);
+	this.blue = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],bluePixels[0],bluePixels[1]);
 
 	this.blue_leftKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.A);
 	this.blue_rightKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.D);
@@ -81,7 +106,7 @@ gameState.create = function(){
 	this.blue_facing = 'left';
 	this.blue.animation.play('idleleft');
 
-	this.red = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],0,0);
+	this.red = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],redPixels[0],redPixels[1]);
 
 	this.red_leftKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.LEFT);
 	this.red_rightKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.RIGHT);
@@ -107,9 +132,9 @@ gameState.create = function(){
 	this.banditGroup.addChild(this.blue);
 	this.banditGroup.addChild(this.red);
 
-	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'],0,0);
+	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'+this.currentLevel],0,0);
 
-	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this,'level_tilemap', this.textures.tiles);
+	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this,'level_tilemap'+this.currentLevel, this.textures.tiles);
 
 	
 	this.groundBlocks = this.getGroundBlocks(blockArrays[0],blockArrays[4]);
@@ -141,6 +166,8 @@ gameState.create = function(){
 
 	this.timer = this.game.time.clock.createTimer('levelOver',.5,0,false);
 	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.levelOver,this);
+	console.log(this.timer);
+	console.log(this.timer_event);
 	
 }
 
@@ -169,13 +196,13 @@ gameState.checkCollision = function(){
 }
 
 var HiddenBlock = function(state, x, y, occupied){
-	Kiwi.GameObjects.Sprite.call(this, state, state.textures['background_spritesheet'], x, y, false);
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['backgroundSpriteSheet'+state.currentLevel], x, y, false);
 	this.occupied = occupied; 
 	this.gridPosition = state.getGridPosition(x,y);
 	this.row = this.gridPosition[0];
 	this.col = this.gridPosition[1]; 
 
-	this.timer = state.game.time.clock.createTimer('hiddenBlockTimer',1,-1,false);
+	this.timer = state.game.time.clock.createTimer('hiddenBlockTimer',.5,-1,false);
 	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.hiddenBlockTimer, this);
 	this.timer.start();
 
@@ -191,6 +218,7 @@ var HiddenBlock = function(state, x, y, occupied){
 		}
 	}
 }
+
 Kiwi.extend(HiddenBlock, Kiwi.GameObjects.Sprite);
 
 
@@ -228,7 +256,11 @@ var Ghoul = function(state, x, y, facing){
 	}
 
 	this.inHole = function(){
-		this.animation.play('up' + this.facing)
+		//this.animation.play('up' + this.facing);
+		if(this.animation.currentAnimation.name != 'die' + this.facing){
+			this.animation.play('die' + this.facing);
+		}
+
 	}
 
 	Ghoul.prototype.update = function(){
@@ -545,7 +577,12 @@ gameState.getBlastedBlockPosition = function(gridPosition, facing, groundBlocks)
 }
 
 gameState.levelOver = function(){
-	this.game.states.switchState('titleState');
+	this.currentLevel += 1;
+	if(this.currentLevel > this.numberOfLevels){
+		this.game.states.switchState('titleState');
+	}else{
+		this.create();
+	}
 }
 
 gameState.isLevelOver = function(){
@@ -864,6 +901,9 @@ gameState.update = function(){
 	if(this.mouse.isDown){
 		console.log(this.hiddenBlockGroup.members);
 		console.log(this.timer_event);
+		console.log(this.blue);
+		this.levelOver();
+		this.game.input.mouse.reset();
 
 	}
 }
