@@ -13,7 +13,11 @@ gameState.preload = function(){
 		this.addSpriteSheet('backgroundSpriteSheet'+i,'canvas_'+i+'.png',54,54);
 		this.addJSON('level_tilemap'+i,'level'+i+'.json');
 		}
-		else{
+		else if (i==10){
+		this.addImage('background10','canvas_7.png');
+		this.addSpriteSheet('backgroundSpriteSheet10','canvas_7.png',54,54);
+		this.addJSON('level_tilemap10','level10.json');			
+		}else{
 		this.addImage('background'+i,'canvas_'+(i%7)+'.png');
 		this.addSpriteSheet('backgroundSpriteSheet'+(i%7),'canvas_'+i+'.png',54,54);
 		this.addJSON('level_tilemap'+i,'level'+i+'.json');		
@@ -181,7 +185,7 @@ gameState.updateTopGroundBlocks = function(){
 	this.topGroundBlocks = this.getTopBlocks(this.groundBlocks);
 }
 
-gameState.checkCollision = function(){
+gameState.checkCoinCollision = function(){
 	var coins = this.coinGroup.members;
 	var bandits = this.banditGroup.members;
 
@@ -190,6 +194,22 @@ gameState.checkCollision = function(){
 			var coinBox = coins[i].box.bounds;
 			if(bandits[j].box.bounds.intersects(coinBox)){
 				coins[i].destroy();
+			}
+		}
+	}
+}
+
+gameState.checkGhoulCollision = function(){
+	var ghouls = this.ghoulGroup.members;
+	var bandits = this.banditGroup.members;
+
+	for (var i = 0; i<ghouls.length; i++){
+		if(!ghouls[i].isInHole){
+			for (var j = 0; j<bandits.length; j++){		
+				var ghoulBox = ghouls[i].box.bounds;
+				if(bandits[j].box.bounds.intersects(ghoulBox)){
+					console.log('DEATH');
+				}
 			}
 		}
 	}
@@ -267,7 +287,7 @@ var Ghoul = function(state, x, y, facing){
 		Kiwi.GameObjects.Sprite.prototype.update.call(this);
 		var rightGridPosition = state.getGridPosition(this.x, this.y, 'east');
 		var leftGridPosition = state.getGridPosition(this.x, this.y, 'west');
-		var topGridPosition = state.getGridPosition(this.x, this.y+10, 'north');
+		var topGridPosition = state.getGridPosition(this.x, this.y+15, 'north');
 		var shouldTurn = false;	
 
 
@@ -284,6 +304,11 @@ var Ghoul = function(state, x, y, facing){
 					var checkForGroundBlockPosition = [rightGridPosition[0], rightGridPosition[1]-1];
 					var checkForRightBlockedBlockPosition = [rightGridPosition[0]+1, rightGridPosition[1]-1];
 
+					if(this.x < 0){
+						shouldTurn = true;
+						break;
+					}
+
 					if(state.onBlockType(state.originalGroundBlocks,checkForGroundBlockPosition)){
 						shouldTurn = true;
 						break;
@@ -296,6 +321,11 @@ var Ghoul = function(state, x, y, facing){
 				case 'right':
 					var checkForGroundBlockPosition = [leftGridPosition[0], leftGridPosition[1]+1];
 					var checkForLeftBlockedBlockPosition = [leftGridPosition[0]+1, leftGridPosition[1]+1];
+
+					if(this.x > 19*54){
+						shouldTurn = true;
+						break;
+					}
 
 					if(state.onBlockType(state.originalGroundBlocks,checkForGroundBlockPosition)){
 						shouldTurn = true;
@@ -588,6 +618,8 @@ gameState.levelOver = function(){
 gameState.isLevelOver = function(){
 	if(this.coinGroup.members.length==0){	
 		this.timer.start();
+	}else if(!this.blue && !this.red){
+		this.timer.start();
 	}
 }
 
@@ -598,13 +630,15 @@ gameState.getArrayIndexFromRowCol = function(row, col){
 gameState.blastBlock = function(blastedBlockPosition){
 	var hiddenBlocks = this.hiddenBlockGroup.members;
 	var alreadyExists = false;
+	var wasAGroundBlock = this.onBlockType(this.groundBlocks, blastedBlockPosition);
 	for (var i = 0; i<hiddenBlocks.length; i++){
 		var hiddenBlock = hiddenBlocks[i];
 		if(hiddenBlock.row == blastedBlockPosition[0] && hiddenBlock.col == blastedBlockPosition[1]){
 			alreadyExists = true;
 		}
 	}
-	if(!alreadyExists){
+	
+	if(!alreadyExists && wasAGroundBlock){
 		var pixels = this.getPixelPositionFromRowCol(blastedBlockPosition[0],blastedBlockPosition[1]);
 		var hiddenBlock = new HiddenBlock(this, pixels[0],pixels[1],false);
 		hiddenBlock.animation.add('hide',[this.getArrayIndexFromRowCol(blastedBlockPosition[0],blastedBlockPosition[1])],0.1,false);
@@ -800,25 +834,27 @@ gameState.update = function(){
 	}
 	else if(this.red_upKey.isDown){
 		var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y, 'north');
-		
-		if(this.onBlockType(this.topLadderBlocks, red_gridPosition)){
-			var pixelNum = this.getPixelNumberForGridPosition(red_gridPosition,'north');
-			if(this.red.transform.y>6+pixelNum){
-				this.red.transform.y-=3;
-				if(this.red.animation.currentAnimation.name!='climb'){
+		var ladderPixelNum = this.getPixelNumberForGridPosition(red_gridPosition,'west') + 27;
+		if(this.red.x+27>ladderPixelNum-10 && this.red.x+27<ladderPixelNum+10){
+			if(this.onBlockType(this.topLadderBlocks, red_gridPosition)){
+				var pixelNum = this.getPixelNumberForGridPosition(red_gridPosition,'north');
+				if(this.red.transform.y>6+pixelNum){
+					this.red.transform.y-=3;
+					if(this.red.animation.currentAnimation.name!='climb'){
+						this.red.animation.play('climb');
+					}				
+				}else{
+					this.red.transform.y=pixelNum+2;
+					if(this.red.animation.currentAnimation.name!='climb'){
+						this.red.animation.play('climb');
+					}				
+				}
+			}else if(this.onBlockType(this.ladderBlocks, red_gridPosition)){
+				if(this.red.transform.y>3)
+					this.red.transform.y-=3;
+				if(this.red.animation.currentAnimation.name != 'climb')
 					this.red.animation.play('climb');
-				}				
-			}else{
-				this.red.transform.y=pixelNum+2;
-				if(this.red.animation.currentAnimation.name!='climb'){
-					this.red.animation.play('climb');
-				}				
 			}
-		}else if(this.onBlockType(this.ladderBlocks, red_gridPosition)){
-			if(this.red.transform.y>3)
-				this.red.transform.y-=3;
-			if(this.red.animation.currentAnimation.name != 'climb')
-				this.red.animation.play('climb');
 		}
 		
 	}
@@ -838,6 +874,8 @@ gameState.update = function(){
 					this.red.transform.x+=5;
 					if(this.red.animation.currentAnimation.name != 'moveright')
 						this.red.animation.play('moveright');
+				}else{
+					this.red.transform.x = this.STAGE_WIDTH - 54;
 				}
 			}
 		}
@@ -853,37 +891,42 @@ gameState.update = function(){
 			}
 		}else{
 			if(!this.onBlockType(this.groundBlocks, red_feetPosition)){
-				if(this.red.transform.x>10){
+				if(this.red.transform.x>6){
 					this.red.transform.x-=5;
 					if(this.red.animation.currentAnimation.name != 'moveleft')
 						this.red.animation.play('moveleft');
+				}else{
+					this.red.transform.x = 0;
 				}
 			}
 		}
 	}
 	else if(this.red_downKey.isDown){
-		if(this.onBlockType(this.firstLadderBlocks,red_southGridPosition)){
-			var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'south');
-			if(this.red.transform.y+54<pixelNum-6){
-				this.red.transform.y+=3;
-				if(this.red.animation.currentAnimation.name!='climb'){
-					this.red.animation.play('climb');
-				}				
-			}
-			else{
-				this.red.transform.y=pixelNum-53+2; 
-				if(this.red.animation.currentAnimation.name!='climb'){
-					this.red.animation.play('climb');
+		var ladderPixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'west') + 27;
+		if(this.red.x+27>ladderPixelNum-10 && this.red.x+27<ladderPixelNum+10){	
+			if(this.onBlockType(this.firstLadderBlocks,red_southGridPosition)){
+				var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'south');
+				if(this.red.transform.y+54<pixelNum-6){
+					this.red.transform.y+=3;
+					if(this.red.animation.currentAnimation.name!='climb'){
+						this.red.animation.play('climb');
+					}				
+				}
+				else{
+					this.red.transform.y=pixelNum-53+2; 
+					if(this.red.animation.currentAnimation.name!='climb'){
+						this.red.animation.play('climb');
+					}
 				}
 			}
-		}
-		else if(this.onBlockType(this.ladderBlocks, red_southGridPosition)){
-			if(this.red.transform.y<866)
-				this.red.transform.y+=5;
-			else
-				this.red.transform.y = 866;
-			if(this.red.animation.currentAnimation.name != 'climb')
-				this.red.animation.play('climb');
+			else if(this.onBlockType(this.ladderBlocks, red_southGridPosition)){
+				if(this.red.transform.y<866)
+					this.red.transform.y+=5;
+				else
+					this.red.transform.y = 866;
+				if(this.red.animation.currentAnimation.name != 'climb')
+					this.red.animation.play('climb');
+			}
 		}
 	}
 	else {
@@ -895,7 +938,8 @@ gameState.update = function(){
 			this.red.animation.play('idle' + this.red_facing);	
 	}
 
-	this.checkCollision();
+	this.checkCoinCollision();
+	this.checkGhoulCollision();
 	this.isLevelOver();
 
 	if(this.mouse.isDown){
