@@ -85,7 +85,7 @@ gameState.create = function(){
 		if(ghoulsLayerArray[i] == 39 || ghoulsLayerArray[i] == 54){
 			bluePixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 		}
-		if(ghoulsLayerArray[i] == 38){
+		if(ghoulsLayerArray[i] == 38 || ghoulsLayerArray[i] == 23){
 			redPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 		}
 	}
@@ -221,14 +221,11 @@ var HiddenBlock = function(state, x, y, occupied){
 	this.gridPosition = state.getGridPosition(x,y);
 	this.row = this.gridPosition[0];
 	this.col = this.gridPosition[1]; 
+	this.state = state;
 
-	this.timer = state.game.time.clock.createTimer('hiddenBlockTimer',.5,-1,false);
-	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.hiddenBlockTimer, this);
+	this.timer = state.game.time.clock.createTimer('hiddenBlockTimer',5,0,false);
+	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.hiddenBlockTimer, this);
 	this.timer.start();
-
-	this.hiddenBlockTimer = function(){
-		console.log('timer works');
-	}
 
 	HiddenBlock.prototype.update = function(){
 		if(this.occupied){
@@ -238,9 +235,19 @@ var HiddenBlock = function(state, x, y, occupied){
 		}
 	}
 }
-
 Kiwi.extend(HiddenBlock, Kiwi.GameObjects.Sprite);
 
+HiddenBlock.prototype.hiddenBlockTimer = function(){
+	if(this.occupiedBy){
+		this.occupiedBy.destroy();
+	}
+	console.log(this);
+	console.log(this.row);
+	this.state.addToGroundBlocks(this.row, this.col);
+	this.state.updateTopGroundBlocks();
+	this.state.updateBlockedBlocks();
+	this.destroy();
+}
 
 var Ghoul = function(state, x, y, facing){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
@@ -648,6 +655,12 @@ gameState.blastBlock = function(blastedBlockPosition){
 		this.updateTopGroundBlocks();
 		this.updateBlockedBlocks();
 	}
+}
+
+gameState.addToGroundBlocks = function(row, col){
+	this.groundBlocks.push([row, col]);
+	console.log(this.groundBlocks);
+	console.log('added back ground block');
 }
 
 gameState.removeFromGroundBlocks = function(blastedBlockPosition){
