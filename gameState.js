@@ -217,6 +217,8 @@ gameState.create = function(){
 	this.red_canShoot = true;
 	this.blue_canShoot = true;
 
+	
+
 	this.banditGroup.addChild(this.blue);
 	this.banditGroup.addChild(this.red);
 
@@ -721,28 +723,31 @@ gameState.getBlockedBlocks = function(groundBlocks, direction, blockedBlocks){
 	switch (direction){
 		case 'left': 
 			for(var i =0;i<this.gridRows; i++){
-				for(var j=1; j<this.gridCols; j++){
-					if(groundBlocks[i][j] ==0 && groundBlocks[i][j-1] == 1){
-						blockedBlocks[i][j] = 1;
-					}else if(j==0){
+				for(var j=0; j<this.gridCols; j++){
+					if(j==0){
 						blockedBlocks[i][j] = 1;
 					}else{
-						blockedBlocks[i][j] = 0; 
+						if(groundBlocks[i][j] ==0 && groundBlocks[i][j-1] == 1){
+							blockedBlocks[i][j] = 1;
+						}else{
+							blockedBlocks[i][j] = 0; 
+						}
 					}
 				}
 			}
 			break;
 		case 'right':
 			for(var i =0; i<this.gridRows; i++){
-				for(var j=0; j<this.gridCols-1; j++){
-					if(groundBlocks[i][j]==0 && groundBlocks[i][j+1] == 1){
-						blockedBlocks[i][j] = 1;
-					}else if(j==this.gridCols -1){
+				for(var j=0; j<this.gridCols; j++){
+					if(j==this.gridCols-1){
 						blockedBlocks[i][j] = 1;
 					}else{
-						blockedBlocks[i][j] = 0;
+						if(groundBlocks[i][j]==0 && groundBlocks[i][j+1] == 1){
+							blockedBlocks[i][j] = 1;
+						}else{
+							blockedBlocks[i][j] = 0;
+						}
 					}
-
 				}
 			}
 			break;
@@ -997,9 +1002,7 @@ gameState.update = function(){
 						}				
 					}else{
 						this.blue.transform.y=pixelNum+2;
-						if(this.blue.animation.currentAnimation.name!='climb'){
-							this.blue.animation.play('climb');
-						}				
+						this.blue.animation.play('idle'+this.blue_facing);			
 					}
 				}else if(this.onBlockType(this.ladderBlocks, blue_gridPosition)){
 					if(this.blue.transform.y>3)
@@ -1017,15 +1020,14 @@ gameState.update = function(){
 						this.blue.transform.x +=5;
 					}else{
 						this.blue.transform.x = pixelNum-51;
+						this.blue.animation.play('idle'+this.blue_facing);
 					}
 				}
 				else{
 					if(!this.onBlockType(this.groundBlocks, blue_feetPosition)){
-						if(this.blue.transform.x<this.STAGE_WIDTH-54-6){
-							this.blue.transform.x+=5;
-							if(this.blue.animation.currentAnimation.name != 'moveright')
-								this.blue.animation.play('moveright');
-						}
+						this.blue.transform.x+=5;
+						if(this.blue.animation.currentAnimation.name != 'moveright')
+							this.blue.animation.play('moveright');
 					}
 				}
 			}
@@ -1037,14 +1039,13 @@ gameState.update = function(){
 						this.blue.transform.x-=5;
 					}else{
 						this.blue.transform.x = pixelNum;
+						this.blue.animation.play('idle'+this.blue_facing);
 					}
 				}else{
 					if(!this.onBlockType(this.groundBlocks, blue_feetPosition)){
-						if(this.blue.transform.x>10){
-							this.blue.transform.x-=5;
-							if(this.blue.animation.currentAnimation.name != 'moveleft')
-								this.blue.animation.play('moveleft');
-						}
+						this.blue.transform.x-=5;
+						if(this.blue.animation.currentAnimation.name != 'moveleft')
+							this.blue.animation.play('moveleft');
 					}
 				}
 			}
@@ -1059,9 +1060,7 @@ gameState.update = function(){
 					}
 					else{
 						this.blue.transform.y=pixelNum-53+2; 
-						if(this.blue.animation.currentAnimation.name!='climb'){
-							this.blue.animation.play('climb');
-						}
+						this.blue.animation.play('idle'+this.blue_facing);
 					}
 				}
 				else if(this.onBlockType(this.ladderBlocks, blue_southGridPosition)){
@@ -1127,9 +1126,7 @@ gameState.update = function(){
 							}				
 						}else{
 							this.red.transform.y=pixelNum+2;
-							if(this.red.animation.currentAnimation.name!='climb'){
-								this.red.animation.play('climb');
-							}				
+							this.red.animation.play('idle'+this.red_facing);			
 						}
 					}else if(this.onBlockType(this.ladderBlocks, red_gridPosition)){
 						if(this.red.transform.y>3)
@@ -1148,17 +1145,14 @@ gameState.update = function(){
 						this.red.transform.x +=5;
 					}else{
 						this.red.transform.x = pixelNum-51;
+						this.red.animation.play('idleright');
 					}
 				}
 				else{
 					if(!this.onBlockType(this.groundBlocks, red_rightGridPosition)){
-						if(this.red.transform.x<this.STAGE_WIDTH-54-6){
-							this.red.transform.x+=5;
-							if(this.red.animation.currentAnimation.name != 'moveright')
-								this.red.animation.play('moveright');
-						}else{
-							this.red.transform.x = this.STAGE_WIDTH - 54;
-						}
+						this.red.transform.x+=5;
+						if(this.red.animation.currentAnimation.name != 'moveright')
+							this.red.animation.play('moveright');
 					}
 				}
 			}
@@ -1170,16 +1164,13 @@ gameState.update = function(){
 						this.red.transform.x-=5;
 					}else{
 						this.red.transform.x = pixelNum;
+						this.red.animation.play('idleleft');
 					}
 				}else{
 					if(!this.onBlockType(this.groundBlocks, red_feetPosition)){
-						if(this.red.transform.x>6){
-							this.red.transform.x-=5;
-							if(this.red.animation.currentAnimation.name != 'moveleft')
-								this.red.animation.play('moveleft');
-						}else{
-							this.red.transform.x = 0;
-						}
+						this.red.transform.x-=5;
+						if(this.red.animation.currentAnimation.name != 'moveleft')
+							this.red.animation.play('moveleft');
 					}
 				}
 			}
@@ -1196,9 +1187,7 @@ gameState.update = function(){
 						}
 						else{
 							this.red.transform.y=pixelNum-53+2; 
-							if(this.red.animation.currentAnimation.name!='climb'){
-								this.red.animation.play('climb');
-							}
+							this.red.animation.play('idle'+this.red_facing);
 						}
 					}
 					else if(this.onBlockType(this.ladderBlocks, red_southGridPosition)){
