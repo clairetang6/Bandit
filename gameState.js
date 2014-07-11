@@ -7,23 +7,38 @@ gameState.preload = function(){
 	this.numberOfLevels = 13;
 
 	for (var i = 1; i<=this.numberOfLevels; i++){
+		this.addImage('level'+i,'level'+i+'_screen.png',true);
+	}		
+
+	for (var i = 1; i<=this.numberOfLevels; i++){
 		if(i>=11){
-		this.addImage('background'+i,'canvas_'+9+'.png');
+		this.addImage('background'+i,'canvas_'+9+'.png',true);			
 		this.addSpriteSheet('backgroundSpriteSheet'+i,'canvas_'+9+'.png',54,54);
 		this.addJSON('level_tilemap'+i,'level'+i+'.json');			
 		}else{
-		this.addImage('background'+i,'canvas_'+i+'.png');
+		this.addImage('background'+i,'canvas_'+i+'.png',true);
 		this.addSpriteSheet('backgroundSpriteSheet'+i,'canvas_'+i+'.png',54,54);
 		this.addJSON('level_tilemap'+i,'level'+i+'.json');
 		}
 	}
-	//this.addImage('background','canvas_4.png');
-	//this.addSpriteSheet('background_spritesheet','canvas_1.png',54,54);
-	//this.addJSON('level_tilemap','level4.json');
-	this.addSpriteSheet('tiles','block_ladder.png',54,54);
+
+	this.addSpriteSheet('tiles','block_ladder.png',54,54);	
+
+}
+
+gameState.showLevelScreen = function(){
+	this.showingLevelScreen = true;
+	this.levelScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['level'+this.currentLevel],0,0);
+	this.addChild(this.levelScreen);
+
+	this.createLevelTimer = this.game.time.clock.createTimer('createLevelTimer',.5,0,false);
+	this.createLevelTimerEvent = this.createLevelTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.createLevel,this);
+	
+	this.createLevelTimer.start();	
 }
 
 gameState.createLevel = function(){
+	console.log('creating level '+ this.currentLevel);
 
 	var blockArrays = this.parseBlocks('level_tilemap'+this.currentLevel);
 
@@ -101,7 +116,7 @@ gameState.createLevel = function(){
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'+this.currentLevel],0,0);
 
 	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this,'level_tilemap'+this.currentLevel, this.textures.tiles);
-
+	
 	
 	this.groundBlocks = this.getGroundBlocks(blockArrays[0],blockArrays[4]);
 	this.originalGroundBlocks = this.getGroundBlocks(blockArrays[0],blockArrays[4]);
@@ -135,9 +150,10 @@ gameState.createLevel = function(){
 	this.addChild(this.blueHeartsGroup);	
 	
 	
-	this.timer = this.game.time.clock.createTimer('levelOver',.5,0,false);
+	this.timer = this.game.time.clock.createTimer('levelOver',10,0,false);
 	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.levelOver,this);
 
+	this.showingLevelScreen = false;
 }
 
 gameState.create = function(){
@@ -211,7 +227,7 @@ gameState.create = function(){
 
 	this.hiddenBlockGroup = new Kiwi.Group(this);
 
-	this.createLevel();
+	this.showLevelScreen();
 	
 }
 
@@ -852,7 +868,7 @@ gameState.levelOver = function(){
 		this.destroyAllMembersOfGroup('ghoul');
 		this.destroyAllMembersOfGroup('coin');
 		this.removeBackgroundImages();
-		this.createLevel();
+		this.showLevelScreen();
 	}
 }
 
@@ -942,283 +958,278 @@ gameState.update = function(){
 		this.ghoul.transform.x +=2;
 	}
 */
-
-	//blue player 
-	if(this.blueIsAlive){
-		var blue_southGridPosition = this.getGridPosition(this.blue.transform.x, this.blue.transform.y,'south');
-	 	var blue_belowFeetPosition = this.getGridPosition(this.blue.transform.x, this.blue.transform.y+1,'south');
-	 	var blue_feetPosition = this.getGridPosition(this.blue.transform.x, this.blue.transform.y-3,'south');	
-	 	if(!(this.onBlockType(this.ladderBlocks,blue_southGridPosition) || this.onBlockType(this.groundBlocks, blue_southGridPosition))){
-	 		if(this.onBlockType(this.topGroundBlocks,blue_southGridPosition)){
-	 			var pixelNum = this.getPixelNumberForGridPosition(blue_southGridPosition,'south');
-	 			if(this.blue.transform.y+54<pixelNum-26)
-	 				this.blue.transform.y+=13;
-	 			else
-	 				this.blue.transform.y=pixelNum-53+2;
-	 		}else{
-	 			if(this.blue.transform.y+54<54*15-14)
-	 				this.blue.transform.y+=13;
-	 			else
-	 				this.blue.transform.y=54*15-54;
-	 		}
-	 	}
-	 	if(this.blue_fireKey.isDown){
-			this.blue.animation.play('fire' + this.blue_facing);
-			if(this.blue_canShoot){
-				var blastedBlockPosition = this.getBlastedBlockPosition(blue_feetPosition, this.blue_facing, this.groundBlocks);
-				this.blastBlock(blastedBlockPosition);
-			}
-		}
-		else if(this.blue_upKey.isDown){
-			var blue_gridPosition = this.getGridPosition(this.blue.transform.x, this.blue.transform.y, 'north');
-			
-			if(this.onBlockType(this.topLadderBlocks, blue_gridPosition)){
-				var pixelNum = this.getPixelNumberForGridPosition(blue_gridPosition,'north');
-				if(this.blue.transform.y>6+pixelNum){
-					this.blue.transform.y-=3;
-					if(this.blue.animation.currentAnimation.name!='climb'){
-						this.blue.animation.play('climb');
-					}				
-				}else{
-					this.blue.transform.y=pixelNum+2;
-					if(this.blue.animation.currentAnimation.name!='climb'){
-						this.blue.animation.play('climb');
-					}				
-				}
-			}else if(this.onBlockType(this.ladderBlocks, blue_gridPosition)){
-				if(this.blue.transform.y>3)
-					this.blue.transform.y-=3;
-				if(this.blue.animation.currentAnimation.name != 'climb')
-					this.blue.animation.play('climb');
-			}
-			
-		}
-		else if(this.blue_rightKey.isDown){
-			this.blue_facing = 'right';
-			if(this.onBlockType(this.rightBlockedBlocks, blue_feetPosition)){
-				var pixelNum = this.getPixelNumberForGridPosition(blue_feetPosition,'east');
-				if(this.blue.transform.x+54<pixelNum-6){
-					this.blue.transform.x +=5;
-				}else{
-					this.blue.transform.x = pixelNum-51;
+	if(this.showingLevelScreen == false){
+		//blue player 
+		if(this.blueIsAlive){
+			var blue_southGridPosition = this.getGridPosition(this.blue.transform.x, this.blue.transform.y,'south');
+		 	var blue_belowFeetPosition = this.getGridPosition(this.blue.transform.x, this.blue.transform.y+1,'south');
+		 	var blue_feetPosition = this.getGridPosition(this.blue.transform.x, this.blue.transform.y-3,'south');	
+		 	if(!(this.onBlockType(this.ladderBlocks,blue_southGridPosition) || this.onBlockType(this.groundBlocks, blue_southGridPosition))){
+		 		if(this.onBlockType(this.topGroundBlocks,blue_southGridPosition)){
+		 			var pixelNum = this.getPixelNumberForGridPosition(blue_southGridPosition,'south');
+		 			if(this.blue.transform.y+54<pixelNum-26)
+		 				this.blue.transform.y+=13;
+		 			else
+		 				this.blue.transform.y=pixelNum-53+2;
+		 		}else{
+		 			if(this.blue.transform.y+54<54*15-14)
+		 				this.blue.transform.y+=13;
+		 			else
+		 				this.blue.transform.y=54*15-54;
+		 		}
+		 	}
+		 	if(this.blue_fireKey.isDown){
+				this.blue.animation.play('fire' + this.blue_facing);
+				if(this.blue_canShoot){
+					var blastedBlockPosition = this.getBlastedBlockPosition(blue_feetPosition, this.blue_facing, this.groundBlocks);
+					this.blastBlock(blastedBlockPosition);
 				}
 			}
-			else{
-				if(!this.onBlockType(this.groundBlocks, blue_feetPosition)){
-					if(this.blue.transform.x<this.STAGE_WIDTH-54-6){
-						this.blue.transform.x+=5;
-						if(this.blue.animation.currentAnimation.name != 'moveright')
-							this.blue.animation.play('moveright');
+			else if(this.blue_upKey.isDown){
+				var blue_gridPosition = this.getGridPosition(this.blue.transform.x, this.blue.transform.y, 'north');
+				
+				if(this.onBlockType(this.topLadderBlocks, blue_gridPosition)){
+					var pixelNum = this.getPixelNumberForGridPosition(blue_gridPosition,'north');
+					if(this.blue.transform.y>6+pixelNum){
+						this.blue.transform.y-=3;
+						if(this.blue.animation.currentAnimation.name!='climb'){
+							this.blue.animation.play('climb');
+						}				
+					}else{
+						this.blue.transform.y=pixelNum+2;
+						if(this.blue.animation.currentAnimation.name!='climb'){
+							this.blue.animation.play('climb');
+						}				
 					}
-				}
-			}
-		}
-		else if(this.blue_leftKey.isDown){
-			this.blue_facing = 'left';
-			if(this.onBlockType(this.leftBlockedBlocks, blue_feetPosition)){
-				var pixelNum = this.getPixelNumberForGridPosition(blue_feetPosition,'west');
-				if(this.blue.transform.x>pixelNum+6){
-					this.blue.transform.x-=5;
-				}else{
-					this.blue.transform.x = pixelNum;
-				}
-			}else{
-				if(!this.onBlockType(this.groundBlocks, blue_feetPosition)){
-					if(this.blue.transform.x>10){
-						this.blue.transform.x-=5;
-						if(this.blue.animation.currentAnimation.name != 'moveleft')
-							this.blue.animation.play('moveleft');
-					}
-				}
-			}
-		}
-		else if(this.blue_downKey.isDown){
-			if(this.onBlockType(this.firstLadderBlocks,blue_southGridPosition)){
-				var pixelNum = this.getPixelNumberForGridPosition(blue_southGridPosition,'south');
-				if(this.blue.transform.y+54<pixelNum-6){
-					this.blue.transform.y+=3;
-					if(this.blue.animation.currentAnimation.name!='climb'){
+				}else if(this.onBlockType(this.ladderBlocks, blue_gridPosition)){
+					if(this.blue.transform.y>3)
+						this.blue.transform.y-=3;
+					if(this.blue.animation.currentAnimation.name != 'climb')
 						this.blue.animation.play('climb');
-					}				
+				}
+				
+			}
+			else if(this.blue_rightKey.isDown){
+				this.blue_facing = 'right';
+				if(this.onBlockType(this.rightBlockedBlocks, blue_feetPosition)){
+					var pixelNum = this.getPixelNumberForGridPosition(blue_feetPosition,'east');
+					if(this.blue.transform.x+54<pixelNum-6){
+						this.blue.transform.x +=5;
+					}else{
+						this.blue.transform.x = pixelNum-51;
+					}
 				}
 				else{
-					this.blue.transform.y=pixelNum-53+2; 
-					if(this.blue.animation.currentAnimation.name!='climb'){
-						this.blue.animation.play('climb');
-					}
-				}
-			}
-			else if(this.onBlockType(this.ladderBlocks, blue_southGridPosition)){
-				if(this.blue.transform.y<866)
-					this.blue.transform.y+=5;
-				else
-					this.blue.transform.y = 866;
-				if(this.blue.animation.currentAnimation.name != 'climb')
-					this.blue.animation.play('climb');
-			}
-		}
-		else {
-			if(this.onBlockType(this.ladderBlocks,blue_belowFeetPosition) && !this.onBlockType(this.topLadderBlocks,blue_feetPosition)){
-				if(this.blue.animation.currentAnimation.name != 'idleclimb')
-					this.blue.animation.play('idleclimb');
-			}		
-			else if(this.blue.animation.currentAnimation.name != 'idle' + this.blue_facing)
-				this.blue.animation.play('idle' + this.blue_facing);	
-		}
-	}
-	else{
-		this.deathCount('blue');
-	}
-
-	//red player 
-	if(this.redIsAlive){
-		var red_southGridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y,'south');
-	 	var red_belowFeetPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y+1,'south');
-	 	var red_feetPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y-3,'south');	
-	 	var red_rightGridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y,'east');
-	 	var red_leftGridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y, 'west');
-	 	if(!(this.onBlockType(this.ladderBlocks,red_southGridPosition) || this.onBlockType(this.groundBlocks, red_southGridPosition))){
-	 		if(this.onBlockType(this.topGroundBlocks,red_southGridPosition)){
-	 			var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'south');
-	 			if(this.red.transform.y+54<pixelNum-26)
-	 				this.red.transform.y+=13;
-	 			else
-	 				this.red.transform.y=pixelNum-53+2;
-	 		}else{
-	 			if(this.red.transform.y+54<54*15-14)
-	 				this.red.transform.y+=13;
-	 			else
-	 				this.red.transform.y=54*15-54;
-	 		}
-	 	}
-	 	if(this.red_fireKey.isDown){
-			this.red.animation.play('fire' + this.red_facing);
-			if(this.red_canShoot){
-				var blastedBlockPosition = this.getBlastedBlockPosition(red_feetPosition, this.red_facing, this.groundBlocks);
-				this.blastBlock(blastedBlockPosition);
-			}
-		}
-		else if(this.red_upKey.isDown){
-			var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y, 'north');
-			var ladderPixelNum = this.getPixelNumberForGridPosition(red_gridPosition,'west') + 27;
-			if(this.red.x+27>ladderPixelNum-10 && this.red.x+27<ladderPixelNum+10){
-				if(this.onBlockType(this.topLadderBlocks, red_gridPosition)){
-					var pixelNum = this.getPixelNumberForGridPosition(red_gridPosition,'north');
-					if(this.red.transform.y>6+pixelNum){
-						this.red.transform.y-=3;
-						if(this.red.animation.currentAnimation.name!='climb'){
-							this.red.animation.play('climb');
-						}				
-					}else{
-						this.red.transform.y=pixelNum+2;
-						if(this.red.animation.currentAnimation.name!='climb'){
-							this.red.animation.play('climb');
-						}				
-					}
-				}else if(this.onBlockType(this.ladderBlocks, red_gridPosition)){
-					if(this.red.transform.y>3)
-						this.red.transform.y-=3;
-					if(this.red.animation.currentAnimation.name != 'climb')
-						this.red.animation.play('climb');
-				}
-			}
-			
-		}
-		else if(this.red_rightKey.isDown){
-			this.red_facing = 'right';
-			if(this.onBlockType(this.rightBlockedBlocks, red_leftGridPosition)){
-				var pixelNum = this.getPixelNumberForGridPosition(red_leftGridPosition,'east');
-				if(this.red.transform.x+54<pixelNum-6){
-					this.red.transform.x +=5;
-				}else{
-					this.red.transform.x = pixelNum-51;
-				}
-			}
-			else{
-				if(!this.onBlockType(this.groundBlocks, red_rightGridPosition)){
-					if(this.red.transform.x<this.STAGE_WIDTH-54-6){
-						this.red.transform.x+=5;
-						if(this.red.animation.currentAnimation.name != 'moveright')
-							this.red.animation.play('moveright');
-					}else{
-						this.red.transform.x = this.STAGE_WIDTH - 54;
-					}
-				}
-			}
-		}
-		else if(this.red_leftKey.isDown){
-			this.red_facing = 'left';
-			if(this.onBlockType(this.leftBlockedBlocks, red_feetPosition)){
-				var pixelNum = this.getPixelNumberForGridPosition(red_feetPosition,'west');
-				if(this.red.transform.x>pixelNum+6){
-					this.red.transform.x-=5;
-				}else{
-					this.red.transform.x = pixelNum;
-				}
-			}else{
-				if(!this.onBlockType(this.groundBlocks, red_feetPosition)){
-					if(this.red.transform.x>6){
-						this.red.transform.x-=5;
-						if(this.red.animation.currentAnimation.name != 'moveleft')
-							this.red.animation.play('moveleft');
-					}else{
-						this.red.transform.x = 0;
-					}
-				}
-			}
-		}
-		else if(this.red_downKey.isDown){
-			var ladderPixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'west') + 27;
-			if(this.red.x+27>ladderPixelNum-10 && this.red.x+27<ladderPixelNum+10){	
-				if(this.onBlockType(this.firstLadderBlocks,red_southGridPosition)){
-					var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'south');
-					if(this.red.transform.y+54<pixelNum-6){
-						this.red.transform.y+=3;
-						if(this.red.animation.currentAnimation.name!='climb'){
-							this.red.animation.play('climb');
-						}				
-					}
-					else{
-						this.red.transform.y=pixelNum-53+2; 
-						if(this.red.animation.currentAnimation.name!='climb'){
-							this.red.animation.play('climb');
+					if(!this.onBlockType(this.groundBlocks, blue_feetPosition)){
+						if(this.blue.transform.x<this.STAGE_WIDTH-54-6){
+							this.blue.transform.x+=5;
+							if(this.blue.animation.currentAnimation.name != 'moveright')
+								this.blue.animation.play('moveright');
 						}
 					}
 				}
-				else if(this.onBlockType(this.ladderBlocks, red_southGridPosition)){
-					if(this.red.transform.y<866)
-						this.red.transform.y+=5;
-					else
-						this.red.transform.y = 866;
-					if(this.red.animation.currentAnimation.name != 'climb')
-						this.red.animation.play('climb');
+			}
+			else if(this.blue_leftKey.isDown){
+				this.blue_facing = 'left';
+				if(this.onBlockType(this.leftBlockedBlocks, blue_feetPosition)){
+					var pixelNum = this.getPixelNumberForGridPosition(blue_feetPosition,'west');
+					if(this.blue.transform.x>pixelNum+6){
+						this.blue.transform.x-=5;
+					}else{
+						this.blue.transform.x = pixelNum;
+					}
+				}else{
+					if(!this.onBlockType(this.groundBlocks, blue_feetPosition)){
+						if(this.blue.transform.x>10){
+							this.blue.transform.x-=5;
+							if(this.blue.animation.currentAnimation.name != 'moveleft')
+								this.blue.animation.play('moveleft');
+						}
+					}
 				}
 			}
+			else if(this.blue_downKey.isDown){
+				if(this.onBlockType(this.firstLadderBlocks,blue_southGridPosition)){
+					var pixelNum = this.getPixelNumberForGridPosition(blue_southGridPosition,'south');
+					if(this.blue.transform.y+54<pixelNum-6){
+						this.blue.transform.y+=3;
+						if(this.blue.animation.currentAnimation.name!='climb'){
+							this.blue.animation.play('climb');
+						}				
+					}
+					else{
+						this.blue.transform.y=pixelNum-53+2; 
+						if(this.blue.animation.currentAnimation.name!='climb'){
+							this.blue.animation.play('climb');
+						}
+					}
+				}
+				else if(this.onBlockType(this.ladderBlocks, blue_southGridPosition)){
+					if(this.blue.transform.y<866)
+						this.blue.transform.y+=5;
+					else
+						this.blue.transform.y = 866;
+					if(this.blue.animation.currentAnimation.name != 'climb')
+						this.blue.animation.play('climb');
+				}
+			}
+			else {
+				if(this.onBlockType(this.ladderBlocks,blue_belowFeetPosition) && !this.onBlockType(this.topLadderBlocks,blue_feetPosition)){
+					if(this.blue.animation.currentAnimation.name != 'idleclimb')
+						this.blue.animation.play('idleclimb');
+				}		
+				else if(this.blue.animation.currentAnimation.name != 'idle' + this.blue_facing)
+					this.blue.animation.play('idle' + this.blue_facing);	
+			}
 		}
-		else {
-			if(this.onBlockType(this.ladderBlocks,red_belowFeetPosition) && !this.onBlockType(this.topLadderBlocks,red_feetPosition)){
-				if(this.red.animation.currentAnimation.name != 'idleclimb')
-					this.red.animation.play('idleclimb');
-			}		
-			else if(this.red.animation.currentAnimation.name != 'idle' + this.red_facing)
-				this.red.animation.play('idle' + this.red_facing);	
+		else{
+			this.deathCount('blue');
 		}
-	}else{
-		this.deathCount('red');
-	}
 
-	this.checkCoinCollision();
-	this.checkGhoulCollision();
-	this.isLevelOver();
+		//red player 
+		if(this.redIsAlive){
+			var red_southGridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y,'south');
+		 	var red_belowFeetPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y+1,'south');
+		 	var red_feetPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y-3,'south');	
+		 	var red_rightGridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y,'east');
+		 	var red_leftGridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y, 'west');
+		 	if(!(this.onBlockType(this.ladderBlocks,red_southGridPosition) || this.onBlockType(this.groundBlocks, red_southGridPosition))){
+		 		if(this.onBlockType(this.topGroundBlocks,red_southGridPosition)){
+		 			var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'south');
+		 			if(this.red.transform.y+54<pixelNum-26)
+		 				this.red.transform.y+=13;
+		 			else
+		 				this.red.transform.y=pixelNum-53+2;
+		 		}else{
+		 			if(this.red.transform.y+54<54*15-14)
+		 				this.red.transform.y+=13;
+		 			else
+		 				this.red.transform.y=54*15-54;
+		 		}
+		 	}
+		 	if(this.red_fireKey.isDown){
+				this.red.animation.play('fire' + this.red_facing);
+				if(this.red_canShoot){
+					var blastedBlockPosition = this.getBlastedBlockPosition(red_feetPosition, this.red_facing, this.groundBlocks);
+					this.blastBlock(blastedBlockPosition);
+				}
+			}
+			else if(this.red_upKey.isDown){
+				var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y, 'north');
+				var ladderPixelNum = this.getPixelNumberForGridPosition(red_gridPosition,'west') + 27;
+				if(this.red.x+27>ladderPixelNum-10 && this.red.x+27<ladderPixelNum+10){
+					if(this.onBlockType(this.topLadderBlocks, red_gridPosition)){
+						var pixelNum = this.getPixelNumberForGridPosition(red_gridPosition,'north');
+						if(this.red.transform.y>6+pixelNum){
+							this.red.transform.y-=3;
+							if(this.red.animation.currentAnimation.name!='climb'){
+								this.red.animation.play('climb');
+							}				
+						}else{
+							this.red.transform.y=pixelNum+2;
+							if(this.red.animation.currentAnimation.name!='climb'){
+								this.red.animation.play('climb');
+							}				
+						}
+					}else if(this.onBlockType(this.ladderBlocks, red_gridPosition)){
+						if(this.red.transform.y>3)
+							this.red.transform.y-=3;
+						if(this.red.animation.currentAnimation.name != 'climb')
+							this.red.animation.play('climb');
+					}
+				}
+				
+			}
+			else if(this.red_rightKey.isDown){
+				this.red_facing = 'right';
+				if(this.onBlockType(this.rightBlockedBlocks, red_leftGridPosition)){
+					var pixelNum = this.getPixelNumberForGridPosition(red_leftGridPosition,'east');
+					if(this.red.transform.x+54<pixelNum-6){
+						this.red.transform.x +=5;
+					}else{
+						this.red.transform.x = pixelNum-51;
+					}
+				}
+				else{
+					if(!this.onBlockType(this.groundBlocks, red_rightGridPosition)){
+						if(this.red.transform.x<this.STAGE_WIDTH-54-6){
+							this.red.transform.x+=5;
+							if(this.red.animation.currentAnimation.name != 'moveright')
+								this.red.animation.play('moveright');
+						}else{
+							this.red.transform.x = this.STAGE_WIDTH - 54;
+						}
+					}
+				}
+			}
+			else if(this.red_leftKey.isDown){
+				this.red_facing = 'left';
+				if(this.onBlockType(this.leftBlockedBlocks, red_feetPosition)){
+					var pixelNum = this.getPixelNumberForGridPosition(red_feetPosition,'west');
+					if(this.red.transform.x>pixelNum+6){
+						this.red.transform.x-=5;
+					}else{
+						this.red.transform.x = pixelNum;
+					}
+				}else{
+					if(!this.onBlockType(this.groundBlocks, red_feetPosition)){
+						if(this.red.transform.x>6){
+							this.red.transform.x-=5;
+							if(this.red.animation.currentAnimation.name != 'moveleft')
+								this.red.animation.play('moveleft');
+						}else{
+							this.red.transform.x = 0;
+						}
+					}
+				}
+			}
+			else if(this.red_downKey.isDown){
+				var ladderPixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'west') + 27;
+				if(this.red.x+27>ladderPixelNum-10 && this.red.x+27<ladderPixelNum+10){	
+					if(this.onBlockType(this.firstLadderBlocks,red_southGridPosition)){
+						var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'south');
+						if(this.red.transform.y+54<pixelNum-6){
+							this.red.transform.y+=3;
+							if(this.red.animation.currentAnimation.name!='climb'){
+								this.red.animation.play('climb');
+							}				
+						}
+						else{
+							this.red.transform.y=pixelNum-53+2; 
+							if(this.red.animation.currentAnimation.name!='climb'){
+								this.red.animation.play('climb');
+							}
+						}
+					}
+					else if(this.onBlockType(this.ladderBlocks, red_southGridPosition)){
+						if(this.red.transform.y<866)
+							this.red.transform.y+=5;
+						else
+							this.red.transform.y = 866;
+						if(this.red.animation.currentAnimation.name != 'climb')
+							this.red.animation.play('climb');
+					}
+				}
+			}
+			else {
+				if(this.onBlockType(this.ladderBlocks,red_belowFeetPosition) && !this.onBlockType(this.topLadderBlocks,red_feetPosition)){
+					if(this.red.animation.currentAnimation.name != 'idleclimb')
+						this.red.animation.play('idleclimb');
+				}		
+				else if(this.red.animation.currentAnimation.name != 'idle' + this.red_facing)
+					this.red.animation.play('idle' + this.red_facing);	
+			}
+		}else{
+			this.deathCount('red');
+		}
 
-	if(this.mouse.isDown){
-		console.log(this.numChildren());
+		this.checkCoinCollision();
+		this.checkGhoulCollision();
+		this.isLevelOver();
 
-		this.levelOver();
-		console.log(this.numChildren());
-		console.log(this.members.length);
-		console.log(this);
-		this.game.input.mouse.reset();
-
-	}
+		if(this.mouse.isDown){
+			this.levelOver();
+			this.game.input.mouse.reset();
+		}
+	}	
 }
