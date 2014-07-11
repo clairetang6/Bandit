@@ -13,7 +13,7 @@
  </layer>
  <layer name="ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAuYCFRDSH1A20eITlqm0dIjpAYtc2jBqCHeaTaQY10QgvzBkOc09M8Uu0AAF1PAKE=
+   eJxjYKAuYCFRDSH1A20eITlqm0dIjpAYtc0jxSxK1FJqHqnxQqo8vcwbDHFOT/NItQMAgi8AtQ==
   </data>
  </layer>
  <layer name="extras" width="20" height="15">
@@ -23,7 +23,7 @@
  </layer>
  <layer name="coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJytk1EOwCAIQ3sG73/Y/RrSPrplJAbFKk/UI+n83HR5mfGtSTrn07oZJx7HR6zTnJZytnFi3dioLm7/jT2dn+pCRkwNzzYno5t9p9s4kyWuxEn86RwuV8P65o6bv/uFeXI376ut2wNmLAv1
+   eJytk1EKACAIQ3eG7n/YfkXmNiMhJLH2tDwAzueF4kH2NWfKY3461+OKh/Ep1m4sV2mmccXq2FRf2P2Ofapf9UyZYkpZHKfrOctznK6Grqf0k5mZdDesmzdOZveFuXMn/yvt2wX2LAw9
   </data>
  </layer>
 </map>

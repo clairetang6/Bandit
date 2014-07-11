@@ -3,7 +3,12 @@ var titleState = new Kiwi.State('titleState');
 titleState.preload = function(){
 	Kiwi.State.prototype.preload.call(this);
 	this.addImage('title','title_1.png');
-	this.addImage('level1','level1_screen.png');
+	this.currentLevel = 1;
+	this.numberOfLevels = 10;
+
+	for (var i = 1; i<=this.numberOfLevels; i++){
+		this.addImage('level'+i,'level'+i+'_screen.png');
+	}
 }
 
 titleState.create = function(){

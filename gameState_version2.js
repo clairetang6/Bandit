@@ -2,20 +2,15 @@ var gameState = new Kiwi.State('gameState');
 
 gameState.preload = function(){
 	Kiwi.State.prototype.preload.call(this);
+	//this.addTextureAtlas('textureAtlas','spritesheet.png','textureAtlasJSON','spritesheet.json');
 	this.addSpriteSheet('sprites','all_spritesheet.png',54,54);
 	this.currentLevel = 1; 
-	this.numberOfLevels = 13;
+	this.numberOfLevels = 10;
 
 	for (var i = 1; i<=this.numberOfLevels; i++){
-		if(i>=11){
-		this.addImage('background'+i,'canvas_'+9+'.png');
-		this.addSpriteSheet('backgroundSpriteSheet'+i,'canvas_'+9+'.png',54,54);
-		this.addJSON('level_tilemap'+i,'level'+i+'.json');			
-		}else{
 		this.addImage('background'+i,'canvas_'+i+'.png');
 		this.addSpriteSheet('backgroundSpriteSheet'+i,'canvas_'+i+'.png',54,54);
 		this.addJSON('level_tilemap'+i,'level'+i+'.json');
-		}
 	}
 	//this.addImage('background','canvas_4.png');
 	//this.addSpriteSheet('background_spritesheet','canvas_1.png',54,54);
@@ -23,10 +18,26 @@ gameState.preload = function(){
 	this.addSpriteSheet('tiles','block_ladder.png',54,54);
 }
 
-gameState.createLevel = function(){
+gameState.create = function(){
+	Kiwi.State.prototype.create.call(this);
+
+	this.STAGE_WIDTH = 1080;
+	this.STAGE_HEIGHT = 810;
+	this.gridRows = 15;
+	this.gridCols = 20;
+
+	myGame.stage.color = 'AAAABB';
+	myGame.stage.resize(this.STAGE_WIDTH, this.STAGE_HEIGHT);
+
+	this.mouse = this.game.input.mouse;
 
 	var blockArrays = this.parseBlocks('level_tilemap'+this.currentLevel);
 
+
+
+	this.banditGroup = new Kiwi.Group(this);
+
+	this.coinGroup = new Kiwi.Group(this);
 	var coinsLayerArray = blockArrays[2];
 	var width = blockArrays[4];
 	var tileWidth = blockArrays[3];
@@ -40,6 +51,7 @@ gameState.createLevel = function(){
 		}
 	}
 
+	this.ghoulGroup = new Kiwi.Group(this);
 	var ghoulsLayerArray = blockArrays[5];
 	for(var i = 0; i<ghoulsLayerArray.length;i++){
 		if(ghoulsLayerArray[i]==11){
@@ -52,32 +64,76 @@ gameState.createLevel = function(){
 			ghoul.animation.add('dieright',[2,3],0.1,true);
 			ghoul.animation.add('dieleft',[5,6],0.1,true);
 			ghoul.animation.play('idleleft');
-			ghoul.box.hitbox = new Kiwi.Geom.Rectangle(20,20,54-40,54-40);
 			this.ghoulGroup.addChild(ghoul);
 		}
 	}
 
-	this.blueStartingPixelLocations = [0,0];
-	this.redStartingPixelLocations = [0,0];
+	this.bluePixels = [0,0];
+	this.redPixels = [0,0];
 	for(var i = 0; i<ghoulsLayerArray.length; i++){
 		if(ghoulsLayerArray[i] == 39 || ghoulsLayerArray[i] == 54){
-			this.blueStartingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+			this.bluePixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 		}
 		if(ghoulsLayerArray[i] == 38 || ghoulsLayerArray[i] == 23){
-			this.redStartingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+			this.redPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 		}
 	}
 
-	this.blue.x = this.blueStartingPixelLocations[0];
-	this.blue.y = this.blueStartingPixelLocations[1];
+	this.blue = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],this.bluePixels[0],this.bluePixels[1]);
 
-	this.red.x = this.redStartingPixelLocations[0];
-	this.red.y = this.redStartingPixelLocations[1];
+	this.blue_leftKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.A);
+	this.blue_rightKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.D);
+	this.blue_upKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.W);
+	this.blue_downKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.S);
+	this.blue_fireKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SHIFT);
 
+	this.blue.animation.add('climb',[48,49],0.1,true);
+	this.blue.animation.add('idleleft',[47],0.1,false);
+	this.blue.animation.add('idleright',[32],0.1,false);
+	this.blue.animation.add('moveright',[33,34,35,36,37,38],0.1,true);
+	this.blue.animation.add('moveleft',[46,45,44,43,42,41],0.1,true);
+	this.blue.animation.add('fireleft',[40],0.1,false);
+	this.blue.animation.add('fireright',[39],0.1,false);
+	this.blue.animation.add('idleclimb',[49],0.1,false);
+	this.blue.animation.add('die',[13],0.1,false);
+
+	this.blue_facing = 'left';
+	this.blue.animation.play('idleleft');
+
+
+	this.red = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],this.redPixels[0],this.redPixels[1]);
+
+	this.red_leftKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.LEFT);
+	this.red_rightKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.RIGHT);
+	this.red_upKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.UP);
+	this.red_downKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.DOWN);
+	this.red_fireKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SPACEBAR);
+
+	this.red.animation.add('climb',[0,1],0.1,true);
+	this.red.animation.add('idleleft',[31],0.1,false);
+	this.red.animation.add('idleright',[16],0.1,false);
+	this.red.animation.add('moveright',[17,18,19,20,21,22],0.1,true);
+	this.red.animation.add('moveleft',[30,29,28,27,26,25],0.1,true);
+	this.red.animation.add('fireright',[23],0.1,false);
+	this.red.animation.add('fireleft',[24],0.1,false);
+	this.red.animation.add('idleclimb',[0],0.1,false);
+	this.red.animation.add('die',[12],0.1,false);
+
+	this.red_facing = 'left';
+	this.red.animation.play('idleleft');
+
+	this.red_canShoot = true;
+	this.blue_canShoot = true;
+
+	this.banditGroup.addChild(this.blue);
+	this.banditGroup.addChild(this.red);
+
+	this.blueHeartsGroup = new Kiwi.Group(this);
+	this.redHeartsGroup = new Kiwi.Group(this);
 
 	for(var i =1; i<=3; i++){
-		var redHeart = new Heart(this, this.redStartingPixelLocations[0], this.redStartingPixelLocations[1], 'red', i);
-		var blueHeart = new Heart(this, this.blueStartingPixelLocations[0], this.blueStartingPixelLocations[1], 'blue', i);
+		var redHeart = new Heart(this, this.redPixels[0], this.redPixels[1], 'red', i);
+		var blueHeart = new Heart(this, this.bluePixels[0], this.bluePixels[1], 'blue', i);
 
 		redHeart.animation.add('blink',[14,55],.2,true);
 		blueHeart.animation.add('blink',[15,55],.2,true);
@@ -107,120 +163,46 @@ gameState.createLevel = function(){
 	this.originalGroundBlocks = this.getGroundBlocks(blockArrays[0],blockArrays[4]);
 	this.ladderBlocks = this.getLadderBlocks(blockArrays[1],blockArrays[4]);
 	this.firstLadderBlocks = this.getFirstLadderBlocks(this.ladderBlocks);
-
+	console.log('hi');
 	this.topLadderBlocks = this.getTopBlocks(this.ladderBlocks);
-
-	this.originalLeftBlockedBlocks = this.make2DArray(this.gridRows, this.gridCols);
-	this.getBlockedBlocks(this.originalGroundBlocks,'left',this.originalLeftBlockedBlocks);
-	this.originalRightBlockedBlocks = this.make2DArray(this.gridRows, this.gridCols);
-	this.getBlockedBlocks(this.originalGroundBlocks,'right', this.originalRightBlockedBlocks);
-	
-	this.leftBlockedBlocks = this.make2DArray(this.gridRows, this.gridCols);
-	this.rightBlockedBlocks = this.make2DArray(this.gridRows, this.gridCols);
-	this.topGroundBlocks = this.getTopBlocks(this.groundBlocks);
-
+	this.originalLeftBlockedBlocks = this.getBlockedBlocks(this.originalGroundBlocks,'left');
+	this.originalRightBlockedBlocks = this.getBlockedBlocks(this.originalGroundBlocks,'right');
 	this.updateTopGroundBlocks();
 	this.updateBlockedBlocks();
-
 	
+
+	this.hiddenBlockGroup = new Kiwi.Group(this);
+
+
 	this.addChild(this.background);
 	this.addChild(this.tilemap.layers[0]);
 	this.addChild(this.hiddenBlockGroup);	
 	this.addChild(this.tilemap.layers[1]);
-	
 	this.addChild(this.coinGroup);
+	
 	this.addChild(this.ghoulGroup);
+	
 	this.addChild(this.banditGroup);
+
 	this.addChild(this.redHeartsGroup);
-	this.addChild(this.blueHeartsGroup);	
+	this.addChild(this.blueHeartsGroup);
 	
-	
+
+
 	this.timer = this.game.time.clock.createTimer('levelOver',.5,0,false);
 	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.levelOver,this);
-
-}
-
-gameState.create = function(){
-	Kiwi.State.prototype.create.call(this);
-
-	this.STAGE_WIDTH = 1080;
-	this.STAGE_HEIGHT = 810;
-	this.gridRows = 15;
-	this.gridCols = 20;
-
-	myGame.stage.color = 'AAAABB';
-	myGame.stage.resize(this.STAGE_WIDTH, this.STAGE_HEIGHT);
-
-	this.mouse = this.game.input.mouse;
-
-	this.banditGroup = new Kiwi.Group(this);
-	
-	this.blue = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],-54,-54);
-	this.blue.box.hitbox = new Kiwi.Geom.Rectangle(9,9,54-18,54-18);
-	this.blue_leftKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.A);
-	this.blue_rightKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.D);
-	this.blue_upKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.W);
-	this.blue_downKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.S);
-	this.blue_fireKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SHIFT);
-
-	this.blue.animation.add('climb',[48,49],0.1,true);
-	this.blue.animation.add('idleleft',[47],0.1,false);
-	this.blue.animation.add('idleright',[32],0.1,false);
-	this.blue.animation.add('moveright',[33,34,35,36,37,38],0.1,true);
-	this.blue.animation.add('moveleft',[46,45,44,43,42,41],0.1,true);
-	this.blue.animation.add('fireleft',[40],0.1,false);
-	this.blue.animation.add('fireright',[39],0.1,false);
-	this.blue.animation.add('idleclimb',[49],0.1,false);
-	this.blue.animation.add('die',[13],0.1,false);
-
-	this.blue_facing = 'left';
-	this.blue.animation.play('idleleft');
-
-
-	this.red = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],-54,-54);
-	this.red.box.hitbox = new Kiwi.Geom.Rectangle(20,20,54-40,54-40);
-	this.red_leftKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.LEFT);
-	this.red_rightKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.RIGHT);
-	this.red_upKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.UP);
-	this.red_downKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.DOWN);
-	this.red_fireKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SPACEBAR);
-
-	this.red.animation.add('climb',[0,1],0.1,true);
-	this.red.animation.add('idleleft',[31],0.1,false);
-	this.red.animation.add('idleright',[16],0.1,false);
-	this.red.animation.add('moveright',[17,18,19,20,21,22],0.1,true);
-	this.red.animation.add('moveleft',[30,29,28,27,26,25],0.1,true);
-	this.red.animation.add('fireright',[23],0.1,false);
-	this.red.animation.add('fireleft',[24],0.1,false);
-	this.red.animation.add('idleclimb',[0],0.1,false);
-	this.red.animation.add('die',[12],0.1,false);
-
-	this.red_facing = 'left';
-	this.red.animation.play('idleleft');
-
-	this.red_canShoot = true;
-	this.blue_canShoot = true;
-
-	this.banditGroup.addChild(this.blue);
-	this.banditGroup.addChild(this.red);
-
-	this.coinGroup = new Kiwi.Group(this);
-	this.ghoulGroup = new Kiwi.Group(this);
-	this.blueHeartsGroup = new Kiwi.Group(this);
-	this.redHeartsGroup = new Kiwi.Group(this);
-
-	this.hiddenBlockGroup = new Kiwi.Group(this);
-
-	this.createLevel();
 	
 }
 
 
 gameState.updateBlockedBlocks = function(){
-	this.getBlockedBlocks(this.groundBlocks,'left',this.leftBlockedBlocks);
-	this.getBlockedBlocks(this.groundBlocks,'right',this.rightBlockedBlocks);
+	this.leftBlockedBlocks = this.getBlockedBlocks(this.groundBlocks,'left');
+	this.rightBlockedBlocks = this.getBlockedBlocks(this.groundBlocks,'right');
 }
 
+gameState.updateTopGroundBlocks = function(){
+	this.topGroundBlocks = this.getTopBlocks(this.groundBlocks);
+}
 
 gameState.checkCoinCollision = function(){
 	var coins = this.coinGroup.members;
@@ -243,13 +225,12 @@ gameState.checkGhoulCollision = function(){
 	for (var i = 0; i<ghouls.length; i++){
 		if(!ghouls[i].isInHole){
 			for (var j = 0; j<bandits.length; j++){		
-				var ghoulBox = ghouls[i].box.hitbox;
-				if(bandits[j].box.hitbox.intersects(ghoulBox)){
+				var ghoulBox = ghouls[i].box.bounds;
+				if(bandits[j].box.bounds.intersects(ghoulBox)){
 					console.log('DEATH');
 					if(j==0){
 						this.blueIsAlive = false;
 					}else{
-						console.log(ghoulBox);
 						this.redIsAlive = false;
 					}
 				}
@@ -272,8 +253,8 @@ gameState.deathCount = function(bandit){
 				this.red.animation.play('die');
 			}else{
 				this.redNumberOfHearts -= 1;
-				this.red.x = this.redStartingPixelLocations[0];
-				this.red.y = this.redStartingPixelLocations[1];
+				this.red.x = this.redPixels[0];
+				this.red.y = this.redPixels[1];
 				this.redIsAlive = true;
 				this.showHearts('red');
 				this.redDeathCount = 0;				
@@ -291,8 +272,8 @@ gameState.deathCount = function(bandit){
 				this.blue.animation.play('die');
 			}else{
 				this.blueNumberOfHearts -= 1;
-				this.blue.x = this.blueStartingPixelLocations[0];
-				this.blue.y = this.blueStartingPixelLocations[1];
+				this.blue.x = this.bluePixels[0];
+				this.blue.y = this.bluePixels[1];
 				this.blueIsAlive = true;
 				this.showHearts('blue');				
 				this.blueDeathCount = 0;
@@ -444,12 +425,15 @@ var HiddenBlock = function(state, x, y){
 Kiwi.extend(HiddenBlock, Kiwi.GameObjects.Sprite);
 
 HiddenBlock.prototype.hiddenBlockTimer = function(){
+	console.log(this.occupiedBy);
 	var numberOfGhouls = this.occupiedBy.length;
 	for(var i =0; i < numberOfGhouls; i++){
 		var ghoul = this.occupiedBy.pop();
+		console.log(ghoul);
 		ghoul.destroy();
 	}
-	this.state.addToBlocks(this.row, this.col, this.state.groundBlocks);
+	console.log(this.occupiedBy);
+	this.state.addToBlocks(this.row, this.col, this.groundBlocks);
 	this.state.updateTopGroundBlocks();
 	this.state.updateBlockedBlocks();
 	this.destroy();
@@ -463,6 +447,8 @@ var Ghoul = function(state, x, y, facing){
 	this.testvar = 0;
 
 	this.gravity = function(){
+		console.log('calling gravity');
+		console.log(this);
 		var southGridPosition = state.getGridPosition(this.x, this.y, 'south');
 		var inStoppingBlock = false;
 		for(var i = 0; i <state.topGroundBlocks.length; i++){
@@ -471,11 +457,13 @@ var Ghoul = function(state, x, y, facing){
 			}
 		}
 		if(inStoppingBlock){
+			console.log('stoppingblock' + this.y);
 			var pixelNum = state.getPixelNumberForGridPosition(southGridPosition, 'south');
 			if(this.y +54 <pixelNum-14){
 				this.y += 10;
 			}
 			else{
+				console.log('else');
 				this.y = pixelNum-54;
 				this.shouldFall = false;
 			}
@@ -630,7 +618,6 @@ gameState.make2DArray = function(rows, cols){
 			newRow.push(0);
 		}
 		zero2DArray.push(newRow);
-
 	}
 	return zero2DArray;
 }
@@ -641,7 +628,6 @@ gameState.empty2Darray = function(nonzero2DArray){
 			nonzero2DArray[i][j] = 0;
 		}
 	}
-	return nonzero2DArray;
 }
 /**
 * getGroundBlocks returns a 2d array containing a 1 where there is a ground block and 0 otherwise. 
@@ -669,38 +655,23 @@ gameState.getLadderBlocks = function(ladderLayerArray, width){
 }
 
 
-gameState.getTopBlocks = function(blocks){
-	var topBlocks = this.make2DArray(this.gridRows, this.gridCols);
+gameState.getTopBlocks = function(blocks, topBlocks){
+	this.empty2Darray(topBlocks);
+
 	for (var i = 0; i<this.gridRows-1; i++){
 		var thisRow = blocks[i];
 		var nextRow = blocks[i+1];
-		for(var j = 0; j<this.gridCols; j++){
+		for(var j = 0; j<this.gridRows; j++){
 			if(thisRow[j] == 0 && nextRow[j]==1){
 				topBlocks[i][j] = 1; 
 			}
 		}
-	}	
-
-	return topBlocks;
-}
-
-gameState.updateTopGroundBlocks = function(){
-	
-	for (var i = 0; i<this.gridRows-1; i++){
-		var thisRow = this.groundBlocks[i];
-		var nextRow = this.groundBlocks[i+1];
-		for(var j = 0; j<this.gridCols; j++){
-			if(thisRow[j] == 0 && nextRow[j]==1){
-				this.topGroundBlocks[i][j] = 1; 
-			}else{
-				this.topGroundBlocks[i][j] = 0;
-			}
-		}
-	}	
+	}
 }
 
 
 gameState.getBlockedBlocks = function(groundBlocks, direction, blockedBlocks){
+	this.empty2Darray(blockedBlocks);
 
 	switch (direction){
 		case 'left': 
@@ -710,8 +681,6 @@ gameState.getBlockedBlocks = function(groundBlocks, direction, blockedBlocks){
 						blockedBlocks[i][j] = 1;
 					}else if(j==0){
 						blockedBlocks[i][j] = 1;
-					}else{
-						blockedBlocks[i][j] = 0; 
 					}
 				}
 			}
@@ -723,8 +692,6 @@ gameState.getBlockedBlocks = function(groundBlocks, direction, blockedBlocks){
 						blockedBlocks[i][j] = 1;
 					}else if(j==this.gridCols -1){
 						blockedBlocks[i][j] = 1;
-					}else{
-						blockedBlocks[i][j] = 0;
 					}
 
 				}
@@ -802,14 +769,10 @@ gameState.getGridPosition = function(x,y,cardinal){
 }
 
 gameState.onBlockType = function(blocks, gridPosition){
-	if(gridPosition[0]<this.gridRows && gridPosition[0]>=0 && gridPosition[1]<this.gridCols && gridPosition[1]>=0){
-		if(blocks[gridPosition[0]][gridPosition[1]] == 1)
-			return true;
-		else
-			return false;
-	}else{
+	if(blocks[gridPosition[0]][gridPosition[1]] == 1)
+		return true;
+	else
 		return false;
-	}
 }
  
 gameState.getPixelNumberForGridPosition = function(gridPosition, cardinal){
@@ -849,32 +812,15 @@ gameState.levelOver = function(){
 	if(this.currentLevel > this.numberOfLevels){
 		this.game.states.switchState('titleState');
 	}else{
-		this.destroyAllMembersOfGroup('ghoul');
-		this.destroyAllMembersOfGroup('coin');
-		this.removeBackgroundImages();
-		this.createLevel();
+		this.destroyAllGhouls();
+		this.create();
 	}
 }
 
-gameState.removeBackgroundImages = function(){
-	var members = this.members;
-	for(var i = 0; i<members.length; i++){
-		if(members[i].objType()!='Group')
-			members[i].destroy();
-	}
-}
-
-gameState.destroyAllMembersOfGroup = function(group){
-	switch(group){
-		case 'ghoul':
-			var members = this.ghoulGroup.members;
-			break;
-		case 'coin':
-			var members = this.coinGroup.members;
-			break;
-	}
-	for (var i =0; i<members.length; i++){
-		members[i].destroy();
+gameState.destroyAllGhouls = function(){
+	var ghouls = this.ghoulGroup.members;
+	for (var i =0; i<ghouls.length; i++){
+		ghouls[i].destroy();
 	}
 }
 
@@ -920,6 +866,7 @@ gameState.addToBlocks = function(row, col, blocks){
 gameState.removeFromGroundBlocks = function(blastedBlockPosition){
 	if(this.groundBlocks[blastedBlockPosition[0]][blastedBlockPosition[1]]==1){
 		this.groundBlocks[blastedBlockPosition[0]][blastedBlockPosition[1]] = 0;
+		console.log('blasted1');
 	}
 }
 
@@ -1212,12 +1159,11 @@ gameState.update = function(){
 	this.isLevelOver();
 
 	if(this.mouse.isDown){
-		console.log(this.numChildren());
-
+		console.log(this.ghoulGroup);
+		console.log(this.groundBlocks);
 		this.levelOver();
-		console.log(this.numChildren());
-		console.log(this.members.length);
-		console.log(this);
+		console.log(this.groundBlocks);
+		console.log(this.ghoulGroup);
 		this.game.input.mouse.reset();
 
 	}
