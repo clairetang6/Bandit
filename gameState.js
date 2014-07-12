@@ -23,7 +23,8 @@ gameState.preload = function(){
 	}
 
 	this.addSpriteSheet('tiles','block_ladder.png',54,54);	
-
+	this.addImage('lose','gameover.png');
+	this.addImage('win','bandit_win.png');
 }
 
 gameState.showLevelScreen = function(){
@@ -55,6 +56,9 @@ gameState.createLevel = function(){
 			this.coinGroup.addChild(coin);
 		}
 	}
+
+	this.blueCoinsCollected = 0;
+	this.redCoinsCollected = 0;
 
 	var ghoulsLayerArray = blockArrays[5];
 	for(var i = 0; i<ghoulsLayerArray.length;i++){
@@ -114,6 +118,7 @@ gameState.createLevel = function(){
 	this.redIsAlive = true;
 
 
+
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'+this.currentLevel],0,0);
 
 	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this,'level_tilemap'+this.currentLevel, this.textures.tiles);
@@ -168,6 +173,9 @@ gameState.create = function(){
 	myGame.stage.color = 'AAAABB';
 	myGame.stage.resize(this.STAGE_WIDTH, this.STAGE_HEIGHT);
 
+	this.winScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['win'],0,0);
+	this.loseScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['lose'],0,0);
+
 	this.mouse = this.game.input.mouse;
 
 	this.banditGroup = new Kiwi.Group(this);
@@ -219,9 +227,8 @@ gameState.create = function(){
 	this.blue_canShoot = true;
 
 
-
-	this.banditGroup.addChild(this.blue);
 	this.banditGroup.addChild(this.red);
+	this.banditGroup.addChild(this.blue);
 
 	this.coinGroup = new Kiwi.Group(this);
 	this.ghoulGroup = new Kiwi.Group(this);
@@ -249,6 +256,14 @@ gameState.checkCoinCollision = function(){
 		for (var j = 0; j<bandits.length; j++){
 			var coinBox = coins[i].box.hitbox;
 			if(bandits[j].box.bounds.intersects(coinBox)){
+				if(j == 0){
+					this.redCoinsCollected ++;
+				}else{
+					this.blueCoinsCollected ++;
+				}
+				console.log('red coins: ' + this.redCoinsCollected);
+				console.log('blue coins: ' + this.blueCoinsCollected);
+
 				coins[i].destroy();
 			}
 		}
@@ -265,10 +280,9 @@ gameState.checkGhoulCollision = function(){
 			if(bandits[j].box.hitbox.intersects(ghoulBox)){
 				console.log('DEATH');
 				if(j==0){
-					this.blueIsAlive = false;
-				}else{
-					console.log(ghoulBox);
 					this.redIsAlive = false;
+				}else{
+					this.blueIsAlive = false;
 				}
 			}
 		}
@@ -290,11 +304,13 @@ gameState.deathCount = function(bandit){
 				this.red.animation.play('die');
 			}else{
 				this.redNumberOfHearts -= 1;
-				this.red.x = this.redStartingPixelLocations[0];
-				this.red.y = this.redStartingPixelLocations[1];
-				this.redIsAlive = true;
-				this.showHearts('red');
-				this.redDeathCount = 0;				
+				if(this.redNumberOfHearts>0){
+					this.red.x = this.redStartingPixelLocations[0];
+					this.red.y = this.redStartingPixelLocations[1];
+					this.redIsAlive = true;
+					this.showHearts('red');
+					this.redDeathCount = 0;			
+				}	
 			}
 			break;
 		case 'blue':	
@@ -309,12 +325,13 @@ gameState.deathCount = function(bandit){
 				this.blue.animation.play('die');
 			}else{
 				this.blueNumberOfHearts -= 1;
-				this.blue.x = this.blueStartingPixelLocations[0];
-				this.blue.y = this.blueStartingPixelLocations[1];
-				this.blueIsAlive = true;
-				this.showHearts('blue');				
-				this.blueDeathCount = 0;
-				
+				if(this.blueNumberOfHearts>0){
+					this.blue.x = this.blueStartingPixelLocations[0];
+					this.blue.y = this.blueStartingPixelLocations[1];
+					this.blueIsAlive = true;
+					this.showHearts('blue');				
+					this.blueDeathCount = 0;
+				}	
 			}
 			break;	
 	}
@@ -929,14 +946,20 @@ gameState.getBlastedBlockPosition = function(gridPosition, facing, groundBlocks)
 }
 
 gameState.levelOver = function(){
-	this.currentLevel += 1;
-	if(this.currentLevel > this.numberOfLevels){
+	if(this.gameIsOver){
 		this.game.states.switchState('titleState');
 	}else{
-		this.destroyAllMembersOfGroup('ghoul');
-		this.destroyAllMembersOfGroup('coin');
-		this.removeBackgroundImages();
-		this.showLevelScreen();
+		this.currentLevel += 1;
+		if(this.currentLevel > this.numberOfLevels+1){
+			this.game.states.switchState('titleState');
+		}else if(this.currentLevel > this.numberOfLevels){
+			this.addChild(this.winScreen);
+		}else{
+			this.destroyAllMembersOfGroup('ghoul');
+			this.destroyAllMembersOfGroup('coin');
+			this.removeBackgroundImages();
+			this.showLevelScreen();
+		}
 	}
 }
 
@@ -967,6 +990,13 @@ gameState.isLevelOver = function(){
 		this.timer.start();
 	}else if(!this.blue && !this.red){
 		this.timer.start();
+	}
+}
+
+gameState.isGameOver = function(){
+	if(this.blueNumberOfHearts < 1 && this.redNumberOfHearts < 1){
+		this.addChild(this.loseScreen);
+		this.gameIsOver = true;
 	}
 }
 
@@ -1278,6 +1308,7 @@ gameState.update = function(){
 		this.checkCoinCollision();
 		this.checkGhoulCollision();
 		this.isLevelOver();
+		this.isGameOver();
 
 		if(this.mouse.isDown){
 			this.levelOver();
