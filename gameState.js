@@ -217,7 +217,7 @@ gameState.create = function(){
 	this.red_canShoot = true;
 	this.blue_canShoot = true;
 
-	
+
 
 	this.banditGroup.addChild(this.blue);
 	this.banditGroup.addChild(this.red);
@@ -275,6 +275,7 @@ gameState.checkGhoulCollision = function(){
 		}
 	}
 }
+
 
 gameState.deathCount = function(bandit){
 	switch(bandit){
@@ -470,7 +471,21 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 	this.state.addToBlocks(this.row, this.col, this.state.groundBlocks);
 	this.state.updateTopGroundBlocks();
 	this.state.updateBlockedBlocks();
+
+	var redGridPosition = this.state.getGridPosition(this.state.red.x, this.state.red.y, 'middle');
+	var blueGridPosition = this.state.getGridPosition(this.state.blue.x, this.state.blue.y, 'middle');
+
 	this.destroy();
+	if(redGridPosition[0] == this.row && redGridPosition[1] == this.col){
+		for(var i =0; i<101; i++){
+			this.state.deathCount('red');
+		}
+	}
+	if(blueGridPosition[0] == this.row && blueGridPosition[1] == this.col){
+		for(var i=0; i<101; i++){
+			this.state.deathCount('blue');
+		}
+	}
 }
 
 var Ghoul = function(state, x, y, facing){
@@ -816,6 +831,8 @@ gameState.getGridPosition = function(x,y,cardinal){
 			return [Math.floor((y+51)/54), Math.floor((x+53)/54)];
 		case 'west':
 			return [Math.floor((y+51)/54), Math.floor((x+1)/54)];
+		case 'middle':
+			return [Math.floor((y+25)/54), Math.floor((x+25)/54)];
 		default: 
 			return [Math.floor(y/54), Math.floor(x/54)];
 	}
