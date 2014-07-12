@@ -259,17 +259,15 @@ gameState.checkGhoulCollision = function(){
 	var bandits = this.banditGroup.members;
 
 	for (var i = 0; i<ghouls.length; i++){
-		if(!ghouls[i].isInHole){
-			for (var j = 0; j<bandits.length; j++){		
-				var ghoulBox = ghouls[i].box.hitbox;
-				if(bandits[j].box.hitbox.intersects(ghoulBox)){
-					console.log('DEATH');
-					if(j==0){
-						this.blueIsAlive = false;
-					}else{
-						console.log(ghoulBox);
-						this.redIsAlive = false;
-					}
+		for (var j = 0; j<bandits.length; j++){		
+			var ghoulBox = ghouls[i].box.hitbox;
+			if(bandits[j].box.hitbox.intersects(ghoulBox)){
+				console.log('DEATH');
+				if(j==0){
+					this.blueIsAlive = false;
+				}else{
+					console.log(ghoulBox);
+					this.redIsAlive = false;
 				}
 			}
 		}
@@ -466,8 +464,9 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 	var numberOfGhouls = this.occupiedBy.length;
 	for(var i =0; i < numberOfGhouls; i++){
 		var ghoul = this.occupiedBy.pop();
-		ghoul.destroy();
+		ghoul.destroy(false);
 	}
+	this.destroy();
 	this.state.addToBlocks(this.row, this.col, this.state.groundBlocks);
 	this.state.updateTopGroundBlocks();
 	this.state.updateBlockedBlocks();
@@ -475,7 +474,8 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 	var redGridPosition = this.state.getGridPosition(this.state.red.x, this.state.red.y, 'middle');
 	var blueGridPosition = this.state.getGridPosition(this.state.blue.x, this.state.blue.y, 'middle');
 
-	this.destroy();
+
+	
 	if(redGridPosition[0] == this.row && redGridPosition[1] == this.col){
 		for(var i =0; i<101; i++){
 			this.state.deathCount('red');
@@ -494,6 +494,7 @@ var Ghoul = function(state, x, y, facing){
 	this.shouldFall = false;
 	this.isInHole = false;
 	this.testvar = 0;
+	this.state = state;
 
 	this.gravity = function(){
 		var southGridPosition = state.getGridPosition(this.x, this.y, 'south');
@@ -531,7 +532,8 @@ var Ghoul = function(state, x, y, facing){
 		var rightGridPosition = state.getGridPosition(this.x, this.y, 'east');
 		var leftGridPosition = state.getGridPosition(this.x, this.y, 'west');
 		var topGridPosition = state.getGridPosition(this.x, this.y+15, 'north');
-		var shouldTurn = false;	
+		var shouldTurnRight = false;
+		var shouldTurnLeft = false;	
 
 
 		if(this.isInHole){
@@ -542,44 +544,48 @@ var Ghoul = function(state, x, y, facing){
 				this.gravity();
 			}
 
+			
+			var checkForRightBlockedBlockPosition = [rightGridPosition[0]+1, rightGridPosition[1]-1];
+			var checkForLeftBlockedBlockPosition = [leftGridPosition[0]+1, leftGridPosition[1]+1];
+			var checkForGroundBlockPositionFacingLeft = [rightGridPosition[0], rightGridPosition[1]-1];
+			var checkForGroundBlockPositionFacingRight = [leftGridPosition[0], leftGridPosition[1]+1];
+			
 			switch(this.facing){
 				case 'left':
-					var checkForGroundBlockPosition = [rightGridPosition[0], rightGridPosition[1]-1];
-					var checkForRightBlockedBlockPosition = [rightGridPosition[0]+1, rightGridPosition[1]-1];
-
+					
 					if(this.x < 0){
-						shouldTurn = true;
+						shouldTurnRight = true;
 						break;
 					}
 
-					if(state.onBlockType(state.originalGroundBlocks,checkForGroundBlockPosition)){
-						shouldTurn = true;
+					if(state.onBlockType(state.originalGroundBlocks,checkForGroundBlockPositionFacingLeft)){
+						shouldTurnRight = true;
 						break;
 					}
 					if(state.onBlockType(state.originalRightBlockedBlocks, checkForRightBlockedBlockPosition)){
-						shouldTurn = true;
+						shouldTurnRight = true;
 						break;
 					}
 					break;
 				case 'right':
-					var checkForGroundBlockPosition = [leftGridPosition[0], leftGridPosition[1]+1];
-					var checkForLeftBlockedBlockPosition = [leftGridPosition[0]+1, leftGridPosition[1]+1];
 
-					if(this.x > 19*54){
-						shouldTurn = true;
+					if(this.x > 19*54-1){
+						shouldTurnLeft = true;
 						break;
 					}
 
-					if(state.onBlockType(state.originalGroundBlocks,checkForGroundBlockPosition)){
-						shouldTurn = true;
+					if(state.onBlockType(state.originalGroundBlocks,checkForGroundBlockPositionFacingRight)){
+						shouldTurnLeft = true;
 						break;
 					}
 					if(state.onBlockType(state.originalLeftBlockedBlocks, checkForLeftBlockedBlockPosition)){
-						shouldTurn = true;
+						shouldTurnLeft = true;
 						break;
 					}
 					break;
 			}
+
+			var shouldTurn = shouldTurnRight || shouldTurnLeft;
 
 			if (shouldTurn){
 				switch(this.facing){
@@ -649,11 +655,50 @@ var Ghoul = function(state, x, y, facing){
 					break;
 			}
 
+			if(!this.shouldFall){
+				var shouldTurnAgain = false;
+				switch(this.facing){
+					case 'left':
+
+						if(state.onBlockType(state.originalGroundBlocks,checkForGroundBlockPositionFacingLeft)){
+							shouldTurnAgain = true;
+							break;
+						}
+						if(state.onBlockType(state.originalRightBlockedBlocks, checkForRightBlockedBlockPosition)){
+							shouldTurnAgain = true;
+							break;
+						}
+						break;
+					case 'right':
+			
+
+						if(state.onBlockType(state.originalGroundBlocks,checkForGroundBlockPositionFacingRight)){
+							shouldTurnAgain = true;
+							break;
+						}
+						if(state.onBlockType(state.originalLeftBlockedBlocks, checkForLeftBlockedBlockPosition)){
+							shouldTurnAgain = true;
+							break;
+						}
+						break;
+				}
+				if(shouldTurnAgain){
+					this.isInHole = true;
+					this.singleBlockDeath();
+				}
+			}
+
 		}
 
 	}
 }
 Kiwi.extend(Ghoul, Kiwi.GameObjects.Sprite);
+
+Ghoul.prototype.singleBlockDeath = function(){
+	this.timer = this.state.game.time.clock.createTimer('singleBlockDeathTimer',3,0,false);
+	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.destroy, this);
+	this.timer.start();	
+}
 
 gameState.make2DArray = function(rows, cols){
 	var zero2DArray = [];
