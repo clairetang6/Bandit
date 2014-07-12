@@ -51,6 +51,7 @@ gameState.createLevel = function(){
 			var coin = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],coinPixels[0],coinPixels[1]);
 			coin.animation.add('spin',[8,9,10,11],0.1,true);
 			coin.animation.play('spin');
+			coin.box.hitbox = new Kiwi.Geom.Rectangle(25,25,54-50,54-50);			
 			this.coinGroup.addChild(coin);
 		}
 	}
@@ -246,7 +247,7 @@ gameState.checkCoinCollision = function(){
 
 	for (var i = 0; i <coins.length; i++){
 		for (var j = 0; j<bandits.length; j++){
-			var coinBox = coins[i].box.bounds;
+			var coinBox = coins[i].box.hitbox;
 			if(bandits[j].box.bounds.intersects(coinBox)){
 				coins[i].destroy();
 			}
