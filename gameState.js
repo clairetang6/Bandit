@@ -11,15 +11,11 @@ gameState.preload = function(){
 	}		
 
 	for (var i = 1; i<=this.numberOfLevels; i++){
-		if(i>=11){
-		this.addImage('background'+i,'canvas_'+9+'.png',true);			
-		this.addSpriteSheet('backgroundSpriteSheet'+i,'canvas_'+9+'.png',54,54);
-		this.addJSON('level_tilemap'+i,'level'+i+'.json');			
-		}else{
+
 		this.addImage('background'+i,'canvas_'+i+'.png',true);
 		this.addSpriteSheet('backgroundSpriteSheet'+i,'canvas_'+i+'.png',54,54);
 		this.addJSON('level_tilemap'+i,'level'+i+'.json');
-		}
+		
 	}
 
 	this.addSpriteSheet('tiles','block_ladder.png',54,54);	

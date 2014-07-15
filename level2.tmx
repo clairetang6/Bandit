@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="54" tileheight="54">
- <tileset firstgid="1" name="block_ladder" tilewidth="54" tileheight="54">
-  <image source="block_ladder.png" width="324" height="54"/>
+<map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="50" tileheight="50">
+ <tileset firstgid="1" name="bandit_spritesheet" tilewidth="50" tileheight="50">
+  <image source="bandit_spritesheet.png" width="900" height="250"/>
  </tileset>
- <tileset firstgid="7" name="all_spritesheet" tilewidth="54" tileheight="54">
-  <image source="all_spritesheet.png" width="432" height="378"/>
- </tileset>
- <layer name="Tile Layer 1" width="20" height="15">
+ <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJydkzEOwDAMAr3w/y93bSpMj0TyEgEGx9HMaM4jc5eOxnOchkw1+E2jxTT5nJcbbOIm77TXXw+isfG/PRyH9k24tEtpPvSNG4/UJ53dlonsBa03b9MjmSiv+WNtBsd5AACuArM=
+   eJytUckNACAMYiT2n863BmmpNunHQDkkAGIfijc3hOaoGxSb4G83UkyST3mZYB3Xee9qVRovmic28Zl0n3RWafxYQOvf+q6yOd+/cile5a/z/xN/kyxOdwGPAxvB
   </data>
  </layer>
- <layer name="ladders" width="20" height="15">
+ <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAdYKGS+Eg1j1r20Mq8gQ4/bHIseOQGm3mkqBnM5pFiPjEAnx4Ad48AsQ==
+   eJxjYKAd8KeS+Eg1j1r20Mo8cvSRI0esHn8CaokxD10dPcxDFyPFPEJsepqHTx05aRObeQAt2A3k
   </data>
  </layer>
- <layer name="extras" width="20" height="15">
+ <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYCAOcBOpDptaUvRSQ98owA4GW3iqAbH6ANpPq/AgxtyBjIuhnB8BxvcAvA==
+   eJxjYEAAXwbSQDiJ6kfBKBgFIw+QWq6g60FmAwAPTQGM
   </data>
  </layer>
- <layer name="coins" width="20" height="15">
+ <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJydUjkOACAM4g3+/7EOLg6Uo00akwYKqMCr8zXITDUGDtvBqsFPO1oM00ozJlyGVVyGa7U2b9dogpytV5Y1/UuT7iZD+gbpfSldl8n5bcrlnObKp9uX+GmyKM4FO7QLdw==
+   eJxjYCAeeFGglhK9o4C6YLCErzAQM5KgHpe7B4t/YIBY9wwGd5PrhoFyOwAunAND
+  </data>
+ </layer>
+ <layer name="Coins" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJydUtsJACEMy27uv9N9iCAlL69Q0EjStBbYsa4EwVxCcJgGAsdpM67Sc3hTN/n+M5PEdf01tV7/TvEUn707n6yfNMuJtb00c5weEt7ucdr51muzR+quzq0/ptHyZl03MxfO18kP78kvHQ==
+  </data>
+ </layer>
+ <layer name="Front" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjALagDAy9PjhkQMAKBgApQ==
   </data>
  </layer>
 </map>

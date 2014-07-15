@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="54" tileheight="54">
+ <tileset firstgid="1" name="block_ladder" tilewidth="54" tileheight="54">
+  <image source="block_ladder.png" width="324" height="54"/>
+ </tileset>
+ <tileset firstgid="7" name="all_spritesheet" tilewidth="54" tileheight="54">
+  <image source="all_spritesheet.png" width="432" height="378"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAuYKMBxmcXKXL0dBshO0lVT0v3ESOGTR4bTcgt6DS13UevOKYkbGnhNlLiHZc6eucPctIrAKpQA9M=
+  </data>
+ </layer>
+ <layer name="ladders" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAuYKGyWQNpHiG1tDCPFEDNsKGmeQPpLmLUEmsesfE7EswjVZxW5gEABz8AiQ==
+  </data>
+ </layer>
+ <layer name="extras" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYMAE3Gg0NrmBBPjcMFBuJteOwRCeIDAY3EHIDQOdHomxf6DdiA+Qmm+oDdRIVG+GRQwAIDIBIw==
+  </data>
+ </layer>
+ <layer name="coins" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJytk0EKACAIBH2D/39s14ix3UwhSE2dzDIicnhNiVOn66Nayka6y3jGO2wveuXr9FDF0Z0qFtq7bD98JMRKnLutM1/qjBL3D1HO1/6o91VMaiZv/ajy3fq3ACn7C/U=
+  </data>
+ </layer>
+</map>
