@@ -5,7 +5,7 @@
  </tileset>
  <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYMAEqgRoXOphbEowNnOw2Y2unhT78ZmnisbH51dS7SMlDLDR2OzGBqgZH7jih5CdxLiTFu4j1W5sfHLiDJseUgC+8EMWJ9ctpKjHpZeQ+0mNF3LSGgClqBoq
+   eJxjYMAEqgRoXOphbEowNnPw2YHNLcTYga4Xmzwu88m1j5QwwEZjsxsboGZ84IofQnYS405auI9Uu7HxyYkzbHpIAfjCD1mcXLeQoh6XXkLuJzVeyElrADkjGk8=
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
@@ -25,7 +25,7 @@
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJydk8sNwCAMQ70b++/Uu+VfioQowokfIX0AHk2U1elZy99qv+bmc5gY59HuwjrHpOKcn8qneBIf6xKLe49lLFrllXqgcV4ZFee1Zu0tm1/iar35t36XWqWeXP7FFLPwt1zXnmSPD/dEJOg=
+   eJyVkwsKACAIQ71bp/D+F4mgIMacU4g+LPcqWxGxoJ3I27M50+M4yJjN/zWVGz1epNArH/RDXcXE9lV+LB/jqfgS+sq7ew8nHC3zUjXQcU4ZGSd7U9Q5zF3NOFyYR515cn+Tu1I16fxFtcfh73JNaxI9NpJ/JRM=
   </data>
  </layer>
  <layer name="Front" width="20" height="15">

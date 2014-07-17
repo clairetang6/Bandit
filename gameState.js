@@ -2,7 +2,11 @@ var gameState = new Kiwi.State('gameState');
 
 gameState.preload = function(){
 	Kiwi.State.prototype.preload.call(this);
-	this.addSpriteSheet('sprites','all_spritesheet.png',54,54);
+
+	this.BLOCK_PIXEL_SIZE = 50; 
+	this.bps = this.BLOCK_PIXEL_SIZE; 
+
+	this.addSpriteSheet('sprites','bandit_spritesheet.png',this.bps,this.bps);
 	this.currentLevel = 1; 
 	this.numberOfLevels = 13;
 
@@ -11,14 +15,13 @@ gameState.preload = function(){
 	}		
 
 	for (var i = 1; i<=this.numberOfLevels; i++){
-
-		this.addImage('background'+i,'canvas_'+i+'.png',true);
-		this.addSpriteSheet('backgroundSpriteSheet'+i,'canvas_'+i+'.png',54,54);
-		this.addJSON('level_tilemap'+i,'level'+i+'.json');
-		
+		this.addImage('background'+i,'canvas'+i+'.png',true);
+		this.addSpriteSheet('backgroundSpriteSheet'+i,'canvas'+i+'.png',this.bps,this.bps);
+		//need to change the canvases so that the top row is also 50 pixels high and then set the background to negative value. 
+		this.addJSON('level_tilemap'+i,'level'+i+'.json');		
 	}
 
-	this.addSpriteSheet('tiles','block_ladder.png',54,54);	
+	//this.addSpriteSheet('tiles','block_ladder.png',54,54);	
 	this.addImage('lose','gameover.png');
 	this.addImage('win','bandit_win.png');
 }
@@ -42,33 +45,49 @@ gameState.createLevel = function(){
 	var coinsLayerArray = blockArrays[2];
 	var width = blockArrays[4];
 	var tileWidth = blockArrays[3];
+
+
+	var coinHitboxX = Math.round(this.bps*this.COIN_HITBOX_X_PERCENTAGE);
+	var coinHitboxY = Math.round(this.bps*this.COIN_HITBOX_Y_PERCENTAGE);
+
 	for(var i = 0; i<coinsLayerArray.length;i++){
-		if(coinsLayerArray[i]!=0){
+		if(coinsLayerArray[i]==67){
 			var coinPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 			var coin = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],coinPixels[0],coinPixels[1]);
-			coin.animation.add('spin',[8,9,10,11],0.1,true);
+			coin.animation.add('spin',[66,67,68,69],0.1,true);
 			coin.animation.play('spin');
-			coin.box.hitbox = new Kiwi.Geom.Rectangle(25,25,54-50,54-50);			
+			coin.box.hitbox = new Kiwi.Geom.Rectangle(coinHitboxX,coinHitboxY,this.bps - 2*coinHitboxX,this.bps-2*coinHitboxY);			
 			this.coinGroup.addChild(coin);
+		}else{
+			if(coinsLayerArray[i]!=0){
+				var diamondPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+				var diamond = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],diamondPixels[0], diamondPixels[1]);
+				diamond.animation.add('shine',[88],0.1,false);
+				diamond.animation.play('shine');
+				this.coinGroup.addChild(diamond);
+			}
 		}
 	}
 
 	this.blueCoinsCollected = 0;
 	this.redCoinsCollected = 0;
 
+	var ghoulHitboxX = Math.round(this.bps*this.BANDIT_HITBOX_X_PERCENTAGE);
+	var ghoulHitboxY = Math.round(this.bps*this.BANDIT_HITBOX_Y_PERCENTAGE);	
+
 	var ghoulsLayerArray = blockArrays[5];
 	for(var i = 0; i<ghoulsLayerArray.length;i++){
 		if(ghoulsLayerArray[i]==11){
 			var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 			var ghoul = new Ghoul(this,ghoulPixels[0],ghoulPixels[1],'left');
-		 	ghoul.animation.add('idleleft',[7],0.1,false);
-			ghoul.animation.add('idleright',[4],0.1,false);
-			ghoul.animation.add('upright',[2],0.1,false);
-			ghoul.animation.add('upleft',[5],0.1,false);
-			ghoul.animation.add('dieright',[2,3],0.1,true);
-			ghoul.animation.add('dieleft',[5,6],0.1,true);
+		 	ghoul.animation.add('idleleft',[52],0.1,false);
+			ghoul.animation.add('idleright',[55],0.1,false);
+			ghoul.animation.add('upright',[57],0.1,false);
+			ghoul.animation.add('upleft',[54],0.1,false);
+			ghoul.animation.add('dieright',[56,57],0.1,true);
+			ghoul.animation.add('dieleft',[53,54],0.1,true);
 			ghoul.animation.play('idleleft');
-			ghoul.box.hitbox = new Kiwi.Geom.Rectangle(20,20,54-40,54-40);
+			ghoul.box.hitbox = new Kiwi.Geom.Rectangle(ghoulHitboxX,ghoulHitboxY,this.bps-2*ghoulHitboxX,this.bps-2*ghoulHitboxY);
 			this.ghoulGroup.addChild(ghoul);
 		}
 	}
@@ -76,10 +95,10 @@ gameState.createLevel = function(){
 	this.blueStartingPixelLocations = [0,0];
 	this.redStartingPixelLocations = [0,0];
 	for(var i = 0; i<ghoulsLayerArray.length; i++){
-		if(ghoulsLayerArray[i] == 39 || ghoulsLayerArray[i] == 54){
+		if(ghoulsLayerArray[i] == 19){
 			this.blueStartingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 		}
-		if(ghoulsLayerArray[i] == 38 || ghoulsLayerArray[i] == 23){
+		if(ghoulsLayerArray[i] == 1){
 			this.redStartingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 		}
 	}
@@ -95,8 +114,8 @@ gameState.createLevel = function(){
 		var redHeart = new Heart(this, this.redStartingPixelLocations[0], this.redStartingPixelLocations[1], 'red', i);
 		var blueHeart = new Heart(this, this.blueStartingPixelLocations[0], this.blueStartingPixelLocations[1], 'blue', i);
 
-		redHeart.animation.add('blink',[14,55],.2,true);
-		blueHeart.animation.add('blink',[15,55],.2,true);
+		redHeart.animation.add('blink',[84,17],.2,true);
+		blueHeart.animation.add('blink',[56,17],.2,true);
 		redHeart.animation.play('blink');
 		blueHeart.animation.play('blink');
 
@@ -114,10 +133,9 @@ gameState.createLevel = function(){
 	this.redIsAlive = true;
 
 
+	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'+this.currentLevel],-this.TILE_WIDTH,-this.TILE_WIDTH);
 
-	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'+this.currentLevel],0,0);
-
-	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this,'level_tilemap'+this.currentLevel, this.textures.tiles);
+	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this,'level_tilemap'+this.currentLevel, this.textures.sprites);
 	
 	
 	this.groundBlocks = this.getGroundBlocks(blockArrays[0],blockArrays[4]);
@@ -127,27 +145,32 @@ gameState.createLevel = function(){
 
 	this.topLadderBlocks = this.getTopBlocks(this.ladderBlocks);
 
-	this.originalLeftBlockedBlocks = this.make2DArray(this.gridRows, this.gridCols);
+	this.originalLeftBlockedBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
 	this.getBlockedBlocks(this.originalGroundBlocks,'left',this.originalLeftBlockedBlocks);
-	this.originalRightBlockedBlocks = this.make2DArray(this.gridRows, this.gridCols);
+	this.originalRightBlockedBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
 	this.getBlockedBlocks(this.originalGroundBlocks,'right', this.originalRightBlockedBlocks);
 	
-	this.leftBlockedBlocks = this.make2DArray(this.gridRows, this.gridCols);
-	this.rightBlockedBlocks = this.make2DArray(this.gridRows, this.gridCols);
+	this.leftBlockedBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
+	this.rightBlockedBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
 	this.topGroundBlocks = this.getTopBlocks(this.groundBlocks);
 
 	this.updateTopGroundBlocks();
 	this.updateBlockedBlocks();
-
 	
+	this.removeBackgroundImages();
+
 	this.addChild(this.background);
 	this.addChild(this.tilemap.layers[0]);
 	this.addChild(this.hiddenBlockGroup);	
 	this.addChild(this.tilemap.layers[1]);
+	this.addChild(this.tilemap.layers[2]);
 	
 	this.addChild(this.coinGroup);
 	this.addChild(this.ghoulGroup);
 	this.addChild(this.banditGroup);
+
+	this.addChild(this.tilemap.layers[5]);
+
 	this.addChild(this.redHeartsGroup);
 	this.addChild(this.blueHeartsGroup);	
 	
@@ -161,12 +184,21 @@ gameState.createLevel = function(){
 gameState.create = function(){
 	Kiwi.State.prototype.create.call(this);
 
-	this.STAGE_WIDTH = 1080;
-	this.STAGE_HEIGHT = 810;
-	this.gridRows = 15;
-	this.gridCols = 20;
+	this.STAGE_WIDTH = 1024;
+	this.STAGE_HEIGHT = 768;
+	this.MULTIPLIER = 1; 
+	this.TILE_WIDTH = 50;
 
-	myGame.stage.color = 'AAAABB';
+	this.STAGE_Y_OFFSET = 32 * this.MULTIPLIER;
+	this.STAGE_X_OFFSET = 38 * this.MULTIPLIER;
+
+	this.x = this.TILE_WIDTH - this.STAGE_X_OFFSET;
+	this.y = this.TILE_WIDTH - this.STAGE_Y_OFFSET;
+
+	this.GRID_ROWS = 15;
+	this.GRID_COLS = 20;	
+
+	myGame.stage.color = '000000';
 	myGame.stage.resize(this.STAGE_WIDTH, this.STAGE_HEIGHT);
 
 	this.winScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['win'],0,0);
@@ -174,47 +206,57 @@ gameState.create = function(){
 
 	this.mouse = this.game.input.mouse;
 
+
+	this.BANDIT_HITBOX_X_PERCENTAGE = .2;
+	this.BANDIT_HITBOX_Y_PERCENTAGE = .1;
+
+	this.COIN_HITBOX_X_PERCENTAGE = .46;
+	this.COIN_HITBOX_Y_PERCENTAGE = .46;
+
+	var banditHitboxX = Math.round(this.bps*this.BANDIT_HITBOX_X_PERCENTAGE);
+	var banditHitboxY = Math.round(this.bps*this.BANDIT_HITBOX_Y_PERCENTAGE);
+
 	this.banditGroup = new Kiwi.Group(this);
 	
-	this.blue = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],-54,-54);
-	this.blue.box.hitbox = new Kiwi.Geom.Rectangle(9,9,54-18,54-18);
+	this.blue = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],-(this.bps),-(this.bps));
+	this.blue.box.hitbox = new Kiwi.Geom.Rectangle(banditHitboxX, banditHitboxY, this.bps-2*banditHitboxX,this.bps-2*banditHitboxY);
 	this.blue_leftKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.A);
 	this.blue_rightKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.D);
 	this.blue_upKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.W);
 	this.blue_downKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.S);
 	this.blue_fireKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SHIFT);
 
-	this.blue.animation.add('climb',[48,49],0.1,true);
-	this.blue.animation.add('idleleft',[47],0.1,false);
-	this.blue.animation.add('idleright',[32],0.1,false);
-	this.blue.animation.add('moveright',[33,34,35,36,37,38],0.1,true);
-	this.blue.animation.add('moveleft',[46,45,44,43,42,41],0.1,true);
-	this.blue.animation.add('fireleft',[40],0.1,false);
-	this.blue.animation.add('fireright',[39],0.1,false);
-	this.blue.animation.add('idleclimb',[49],0.1,false);
-	this.blue.animation.add('die',[13],0.1,false);
+	this.blue.animation.add('climb',[53,54],0.1,true);
+	this.blue.animation.add('idleleft',[33],0.1,false);
+	this.blue.animation.add('idleright',[25],0.1,false);
+	this.blue.animation.add('moveright',[19,20,21,22,23,24],0.1,true);
+	this.blue.animation.add('moveleft',[32,31,30,29,28,27],0.1,true);
+	this.blue.animation.add('fireleft',[26],0.1,false);
+	this.blue.animation.add('fireright',[18],0.1,false);
+	this.blue.animation.add('idleclimb',[53],0.1,false);
+	this.blue.animation.add('die',[55],0.1,false);
 
 	this.blue_facing = 'left';
 	this.blue.animation.play('idleleft');
 
 
-	this.red = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],-54,-54);
-	this.red.box.hitbox = new Kiwi.Geom.Rectangle(20,20,54-40,54-40);
+	this.red = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],-(this.bps),-(this.bps));
+	this.red.box.hitbox = new Kiwi.Geom.Rectangle(banditHitboxX, banditHitboxY, this.bps-2*banditHitboxX,this.bps-2*banditHitboxY);
 	this.red_leftKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.LEFT);
 	this.red_rightKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.RIGHT);
 	this.red_upKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.UP);
 	this.red_downKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.DOWN);
 	this.red_fireKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SPACEBAR);
 
-	this.red.animation.add('climb',[0,1],0.1,true);
-	this.red.animation.add('idleleft',[31],0.1,false);
-	this.red.animation.add('idleright',[16],0.1,false);
-	this.red.animation.add('moveright',[17,18,19,20,21,22],0.1,true);
-	this.red.animation.add('moveleft',[30,29,28,27,26,25],0.1,true);
-	this.red.animation.add('fireright',[23],0.1,false);
-	this.red.animation.add('fireleft',[24],0.1,false);
-	this.red.animation.add('idleclimb',[0],0.1,false);
-	this.red.animation.add('die',[12],0.1,false);
+	this.red.animation.add('climb',[81,82],0.1,true);
+	this.red.animation.add('idleleft',[15],0.1,false);
+	this.red.animation.add('idleright',[0],0.1,false);
+	this.red.animation.add('moveright',[1,2,3,4,5,6],0.1,true);
+	this.red.animation.add('moveleft',[14,13,12,11,10,9],0.1,true);
+	this.red.animation.add('fireright',[7],0.1,false);
+	this.red.animation.add('fireleft',[8],0.1,false);
+	this.red.animation.add('idleclimb',[81],0.1,false);
+	this.red.animation.add('die',[83],0.1,false);
 
 	this.red_facing = 'left';
 	this.red.animation.play('idleleft');
@@ -222,6 +264,8 @@ gameState.create = function(){
 	this.red_canShoot = true;
 	this.blue_canShoot = true;
 
+
+	this.debugKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.I);
 
 	this.banditGroup.addChild(this.red);
 	this.banditGroup.addChild(this.blue);
@@ -232,6 +276,8 @@ gameState.create = function(){
 	this.redHeartsGroup = new Kiwi.Group(this);
 
 	this.hiddenBlockGroup = new Kiwi.Group(this);
+
+
 
 	this.showLevelScreen();
 	
@@ -457,7 +503,8 @@ var HiddenBlock = function(state, x, y){
 	this.occupiedBy = []; //array of Ghouls 
 	this.gridPosition = state.getGridPosition(x,y);
 	this.row = this.gridPosition[0];
-	this.col = this.gridPosition[1]; 
+	this.col = this.gridPosition[1];
+	console.log(this.row + ' ' + this.col) 
 	this.state = state;
 
 	this.timer = state.game.time.clock.createTimer('hiddenBlockTimer',5,0,false);
@@ -520,11 +567,11 @@ var Ghoul = function(state, x, y, facing){
 		}
 		if(inStoppingBlock){
 			var pixelNum = state.getPixelNumberForGridPosition(southGridPosition, 'south');
-			if(this.y +54 <pixelNum-14){
+			if(this.y + this.state.bps <pixelNum-10){
 				this.y += 10;
 			}
 			else{
-				this.y = pixelNum-54;
+				this.y = pixelNum-this.state.bps;
 				this.shouldFall = false;
 			}
 		}else{
@@ -741,7 +788,7 @@ gameState.empty2Darray = function(nonzero2DArray){
 
 
 gameState.getGroundBlocks = function(groundLayerArray, width){
-	var groundBlocks = this.make2DArray(this.gridRows, this.gridCols);
+	var groundBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
 	for (var i = 0; i<groundLayerArray.length; i++){
 		if(groundLayerArray[i] != 0){
 			groundBlocks[this.getRow(i,width)][this.getCol(i,width)] = 1;
@@ -751,9 +798,9 @@ gameState.getGroundBlocks = function(groundLayerArray, width){
 }
 
 gameState.getLadderBlocks = function(ladderLayerArray, width){
-	var ladderBlocks = this.make2DArray(this.gridRows, this.gridCols);
+	var ladderBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
 	for (var i = 0; i <ladderLayerArray.length; i++){
-		if(ladderLayerArray[i] == 4){
+		if(ladderLayerArray[i] != 0){
 			ladderBlocks[this.getRow(i,width)][this.getCol(i,width)] = 1;
 		}
 	}
@@ -762,11 +809,11 @@ gameState.getLadderBlocks = function(ladderLayerArray, width){
 
 
 gameState.getTopBlocks = function(blocks){
-	var topBlocks = this.make2DArray(this.gridRows, this.gridCols);
-	for (var i = 0; i<this.gridRows-1; i++){
+	var topBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
+	for (var i = 0; i<this.GRID_ROWS-1; i++){
 		var thisRow = blocks[i];
 		var nextRow = blocks[i+1];
-		for(var j = 0; j<this.gridCols; j++){
+		for(var j = 0; j<this.GRID_COLS; j++){
 			if(thisRow[j] == 0 && nextRow[j]==1){
 				topBlocks[i][j] = 1; 
 			}
@@ -778,10 +825,10 @@ gameState.getTopBlocks = function(blocks){
 
 gameState.updateTopGroundBlocks = function(){
 	
-	for (var i = 0; i<this.gridRows-1; i++){
+	for (var i = 0; i<this.GRID_ROWS-1; i++){
 		var thisRow = this.groundBlocks[i];
 		var nextRow = this.groundBlocks[i+1];
-		for(var j = 0; j<this.gridCols; j++){
+		for(var j = 0; j<this.GRID_COLS; j++){
 			if(thisRow[j] == 0 && nextRow[j]==1){
 				this.topGroundBlocks[i][j] = 1; 
 			}else{
@@ -796,8 +843,8 @@ gameState.getBlockedBlocks = function(groundBlocks, direction, blockedBlocks){
 
 	switch (direction){
 		case 'left': 
-			for(var i =0;i<this.gridRows; i++){
-				for(var j=0; j<this.gridCols; j++){
+			for(var i =0;i<this.GRID_ROWS; i++){
+				for(var j=0; j<this.GRID_COLS; j++){
 					if(j==0){
 						blockedBlocks[i][j] = 1;
 					}else{
@@ -811,9 +858,9 @@ gameState.getBlockedBlocks = function(groundBlocks, direction, blockedBlocks){
 			}
 			break;
 		case 'right':
-			for(var i =0; i<this.gridRows; i++){
-				for(var j=0; j<this.gridCols; j++){
-					if(j==this.gridCols-1){
+			for(var i =0; i<this.GRID_ROWS; i++){
+				for(var j=0; j<this.GRID_COLS; j++){
+					if(j==this.GRID_COLS-1){
 						blockedBlocks[i][j] = 1;
 					}else{
 						if(groundBlocks[i][j]==0 && groundBlocks[i][j+1] == 1){
@@ -831,18 +878,18 @@ gameState.getBlockedBlocks = function(groundBlocks, direction, blockedBlocks){
 
 
 gameState.getFirstLadderBlocks = function(ladderBlocks){
-	var firstLadderBlocks = this.make2DArray(this.gridRows, this.gridCols);
+	var firstLadderBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
 
-	for(var i = 0; i<this.gridRows-1; i++){
-		for(var j= 0; j<this.gridCols; j++){
+	for(var i = 0; i<this.GRID_ROWS-1; i++){
+		for(var j= 0; j<this.GRID_COLS; j++){
 			if(ladderBlocks[i][j] == 1 && ladderBlocks[i+1][j] == 0){
 				firstLadderBlocks[i][j] = 1;
 			}
 		}
 	}
-	for (var j=0; j<this.gridCols; j++){
-		if(ladderBlocks[this.gridRows-1][j] == 1){
-			firstLadderBlocks[this.gridRows-1][j] = 1;
+	for (var j=0; j<this.GRID_COLS; j++){
+		if(ladderBlocks[this.GRID_ROWS-1][j] == 1){
+			firstLadderBlocks[this.GRID_ROWS-1][j] = 1;
 		}
 	}
 
@@ -854,12 +901,14 @@ gameState.parseBlocks = function(level_tilemap){
 	var json = JSON.parse(this.game.fileStore.getFile(level_tilemap).data);
 	var groundLayerArray = json.layers[0].data;
 	var ladderLayerArray = json.layers[1].data;
-	var ghoulsLayerArray = json.layers[2].data;
-	var coinsLayerArray = json.layers[3].data;
+	var backObjectsLayerArray = json.layers[2].data;
+	var ghoulsLayerArray = json.layers[3].data;
+	var coinsLayerArray = json.layers[4].data;
+	var frontObjectsLayerArray = json.layers[5].data;
 	var width = json.width;
 	var tileWidth = json.tilewidth;
 
-	return [groundLayerArray, ladderLayerArray, coinsLayerArray, tileWidth, width, ghoulsLayerArray];
+	return [groundLayerArray, ladderLayerArray, coinsLayerArray, tileWidth, width, ghoulsLayerArray, backObjectsLayerArray, frontObjectsLayerArray];
 }
 
 gameState.getPixelPositionFromArrayIndex = function(index, tileWidth, width){
@@ -869,7 +918,7 @@ gameState.getPixelPositionFromArrayIndex = function(index, tileWidth, width){
 }
 
 gameState.getPixelPositionFromRowCol = function(row, col){
-	return [(col)*54, (row)*54];
+	return [(col)*this.bps, (row)*this.bps];
 }
 
 gameState.getRow = function(index,width){
@@ -883,23 +932,23 @@ gameState.getCol = function(index,width){
 gameState.getGridPosition = function(x,y,cardinal){
 	switch (cardinal){
 		case 'north':
-			return [Math.floor((y-3)/54), Math.floor((x+25)/54)];
+			return [Math.floor((y-3)/this.bps), Math.floor((x+this.bps/2)/this.bps)];
 		case 'south':
-			return [Math.floor((y+54)/54), Math.floor((x+25)/54)];
+			return [Math.floor((y+this.bps-1)/this.bps), Math.floor((x+this.bps/2)/this.bps)];
 		case 'east':
-			return [Math.floor((y+51)/54), Math.floor((x+53)/54)];
+			return [Math.floor((y+this.bps-1)/this.bps), Math.floor((x+this.bps)/this.bps)];
 		case 'west':
-			return [Math.floor((y+51)/54), Math.floor((x+1)/54)];
+			return [Math.floor((y+this.bps-1)/this.bps), Math.floor((x+1)/this.bps)];
 		case 'middle':
-			return [Math.floor((y+25)/54), Math.floor((x+25)/54)];
+			return [Math.floor((y+this.bps/2)/this.bps), Math.floor((x+this.bps/2)/this.bps)];
 		default: 
-			return [Math.floor(y/54), Math.floor(x/54)];
+			return [Math.floor(y/this.bps), Math.floor(x/this.bps)];
 	}
 	return 0;
 }
 
 gameState.onBlockType = function(blocks, gridPosition){
-	if(gridPosition[0]<this.gridRows && gridPosition[0]>=0 && gridPosition[1]<this.gridCols && gridPosition[1]>=0){
+	if(gridPosition[0]<this.GRID_ROWS && gridPosition[0]>=0 && gridPosition[1]<this.GRID_COLS && gridPosition[1]>=0){
 		if(blocks[gridPosition[0]][gridPosition[1]] == 1)
 			return true;
 		else
@@ -912,13 +961,13 @@ gameState.onBlockType = function(blocks, gridPosition){
 gameState.getPixelNumberForGridPosition = function(gridPosition, cardinal){
 	switch (cardinal){
 		case 'north':
-			return gridPosition[0]*54; 
+			return gridPosition[0]*this.bps; 
 		case 'south':
-			return (gridPosition[0]+1)*54 - 1;
+			return (gridPosition[0]+1)*this.bps - 1;
 		case 'west':
-			return gridPosition[1]*54;
+			return gridPosition[1]*this.bps;
 		case 'east':
-			return (gridPosition[1]+1)*54 - 1;
+			return (gridPosition[1]+1)*this.bps - 1;
 	}
 }
 
@@ -997,7 +1046,7 @@ gameState.isGameOver = function(){
 }
 
 gameState.getArrayIndexFromRowCol = function(row, col){
-	return (row)*20 + col;
+	return (row)*this.GRID_COLS + col + (this.GRID_COLS+1) + (row+1);
 }
 
 gameState.blastBlock = function(blastedBlockPosition){
@@ -1056,26 +1105,24 @@ gameState.update = function(){
 		//blue player 
 		if(this.blueIsAlive){
 			var blue_southGridPosition = this.getGridPosition(this.blue.transform.x, this.blue.transform.y,'south');
-		 	var blue_belowFeetPosition = this.getGridPosition(this.blue.transform.x, this.blue.transform.y+1,'south');
-		 	var blue_feetPosition = this.getGridPosition(this.blue.transform.x, this.blue.transform.y-3,'south');	
 		 	if(!(this.onBlockType(this.ladderBlocks,blue_southGridPosition) || this.onBlockType(this.groundBlocks, blue_southGridPosition))){
 		 		if(this.onBlockType(this.topGroundBlocks,blue_southGridPosition)){
 		 			var pixelNum = this.getPixelNumberForGridPosition(blue_southGridPosition,'south');
-		 			if(this.blue.transform.y+54<pixelNum-26)
+		 			if(this.blue.transform.y+this.bps<pixelNum-26)
 		 				this.blue.transform.y+=13;
 		 			else
-		 				this.blue.transform.y=pixelNum-53+2;
+		 				this.blue.transform.y=pixelNum-this.bps+1;
 		 		}else{
-		 			if(this.blue.transform.y+54<54*15-14)
+		 			if(this.blue.transform.y+this.bps<this.bps*this.GRID_ROWS-26)
 		 				this.blue.transform.y+=13;
 		 			else
-		 				this.blue.transform.y=54*15-54;
+		 				this.blue.transform.y=this.bps*this.GRID_ROWS-this.bps;
 		 		}
 		 	}
 		 	if(this.blue_fireKey.isDown){
 				this.blue.animation.play('fire' + this.blue_facing);
 				if(this.blue_canShoot){
-					var blastedBlockPosition = this.getBlastedBlockPosition(blue_feetPosition, this.blue_facing, this.groundBlocks);
+					var blastedBlockPosition = this.getBlastedBlockPosition(blue_southGridPosition, this.blue_facing, this.groundBlocks);
 					this.blastBlock(blastedBlockPosition);
 				}
 			}
@@ -1090,7 +1137,7 @@ gameState.update = function(){
 							this.blue.animation.play('climb');
 						}				
 					}else{
-						this.blue.transform.y=pixelNum+2;
+						this.blue.transform.y=pixelNum;
 						this.blue.animation.play('idle'+this.blue_facing);			
 					}
 				}else if(this.onBlockType(this.ladderBlocks, blue_gridPosition)){
@@ -1103,17 +1150,17 @@ gameState.update = function(){
 			}
 			else if(this.blue_rightKey.isDown){
 				this.blue_facing = 'right';
-				if(this.onBlockType(this.rightBlockedBlocks, blue_feetPosition)){
-					var pixelNum = this.getPixelNumberForGridPosition(blue_feetPosition,'east');
-					if(this.blue.transform.x+54<pixelNum-6){
+				if(this.onBlockType(this.rightBlockedBlocks, blue_southGridPosition)){
+					var pixelNum = this.getPixelNumberForGridPosition(blue_southGridPosition,'east');
+					if(this.blue.transform.x+this.bps<pixelNum-6){
 						this.blue.transform.x +=5;
 					}else{
-						this.blue.transform.x = pixelNum-51;
+						this.blue.transform.x = pixelNum-this.bps+1;
 						this.blue.animation.play('idle'+this.blue_facing);
 					}
 				}
 				else{
-					if(!this.onBlockType(this.groundBlocks, blue_feetPosition)){
+					if(!this.onBlockType(this.groundBlocks, blue_southGridPosition)){
 						this.blue.transform.x+=5;
 						if(this.blue.animation.currentAnimation.name != 'moveright')
 							this.blue.animation.play('moveright');
@@ -1122,8 +1169,8 @@ gameState.update = function(){
 			}
 			else if(this.blue_leftKey.isDown){
 				this.blue_facing = 'left';
-				if(this.onBlockType(this.leftBlockedBlocks, blue_feetPosition)){
-					var pixelNum = this.getPixelNumberForGridPosition(blue_feetPosition,'west');
+				if(this.onBlockType(this.leftBlockedBlocks, blue_southGridPosition)){
+					var pixelNum = this.getPixelNumberForGridPosition(blue_southGridPosition,'west');
 					if(this.blue.transform.x>pixelNum+6){
 						this.blue.transform.x-=5;
 					}else{
@@ -1131,7 +1178,7 @@ gameState.update = function(){
 						this.blue.animation.play('idle'+this.blue_facing);
 					}
 				}else{
-					if(!this.onBlockType(this.groundBlocks, blue_feetPosition)){
+					if(!this.onBlockType(this.groundBlocks, blue_southGridPosition)){
 						this.blue.transform.x-=5;
 						if(this.blue.animation.currentAnimation.name != 'moveleft')
 							this.blue.animation.play('moveleft');
@@ -1139,30 +1186,39 @@ gameState.update = function(){
 				}
 			}
 			else if(this.blue_downKey.isDown){
-				if(this.onBlockType(this.firstLadderBlocks,blue_southGridPosition)){
-					var pixelNum = this.getPixelNumberForGridPosition(blue_southGridPosition,'south');
-					if(this.blue.transform.y+54<pixelNum-6){
-						this.blue.transform.y+=3;
-						if(this.blue.animation.currentAnimation.name!='climb'){
+				var ladderPixelNum = this.getPixelNumberForGridPosition(blue_southGridPosition,'west') + this.bps/2;
+				var blue_belowFeetPosition = this.getGridPosition(this.blue.transform.x, this.blue.transform.y+1,'south');				
+				if(this.blue.x+this.bps/2>ladderPixelNum-10 && this.blue.x+this.bps/2<ladderPixelNum+10){	
+					if(this.onBlockType(this.firstLadderBlocks, blue_southGridPosition)){
+						if(!this.onBlockType(this.groundBlocks, blue_belowFeetPosition)){
+							this.blue.transform.y+=3;
+						}else{
+							var pixelNum = this.getPixelNumberForGridPosition(blue_southGridPosition,'south');
+							if(this.blue.transform.y+this.bps<pixelNum-6){
+								this.blue.transform.y+=3;
+								if(this.blue.animation.currentAnimation.name!='climb'){
+									this.blue.animation.play('climb');
+								}				
+							}
+							else{
+								this.blue.transform.y=pixelNum-this.bps+1; 
+								this.blue.animation.play('idle'+this.blue_facing);
+							}
+						}
+					}
+					else if(this.onBlockType(this.ladderBlocks, blue_belowFeetPosition)){
+						if(this.blue.transform.y<this.bps*this.GRID_ROWS)
+							this.blue.transform.y+=5;
+						else
+							this.blue.transform.y = this.bps*this.GRID_ROWS;
+						if(this.blue.animation.currentAnimation.name != 'climb')
 							this.blue.animation.play('climb');
-						}				
 					}
-					else{
-						this.blue.transform.y=pixelNum-53+2; 
-						this.blue.animation.play('idle'+this.blue_facing);
-					}
-				}
-				else if(this.onBlockType(this.ladderBlocks, blue_southGridPosition)){
-					if(this.blue.transform.y<866)
-						this.blue.transform.y+=5;
-					else
-						this.blue.transform.y = 866;
-					if(this.blue.animation.currentAnimation.name != 'climb')
-						this.blue.animation.play('climb');
 				}
 			}
 			else {
-				if(this.onBlockType(this.ladderBlocks,blue_belowFeetPosition) && !this.onBlockType(this.topLadderBlocks,blue_feetPosition)){
+		 		var blue_belowFeetPosition = this.getGridPosition(this.blue.transform.x, this.blue.transform.y+1,'south');
+				if(this.onBlockType(this.ladderBlocks,blue_belowFeetPosition) && !this.onBlockType(this.topLadderBlocks,blue_southGridPosition)){
 					if(this.blue.animation.currentAnimation.name != 'idleclimb')
 						this.blue.animation.play('idleclimb');
 				}		
@@ -1177,35 +1233,31 @@ gameState.update = function(){
 		//red player 
 		if(this.redIsAlive){
 			var red_southGridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y,'south');
-		 	var red_belowFeetPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y+1,'south');
-		 	var red_feetPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y-3,'south');	
-		 	var red_rightGridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y,'east');
-		 	var red_leftGridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y, 'west');
 		 	if(!(this.onBlockType(this.ladderBlocks,red_southGridPosition) || this.onBlockType(this.groundBlocks, red_southGridPosition))){
 		 		if(this.onBlockType(this.topGroundBlocks,red_southGridPosition)){
 		 			var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'south');
-		 			if(this.red.transform.y+54<pixelNum-26)
+		 			if(this.red.transform.y+this.bps<pixelNum-26)
 		 				this.red.transform.y+=13;
 		 			else
-		 				this.red.transform.y=pixelNum-53+2;
+		 				this.red.transform.y=pixelNum-this.bps+1;
 		 		}else{
-		 			if(this.red.transform.y+54<54*15-14)
+		 			if(this.red.transform.y+this.bps<this.bps*this.GRID_ROWS-26)
 		 				this.red.transform.y+=13;
 		 			else
-		 				this.red.transform.y=54*15-54;
+		 				this.red.transform.y=this.bps*this.GRID_ROWS-this.bps;
 		 		}
 		 	}
 		 	if(this.red_fireKey.isDown){
 				this.red.animation.play('fire' + this.red_facing);
 				if(this.red_canShoot){
-					var blastedBlockPosition = this.getBlastedBlockPosition(red_feetPosition, this.red_facing, this.groundBlocks);
+					var blastedBlockPosition = this.getBlastedBlockPosition(red_southGridPosition, this.red_facing, this.groundBlocks);
 					this.blastBlock(blastedBlockPosition);
 				}
 			}
 			else if(this.red_upKey.isDown){
 				var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y, 'north');
-				var ladderPixelNum = this.getPixelNumberForGridPosition(red_gridPosition,'west') + 27;
-				if(this.red.x+27>ladderPixelNum-10 && this.red.x+27<ladderPixelNum+10){
+				var ladderPixelNum = this.getPixelNumberForGridPosition(red_gridPosition,'west') + this.bps/2;
+				if(this.red.x+this.bps/2>ladderPixelNum-15 && this.red.x+this.bps/2<ladderPixelNum+15){
 					if(this.onBlockType(this.topLadderBlocks, red_gridPosition)){
 						var pixelNum = this.getPixelNumberForGridPosition(red_gridPosition,'north');
 						if(this.red.transform.y>6+pixelNum){
@@ -1214,7 +1266,7 @@ gameState.update = function(){
 								this.red.animation.play('climb');
 							}				
 						}else{
-							this.red.transform.y=pixelNum+2;
+							this.red.transform.y=pixelNum;
 							this.red.animation.play('idle'+this.red_facing);			
 						}
 					}else if(this.onBlockType(this.ladderBlocks, red_gridPosition)){
@@ -1228,17 +1280,17 @@ gameState.update = function(){
 			}
 			else if(this.red_rightKey.isDown){
 				this.red_facing = 'right';
-				if(this.onBlockType(this.rightBlockedBlocks, red_leftGridPosition)){
-					var pixelNum = this.getPixelNumberForGridPosition(red_leftGridPosition,'east');
-					if(this.red.transform.x+54<pixelNum-6){
+				if(this.onBlockType(this.rightBlockedBlocks, red_southGridPosition)){
+					var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'east');
+					if(this.red.transform.x+this.bps<pixelNum-6){
 						this.red.transform.x +=5;
 					}else{
-						this.red.transform.x = pixelNum-51;
+						this.red.transform.x = pixelNum-this.bps;
 						this.red.animation.play('idleright');
 					}
 				}
 				else{
-					if(!this.onBlockType(this.groundBlocks, red_rightGridPosition)){
+					if(!this.onBlockType(this.groundBlocks, red_southGridPosition)){
 						this.red.transform.x+=5;
 						if(this.red.animation.currentAnimation.name != 'moveright')
 							this.red.animation.play('moveright');
@@ -1247,8 +1299,8 @@ gameState.update = function(){
 			}
 			else if(this.red_leftKey.isDown){
 				this.red_facing = 'left';
-				if(this.onBlockType(this.leftBlockedBlocks, red_feetPosition)){
-					var pixelNum = this.getPixelNumberForGridPosition(red_feetPosition,'west');
+				if(this.onBlockType(this.leftBlockedBlocks, red_southGridPosition)){
+					var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'west');
 					if(this.red.transform.x>pixelNum+6){
 						this.red.transform.x-=5;
 					}else{
@@ -1256,7 +1308,7 @@ gameState.update = function(){
 						this.red.animation.play('idleleft');
 					}
 				}else{
-					if(!this.onBlockType(this.groundBlocks, red_feetPosition)){
+					if(!this.onBlockType(this.groundBlocks, red_southGridPosition)){
 						this.red.transform.x-=5;
 						if(this.red.animation.currentAnimation.name != 'moveleft')
 							this.red.animation.play('moveleft');
@@ -1264,38 +1316,50 @@ gameState.update = function(){
 				}
 			}
 			else if(this.red_downKey.isDown){
-				var ladderPixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'west') + 27;
-				if(this.red.x+27>ladderPixelNum-10 && this.red.x+27<ladderPixelNum+10){	
+				var ladderPixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'west') + this.bps/2;
+				var red_belowFeetPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y+1,'south');				
+				if(this.red.x+this.bps/2>ladderPixelNum-10 && this.red.x+this.bps/2<ladderPixelNum+10){	
 					if(this.onBlockType(this.firstLadderBlocks,red_southGridPosition)){
-						var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'south');
-						if(this.red.transform.y+54<pixelNum-6){
+						if(!this.onBlockType(this.groundBlocks, red_belowFeetPosition)){
 							this.red.transform.y+=3;
-							if(this.red.animation.currentAnimation.name!='climb'){
-								this.red.animation.play('climb');
-							}				
-						}
-						else{
-							this.red.transform.y=pixelNum-53+2; 
-							this.red.animation.play('idle'+this.red_facing);
+						}else{
+							var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'south');
+							if(this.red.transform.y+this.bps<pixelNum-6){
+								this.red.transform.y+=3;
+								if(this.red.animation.currentAnimation.name!='climb'){
+									this.red.animation.play('climb');
+								}				
+							}
+							else{
+								this.red.transform.y=pixelNum-this.bps+1; 
+								this.red.animation.play('idle'+this.red_facing);
+							}
 						}
 					}
-					else if(this.onBlockType(this.ladderBlocks, red_southGridPosition)){
-						if(this.red.transform.y<866)
+					else if(this.onBlockType(this.ladderBlocks, red_belowFeetPosition)){
+						if(this.red.transform.y<this.bps*this.GRID_ROWS)
 							this.red.transform.y+=5;
 						else
-							this.red.transform.y = 866;
+							this.red.transform.y = this.bps*this.GRID_ROWS;
 						if(this.red.animation.currentAnimation.name != 'climb')
 							this.red.animation.play('climb');
 					}
 				}
 			}
 			else {
-				if(this.onBlockType(this.ladderBlocks,red_belowFeetPosition) && !this.onBlockType(this.topLadderBlocks,red_feetPosition)){
+		 		var red_belowFeetPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y+1,'south');
+				if(this.onBlockType(this.ladderBlocks,red_belowFeetPosition) && !this.onBlockType(this.topLadderBlocks,red_southGridPosition)){
 					if(this.red.animation.currentAnimation.name != 'idleclimb')
 						this.red.animation.play('idleclimb');
 				}		
-				else if(this.red.animation.currentAnimation.name != 'idle' + this.red_facing)
-					this.red.animation.play('idle' + this.red_facing);	
+				else{ 
+					if(!this.onBlockType(this.groundBlocks,red_belowFeetPosition) && this.onBlockType(this.ladderBlocks,red_southGridPosition)){
+						this.red.animation.play('idleclimb');
+					}else{
+						if(this.red.animation.currentAnimation.name != 'idle' + this.red_facing)
+						this.red.animation.play('idle' + this.red_facing);	
+					}
+				}
 			}
 		}else{
 			this.deathCount('red');
@@ -1305,6 +1369,14 @@ gameState.update = function(){
 		this.checkGhoulCollision();
 		this.isLevelOver();
 		this.isGameOver();
+
+		if(this.debugKey.isDown){
+			var red_southGridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y,'south');
+			console.log(this.red.y);
+			console.log(red_southGridPosition);
+			console.log(this.onBlockType(this.groundBlocks, red_southGridPosition));
+			console.log(this.rightBlockedBlocks);
+		}
 
 		if(this.mouse.isDown){
 			this.levelOver();

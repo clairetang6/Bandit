@@ -15,7 +15,7 @@
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIKBA05A7EukWgAcEACQ
+   eJxjYBgFo2AUjALagggCcr5E6gUAPLgBVg==
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
@@ -25,12 +25,12 @@
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJytUlsKACAI627e/04R/chwukUDqWzzhbEuIp2OoRaBvOqN90r/y7r6XN/UX+Y4fVWcTsNyq3OY6sM+GV41zNdpWQ/qjNQ/p4YJSjw3vzLjzFdqm3YQ47Hdq2KzvArnYAOyaCeG
+   eJytUgkKwDAI69/2iv7/I2WshSBGk9GAWGzihXN8mNs/pqH2eATyoo69M/0tq/pzY918yHHmyjiVhtVW99D1F+dk+KthsUrLZlB3pP45PXRQ8rn1lR0jX+mtu8GYj91elpvVVTgvFkH2J94=
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJwLY2BgcGWAABhNCkDWG06G/lEwPIHVQDtgkAMrHGxqqR+uAACCmwLk
+   eJwLY2BgcGWAABhNCkDWG06G/lEwPIHVQDtgkAMrHGxqqR8qwI9E9QCROwMy
   </data>
  </layer>
 </map>

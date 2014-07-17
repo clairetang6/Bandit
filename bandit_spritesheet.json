@@ -439,6 +439,30 @@
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
 	"sourceSize": {"w":50,"h":50}
+},
+{
+	"filename": "tree_1.png",
+	"frame": {"x":750,"y":200,"w":50,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+	"sourceSize": {"w":50,"h":50}
+},
+{
+	"filename": "zdiamond_1.png",
+	"frame": {"x":800,"y":200,"w":50,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+	"sourceSize": {"w":50,"h":50}
+},
+{
+	"filename": "zruby_1.png",
+	"frame": {"x":850,"y":200,"w":50,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+	"sourceSize": {"w":50,"h":50}
 }],
 "meta": {
 	"app": "http://www.codeandweb.com/texturepacker ",
@@ -447,6 +471,6 @@
 	"format": "RGBA8888",
 	"size": {"w":900,"h":250},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:b4dd55f0a58766d8b49f68eea776dacc:02284a8d183641ce1214b5a8276f1085:ec217818995c3b6e1e202674f7be9222$"
+	"smartupdate": "$TexturePacker:SmartUpdate:56a8b04f11c06bdeb621b2f7b6788e80:c1fc4a78fce3e8dff8ae6edfb2f6c25e:ec217818995c3b6e1e202674f7be9222$"
 }
 }

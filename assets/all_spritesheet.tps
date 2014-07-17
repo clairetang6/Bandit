@@ -38,7 +38,7 @@
         <key>dataFormat</key>
         <string>json-array</string>
         <key>textureFileName</key>
-        <filename></filename>
+        <filename>../bandit_spritesheet.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>ditherType</key>
@@ -131,7 +131,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename></filename>
+                <filename>../bandit_spritesheet.json</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -227,6 +227,9 @@
             <filename>../50pixels/red_climb_2.png</filename>
             <filename>../50pixels/red_death.png</filename>
             <filename>../50pixels/red_heart.png</filename>
+            <filename>../tree_1.png</filename>
+            <filename>../zdiamond_1.png</filename>
+            <filename>../zruby_1.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
