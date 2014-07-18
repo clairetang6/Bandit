@@ -46,7 +46,6 @@ gameState.createLevel = function(){
 	var width = blockArrays[4];
 	var tileWidth = blockArrays[3];
 
-
 	var coinHitboxX = Math.round(this.bps*this.COIN_HITBOX_X_PERCENTAGE);
 	var coinHitboxY = Math.round(this.bps*this.COIN_HITBOX_Y_PERCENTAGE);
 
@@ -71,6 +70,31 @@ gameState.createLevel = function(){
 
 	this.blueCoinsCollected = 0;
 	this.redCoinsCollected = 0;
+
+	var frontObjectsLayerArray = blockArrays[7];
+
+	var bombHitboxX = Math.round(this.bps*this.BOMB_HITBOX_X_PERCENTAGE);
+	var bombHitboxY = Math.round(this.bps*this.BOMB_HITBOX_Y_PERCENTAGE);
+
+	for(var i = 0; i<frontObjectsLayerArray.length; i++){
+		if(frontObjectsLayerArray[i] == 58){
+			var bombPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+			var bomb = new Bomb(this, bombPixels[0], bombPixels[1]);
+			bomb.animation.add('idle',[57],0.1,false);
+			bomb.animation.add('explode',[64,63,62,58],0.3,false);
+			bomb.animation.play('idle');
+			bomb.box.hitbox = new Kiwi.Geom.Rectangle(bombHitboxX, bombHitboxY, this.bps-2*bombHitboxX, this.bps-2*bombHitboxY);
+			this.bombGroup.addChild(bomb);
+		}
+	}
+
+	this.blueBombsCollected = 0;
+	this.redBombsCollected = 0;
+
+	this.redBombs = [];
+	this.blueBombs = [];
+
+
 
 	var ghoulHitboxX = Math.round(this.bps*this.BANDIT_HITBOX_X_PERCENTAGE);
 	var ghoulHitboxY = Math.round(this.bps*this.BANDIT_HITBOX_Y_PERCENTAGE);	
@@ -169,7 +193,9 @@ gameState.createLevel = function(){
 	this.addChild(this.ghoulGroup);
 	this.addChild(this.banditGroup);
 
-	this.addChild(this.tilemap.layers[5]);
+	//this.addChild(this.tilemap.layers[5]);
+
+	this.addChild(this.bombGroup);
 
 	this.addChild(this.redHeartsGroup);
 	this.addChild(this.blueHeartsGroup);	
@@ -212,6 +238,9 @@ gameState.create = function(){
 
 	this.COIN_HITBOX_X_PERCENTAGE = .46;
 	this.COIN_HITBOX_Y_PERCENTAGE = .46;
+
+	this.BOMB_HITBOX_X_PERCENTAGE = .33;
+	this.BOMB_HITBOX_Y_PERCENTAGE = .33;	
 
 	var banditHitboxX = Math.round(this.bps*this.BANDIT_HITBOX_X_PERCENTAGE);
 	var banditHitboxY = Math.round(this.bps*this.BANDIT_HITBOX_Y_PERCENTAGE);
@@ -271,6 +300,7 @@ gameState.create = function(){
 	this.banditGroup.addChild(this.blue);
 
 	this.coinGroup = new Kiwi.Group(this);
+	this.bombGroup = new Kiwi.Group(this);
 	this.ghoulGroup = new Kiwi.Group(this);
 	this.blueHeartsGroup = new Kiwi.Group(this);
 	this.redHeartsGroup = new Kiwi.Group(this);
@@ -289,6 +319,32 @@ gameState.updateBlockedBlocks = function(){
 	this.getBlockedBlocks(this.groundBlocks,'right',this.rightBlockedBlocks);
 }
 
+gameState.checkBombCollision = function(){
+	var bombs = this.bombGroup.members;
+	var bandits = this.banditGroup.members; 
+	
+	for (var i = 0; i <bombs.length; i++){
+		for (var j = 0; j<bandits.length; j++){
+			if(bombs[i].timerStarted == false){
+				var bombBox = bombs[i].box.hitbox;
+				if(bandits[j].box.bounds.intersects(bombBox)){
+					if(j == 0){
+						this.redBombsCollected ++;
+						this.redBombs.push(bombs[i]);
+					}else{
+						this.blueBombsCollected ++;
+						this.blueBombs.push(bombs[i]);
+					}
+					console.log('red bombs: ' + this.redBombsCollected);
+					console.log('blue bombs: ' + this.blueBombsCollected);
+
+					bombs[i].hide();
+				}
+			}
+		}
+	}
+
+}
 
 gameState.checkCoinCollision = function(){
 	var coins = this.coinGroup.members;
@@ -303,8 +359,8 @@ gameState.checkCoinCollision = function(){
 				}else{
 					this.blueCoinsCollected ++;
 				}
-				console.log('red coins: ' + this.redCoinsCollected);
-				console.log('blue coins: ' + this.blueCoinsCollected);
+				//console.log('red coins: ' + this.redCoinsCollected);
+				//console.log('blue coins: ' + this.blueCoinsCollected);
 
 				coins[i].destroy();
 			}
@@ -497,6 +553,50 @@ Heart.prototype.showSelf = function(){
 	}		
 }
 
+var Bomb = function(state, x, y){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
+	console.log('bomb created at ' + x + ' ' + y);
+	this.state = state;
+
+	this.rowPlaced = -1;
+	this.colPlaced = -1;
+
+	this.timerStarted = false; 
+
+
+	this.timer = this.state.game.time.clock.createTimer('bombTimer',3,0,false);
+	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.explode, this);
+
+	this.timerAnimation = this.state.game.time.clock.createTimer('bombAnimation',2,0,false);
+	this.timerAnimationEvent = this.timerAnimation.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.explodeAnimation, this);
+
+}
+Kiwi.extend(Bomb, Kiwi.GameObjects.Sprite);
+
+Bomb.prototype.explode = function(){
+	this.state.blastBlock([this.rowPlaced, this.colPlaced-1]); 
+	this.state.blastBlock([this.rowPlaced, this.colPlaced-2]);
+	this.state.blastBlock([this.rowPlaced, this.colPlaced+1]); 
+	this.state.blastBlock([this.rowPlaced, this.colPlaced+2]);
+	this.destroy();
+}
+
+Bomb.prototype.explodeAnimation = function(){
+	this.animation.play('explode');
+	console.log(this.animation.currentAnimation.name);
+}
+
+Bomb.prototype.startTimer = function(){
+	this.timerStarted = true;
+	this.timer.start();
+	this.timerAnimation.start();
+
+}
+
+Bomb.prototype.hide = function(){
+	this.x = -3*this.state.bps;
+	this.y = -3*this.state.bps;
+}
 
 var HiddenBlock = function(state, x, y){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['backgroundSpriteSheet'+state.currentLevel], x, y, false);
@@ -1002,6 +1102,7 @@ gameState.levelOver = function(){
 		}else{
 			this.destroyAllMembersOfGroup('ghoul');
 			this.destroyAllMembersOfGroup('coin');
+			this.destroyAllMembersOfGroup('bomb');
 			this.removeBackgroundImages();
 			this.showLevelScreen();
 		}
@@ -1024,6 +1125,8 @@ gameState.destroyAllMembersOfGroup = function(group){
 		case 'coin':
 			var members = this.coinGroup.members;
 			break;
+		case 'bomb':
+			var members = this.bombGroup.members;
 	}
 	for (var i =0; i<members.length; i++){
 		members[i].destroy();
@@ -1050,6 +1153,7 @@ gameState.getArrayIndexFromRowCol = function(row, col){
 }
 
 gameState.blastBlock = function(blastedBlockPosition){
+	console.log('blast block ' + blastedBlockPosition[0] + ' ' +blastedBlockPosition[1]);
 	var hiddenBlocks = this.hiddenBlockGroup.members;
 	var alreadyExists = false;
 	var wasAGroundBlock = this.onBlockType(this.groundBlocks, blastedBlockPosition);
@@ -1343,6 +1447,22 @@ gameState.update = function(){
 							this.red.transform.y = this.bps*this.GRID_ROWS;
 						if(this.red.animation.currentAnimation.name != 'climb')
 							this.red.animation.play('climb');
+					}else{
+						if(this.onBlockType(this.topGroundBlocks, red_southGridPosition)){
+							if(this.redBombsCollected > 0){
+								bomb = this.redBombs.pop();
+								console.log(bomb);
+
+								bomb.x = this.getPixelNumberForGridPosition(this.getGridPosition(this.red.x, this.red.y,'middle'),'west');
+								bomb.y = this.getPixelNumberForGridPosition(this.getGridPosition(this.red.x, this.red.y,'middle'),'north');
+								var bombGridPosition = this.getGridPosition(bomb.x,bomb.y);
+								bomb.rowPlaced = bombGridPosition[0];
+								bomb.colPlaced = bombGridPosition[1]; 
+								bomb.startTimer();
+								this.redBombsCollected--;
+
+							}
+						}
 					}
 				}
 			}
@@ -1367,6 +1487,7 @@ gameState.update = function(){
 
 		this.checkCoinCollision();
 		this.checkGhoulCollision();
+		this.checkBombCollision();
 		this.isLevelOver();
 		this.isGameOver();
 
@@ -1376,6 +1497,8 @@ gameState.update = function(){
 			console.log(red_southGridPosition);
 			console.log(this.onBlockType(this.groundBlocks, red_southGridPosition));
 			console.log(this.rightBlockedBlocks);
+
+			console.log(this.bombGroup);
 		}
 
 		if(this.mouse.isDown){
