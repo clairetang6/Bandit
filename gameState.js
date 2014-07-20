@@ -96,22 +96,18 @@ gameState.createLevel = function(){
 
 
 
-	var ghoulHitboxX = Math.round(this.bps*this.BANDIT_HITBOX_X_PERCENTAGE);
-	var ghoulHitboxY = Math.round(this.bps*this.BANDIT_HITBOX_Y_PERCENTAGE);	
-
 	var ghoulsLayerArray = blockArrays[5];
 	for(var i = 0; i<ghoulsLayerArray.length;i++){
-		if(ghoulsLayerArray[i]==11){
+		if(ghoulsLayerArray[i]==74){
 			var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 			var ghoul = new Ghoul(this,ghoulPixels[0],ghoulPixels[1],'left');
-		 	ghoul.animation.add('idleleft',[52],0.1,false);
-			ghoul.animation.add('idleright',[55],0.1,false);
-			ghoul.animation.add('upright',[57],0.1,false);
-			ghoul.animation.add('upleft',[54],0.1,false);
-			ghoul.animation.add('dieright',[56,57],0.1,true);
-			ghoul.animation.add('dieleft',[53,54],0.1,true);
+		 	ghoul.animation.add('idleleft',[70],0.1,false);
+			ghoul.animation.add('idleright',[73],0.1,false);
+			ghoul.animation.add('upright',[75],0.1,false);
+			ghoul.animation.add('upleft',[72],0.1,false);
+			ghoul.animation.add('dieright',[74,75],0.1,true);
+			ghoul.animation.add('dieleft',[71,72],0.1,true);
 			ghoul.animation.play('idleleft');
-			ghoul.box.hitbox = new Kiwi.Geom.Rectangle(ghoulHitboxX,ghoulHitboxY,this.bps-2*ghoulHitboxX,this.bps-2*ghoulHitboxY);
 			this.ghoulGroup.addChild(ghoul);
 		}
 	}
@@ -170,9 +166,9 @@ gameState.createLevel = function(){
 	this.topLadderBlocks = this.getTopBlocks(this.ladderBlocks);
 
 	this.originalLeftBlockedBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
-	this.getBlockedBlocks(this.originalGroundBlocks,'left',this.originalLeftBlockedBlocks);
+	this.getBlockedBlocks(this.originalGroundBlocks,'leftghoul',this.originalLeftBlockedBlocks);
 	this.originalRightBlockedBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
-	this.getBlockedBlocks(this.originalGroundBlocks,'right', this.originalRightBlockedBlocks);
+	this.getBlockedBlocks(this.originalGroundBlocks,'rightghoul', this.originalRightBlockedBlocks);
 	
 	this.leftBlockedBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
 	this.rightBlockedBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
@@ -181,6 +177,8 @@ gameState.createLevel = function(){
 	this.updateTopGroundBlocks();
 	this.updateBlockedBlocks();
 	
+	this.ghoulBlocks = this.getGhoulBlocks();
+
 	this.removeBackgroundImages();
 
 	this.addChild(this.background);
@@ -242,56 +240,29 @@ gameState.create = function(){
 	this.BOMB_HITBOX_X_PERCENTAGE = .33;
 	this.BOMB_HITBOX_Y_PERCENTAGE = .33;	
 
-	var banditHitboxX = Math.round(this.bps*this.BANDIT_HITBOX_X_PERCENTAGE);
-	var banditHitboxY = Math.round(this.bps*this.BANDIT_HITBOX_Y_PERCENTAGE);
+
 
 	this.banditGroup = new Kiwi.Group(this);
 	
-	this.blue = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],-(this.bps),-(this.bps));
-	this.blue.box.hitbox = new Kiwi.Geom.Rectangle(banditHitboxX, banditHitboxY, this.bps-2*banditHitboxX,this.bps-2*banditHitboxY);
+	this.blue = new Bandit(this,-(this.bps),-(this.bps),'blue');
+
 	this.blue_leftKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.A);
 	this.blue_rightKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.D);
 	this.blue_upKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.W);
 	this.blue_downKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.S);
 	this.blue_fireKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SHIFT);
 
-	this.blue.animation.add('climb',[53,54],0.1,true);
-	this.blue.animation.add('idleleft',[33],0.1,false);
-	this.blue.animation.add('idleright',[25],0.1,false);
-	this.blue.animation.add('moveright',[19,20,21,22,23,24],0.1,true);
-	this.blue.animation.add('moveleft',[32,31,30,29,28,27],0.1,true);
-	this.blue.animation.add('fireleft',[26],0.1,false);
-	this.blue.animation.add('fireright',[18],0.1,false);
-	this.blue.animation.add('idleclimb',[53],0.1,false);
-	this.blue.animation.add('die',[55],0.1,false);
-
-	this.blue_facing = 'left';
 	this.blue.animation.play('idleleft');
 
+	this.red = new Bandit(this,-(this.bps),-(this.bps),'red');
 
-	this.red = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],-(this.bps),-(this.bps));
-	this.red.box.hitbox = new Kiwi.Geom.Rectangle(banditHitboxX, banditHitboxY, this.bps-2*banditHitboxX,this.bps-2*banditHitboxY);
 	this.red_leftKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.LEFT);
 	this.red_rightKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.RIGHT);
 	this.red_upKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.UP);
 	this.red_downKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.DOWN);
 	this.red_fireKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SPACEBAR);
 
-	this.red.animation.add('climb',[81,82],0.1,true);
-	this.red.animation.add('idleleft',[15],0.1,false);
-	this.red.animation.add('idleright',[0],0.1,false);
-	this.red.animation.add('moveright',[1,2,3,4,5,6],0.1,true);
-	this.red.animation.add('moveleft',[14,13,12,11,10,9],0.1,true);
-	this.red.animation.add('fireright',[7],0.1,false);
-	this.red.animation.add('fireleft',[8],0.1,false);
-	this.red.animation.add('idleclimb',[81],0.1,false);
-	this.red.animation.add('die',[83],0.1,false);
-
-	this.red_facing = 'left';
 	this.red.animation.play('idleleft');
-
-	this.red_canShoot = true;
-	this.blue_canShoot = true;
 
 
 	this.debugKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.I);
@@ -406,6 +377,7 @@ gameState.deathCount = function(bandit){
 					this.red.x = this.redStartingPixelLocations[0];
 					this.red.y = this.redStartingPixelLocations[1];
 					this.redIsAlive = true;
+					this.red.animation.play('idleleft');
 					this.showHearts('red');
 					this.redDeathCount = 0;			
 				}	
@@ -427,6 +399,7 @@ gameState.deathCount = function(bandit){
 					this.blue.x = this.blueStartingPixelLocations[0];
 					this.blue.y = this.blueStartingPixelLocations[1];
 					this.blueIsAlive = true;
+					this.blue.animation.play('idleleft');
 					this.showHearts('blue');				
 					this.blueDeathCount = 0;
 				}	
@@ -553,6 +526,49 @@ Heart.prototype.showSelf = function(){
 	}		
 }
 
+var Bandit = function(state, x, y, color){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
+	this.state = state; 
+	this.color = color; 
+
+	var banditHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
+	var banditHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);
+
+	this.box.hitbox = new Kiwi.Geom.Rectangle(banditHitboxX, banditHitboxY, this.state.bps-2*banditHitboxX,this.state.bps-2*banditHitboxY);
+
+	switch(color){
+		case 'blue':
+			this.animation.add('climb',[53,54],0.1,true);
+			this.animation.add('idleleft',[33],0.1,false);
+			this.animation.add('idleright',[25],0.1,false);
+			this.animation.add('moveright',[19,20,21,22,23,24],0.1,true);
+			this.animation.add('moveleft',[32,31,30,29,28,27],0.1,true);
+			this.animation.add('fireleft',[26],0.1,false);
+			this.animation.add('fireright',[18],0.1,false);
+			this.animation.add('idleclimb',[53],0.1,false);
+			this.animation.add('die',[55],0.1,false);
+			break;
+		case 'red':
+			this.animation.add('climb',[81,82],0.1,true);
+			this.animation.add('idleleft',[15],0.1,false);
+			this.animation.add('idleright',[0],0.1,false);
+			this.animation.add('moveright',[1,2,3,4,5,6],0.1,true);
+			this.animation.add('moveleft',[14,13,12,11,10,9],0.1,true);
+			this.animation.add('fireright',[7],0.1,false);
+			this.animation.add('fireleft',[8],0.1,false);
+			this.animation.add('idleclimb',[81],0.1,false);
+			this.animation.add('die',[83],0.1,false);
+			break;
+	}
+
+	this.facing = 'left';
+	console.log(this);
+
+	this.canShoot = true; 
+
+}
+Kiwi.extend(Bandit, Kiwi.GameObjects.Sprite);
+
 var Bomb = function(state, x, y){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
 	console.log('bomb created at ' + x + ' ' + y);
@@ -656,8 +672,15 @@ var Ghoul = function(state, x, y, facing){
 	this.isInHole = false;
 	this.testvar = 0;
 	this.state = state;
+	this.checkDirection = true;
+
+	var ghoulHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
+	var ghoulHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);	
+
+	this.box.hitbox = new Kiwi.Geom.Rectangle(ghoulHitboxX,ghoulHitboxY,this.state.bps-2*ghoulHitboxX,this.state.bps-2*ghoulHitboxY);
 
 	this.gravity = function(){
+		this.checkDirection = false;	
 		var southGridPosition = state.getGridPosition(this.x, this.y, 'south');
 		var inStoppingBlock = false;
 		for(var i = 0; i <state.topGroundBlocks.length; i++){
@@ -671,11 +694,23 @@ var Ghoul = function(state, x, y, facing){
 				this.y += 10;
 			}
 			else{
-				this.y = pixelNum-this.state.bps;
+				this.y = pixelNum-this.state.bps+1;
 				this.shouldFall = false;
+				var gridPosition = state.getGridPosition(this.x, this.y, 'middle');
+				var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];	
+				if(ghoulCode % 2 != 0 && ghoulCode % 3 != 0){
+					this.isInHole = true;
+					console.log('in stopping block deaht?');
+					this.singleBlockDeath();
+				}		
 			}
 		}else{
 			this.y+=10;
+		}
+		//if fallen off bottom of the stage. 
+		if(this.y > this.state.bps * this.state.GRID_ROWS){
+			this.isInHole = true;
+			this.destroy();
 		}
 
 	}
@@ -692,73 +727,57 @@ var Ghoul = function(state, x, y, facing){
 		Kiwi.GameObjects.Sprite.prototype.update.call(this);
 		var rightGridPosition = state.getGridPosition(this.x, this.y, 'east');
 		var leftGridPosition = state.getGridPosition(this.x, this.y, 'west');
-		var topGridPosition = state.getGridPosition(this.x, this.y+15, 'north');
-		var shouldTurnRight = false;
-		var shouldTurnLeft = false;	
+      	var topGridPosition = state.getGridPosition(this.x, this.y+15, 'north');
+
 
 
 		if(this.isInHole){
 			this.inHole();
 		}else{
+			checkDirection = (this.x % this.state.bps == 0); 	
 
 			if(this.shouldFall){
 				this.gravity();
+				if(!(this.y>this.state.bps*(this.state.GRID_ROWS-1))){
+					switch(this.facing){
+						case 'left':
+							var ghoulCode = this.state.ghoulBlocks[rightGridPosition[0]][rightGridPosition[1]];
+							if(ghoulCode % 3 != 0){
+								this.facing = 'right';
+								this.animation.play('idleright');
+							}
+							break;
+						case 'right':
+							var ghoulCode = this.state.ghoulBlocks[leftGridPosition[0]][leftGridPosition[1]];
+							if(ghoulCode % 2 != 0){
+								this.facing = 'left';
+								this.animation.play('idleleft');
+							}					
+							break;
+					}
+				}
 			}
 
-			
-			var checkForRightBlockedBlockPosition = [rightGridPosition[0]+1, rightGridPosition[1]-1];
-			var checkForLeftBlockedBlockPosition = [leftGridPosition[0]+1, leftGridPosition[1]+1];
-			var checkForGroundBlockPositionFacingLeft = [rightGridPosition[0], rightGridPosition[1]-1];
-			var checkForGroundBlockPositionFacingRight = [leftGridPosition[0], leftGridPosition[1]+1];
-			
-			switch(this.facing){
-				case 'left':
-					
-					if(this.x < 0){
-						shouldTurnRight = true;
-						break;
-					}
+			if(checkDirection){
+				var gridPosition = state.getGridPosition(this.x, this.y);		
+				var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];	
 
-					if(state.onBlockType(state.originalGroundBlocks,checkForGroundBlockPositionFacingLeft)){
-						shouldTurnRight = true;
-						break;
-					}
-					if(state.onBlockType(state.originalRightBlockedBlocks, checkForRightBlockedBlockPosition)){
-						shouldTurnRight = true;
-						break;
-					}
-					break;
-				case 'right':
-
-					if(this.x > 19*54-1){
-						shouldTurnLeft = true;
-						break;
-					}
-
-					if(state.onBlockType(state.originalGroundBlocks,checkForGroundBlockPositionFacingRight)){
-						shouldTurnLeft = true;
-						break;
-					}
-					if(state.onBlockType(state.originalLeftBlockedBlocks, checkForLeftBlockedBlockPosition)){
-						shouldTurnLeft = true;
-						break;
-					}
-					break;
-			}
-
-			var shouldTurn = shouldTurnRight || shouldTurnLeft;
-
-			if (shouldTurn){
 				switch(this.facing){
 					case 'left':
-						this.facing = 'right';
-						this.animation.play('idleright');
+						if(ghoulCode % 3 != 0){
+							this.facing = 'right';
+							this.animation.play('idleright');
+						}
+
 						break;
 					case 'right':
-						this.facing = 'left';
-						this.animation.play('idleleft');
+						if(ghoulCode % 2 != 0){
+							this.facing = 'left';
+							this.animation.play('idleleft');
+						}
 						break;
 				}
+
 			}
 			
 			if(!this.shouldFall){
@@ -816,38 +835,7 @@ var Ghoul = function(state, x, y, facing){
 					break;
 			}
 
-			if(!this.shouldFall){
-				var shouldTurnAgain = false;
-				switch(this.facing){
-					case 'left':
-
-						if(state.onBlockType(state.originalGroundBlocks,checkForGroundBlockPositionFacingLeft)){
-							shouldTurnAgain = true;
-							break;
-						}
-						if(state.onBlockType(state.originalRightBlockedBlocks, checkForRightBlockedBlockPosition)){
-							shouldTurnAgain = true;
-							break;
-						}
-						break;
-					case 'right':
 			
-
-						if(state.onBlockType(state.originalGroundBlocks,checkForGroundBlockPositionFacingRight)){
-							shouldTurnAgain = true;
-							break;
-						}
-						if(state.onBlockType(state.originalLeftBlockedBlocks, checkForLeftBlockedBlockPosition)){
-							shouldTurnAgain = true;
-							break;
-						}
-						break;
-				}
-				if(shouldTurnAgain){
-					this.isInHole = true;
-					this.singleBlockDeath();
-				}
-			}
 
 		}
 
@@ -882,6 +870,37 @@ gameState.empty2Darray = function(nonzero2DArray){
 	}
 	return nonzero2DArray;
 }
+
+gameState.getGhoulBlocks = function(){
+	var ghoulBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
+	console.log('getting ghoul blocks');
+	for (var i = 0; i<this.GRID_ROWS; i++){
+		for (var j = 0; j<this.GRID_COLS; j++){
+			var ghoulCode = 1; 
+			if(this.topGroundBlocks[i][j]==1){
+				if(this.originalRightBlockedBlocks[i][j] == 0){
+					ghoulCode *= 2;
+				}
+				if(this.originalLeftBlockedBlocks[i][j] == 0){
+					ghoulCode *= 3;
+				}
+			}
+			if(this.ladderBlocks[i][j] == 1){
+				ghoulCode *= 5;
+				if(this.firstLadderBlocks[i][j] == 0){
+					ghoulCode *=7;
+				}
+			}
+			if(this.topLadderBlocks[i][j] == 1){
+				ghoulCode *= 7;
+			}
+
+			ghoulBlocks[i][j] = ghoulCode; 
+		}
+	}
+	return ghoulBlocks;
+}
+
 /**
 * getGroundBlocks returns a 2d array containing a 1 where there is a ground block and 0 otherwise. 
 */
@@ -969,6 +988,49 @@ gameState.getBlockedBlocks = function(groundBlocks, direction, blockedBlocks){
 							blockedBlocks[i][j] = 0;
 						}
 					}
+				}
+			}
+			break;
+		case 'leftghoul':
+			for(var i =0; i<this.GRID_ROWS; i++){
+				for(var j=0; j<this.GRID_COLS; j++){
+					if(j==0){
+						blockedBlocks[i][j] = 1;
+					}else{
+						if(groundBlocks[i][j] == 0){
+							if(groundBlocks[i][j-1] == 1){
+								blockedBlocks[i][j] = 1;
+							}else{
+								if(i+1<this.GRID_ROWS && groundBlocks[i+1][j-1] == 0){
+									blockedBlocks[i][j] = 1; 
+								}else{
+									blockedBlocks[i][j] = 0;
+								}
+							}
+						}
+					}
+				}
+			}			
+			break;
+
+		case 'rightghoul':
+			for(var i =0; i<this.GRID_ROWS; i++){
+				for(var j=0; j<this.GRID_COLS; j++){
+					if(j==this.GRID_COLS-1){
+						blockedBlocks[i][j] = 1;
+					}else{
+						if(groundBlocks[i][j]==0){
+							if(groundBlocks[i][j+1] == 1){
+								blockedBlocks[i][j] = 1;
+							}else{
+								if(i+1<this.GRID_ROWS && groundBlocks[i+1][j+1] == 0){
+									blockedBlocks[i][j] = 1;
+								}else{
+									blockedBlocks[i][j] = 0;
+								}
+							}
+						}
+					}					
 				}
 			}
 			break;
@@ -1225,7 +1287,7 @@ gameState.update = function(){
 		 	}
 		 	if(this.blue_fireKey.isDown){
 				this.blue.animation.play('fire' + this.blue_facing);
-				if(this.blue_canShoot){
+				if(this.blue.canShoot){
 					var blastedBlockPosition = this.getBlastedBlockPosition(blue_southGridPosition, this.blue_facing, this.groundBlocks);
 					this.blastBlock(blastedBlockPosition);
 				}
@@ -1353,7 +1415,7 @@ gameState.update = function(){
 		 	}
 		 	if(this.red_fireKey.isDown){
 				this.red.animation.play('fire' + this.red_facing);
-				if(this.red_canShoot){
+				if(this.red.canShoot){
 					var blastedBlockPosition = this.getBlastedBlockPosition(red_southGridPosition, this.red_facing, this.groundBlocks);
 					this.blastBlock(blastedBlockPosition);
 				}
@@ -1492,13 +1554,7 @@ gameState.update = function(){
 		this.isGameOver();
 
 		if(this.debugKey.isDown){
-			var red_southGridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y,'south');
-			console.log(this.red.y);
-			console.log(red_southGridPosition);
-			console.log(this.onBlockType(this.groundBlocks, red_southGridPosition));
-			console.log(this.rightBlockedBlocks);
-
-			console.log(this.bombGroup);
+			console.log(this.ghoulBlocks);
 		}
 
 		if(this.mouse.isDown){
