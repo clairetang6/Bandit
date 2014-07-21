@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="50" tileheight="50">
  <tileset firstgid="1" name="bandit_spritesheet" tilewidth="50" tileheight="50">
-  <image source="bandit_spritesheet.png" width="900" height="250"/>
+  <image source="bandit_spritesheet.png" width="900" height="500"/>
  </tileset>
  <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
@@ -10,27 +10,32 @@
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgMGSgHQggwCdFL7Hm4bKDFPMC8Kih1G5Kw2AgzSPFrsFoHjn2DWbzCKVBYswjpB6bPLFxQG3zAI7eDaI=
+   eJxjYGBgMGSgHQggwCdFL7Hm4bKDFPMC8Kih1G5Kw2AgzSPFrsFoHjn24dM70OYRMoMY8wipxyZPbBxQ2zwAaG0OQg==
   </data>
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgeIGygHTAKRsEoIBr4QjEDGo0NIwMAsVMDDA==
+   eJxjYBgeIGygHTAKRsEoIBrUArEvEpsByq9Fo33R9AEAzpMDzA==
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYEAFXlCMDWATx6WWHIDPLGraQwgQ8j+twwEfIMceLxzsoQDQ3YsvDshRR8g+fIARi5gwjewiRy+2eCfWzsGaTgAF+QdP
+   eJxjYEAFXkAczYAdeBEpRi7AZxY17SEEcNkFE8cWPhk0cgsuNxADYG5C1kPPcEQH5IQRunu9cIjj0keqf0lRz4hFTJhGdpGjF1u848rb5JhPCNAiTwAANo4I2A==
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJydU8sNQCEIc7c3hfsv4uFdTEN/knCxpRTUvf74IKezG1uiDnHkqvqJn3hCzhTKn9NNMu3t9oTn7h7aGViPSc/5VNq7nCPhvtYx/65ecZmew9ibTvTa/9juJMGZT+bB4Y3XAxRRLKs=
+   eJyrY4AAZzSMTQxZjgGPPnR5dLX49GNTT4yb0NVgA/jcR8hcYjCxdhMKJ3RxQvFAqh9w2YHNPELuxGd2JIn+IEYtufpwuZ+QfnxqcZlHSA5XmibGPFqEH648h0selztx2Q8CUWS4D5tbAKBxLOc=
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgcGUYBaMAkg5G0wLpwGqgHTCEAKVhBQAThQFE
+   eJxjYBgFo2AUjIKhAQAEsAAB
+  </data>
+ </layer>
+ <layer name="bomb" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYGBgcGUYBaMAkg5G0wLpwGqgHYAEBpNbkAEsbZHrPpg+AG3RAkI=
   </data>
  </layer>
 </map>

@@ -100,15 +100,20 @@ gameState.createLevel = function(){
 	for(var i = 0; i<ghoulsLayerArray.length;i++){
 		if(ghoulsLayerArray[i]==74){
 			var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
-			var ghoul = new Ghoul(this,ghoulPixels[0],ghoulPixels[1],'left');
-		 	ghoul.animation.add('idleleft',[70],0.1,false);
-			ghoul.animation.add('idleright',[73],0.1,false);
-			ghoul.animation.add('upright',[75],0.1,false);
-			ghoul.animation.add('upleft',[72],0.1,false);
-			ghoul.animation.add('dieright',[74,75],0.1,true);
-			ghoul.animation.add('dieleft',[71,72],0.1,true);
-			ghoul.animation.play('idleleft');
+			var ghoul = new Ghoul(this,ghoulPixels[0],ghoulPixels[1],'left','gray');
 			this.ghoulGroup.addChild(ghoul);
+		}else{
+			if(ghoulsLayerArray[i]==91){
+				var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+				var ghoul = new Ghoul(this,ghoulPixels[0],ghoulPixels[1],'left','red');
+				this.ghoulGroup.addChild(ghoul);
+			}else{
+				if(ghoulsLayerArray[i]==104){
+					var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+					var ghoul = new Ghoul(this,ghoulPixels[0],ghoulPixels[1],'left','blue');
+					this.ghoulGroup.addChild(ghoul);					
+				}
+			}
 		}
 	}
 
@@ -278,6 +283,7 @@ gameState.create = function(){
 
 	this.hiddenBlockGroup = new Kiwi.Group(this);
 
+	this.random = new Kiwi.Utils.RandomDataGenerator();
 
 
 	this.showLevelScreen();
@@ -665,7 +671,7 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 	}
 }
 
-var Ghoul = function(state, x, y, facing){
+var Ghoul = function(state, x, y, facing, ghoulType){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
 	this.facing = facing; 
 	this.shouldFall = false;
@@ -673,11 +679,44 @@ var Ghoul = function(state, x, y, facing){
 	this.testvar = 0;
 	this.state = state;
 	this.checkDirection = true;
+	this.ghoulType = ghoulType;
 
 	var ghoulHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
 	var ghoulHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);	
 
 	this.box.hitbox = new Kiwi.Geom.Rectangle(ghoulHitboxX,ghoulHitboxY,this.state.bps-2*ghoulHitboxX,this.state.bps-2*ghoulHitboxY);
+
+	switch(ghoulType){
+		case 'gray':
+			this.animation.add('idleleft',[70],0.1,false);
+			this.animation.add('idleright',[73],0.1,false);
+			this.animation.add('upright',[75],0.1,false);
+			this.animation.add('upleft',[72],0.1,false);
+			this.animation.add('dieright',[74,75],0.1,true);
+			this.animation.add('dieleft',[71,72],0.1,true);
+			break;
+		case 'red':
+			this.animation.add('idleleft',[90],0.1,false);
+			this.animation.add('idleright',[106],0.1,false);
+			this.animation.add('upright',[99],0.1,false);
+			this.animation.add('upleft',[102],0.1,false);
+			this.animation.add('dieright',[95,106],0.1,true);
+			this.animation.add('dieleft',[98,102],0.1,true);	
+			this.animation.add('climb',[91,94],0.1,true);	
+			break;
+		case 'blue':
+			this.animation.add('idleleft',[103],0.1,false);
+			this.animation.add('idleright',[96],0.1,false);
+			this.animation.add('upright',[104],0.1,false);
+			this.animation.add('upleft',[92],0.1,false);
+			this.animation.add('dieright',[100,104],0.1,true);
+			this.animation.add('dieleft',[107,92],0.1,true);
+			this.animation.add('disappear',[93,97,101,105,113],0.1,false);		
+			break;
+	}
+
+	this.animation.play('idleleft');	
+
 
 	this.gravity = function(){
 		this.checkDirection = false;	
@@ -1554,7 +1593,7 @@ gameState.update = function(){
 		this.isGameOver();
 
 		if(this.debugKey.isDown){
-			console.log(this.ghoulBlocks);
+			console.log(this.random.integerInRange(1,5));
 		}
 
 		if(this.mouse.isDown){

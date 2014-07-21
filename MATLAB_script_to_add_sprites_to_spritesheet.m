@@ -15,3 +15,5 @@ alpha(55:108,271:324,:) = blue_death_alpha;
 alpha(55:108,325:378,:) = red_heart_alpha;
 alpha(55:108,379:432,:) = blue_heart_alpha;
 imagesc(img)
+
+imwrite(img,'all_spritesheet.png','Alpha',alpha);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="50" tileheight="50">
  <tileset firstgid="1" name="bandit_spritesheet" tilewidth="50" tileheight="50">
-  <image source="bandit_spritesheet.png" width="900" height="250"/>
+  <image source="bandit_spritesheet.png" width="900" height="500"/>
  </tileset>
  <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
@@ -20,7 +20,7 @@
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAO8KKSOeTYic1udDlCNKnm0wLgsscLC5sUNxGrB1kdulpahwE2NxJi09uN2OwmJ13RCpBrNyVpiRg7GUl0DzYgDKUBFwAL7w==
+   eJxjYKAO8KKSOeTYic1umFgGAT4+dxOjhpoAlz1eWNjRZJhLSA+yf3GFF7UBvvggxEb3Fz3iCZd7sdGkxBE1ALnplRT1hPyNDTCS6B5sQBhKAwCeWA3x
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
@@ -30,7 +30,12 @@
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgcIXiMCQ2AxlsfMCKCDWjYBQMVkBJ+qV12seX/6xw0LjMoLZbw6C0Exl6YW6B6Q0HYgA1jQce
+   eJxjYECAMIZRMApGwVADroPEDGwAVqY4UWAGTG84EAMAMq4CEg==
+  </data>
+ </layer>
+ <layer name="bombs" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYGBgcIViBgrZ+IAVEWpGwSgYrICS9DuQad8KB01I/WAA2NwCAAePBQ0=
   </data>
  </layer>
 </map>
