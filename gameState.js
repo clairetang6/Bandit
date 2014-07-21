@@ -71,13 +71,13 @@ gameState.createLevel = function(){
 	this.blueCoinsCollected = 0;
 	this.redCoinsCollected = 0;
 
-	var frontObjectsLayerArray = blockArrays[7];
+	var bombsLayerArray = blockArrays[8];
 
 	var bombHitboxX = Math.round(this.bps*this.BOMB_HITBOX_X_PERCENTAGE);
 	var bombHitboxY = Math.round(this.bps*this.BOMB_HITBOX_Y_PERCENTAGE);
 
-	for(var i = 0; i<frontObjectsLayerArray.length; i++){
-		if(frontObjectsLayerArray[i] == 58){
+	for(var i = 0; i<bombsLayerArray.length; i++){
+		if(bombsLayerArray[i] == 58){
 			var bombPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 			var bomb = new Bomb(this, bombPixels[0], bombPixels[1]);
 			bomb.animation.add('idle',[57],0.1,false);
@@ -85,6 +85,9 @@ gameState.createLevel = function(){
 			bomb.animation.play('idle');
 			bomb.box.hitbox = new Kiwi.Geom.Rectangle(bombHitboxX, bombHitboxY, this.bps-2*bombHitboxX, this.bps-2*bombHitboxY);
 			this.bombGroup.addChild(bomb);
+		}else{
+			if(bombsLayerArray[i] == 69)
+				this.permBlocks[this.getRow(i, width)][this.getCol(i,width)] = 1;
 		}
 	}
 
@@ -105,12 +108,12 @@ gameState.createLevel = function(){
 		}else{
 			if(ghoulsLayerArray[i]==91){
 				var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
-				var ghoul = new Ghoul(this,ghoulPixels[0],ghoulPixels[1],'left','red');
+				var ghoul = new RedGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
 				this.ghoulGroup.addChild(ghoul);
 			}else{
 				if(ghoulsLayerArray[i]==104){
 					var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
-					var ghoul = new Ghoul(this,ghoulPixels[0],ghoulPixels[1],'left','blue');
+					var ghoul = new BlueGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
 					this.ghoulGroup.addChild(ghoul);					
 				}
 			}
@@ -184,6 +187,8 @@ gameState.createLevel = function(){
 	
 	this.ghoulBlocks = this.getGhoulBlocks();
 
+	this.permBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
+
 	this.removeBackgroundImages();
 
 	this.addChild(this.background);
@@ -196,7 +201,7 @@ gameState.createLevel = function(){
 	this.addChild(this.ghoulGroup);
 	this.addChild(this.banditGroup);
 
-	//this.addChild(this.tilemap.layers[5]);
+	this.addChild(this.tilemap.layers[5]);
 
 	this.addChild(this.bombGroup);
 
@@ -631,7 +636,10 @@ var HiddenBlock = function(state, x, y){
 
 	this.timer = state.game.time.clock.createTimer('hiddenBlockTimer',5,0,false);
 	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.hiddenBlockTimer, this);
-	this.timer.start();
+	
+	if(this.state.permBlocks[this.row][this.col] != 1){
+		this.timer.start();
+	}
 
 	HiddenBlock.prototype.update = function(){
 		if(this.occupied){
@@ -647,6 +655,9 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 	var numberOfGhouls = this.occupiedBy.length;
 	for(var i =0; i < numberOfGhouls; i++){
 		var ghoul = this.occupiedBy.pop();
+		if(ghoul.objType() == 'BlueGhoul'){
+			ghoul.teleportTimer.stop();
+		}
 		ghoul.destroy(false);
 	}
 	this.destroy();
@@ -678,13 +689,15 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 	this.isInHole = false;
 	this.testvar = 0;
 	this.state = state;
-	this.checkDirection = true;
+	this.shouldCheckDirection = true;
 	this.ghoulType = ghoulType;
 
 	var ghoulHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
 	var ghoulHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);	
 
 	this.box.hitbox = new Kiwi.Geom.Rectangle(ghoulHitboxX,ghoulHitboxY,this.state.bps-2*ghoulHitboxX,this.state.bps-2*ghoulHitboxY);
+
+	console.log('creating ghoul of type ' + ghoulType);
 
 	switch(ghoulType){
 		case 'gray':
@@ -719,7 +732,7 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 
 
 	this.gravity = function(){
-		this.checkDirection = false;	
+		this.shouldCheckDirection = false;	
 		var southGridPosition = state.getGridPosition(this.x, this.y, 'south');
 		var inStoppingBlock = false;
 		for(var i = 0; i <state.topGroundBlocks.length; i++){
@@ -749,6 +762,9 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 		//if fallen off bottom of the stage. 
 		if(this.y > this.state.bps * this.state.GRID_ROWS){
 			this.isInHole = true;
+			if(this.objType() == 'BlueGhoul'){
+				this.teleportTimer.stop();
+			}
 			this.destroy();
 		}
 
@@ -773,7 +789,7 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 		if(this.isInHole){
 			this.inHole();
 		}else{
-			checkDirection = (this.x % this.state.bps == 0); 	
+			this.shouldCheckDirection = (this.x % this.state.bps == 0 && this.y % this.state.bps == 0); 	
 
 			if(this.shouldFall){
 				this.gravity();
@@ -797,27 +813,7 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 				}
 			}
 
-			if(checkDirection){
-				var gridPosition = state.getGridPosition(this.x, this.y);		
-				var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];	
-
-				switch(this.facing){
-					case 'left':
-						if(ghoulCode % 3 != 0){
-							this.facing = 'right';
-							this.animation.play('idleright');
-						}
-
-						break;
-					case 'right':
-						if(ghoulCode % 2 != 0){
-							this.facing = 'left';
-							this.animation.play('idleleft');
-						}
-						break;
-				}
-
-			}
+			this.checkDirection();
 			
 			if(!this.shouldFall){
 				switch(this.facing){
@@ -868,9 +864,27 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 			switch(this.facing){
 				case 'left':
 					this.x -= 1;
+					if(this.animation.currentAnimation.name != 'idleleft'){
+						this.animation.play('idleleft');
+					}
 					break;
 				case 'right':
 					this.x += 1;
+					if(this.animation.currentAnimation.name != 'idleright'){
+						this.animation.play('idleright');
+					}
+					break;
+				case 'up':
+					this.y -= 1;
+					if(this.animation.currentAnimation.name != 'climb'){
+						this.animation.play('climb');
+					}
+					break;
+				case 'down':
+					this.y += 1;
+					if(this.animation.currentAnimation.name != 'climb'){
+						this.animation.play('climb');
+					}
 					break;
 			}
 
@@ -885,7 +899,168 @@ Kiwi.extend(Ghoul, Kiwi.GameObjects.Sprite);
 Ghoul.prototype.singleBlockDeath = function(){
 	this.timer = this.state.game.time.clock.createTimer('singleBlockDeathTimer',3,0,false);
 	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.destroy, this);
+	if(this.objType() == 'BlueGhoul'){
+		this.teleportTimer.stop();
+	}
 	this.timer.start();	
+}
+
+Ghoul.prototype.checkDirection = function(){
+	if(this.shouldCheckDirection){
+		var gridPosition = this.state.getGridPosition(this.x, this.y);		
+		var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];	
+
+		switch(this.facing){
+			case 'left':
+				if(ghoulCode % 3 != 0){
+					this.facing = 'right';
+					this.animation.play('idleright');
+				}
+
+			break;
+			case 'right':
+				if(ghoulCode % 2 != 0){
+					this.facing = 'left';
+					this.animation.play('idleleft');
+				}
+			break;
+		}
+	}	
+}
+
+var RedGhoul = function(state, x, y, facing){
+	Ghoul.call(this, state, x, y, facing, 'red');
+
+	RedGhoul.prototype.update = function(){
+		Ghoul.prototype.update.call(this);
+	}
+}
+Kiwi.extend(RedGhoul, Ghoul);
+
+RedGhoul.prototype.checkDirection = function(){
+	if(this.shouldCheckDirection){
+		var gridPosition = this.state.getGridPosition(this.x, this.y);		
+		var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];	
+
+		switch(this.facing){
+			case 'left':
+				var moveOptions = [];
+				if(ghoulCode % 3 != 0){
+					moveOptions.push('right');
+				}else{
+					moveOptions.push('left');
+				}
+				if(ghoulCode % 5 == 0){
+					moveOptions.push('up');
+				} 
+				if(ghoulCode % 7 == 0){
+					moveOptions.push('down');
+				}
+				this.facing = moveOptions[this.state.random.integerInRange(0,moveOptions.length)];
+	
+				break;
+			case 'right':
+				var moveOptions = [];
+				if(ghoulCode % 2 != 0){
+					moveOptions.push('left');
+				}else{
+					moveOptions.push('right');
+				}
+				if(ghoulCode % 5 == 0){
+					moveOptions.push('up');
+				} 
+				if(ghoulCode % 7 == 0){
+					moveOptions.push('down');
+				}
+				this.facing = moveOptions[this.state.random.integerInRange(0,moveOptions.length)];
+				
+				break;
+			case 'up':
+				var moveOptions = [];
+				if(ghoulCode % 5 == 0){
+					moveOptions.push('up');
+				}
+				if(ghoulCode % 2 == 0){
+					moveOptions.push('right');
+				} 
+				if(ghoulCode % 3 == 0){
+					moveOptions.push('left');
+				}
+				this.facing = moveOptions[this.state.random.integerInRange(0,moveOptions.length)];
+				
+				if(moveOptions.length == 0){
+					this.facing = 'down';
+				}
+				
+				break;
+			case 'down':
+				var moveOptions = [];
+				if(ghoulCode % 7 == 0){
+					moveOptions.push('down');
+				}
+				if(ghoulCode % 2 == 0){
+					moveOptions.push('right');
+				} 
+				if(ghoulCode % 3 == 0){
+					moveOptions.push('left');
+				}
+				this.facing = moveOptions[this.state.random.integerInRange(0,moveOptions.length)];
+				
+				if(moveOptions.length == 0){
+					this.facing = 'up';
+				}
+				
+				break;						
+
+		}
+
+	}
+}
+
+
+var BlueGhoul = function(state, x, y, facing){
+	Ghoul.call(this, state, x, y, facing, 'blue');
+	this.nextRow = 0;
+	this.nextCol = 0;
+
+	var randTime = this.state.random.integerInRange(10,20);
+	console.log(randTime);
+
+	this.teleportTimer = this.state.game.time.clock.createTimer('teleportTimer',randTime, -1, false);
+	this.teleportTimerEvent = this.teleportTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.teleport, this);
+
+	this.reappearTimer = this.state.game.time.clock.createTimer('reappearTimer',1,0,false);
+	this.reappearTimerEvent = this.reappearTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.reappear, this);
+
+	this.teleportTimer.start();
+}
+Kiwi.extend(BlueGhoul, Ghoul);
+
+BlueGhoul.prototype.teleport = function(){
+	if(typeof this != 'undefined'){
+		this.facing = 'teleport';
+		this.animation.play('disappear');
+
+		do{
+			this.nextRow = this.state.random.integerInRange(0,this.state.GRID_ROWS);
+			this.nextCol = this.state.random.integerInRange(0,this.state.GRID_COLS);
+		}
+		while(this.state.ghoulBlocks[this.nextRow][this.nextCol] % 6 != 0);
+		this.reappearTimer.start();
+	}
+}
+
+BlueGhoul.prototype.reappear = function(){
+	if(typeof this != 'undefined'){
+		var pixels = this.state.getPixelPositionFromRowCol(this.nextRow, this.nextCol);
+		this.x = pixels[0];
+		this.y = pixels[1];
+		this.facing = 'left';
+	}
+}
+
+BlueGhoul.prototype.objType = function(){
+	return 'BlueGhoul';
 }
 
 gameState.make2DArray = function(rows, cols){
@@ -1106,10 +1281,11 @@ gameState.parseBlocks = function(level_tilemap){
 	var ghoulsLayerArray = json.layers[3].data;
 	var coinsLayerArray = json.layers[4].data;
 	var frontObjectsLayerArray = json.layers[5].data;
+	var bombsLayerArray = json.layers[6].data;
 	var width = json.width;
 	var tileWidth = json.tilewidth;
 
-	return [groundLayerArray, ladderLayerArray, coinsLayerArray, tileWidth, width, ghoulsLayerArray, backObjectsLayerArray, frontObjectsLayerArray];
+	return [groundLayerArray, ladderLayerArray, coinsLayerArray, tileWidth, width, ghoulsLayerArray, backObjectsLayerArray, frontObjectsLayerArray, bombsLayerArray];
 }
 
 gameState.getPixelPositionFromArrayIndex = function(index, tileWidth, width){
@@ -1230,6 +1406,9 @@ gameState.destroyAllMembersOfGroup = function(group){
 			var members = this.bombGroup.members;
 	}
 	for (var i =0; i<members.length; i++){
+		if(members[i].objType() == 'BlueGhoul'){
+			members[i].teleportTimer.stop();
+		}
 		members[i].destroy();
 	}
 }

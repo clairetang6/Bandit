@@ -5,12 +5,12 @@
  </tileset>
  <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJylU8kNADAIciX3X66vJo0BwWrip4rg0QhsSd5vLElONo7iCu9q6vgdfajO1FiPG1d8L+dEJ+Lo9uRqRPueaNn0wbCbWavcOi8XV/EK4+rrchXW/Su/9zDdL6pzAEjnHLc=
+   eJylU8kNADAIYiX3X65f06JgNfFTRfAoAAReY285FkVONM7iCu9q6vgdfazO1KoeN674MudEJ+Po9uRqZPueaNn0UWE3s1a597xc3I1XGFdfl6uw7l/5vYfpflmdAy3iHOg=
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgMGSgHQggwCdFL7Hm4bKDFPMC8Kih1G5Kw2AgzSPFrsFoHjn24dM70OYRMoMY8wipxyZPbBxQ2zwAaG0OQg==
+   eJxjYKAtCCDAJ0UvsebhsoMU8wLwqKHUbkrDYCDNI8WuwWgeOfbh0zvQ5hEygxjzCKnHJk9sHFDbPACDcg4R
   </data>
  </layer>
  <layer name="Back" width="20" height="15">
