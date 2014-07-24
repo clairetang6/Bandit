@@ -20,7 +20,7 @@
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYIAALwbsIJqAPLIcPjXUBMTYQy+3YLMzGoccITdlUMENuMzwwsGG8alhNymA3DjE5w8YoLdfcNlJKMwHAiCnUXLcQA13M+IQFyZCLwC3pAmK
+   eJxjYIAALwbsIJqAPEwumoAaagJi7KGXW7DZGY1DDtlN2NRkUMENuMyAxRGMjS5HDbtJAfjiB5s7sYnhMoPWfsFmPrIYMW5Fjg96AuQ0Sk4eoUa+YsQhLkyEXgBl9Qxv
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">

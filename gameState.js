@@ -5,6 +5,7 @@ gameState.preload = function(){
 
 	this.BLOCK_PIXEL_SIZE = 50; 
 	this.bps = this.BLOCK_PIXEL_SIZE; 
+	this.MULTIPLIER = 1; 
 
 	this.addSpriteSheet('sprites','bandit_spritesheet.png',this.bps,this.bps);
 	this.currentLevel = 1; 
@@ -21,7 +22,7 @@ gameState.preload = function(){
 		this.addJSON('level_tilemap'+i,'level'+i+'.json');		
 	}
 
-	//this.addSpriteSheet('tiles','block_ladder.png',54,54);	
+	this.addSpriteSheet('digits','digits.png',18*this.MULTIPLIER,18*this.MULTIPLIER);	
 	this.addImage('lose','gameover.png');
 	this.addImage('win','bandit_win.png');
 }
@@ -207,6 +208,7 @@ gameState.createLevel = function(){
 
 	this.addChild(this.redHeartsGroup);
 	this.addChild(this.blueHeartsGroup);	
+	this.addChild(this.digitGroup);
 	
 	
 	this.timer = this.game.time.clock.createTimer('levelOver',10,0,false);
@@ -220,7 +222,7 @@ gameState.create = function(){
 
 	this.STAGE_WIDTH = 1024;
 	this.STAGE_HEIGHT = 768;
-	this.MULTIPLIER = 1; 
+
 	this.TILE_WIDTH = 50;
 
 	this.STAGE_Y_OFFSET = 32 * this.MULTIPLIER;
@@ -240,6 +242,19 @@ gameState.create = function(){
 
 	this.mouse = this.game.input.mouse;
 
+
+	this.digitGroup = new Kiwi.Group(this);
+
+	for (var i = 0; i<4; i++){
+		digit = new Digit(this, 10+(i*18),-18,'red', 4-i);
+		digit.animation.play('0');
+		this.digitGroup.addChild(digit);
+	}
+	for (var i = 0; i<4; i++){
+		digit = new Digit(this, 900+(i*18),-18,'blue', 4-i);
+		digit.animation.play('0');
+		this.digitGroup.addChild(digit);
+	}
 
 	this.BANDIT_HITBOX_X_PERCENTAGE = .2;
 	this.BANDIT_HITBOX_Y_PERCENTAGE = .1;
@@ -338,16 +353,66 @@ gameState.checkCoinCollision = function(){
 			if(bandits[j].box.bounds.intersects(coinBox)){
 				if(j == 0){
 					this.redCoinsCollected ++;
+					this.updateCoinCounter('red');		
 				}else{
 					this.blueCoinsCollected ++;
+					this.updateCoinCounter('blue');
 				}
 				//console.log('red coins: ' + this.redCoinsCollected);
 				//console.log('blue coins: ' + this.blueCoinsCollected);
-
+				
 				coins[i].destroy();
 			}
 		}
 	}
+}
+
+gameState.updateCoinCounter = function(color){
+	switch(color){
+		case 'red':
+			var ones = this.redCoinsCollected % 10; 
+			var tens = Math.floor(this.redCoinsCollected / 10) % 10;
+			var huns = Math.floor(this.redCoinsCollected / 100) % 10;
+			digits = this.digitGroup.members;
+			for(var i =0; i<digits.length; i++){
+				if(digits[i].color == 'red'){
+					if(digits[i].index == 1){
+						digits[i].animation.play(ones.toString());
+					}else {
+						if(digits[i].index == 2){
+							digits[i].animation.play(tens.toString());
+						}else{
+							if(digits[i].index == 3){
+								digits[i].animation.play(huns.toString());
+							}
+						}
+					}
+				}
+			}
+			break;
+		case 'blue':
+			var ones = this.blueCoinsCollected % 10; 
+			var tens = Math.floor(this.blueCoinsCollected / 10) % 10;
+			var huns = Math.floor(this.blueCoinsCollected / 100) % 10;
+			digits = this.digitGroup.members;
+			for(var i =0; i<digits.length; i++){
+				if(digits[i].color == 'blue'){
+					if(digits[i].index == 1){
+						digits[i].animation.play(ones.toString());
+					}else {
+						if(digits[i].index == 2){
+							digits[i].animation.play(tens.toString());
+						}else{
+							if(digits[i].index == 3){
+								digits[i].animation.play(huns.toString());
+							}
+						}
+					}
+				}
+			}		
+			break;
+	}
+
 }
 
 gameState.checkGhoulCollision = function(){
@@ -624,6 +689,46 @@ Bomb.prototype.hide = function(){
 	this.x = -3*this.state.bps;
 	this.y = -3*this.state.bps;
 }
+
+var Digit = function(state, x, y, color, index){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['digits'], x, y, false);
+	console.log('adding digit');
+	this.color = color;
+	this.state = state;
+	this.index = index; 
+
+	switch(color){
+		case 'blue':
+			this.animation.add('0',[0],0.1,false);
+			this.animation.add('1',[1],0.1,false); 
+			this.animation.add('2',[2],0.1,false);
+			this.animation.add('3',[3],0.1,false); 
+			this.animation.add('4',[4],0.1,false);
+			this.animation.add('5',[5],0.1,false); 
+			this.animation.add('6',[6],0.1,false);
+			this.animation.add('7',[7],0.1,false); 
+			this.animation.add('8',[8],0.1,false);
+			this.animation.add('9',[9],0.1,false); 												
+			break;
+		case 'red':
+			this.animation.add('0',[11],0.1,false);
+			this.animation.add('1',[12],0.1,false); 
+			this.animation.add('2',[13],0.1,false);
+			this.animation.add('3',[14],0.1,false); 
+			this.animation.add('4',[15],0.1,false);
+			this.animation.add('5',[16],0.1,false); 
+			this.animation.add('6',[17],0.1,false);
+			this.animation.add('7',[18],0.1,false); 
+			this.animation.add('8',[19],0.1,false);
+			this.animation.add('9',[20],0.1,false); 												
+			break;
+	}
+
+	Digit.prototype.resetCounter = function(){
+		this.animation.play('0');
+	}
+}
+Kiwi.extend(Digit, Kiwi.GameObjects.Sprite);
 
 var HiddenBlock = function(state, x, y){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['backgroundSpriteSheet'+state.currentLevel], x, y, false);

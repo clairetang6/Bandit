@@ -20,7 +20,7 @@
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYIAALyCOZiAekKqeHiCDRPVeZKol1R5qAmxuxiZGazd6odG47ER3GzZ9tAC47AUBbOmWVu7B519CYUjrMCIH4AtXYgEjmXYLAzEA0ZYJQA==
+   eJxjYIAALyCOZiAekKqeHiCDRPVeJKqF+ZdUe6gJYG6OxiKGDGjtRi8kGl+4oLvXC42mFUA3H5mPLd3Syj3YwgmbHAxkYJEfLADkfmzhSmo5wEim/cJADACUbQu9
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
@@ -30,7 +30,7 @@
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBjaIHygHTAKRsEooBkIQ+MDAGCvAK4=
+   eJxjYBjaIHygHTAKRsEoIAmUkqA2DE0PAH/DAZg=
   </data>
  </layer>
  <layer name="bomb" width="20" height="15">

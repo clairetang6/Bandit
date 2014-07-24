@@ -25,12 +25,12 @@
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJydUlsKwDAM8m49RXf/g+yrbAzjY0KhJCZa6Qaw8eDcV3EOLnisssd0Jn01k2Lal2ozjstNaSc9NcM00+wU/zvb+FN5Mk1WnzjOR+Jz8tf6TfJ22o7r/lfj9Y/H5A1sb+PhXbsBWVokNQ==
+   eJydUlsKwDAM8m49RXf/g+yrbAzjY0KhJKZayQaw8eDcV3EOLnisssd0Jn01k2J6L9VmHJeb0k56aoZpptkp/ne28afyZJqsPnGcj8Tn5K/1m+TttB3X7Vfj9Y/H5A/JnikP79oNRoIj8g==
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALagTAsYn5IGAZ88ZgRDqUBW0wB5Q==
+   eJxjYBgFo2AUjALagTAsYn5IGAQqgdgXjxnhUBoAbjQCXg==
   </data>
  </layer>
  <layer name="bomb" width="20" height="15">

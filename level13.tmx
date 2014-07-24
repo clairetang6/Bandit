@@ -3,7 +3,7 @@
  <tileset firstgid="1" name="bandit_spritesheet" tilewidth="50" tileheight="50">
   <image source="bandit_spritesheet.png" width="900" height="500"/>
  </tileset>
- <layer name="Blocks" width="20" height="15">
+ <layer name="Blocks" width="20" height="15" opacity="0.99">
   <data encoding="base64" compression="zlib">
    eJy1klEKACAIQz1T9z9cH9GPbPJGFERi29Rh1TlLvDcukXO4ZW7XUbqES/CK0+s6vMrTOumcJeIJn87bNX96O3EdjvBTjPKX1KT9U29eZiQcsuupV4TnNKiu+k92fAMPySIv
   </data>
@@ -20,7 +20,7 @@
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAviIbSGRTqJwZ4kamPEgDzlxcOPq2AFxpNip3Y9JJjNyV2UCN8iE1T5PqX0vDBpx85fZLjPnLinVSQgYONDAjlM0YK7BcGYgBwjQpe
+   eJxjYKAviIbSGRTqJwZ4kamPEgDzlxcOPq2AFxoNAsT4ORqHXmIAzHxC+vDZQawZxABi0hQl/iXHjcTahxxX5LjPCwcbGyA372XgYCPbSSjNMZJpNwgIAzEAjewNQw==
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
@@ -30,7 +30,7 @@
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIKhAQAEsAAB
+   eJxjYBgFo2AUjALagSosYqVEqMEmDgBdMAHk
   </data>
  </layer>
  <layer name="Bombs" width="20" height="15">

@@ -20,12 +20,12 @@
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYCAeeFGglhK9o4C6YLCErzAQM5KgHpe7B4t/YIBY9wwGd5PrhgyquoJ4AAA8rANh
+   eJxjYCAeeAFxNAlq8fFJ0TtYQQYWMWLDZyABqeFLKz8Jk6gel7sHW3oh1j3o6gYi7ZAbdtjSPjbASKb5uAAAvmcFNQ==
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJydUtsJACEMy27uv9N9iCAlL69Q0EjStBbYsa4EwVxCcJgGAsdpM67Sc3hTN/n+M5PEdf01tV7/TvEUn707n6yfNMuJtb00c5weEt7ucdr51muzR+quzq0/ptHyZl03MxfO18kP78kvHQ==
+   eJydUlsKwCAMy87m/e/kxxhIyWsWilpNmtYCr63DQWLOITCMAwHjuBlW8bl4kzfpvulJwrr6mlx//07hFJ7dO52sHsWjetTW0vRxakjxdo7TzLdamzlSZ7Vv9TGOFjfznusj3jJzuj7fbcgvHg==
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
