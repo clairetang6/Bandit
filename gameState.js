@@ -29,7 +29,7 @@ gameState.preload = function(){
 
 gameState.showLevelScreen = function(){
 	this.showingLevelScreen = true;
-	this.levelScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['level'+this.currentLevel],0,0);
+	this.levelScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['level'+this.currentLevel],-18*this.MULTIPLIER,-18*this.MULTIPLIER);
 	this.addChild(this.levelScreen);
 
 	this.createLevelTimer = this.game.time.clock.createTimer('createLevelTimer',.5,0,false);
@@ -209,6 +209,7 @@ gameState.createLevel = function(){
 	this.addChild(this.redHeartsGroup);
 	this.addChild(this.blueHeartsGroup);	
 	this.addChild(this.digitGroup);
+	this.addChild(this.bombIconGroup);
 	
 	
 	this.timer = this.game.time.clock.createTimer('levelOver',10,0,false);
@@ -237,24 +238,40 @@ gameState.create = function(){
 	myGame.stage.color = '000000';
 	myGame.stage.resize(this.STAGE_WIDTH, this.STAGE_HEIGHT);
 
-	this.winScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['win'],0,0);
-	this.loseScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['lose'],0,0);
+	this.winScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['win'],-18*this.MULTIPLIER,-18*this.MULTIPLIER);
+	this.loseScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['lose'],-18*this.MULTIPLIER,-18*this.MULTIPLIER);
 
 	this.mouse = this.game.input.mouse;
 
 
 	this.digitGroup = new Kiwi.Group(this);
+	this.bombIconGroup = new Kiwi.Group(this);
 
 	for (var i = 0; i<4; i++){
-		digit = new Digit(this, 10+(i*18),-18,'red', 4-i);
+		var digit = new Digit(this, 10+(i*18),-18,'red', 4-i);
 		digit.animation.play('0');
 		this.digitGroup.addChild(digit);
 	}
 	for (var i = 0; i<4; i++){
-		digit = new Digit(this, 900+(i*18),-18,'blue', 4-i);
+		var digit = new Digit(this, 920+(i*18),-18,'blue', 4-i);
 		digit.animation.play('0');
 		this.digitGroup.addChild(digit);
 	}
+	for (var i = 0; i<3; i++){
+		var bomb = new Digit(this, 10+((4+i)*18),-18,'red', i+7);
+		bomb.animation.play('bomb');
+		this.bombIconGroup.addChild(bomb);
+	}
+	for (var i = 0; i<3; i++){
+		var bomb = new Digit(this, 920-(18*(i+1)),-18,'blue', i+7);
+		bomb.animation.play('bomb');
+		this.bombIconGroup.addChild(bomb);
+	}
+
+	for(var i = 0; i <this.bombIconGroup.members.length; i++){
+		this.bombIconGroup.members[i].x = -2*this.bps;
+	}
+
 
 	this.BANDIT_HITBOX_X_PERCENTAGE = .2;
 	this.BANDIT_HITBOX_Y_PERCENTAGE = .1;
@@ -325,17 +342,11 @@ gameState.checkBombCollision = function(){
 			if(bombs[i].timerStarted == false){
 				var bombBox = bombs[i].box.hitbox;
 				if(bandits[j].box.bounds.intersects(bombBox)){
-					if(j == 0){
-						this.redBombsCollected ++;
-						this.redBombs.push(bombs[i]);
-					}else{
-						this.blueBombsCollected ++;
-						this.blueBombs.push(bombs[i]);
-					}
-					console.log('red bombs: ' + this.redBombsCollected);
-					console.log('blue bombs: ' + this.blueBombsCollected);
+					bandits[j].bombsCollected ++;
+					bandits[j].bombs.push(bombs[i]);
 
 					bombs[i].hide();
+					this.updateBombCounter(bandits[j]);
 				}
 			}
 		}
@@ -366,7 +377,54 @@ gameState.checkCoinCollision = function(){
 		}
 	}
 }
-
+gameState.updateBombCounter = function(bandit){
+	var numBombs = bandit.bombsCollected;
+	var bombIcons = bandit.bombIconGroup.members;
+	console.log(numBombs);
+	switch(numBombs){
+		case 0:
+			for (var i =0; i<bombIcons.length; i++){
+				var bombIcon = bombIcons[i];
+				if(bombIcon.color == bandit.color){
+					bombIcon.x = -2*this.bps;
+				}
+			}
+			break;
+		case 1:
+			for (var i =0; i<bombIcons.length; i++){
+				var bombIcon = bombIcons[i];
+				if(bombIcon.color == bandit.color){	
+					if(bombIcon.index == 7)
+						bombIcon.x = bombIcon.originalx;
+					else
+						bombIcon.x = -2*this.bps;
+				}
+			}		
+			break;
+		case 2:
+			for (var i =0; i<bombIcons.length; i++){
+				var bombIcon = bombIcons[i];
+				if(bombIcon.color == bandit.color){
+					if(bombIcon.index <9)
+						bombIcon.x = bombIcon.originalx;
+					else
+						bombIcon.x = -2*this.bps;
+				}
+			}
+			break;
+		case 2:
+			for (var i =0; i<bombIcons.length; i++){
+				var bombIcon = bombIcons[i];
+				if(bombIcon.color == bandit.color){
+					if(bombIcon.index <10)
+						bombIcon.x = bombIcon.originalx;
+					else
+						bombIcon.x = -2*this.bps;
+				}
+			}	
+			break;				
+	}
+}
 gameState.updateCoinCounter = function(color){
 	switch(color){
 		case 'red':
@@ -606,6 +664,11 @@ var Bandit = function(state, x, y, color){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
 	this.state = state; 
 	this.color = color; 
+	this.bombsCollected = 0;
+	this.bombs = [];
+	this.bombClock = this.state.game.time.addClock(color+'BombClock',100);
+	this.bombClock.start();
+	this.bombIconGroup = this.state.bombIconGroup;
 
 	var banditHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
 	var banditHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);
@@ -696,6 +759,8 @@ var Digit = function(state, x, y, color, index){
 	this.color = color;
 	this.state = state;
 	this.index = index; 
+	this.originalx = x;
+	this.originaly = y;
 
 	switch(color){
 		case 'blue':
@@ -708,7 +773,8 @@ var Digit = function(state, x, y, color, index){
 			this.animation.add('6',[6],0.1,false);
 			this.animation.add('7',[7],0.1,false); 
 			this.animation.add('8',[8],0.1,false);
-			this.animation.add('9',[9],0.1,false); 												
+			this.animation.add('9',[9],0.1,false); 	
+			this.animation.add('bomb',[10],0.1,false);											
 			break;
 		case 'red':
 			this.animation.add('0',[11],0.1,false);
@@ -720,7 +786,8 @@ var Digit = function(state, x, y, color, index){
 			this.animation.add('6',[17],0.1,false);
 			this.animation.add('7',[18],0.1,false); 
 			this.animation.add('8',[19],0.1,false);
-			this.animation.add('9',[20],0.1,false); 												
+			this.animation.add('9',[20],0.1,false); 	
+			this.animation.add('bomb',[10],0.1,false);																									
 			break;
 	}
 
@@ -799,7 +866,7 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 
 	var ghoulHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
 	var ghoulHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);	
-
+ 
 	this.box.hitbox = new Kiwi.Geom.Rectangle(ghoulHitboxX,ghoulHitboxY,this.state.bps-2*ghoulHitboxX,this.state.bps-2*ghoulHitboxY);
 
 	console.log('creating ghoul of type ' + ghoulType);
@@ -830,6 +897,8 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 			this.animation.add('dieright',[100,104],0.1,true);
 			this.animation.add('dieleft',[107,92],0.1,true);
 			this.animation.add('disappear',[93,97,101,105,113],0.1,false);		
+			this.animation.add('orb',[113],0.1,false);
+			this.animation.add('reappear',[113,105,101,97,93],0.15,false);
 			break;
 	}
 
@@ -1127,17 +1196,29 @@ var BlueGhoul = function(state, x, y, facing){
 	Ghoul.call(this, state, x, y, facing, 'blue');
 	this.nextRow = 0;
 	this.nextCol = 0;
+	
+	
+	this.ghoulHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
+	this.ghoulHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);	
 
+	this.box.hitbox = new Kiwi.Geom.Rectangle(this.ghoulHitboxX,this.ghoulHitboxY,this.state.bps-2*this.ghoulHitboxX,this.state.bps-2*this.ghoulHitboxY);
 	var randTime = this.state.random.integerInRange(10,20);
 	console.log(randTime);
 
 	this.teleportTimer = this.state.game.time.clock.createTimer('teleportTimer',randTime, -1, false);
 	this.teleportTimerEvent = this.teleportTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.teleport, this);
 
-	this.reappearTimer = this.state.game.time.clock.createTimer('reappearTimer',1,0,false);
+	this.orbTimer = this.state.game.time.clock.createTimer('orbTimer',1.4,0,false);
+	this.orbTimerEvent = this.orbTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.showOrb, this);
+	
+	this.orbTimer2 = this.state.game.time.clock.createTimer('orbTimer2',.6,0,false);
+	this.orbTimerEvent2 = this.orbTimer2.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.reappearAnimation, this);
+
+	this.reappearTimer = this.state.game.time.clock.createTimer('reappearTimer',.6,0,false);
 	this.reappearTimerEvent = this.reappearTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.reappear, this);
 
 	this.teleportTimer.start();
+
 }
 Kiwi.extend(BlueGhoul, Ghoul);
 
@@ -1151,15 +1232,31 @@ BlueGhoul.prototype.teleport = function(){
 			this.nextCol = this.state.random.integerInRange(0,this.state.GRID_COLS);
 		}
 		while(this.state.ghoulBlocks[this.nextRow][this.nextCol] % 6 != 0);
-		this.reappearTimer.start();
+		this.orbTimer.start();
 	}
+}
+
+BlueGhoul.prototype.showOrb = function(){
+	if(typeof this != 'undefined'){
+		this.box.hitbox = new Kiwi.Geom.Rectangle(0,0,0,0);
+		this.animation.play('orb');
+		var pixels = this.state.getPixelPositionFromRowCol(this.nextRow, this.nextCol);
+		this.x = pixels[0];
+		this.y = pixels[1];		
+		this.orbTimer2.start();
+	}
+}
+
+BlueGhoul.prototype.reappearAnimation = function(){
+	if(typeof this != 'undefined'){
+		this.animation.play('reappear');
+		this.reappearTimer.start();
+	}	
 }
 
 BlueGhoul.prototype.reappear = function(){
 	if(typeof this != 'undefined'){
-		var pixels = this.state.getPixelPositionFromRowCol(this.nextRow, this.nextCol);
-		this.x = pixels[0];
-		this.y = pixels[1];
+		this.box.hitbox = new Kiwi.Geom.Rectangle(this.ghoulHitboxX,this.ghoulHitboxY,this.state.bps-2*this.ghoulHitboxX,this.state.bps-2*this.ghoulHitboxY);
 		this.facing = 'left';
 	}
 }
@@ -1571,6 +1668,22 @@ gameState.removeFromGroundBlocks = function(blastedBlockPosition){
 	}
 }
 
+gameState.placeBomb = function(bandit){
+	if(bandit.bombsCollected > 0){
+		bandit.bombClock.start();
+		bomb = bandit.bombs.pop();
+		bomb.x = this.getPixelNumberForGridPosition(this.getGridPosition(bandit.x, bandit.y,'middle'),'west');
+		bomb.y = this.getPixelNumberForGridPosition(this.getGridPosition(bandit.x, bandit.y,'middle'),'north');	
+		var bombGridPosition = this.getGridPosition(bomb.x,bomb.y);
+		bomb.rowPlaced = bombGridPosition[0];
+		bomb.colPlaced = bombGridPosition[1]; 
+		bomb.startTimer();
+		bandit.bombsCollected--;
+		console.log(bandit.bombsCollected);	
+		this.updateBombCounter(bandit);	
+	}
+}
+
 
 gameState.update = function(){
 	Kiwi.State.prototype.update.call(this);
@@ -1702,6 +1815,12 @@ gameState.update = function(){
 							this.blue.transform.y = this.bps*this.GRID_ROWS;
 						if(this.blue.animation.currentAnimation.name != 'climb')
 							this.blue.animation.play('climb');
+					}else{
+						if(this.onBlockType(this.topGroundBlocks, blue_southGridPosition)){
+							if(this.blue.bombClock.elapsed() > 5){
+								this.placeBomb(this.blue);
+							}
+						}
 					}
 				}
 			}
@@ -1834,18 +1953,8 @@ gameState.update = function(){
 							this.red.animation.play('climb');
 					}else{
 						if(this.onBlockType(this.topGroundBlocks, red_southGridPosition)){
-							if(this.redBombsCollected > 0){
-								bomb = this.redBombs.pop();
-								console.log(bomb);
-
-								bomb.x = this.getPixelNumberForGridPosition(this.getGridPosition(this.red.x, this.red.y,'middle'),'west');
-								bomb.y = this.getPixelNumberForGridPosition(this.getGridPosition(this.red.x, this.red.y,'middle'),'north');
-								var bombGridPosition = this.getGridPosition(bomb.x,bomb.y);
-								bomb.rowPlaced = bombGridPosition[0];
-								bomb.colPlaced = bombGridPosition[1]; 
-								bomb.startTimer();
-								this.redBombsCollected--;
-
+							if(this.red.bombClock.elapsed() > 5){
+								this.placeBomb(this.red);
 							}
 						}
 					}
