@@ -9,7 +9,7 @@ gameState.preload = function(){
 
 	this.addSpriteSheet('sprites','bandit_spritesheet.png',this.bps,this.bps);
 	this.currentLevel = 1; 
-	this.numberOfLevels = 13;
+	this.numberOfLevels = 14;
 
 	for (var i = 1; i<=this.numberOfLevels; i++){
 		this.addImage('level'+i,'level'+i+'_screen.png',true);
@@ -18,13 +18,16 @@ gameState.preload = function(){
 	for (var i = 1; i<=this.numberOfLevels; i++){
 		this.addImage('background'+i,'canvas'+i+'.png',true);
 		this.addSpriteSheet('backgroundSpriteSheet'+i,'canvas'+i+'.png',this.bps,this.bps);
-		//need to change the canvases so that the top row is also 50 pixels high and then set the background to negative value. 
 		this.addJSON('level_tilemap'+i,'level'+i+'.json');		
 	}
 
 	this.addSpriteSheet('digits','digits.png',18*this.MULTIPLIER,18*this.MULTIPLIER);	
 	this.addImage('lose','gameover.png');
 	this.addImage('win','bandit_win.png');
+
+	this.addAudio('bombSound','sounds/Cannon-SoundBible.com-1661203605.wav');
+	this.addAudio('coinSound','sounds/coin.wav');
+	this.addAudio('gunSound','sounds/gunshot.wav');
 }
 
 gameState.showLevelScreen = function(){
@@ -116,6 +119,13 @@ gameState.createLevel = function(){
 					var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 					var ghoul = new BlueGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
 					this.ghoulGroup.addChild(ghoul);					
+				}else{
+					if(ghoulsLayerArray[i]==127){
+						var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+						var ghoul = new BlackGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
+						this.blackGhoul = ghoul;
+						this.ghoulGroup.addChild(ghoul);
+					}
 				}
 			}
 		}
@@ -210,7 +220,9 @@ gameState.createLevel = function(){
 	this.addChild(this.blueHeartsGroup);	
 	this.addChild(this.digitGroup);
 	this.addChild(this.bombIconGroup);
-	
+		
+	this.updateCoinCounter('red');
+	this.updateCoinCounter('blue'); 
 	
 	this.timer = this.game.time.clock.createTimer('levelOver',10,0,false);
 	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.levelOver,this);
@@ -304,6 +316,8 @@ gameState.create = function(){
 	this.red_downKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.DOWN);
 	this.red_fireKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SPACEBAR);
 
+	this.game.input.keyboard.onKeyDown.add(this.onKeyDownCallback, this);
+
 	this.red.animation.play('idleleft');
 
 
@@ -322,11 +336,21 @@ gameState.create = function(){
 
 	this.random = new Kiwi.Utils.RandomDataGenerator();
 
+	this.bombSound = new Kiwi.Sound.Audio(this.game, 'bombSound', 0.3, false);
+	this.coinSound = new Kiwi.Sound.Audio(this.game, 'coinSound', 0.1, false);
+	this.coinSound.addMarker('start',0,1,false);
+	this.gunSound = new Kiwi.Sound.Audio(this.game, 'gunSound', 0.1, false);
+	this.gunSound.addMarker('start',0,1,false);
 
 	this.showLevelScreen();
 	
 }
 
+gameState.onKeyDownCallback = function(keyCode){
+	if(keyCode == this.red_fireKey.keyCode || keyCode == this.blue_fireKey.keyCode){
+		this.gunSound.play('start',true);
+	}
+}
 
 gameState.updateBlockedBlocks = function(){
 	this.getBlockedBlocks(this.groundBlocks,'left',this.leftBlockedBlocks);
@@ -363,16 +387,22 @@ gameState.checkCoinCollision = function(){
 			var coinBox = coins[i].box.hitbox;
 			if(bandits[j].box.bounds.intersects(coinBox)){
 				if(j == 0){
-					this.redCoinsCollected ++;
+					if(coins[i].animation.currentAnimation.name == 'shine'){
+						this.redCoinsCollected += 10;
+					}else{
+						this.redCoinsCollected ++;
+					}
 					this.updateCoinCounter('red');		
 				}else{
-					this.blueCoinsCollected ++;
+					if(coins[i].animation.currentAnimation.name == 'shine'){
+						this.blueCoinsCollected += 10;
+					}else{
+						this.blueCoinsCollected ++;
+					}
 					this.updateCoinCounter('blue');
 				}
-				//console.log('red coins: ' + this.redCoinsCollected);
-				//console.log('blue coins: ' + this.blueCoinsCollected);
-				
 				coins[i].destroy();
+				this.coinSound.play('start',true);
 			}
 		}
 	}
@@ -731,8 +761,10 @@ Kiwi.extend(Bomb, Kiwi.GameObjects.Sprite);
 Bomb.prototype.explode = function(){
 	this.state.blastBlock([this.rowPlaced, this.colPlaced-1]); 
 	this.state.blastBlock([this.rowPlaced, this.colPlaced-2]);
+	this.state.blastBlock([this.rowPlaced, this.colPlaced]);	
 	this.state.blastBlock([this.rowPlaced, this.colPlaced+1]); 
 	this.state.blastBlock([this.rowPlaced, this.colPlaced+2]);
+	this.state.bombSound.play();
 	this.destroy();
 }
 
@@ -900,6 +932,19 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 			this.animation.add('orb',[113],0.1,false);
 			this.animation.add('reappear',[113,105,101,97,93],0.15,false);
 			break;
+		case 'black':
+			this.animation.add('idleleft',[126],0.1,false);
+			this.animation.add('idleright',[137],0.1,false);
+			this.animation.add('upright',[144],0.1,false);
+			this.animation.add('dieright',[144,139],0.1,true);
+			this.animation.add('dieleft',[134,128],0.1,true);
+			this.animation.add('climb',[127,138],0.1,true);
+			this.animation.add('disappear',[129,130,131,132,133],0.1,false);
+			this.animation.add('orb',[133],0.1,false);
+			this.animation.add('reappear',[133,132,131,130,129],0.1,false);
+
+			this.animation.
+			break;	
 	}
 
 	this.animation.play('idleleft');	
@@ -1222,7 +1267,7 @@ var BlueGhoul = function(state, x, y, facing){
 }
 Kiwi.extend(BlueGhoul, Ghoul);
 
-BlueGhoul.prototype.teleport = function(){
+Ghoul.prototype.teleport = function(){
 	if(typeof this != 'undefined'){
 		this.facing = 'teleport';
 		this.animation.play('disappear');
@@ -1236,7 +1281,7 @@ BlueGhoul.prototype.teleport = function(){
 	}
 }
 
-BlueGhoul.prototype.showOrb = function(){
+Ghoul.prototype.showOrb = function(){
 	if(typeof this != 'undefined'){
 		this.box.hitbox = new Kiwi.Geom.Rectangle(0,0,0,0);
 		this.animation.play('orb');
@@ -1247,14 +1292,14 @@ BlueGhoul.prototype.showOrb = function(){
 	}
 }
 
-BlueGhoul.prototype.reappearAnimation = function(){
+Ghoul.prototype.reappearAnimation = function(){
 	if(typeof this != 'undefined'){
 		this.animation.play('reappear');
 		this.reappearTimer.start();
 	}	
 }
 
-BlueGhoul.prototype.reappear = function(){
+Ghoul.prototype.reappear = function(){
 	if(typeof this != 'undefined'){
 		this.box.hitbox = new Kiwi.Geom.Rectangle(this.ghoulHitboxX,this.ghoulHitboxY,this.state.bps-2*this.ghoulHitboxX,this.state.bps-2*this.ghoulHitboxY);
 		this.facing = 'left';
@@ -1263,6 +1308,194 @@ BlueGhoul.prototype.reappear = function(){
 
 BlueGhoul.prototype.objType = function(){
 	return 'BlueGhoul';
+}
+
+var BlackGhoul = function(state, x, y, facing){
+	Ghoul.call(this, state, x, y, facing, 'black');
+	
+	this.orbTimer = this.state.game.time.clock.createTimer('orbTimer',1.4,0,false);
+	this.orbTimerEvent = this.orbTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.showOrb, this);
+	
+	this.orbTimer2 = this.state.game.time.clock.createTimer('orbTimer2',.6,0,false);
+	this.orbTimerEvent2 = this.orbTimer2.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.reappearAnimation, this);
+
+	this.reappearTimer = this.state.game.time.clock.createTimer('reappearTimer',.6,0,false);
+	this.reappearTimerEvent = this.reappearTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.reappear, this);
+
+
+}
+Kiwi.extend(BlackGhoul, BlueGhoul);
+Kiwi.extend(BlackGhoul, RedGhoul);
+
+BlackGhoul.prototype.checkDirection = function(){
+	if(this.shouldCheckDirection){
+		var gridPosition = this.state.getGridPosition(this.x, this.y);		
+		var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];	
+
+		var dx = this.state.banditGroup.members[0].x - this.x;
+		var dy = this.state.banditGroup.members[0].y - this.y;
+
+		
+
+		if(Math.abs(dx)>Math.abs(dy)){
+			if(dx>0){
+				var pref1 = 'right';
+			}else{
+				var pref1 = 'left';
+			}
+			if(dy>0){
+				var pref2 = 'down';
+			}else{
+				var pref2 = 'up';
+			}
+		}else{
+			if(dy>0){
+				var pref1 = 'down';
+			}else{
+				var pref1 = 'up';
+			}	
+			if(dx>0){
+				var pref2 = 'right';
+			}else{
+				var pref2 = 'left';
+			}			
+		}
+
+		var goToPref2 = true;
+		switch(pref1){
+			case 'right':
+				if(ghoulCode % 2 == 0){
+					this.facing = 'right';
+					goToPref2 = false;
+				}
+				break;
+			case 'up':
+				if(ghoulCode % 5 == 0){
+					this.facing = 'up';
+					goToPref2 = false;
+				}	
+				break;
+			case 'down':
+				if(ghoulCode % 7 == 0){
+					this.facing = 'down';
+					goToPref2 = false;
+				}
+				break;
+			case 'left':
+				if(ghoulCode % 3 == 0){
+					this.facing = 'left';
+					goToPref2 = false;
+				}	
+				break;
+		}
+
+		var goToRedChoice = true;
+
+		if(goToPref2){
+			switch(pref2){
+				case 'right':
+					if(ghoulCode % 2 == 0){
+						this.facing = 'right';
+						goToRedChoice = false;
+					}
+					break;
+				case 'up':
+					if(ghoulCode % 5 == 0){
+						this.facing = 'up';
+						goToRedChoice = false;
+					}	
+					break;
+				case 'down':
+					if(ghoulCode % 7 == 0){
+						this.facing = 'down';
+						goToRedChoice = false;
+					}
+					break;
+				case 'left':
+					if(ghoulCode % 3 == 0){
+						this.facing = 'left';
+						goToRedChoice = false;
+					}	
+					break;
+			}
+
+			if(goToRedChoice){
+				switch(this.facing){
+					case 'left':
+						var moveOptions = [];
+						if(ghoulCode % 3 != 0){
+							moveOptions.push('right');
+						}else{
+							moveOptions.push('left');
+						}
+						if(ghoulCode % 5 == 0){
+							moveOptions.push('up');
+						} 
+						if(ghoulCode % 7 == 0){
+							moveOptions.push('down');
+						}
+						this.facing = moveOptions[this.state.random.integerInRange(0,moveOptions.length)];
+			
+						break;
+					case 'right':
+						var moveOptions = [];
+						if(ghoulCode % 2 != 0){
+							moveOptions.push('left');
+						}else{
+							moveOptions.push('right');
+						}
+						if(ghoulCode % 5 == 0){
+							moveOptions.push('up');
+						} 
+						if(ghoulCode % 7 == 0){
+							moveOptions.push('down');
+						}
+						this.facing = moveOptions[this.state.random.integerInRange(0,moveOptions.length)];
+						
+						break;
+					case 'up':
+						var moveOptions = [];
+						if(ghoulCode % 5 == 0){
+							moveOptions.push('up');
+						}
+						if(ghoulCode % 2 == 0){
+							moveOptions.push('right');
+						} 
+						if(ghoulCode % 3 == 0){
+							moveOptions.push('left');
+						}
+						this.facing = moveOptions[this.state.random.integerInRange(0,moveOptions.length)];
+						
+						if(moveOptions.length == 0){
+							this.facing = 'down';
+						}
+						
+						break;
+					case 'down':
+						var moveOptions = [];
+						if(ghoulCode % 7 == 0){
+							moveOptions.push('down');
+						}
+						if(ghoulCode % 2 == 0){
+							moveOptions.push('right');
+						} 
+						if(ghoulCode % 3 == 0){
+							moveOptions.push('left');
+						}
+						this.facing = moveOptions[this.state.random.integerInRange(0,moveOptions.length)];
+						
+						if(moveOptions.length == 0){
+							this.facing = 'up';
+						}
+						
+						break;						
+				}
+
+			}			
+		}
+						
+
+	}
 }
 
 gameState.make2DArray = function(rows, cols){
@@ -1684,6 +1917,10 @@ gameState.placeBomb = function(bandit){
 	}
 }
 
+gameState.onGunShotCallback = function(){
+	this.gunSound.play('start',true);
+}
+
 
 gameState.update = function(){
 	Kiwi.State.prototype.update.call(this);
@@ -1856,7 +2093,9 @@ gameState.update = function(){
 		 		}
 		 	}
 		 	if(this.red_fireKey.isDown){
+		 		console.log('fire key down for red');
 				this.red.animation.play('fire' + this.red_facing);
+				console.log(this.red.animation.currentAnimation.name);
 				if(this.red.canShoot){
 					var blastedBlockPosition = this.getBlastedBlockPosition(red_southGridPosition, this.red_facing, this.groundBlocks);
 					this.blastBlock(blastedBlockPosition);
@@ -1970,8 +2209,9 @@ gameState.update = function(){
 					if(!this.onBlockType(this.groundBlocks,red_belowFeetPosition) && this.onBlockType(this.ladderBlocks,red_southGridPosition)){
 						this.red.animation.play('idleclimb');
 					}else{
-						if(this.red.animation.currentAnimation.name != 'idle' + this.red_facing)
+						if(this.red.animation.currentAnimation.name != 'idle' + this.red_facing){
 						this.red.animation.play('idle' + this.red_facing);	
+						}
 					}
 				}
 			}
@@ -1986,7 +2226,7 @@ gameState.update = function(){
 		this.isGameOver();
 
 		if(this.debugKey.isDown){
-			console.log(this.random.integerInRange(1,5));
+			this.blackGhoul.teleport();
 		}
 
 		if(this.mouse.isDown){

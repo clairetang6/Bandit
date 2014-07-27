@@ -5,37 +5,37 @@
  </tileset>
  <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgUINiBgrZyHxaY2wAlxwu9fjcTIwaavkBF5sSQI4/sKklVi8145ESgG42Oe6hhTtJsYsU9zEwYHcfNnl0/ejqCbmHXD9iswefHnz6AemDGRc=
+   eJxjYGBg0IZiBgrZyHxaY2wAlxwu9fjcTIwaavkBF5sSQI4/sKklVi8145ESgG42Oe6hhTtJsYsU9zEwYHcfNnl0/ejqCbmHXD9iswefHnz6AQ5qHGQ=
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBi8IGCAzCNGXQAaPdjMg6lDV0tKmBKjd7CbR6qZ5NhLLfPwmUtOuFBqHilphxw7yXEDAH9rCvE=
+   eJxjYBi8IHCAzCNGXSAaPdjMg6lDV0tKmOLTS4p76W0eJX7Gpode5uEzl5iwo7Z5pPgbXQ+l5uHSCwDR5g+C
   </data>
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFwwU4DbQDRsEoIAOQkm4BztAAhQ==
+   eJxjYBgFwwU4DbQDyARhVDAjnApmjALqA2Lilth0C4pjAEvKAd8=
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAO8KKSOeTYic1umFgGAT4+dxOjhpoAlz1eWNjRZJhLSA+yf3GFF7UBvvggxEb3Fz3iCZd7sdGkxBE1ALnplRT1hPyNDTCS6B5sQBhKAwCeWA3x
+   eJxjYKAO8ALiDCqZRQyIRrLTC4d7GBgQbsLGj2bArhfZDFzmUxvgcwvMrQxIaqJxqMWlP4MIPcj+xRV+1Abo5iP7z4sBM74ysKiltRuRATb3orsJxicljqgJiA0HcsINPd+g07gAIwl2oANhJDYAHa8UQQ==
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJyLYkCASCR2FInizlBMTYDPPGcsGJccLvX43ExIDTX8is19hNxKLMZlDjHuITWsiAXo+qnhT3zuc0ajyXEjtdyLzy5i3IlLTRSSOLb4J9YvyGah24lLDzF2EkrfhAC6PgA84CVa
+   eJyLYkCASCR2FInizlBMTYDPPGcsGJccLvW43EysGkJuJOQPYt1HDsZnJj53EmMusp9IiXN0tdT2M7qbKHEjLr9S6jZ87iMUN9joKDx2kRrXUUhy2PSTG/a4xEjJOzD1AKbEKc0=
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYECAMIZRMApGwVADroPEDGwAVqY4UWAGTG84EAMAMq4CEg==
+   eJxjYECAMIZRMApGwVADroPEDGygCko7IYmVImFiAEwvyCwAi0IDuA==
   </data>
  </layer>
  <layer name="bombs" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgcIViBgrZ+IAVEWpGwSgYrICS9DuQad8KB01I/WAA2NwCAAePBQ0=
+   eJxjYGBgcIViBgrZ+IAVEWooBfSwYxSMTEBJ2hrIdGmFgyaknl4An33Y5AD0FwWB
   </data>
  </layer>
 </map>

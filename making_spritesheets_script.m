@@ -123,3 +123,81 @@ alpha_new(301:350,201:300) = alpha_new(451:500,101:200);
 
 
 imwrite(uint8(img_new),'bandit_spritesheet.png','Alpha',uint8(alpha_new));
+
+
+
+
+
+%%%%%
+[img, map, alpha] = imread('bandit_spritesheet.png');
+img_new = img;
+map_new = map;
+alpha_new = alpha;
+imagesc(img_new)
+
+[img, map, alpha] = imread('ghoul_4_left.png');
+img_new(351:400,1:50,:) = img;
+alpha_new(351:400,1:50) = alpha;
+imagesc(img_new)
+[img, map, alpha] = imread('ghoul_4_left_climb.png');
+img_new(351:400,51:100,:) = img;
+alpha_new(351:400,51:100) = alpha;
+[img, map, alpha] = imread('ghoul_4_left_dead.png');
+img_new(351:400,101:150,:) = img;
+alpha_new(351:400,101:150) = alpha;
+[img, map, alpha] = imread('ghoul_4_left_gone1.png');
+img_new(351:400,151:200,:) = img;
+alpha_new(351:400,151:200) = alpha;
+[img, map, alpha] = imread('ghoul_4_left_gone2.png');
+img_new(351:400,201:250,:) = img;
+alpha_new(351:400,201:250) = alpha;
+[img, map, alpha] = imread('ghoul_4_left_gone3.png');
+img_new(351:400,251:300,:) = img;
+alpha_new(351:400,251:300) = alpha;
+[img, map, alpha] = imread('ghoul_4_left_gone4.png');
+img_new(351:400,301:350,:) = img;
+alpha_new(351:400,301:350) = alpha;
+[img, map, alpha] = imread('ghoul_4_gone5.png');
+img_new(351:400,351:400,:) = img;
+alpha_new(351:400,351:400) = alpha;
+[img, map, alpha] = imread('ghoul_4_left_raised.png');
+img_new(351:400,401:450,:) = img;
+alpha_new(351:400,401:450) = alpha;
+[img, map, alpha] = imread('ghoul_4_left_swing1.png');
+img_new(351:400,451:500,:) = img;
+alpha_new(351:400,451:500) = alpha;
+[img, map, alpha] = imread('ghoul_4_left_swing2.png');
+img_new(351:400,501:550,:) = img;
+alpha_new(351:400,501:550) = alpha;
+[img, map, alpha] = imread('ghoul_4_right.png');
+img_new(351:400,551:600,:) = img;
+alpha_new(351:400,551:600) = alpha;
+[img, map, alpha] = imread('ghoul_4_right_climb.png');
+img_new(351:400,601:650,:) = img;
+alpha_new(351:400,601:650) = alpha;
+[img, map, alpha] = imread('ghoul_4_right_dead.png');
+img_new(351:400,651:700,:) = img;
+alpha_new(351:400,651:700) = alpha;
+[img, map, alpha] = imread('ghoul_4_right_gone1.png');
+img_new(351:400,701:750,:) = img;
+alpha_new(351:400,701:750) = alpha;
+[img, map, alpha] = imread('ghoul_4_right_gone2.png');
+img_new(351:400,751:800,:) = img;
+alpha_new(351:400,751:800) = alpha;
+[img, map, alpha] = imread('ghoul_4_right_gone3.png');
+img_new(351:400,801:850,:) = img;
+alpha_new(351:400,801:850) = alpha;
+[img, map, alpha] = imread('ghoul_4_right_gone4.png');
+img_new(351:400,851:900,:) = img;
+alpha_new(351:400,851:900) = alpha;
+[img, map, alpha] = imread('ghoul_4_right_raised.png');
+img_new(401:450,1:50,:) = img;
+alpha_new(401:450,1:50) = alpha;
+[img, map, alpha] = imread('ghoul_4_right_swing1.png');
+img_new(401:450,51:100,:) = img;
+alpha_new(401:450,51:100) = alpha;
+[img, map, alpha] = imread('ghoul_4_right_swing2.png');
+img_new(401:450,101:150,:) = img;
+alpha_new(401:450,101:150) = alpha;
+imagesc(img_new)
+imwrite(uint8(img_new),'bandit_spritesheet.png','Alpha',uint8(alpha_new));
