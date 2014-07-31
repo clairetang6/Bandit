@@ -935,6 +935,8 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 		case 'black':
 			this.animation.add('idleleft',[126],0.1,false);
 			this.animation.add('idleright',[137],0.1,false);
+			this.animation.add('swingleft',[126,135,136,135],0.1,true);
+			this.animation.add('swingright',[137,145,146,145],0.1,true);
 			this.animation.add('upright',[144],0.1,false);
 			this.animation.add('dieright',[144,139],0.1,true);
 			this.animation.add('dieleft',[134,128],0.1,true);
@@ -981,9 +983,6 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 		//if fallen off bottom of the stage. 
 		if(this.y > this.state.bps * this.state.GRID_ROWS){
 			this.isInHole = true;
-			if(this.objType() == 'BlueGhoul'){
-				this.teleportTimer.stop();
-			}
 			this.destroy();
 		}
 
@@ -1306,6 +1305,19 @@ Ghoul.prototype.reappear = function(){
 	}
 }
 
+/*
+BlueGhoul.prototype.destroy = function(){
+	this.teleportTimer.stop();
+	this.orbTimer.stop();
+	this.orbTimer2.stop();
+	this.reappearTimer.stop();
+	console.log('destroying Blue Ghoul');
+	console.log(this);
+	this.active = false;
+	Kiwi.GameObjects.Sprite.prototype.destroy.call(this);
+}
+*/
+
 BlueGhoul.prototype.objType = function(){
 	return 'BlueGhoul';
 }
@@ -1326,6 +1338,10 @@ var BlackGhoul = function(state, x, y, facing){
 }
 Kiwi.extend(BlackGhoul, BlueGhoul);
 Kiwi.extend(BlackGhoul, RedGhoul);
+
+BlackGhoul.prototype.objType = function(){
+	return 'BlackGhoul';
+}
 
 BlackGhoul.prototype.checkDirection = function(){
 	if(this.shouldCheckDirection){
@@ -2226,7 +2242,19 @@ gameState.update = function(){
 		this.isGameOver();
 
 		if(this.debugKey.isDown){
-			this.blackGhoul.teleport();
+			var graph = new Graph(this.ghoulBlocks);
+			console.log(graph.toString());
+			var gridPosition = this.getGridPosition(this.blackGhoul.x, this.blackGhoul.y, 'middle');
+	    	var start = graph.grid[gridPosition[0]][gridPosition[1]];
+	    	console.log(start);
+    		var banditPosition = this.getGridPosition(this.red.x, this.red.y, 'middle');
+    		var end = graph.grid[banditPosition[0]][banditPosition[1]];
+    		console.log(end);
+    		var result = astar.search(graph, start, end);	
+    		if(result.length != 0){
+    			console.log('SUCESS');
+    			console.log(result);
+    		}		
 		}
 
 		if(this.mouse.isDown){
