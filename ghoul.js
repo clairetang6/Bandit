@@ -1,3 +1,43 @@
+var Ghouliath = function(state, x, y, facing){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['ghouliath'], x, y, false);
+	this.facing = facing;
+	this.state = state;
+	this.timer = this.state.game.time.clock.createTimer('ghouliathTimer',3, -1, false);
+	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.changeDirection, this);
+	this.timer.start();
+
+	Ghouliath.prototype.update = function(){
+		Kiwi.GameObjects.Sprite.prototype.update.call(this);
+
+		switch(this.facing){
+			case 'left':
+				if(this.animation.currentAnimation.name != 'moveleft'){
+					this.animation.play('moveleft');
+				}
+				this.x -= 2;
+				break;
+			case 'right':
+				if(this.animation.currentAnimation.name != 'moveright'){
+					this.animation.play('moveright');
+				}
+				this.x += 2;
+				break;
+
+		}
+
+	}
+
+}
+Kiwi.extend(Ghouliath, Kiwi.GameObjects.Sprite);
+
+Ghouliath.prototype.changeDirection = function(){
+	if(this.facing == 'left'){
+		this.facing = 'right';
+	}else{
+		this.facing = 'left';
+	}
+}
+
 var Ghoul = function(state, x, y, facing, ghoulType){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
 	this.facing = facing; 
@@ -63,51 +103,6 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 
 	this.animation.play('idleleft');	
 
-
-	this.gravity = function(){
-		this.shouldCheckDirection = false;	
-		var southGridPosition = state.getGridPosition(this.x, this.y, 'south');
-		var inStoppingBlock = false;
-		for(var i = 0; i <state.topGroundBlocks.length; i++){
-			if(state.onBlockType(state.topGroundBlocks, southGridPosition)){
-				inStoppingBlock = true;
-			}
-		}
-		if(inStoppingBlock){
-			var pixelNum = state.getPixelNumberForGridPosition(southGridPosition, 'south');
-			if(this.y + this.state.bps <pixelNum-10){
-				this.y += 10;
-			}
-			else{
-				this.y = pixelNum-this.state.bps+1;
-				this.shouldFall = false;
-				var gridPosition = state.getGridPosition(this.x, this.y, 'middle');
-				var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];	
-				if(ghoulCode % 2 != 0 && ghoulCode % 3 != 0){
-					this.isInHole = true;
-					console.log('in stopping block deaht?');
-					this.singleBlockDeath();
-				}		
-			}
-		}else{
-			this.y+=10;
-		}
-		//if fallen off bottom of the stage. 
-		if(this.y > this.state.bps * this.state.GRID_ROWS){
-			this.isInHole = true;
-			this.destroy();
-		}
-
-	}
-
-	this.inHole = function(){
-		//this.animation.play('up' + this.facing);
-		if(this.animation.currentAnimation.name != 'die' + this.facing){
-			this.animation.play('die' + this.facing);
-		}
-
-	}
-
 	Ghoul.prototype.update = function(){
 		Kiwi.GameObjects.Sprite.prototype.update.call(this);
 		var rightGridPosition = state.getGridPosition(this.x, this.y, 'east');
@@ -122,6 +117,7 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 			this.shouldCheckDirection = (this.x % this.state.bps == 0 && this.y % this.state.bps == 0); 	
 
 			if(this.shouldFall){
+				console.log('calling gravity');
 				this.gravity();
 				if(!(this.y>this.state.bps*(this.state.GRID_ROWS-1))){
 					switch(this.facing){
@@ -130,6 +126,7 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 							if(ghoulCode % 3 != 0){
 								this.facing = 'right';
 								this.animation.play('idleright');
+								console.log('playing animation');
 							}
 							break;
 						case 'right':
@@ -137,15 +134,16 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 							if(ghoulCode % 2 != 0){
 								this.facing = 'left';
 								this.animation.play('idleleft');
+								console.log('playing animation)');
 							}					
 							break;
 					}
 				}
 			}
-
-			this.checkDirection();
 			
 			if(!this.shouldFall){
+				this.checkDirection();
+
 				switch(this.facing){
 					case 'left':
 						var checkForHiddenBlockPosition = [rightGridPosition[0]+1, rightGridPosition[1]];
@@ -225,6 +223,49 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 	}
 }
 Kiwi.extend(Ghoul, Kiwi.GameObjects.Sprite);
+
+Ghoul.prototype.inHole = function(){
+	//this.animation.play('up' + this.facing);
+	if(this.animation.currentAnimation.name != 'die' + this.facing){
+		this.animation.play('die' + this.facing);
+	}
+}
+
+Ghoul.prototype.gravity = function(){
+	console.log('calling gravity');
+	this.shouldCheckDirection = false;	
+	var southGridPosition = this.state.getGridPosition(this.x, this.y, 'south');
+	var inStoppingBlock = false;
+	for(var i = 0; i < this.state.topGroundBlocks.length; i++){
+		if(this.state.onBlockType(this.state.topGroundBlocks, southGridPosition)){
+			inStoppingBlock = true;
+		}	
+	}
+	if(inStoppingBlock){
+		var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition, 'south');
+		if(this.y + this.state.bps <pixelNum-10){
+			this.y += 10;
+		}
+		else{
+			this.y = pixelNum-this.state.bps+1;
+			this.shouldFall = false;
+			var gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
+			var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];	
+			if(ghoulCode % 2 != 0 && ghoulCode % 3 != 0){
+				this.isInHole = true;
+				console.log('in stopping block deaht?');
+				this.singleBlockDeath();
+			}		
+		}
+	}else{
+		this.y+=10;
+	}
+	//if fallen off bottom of the stage. 
+	if(this.y > this.state.bps * this.state.GRID_ROWS){
+		this.isInHole = true;		
+		this.destroy();
+	}
+}
 
 Ghoul.prototype.singleBlockDeath = function(){
 	this.timer = this.state.game.time.clock.createTimer('singleBlockDeathTimer',3,0,false);
@@ -417,18 +458,13 @@ Ghoul.prototype.reappear = function(){
 	}
 }
 
-/*
-BlueGhoul.prototype.destroy = function(){
+BlueGhoul.prototype.destroy = function(immediate){
 	this.teleportTimer.stop();
 	this.orbTimer.stop();
 	this.orbTimer2.stop();
 	this.reappearTimer.stop();
-	console.log('destroying Blue Ghoul');
-	console.log(this);
-	this.active = false;
-	Kiwi.GameObjects.Sprite.prototype.destroy.call(this);
+	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
 }
-*/
 
 BlueGhoul.prototype.objType = function(){
 	return 'BlueGhoul';
@@ -625,3 +661,5 @@ BlackGhoul.prototype.checkDirection = function(){
 
 	}
 }
+
+
