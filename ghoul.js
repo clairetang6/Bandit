@@ -255,6 +255,10 @@ Ghoul.prototype.gravity = function(){
 				this.isInHole = true;
 				console.log('in stopping block deaht?');
 				this.singleBlockDeath();
+			}
+			if(this.objType() == 'BlackGhoul'){
+				this.findPathCount = 4;
+				this.path = [];
 			}		
 		}
 	}else{
@@ -472,6 +476,9 @@ BlueGhoul.prototype.objType = function(){
 
 var BlackGhoul = function(state, x, y, facing){
 	Ghoul.call(this, state, x, y, facing, 'black');
+	this.findPathCount = 4;
+	this.path = [];
+	this.nextNode = undefined;
 	
 	this.orbTimer = this.state.game.time.clock.createTimer('orbTimer',1.4,0,false);
 	this.orbTimerEvent = this.orbTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.showOrb, this);
@@ -482,7 +489,9 @@ var BlackGhoul = function(state, x, y, facing){
 	this.reappearTimer = this.state.game.time.clock.createTimer('reappearTimer',.6,0,false);
 	this.reappearTimerEvent = this.reappearTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.reappear, this);
 
-
+	this.distanceToBandit = function(bandit){
+		return Math.sqrt(Math.pow(Math.abs(this.x-bandit.x),2) + Math.pow(Math.abs(this.y-bandit.y),2));
+	}
 }
 Kiwi.extend(BlackGhoul, BlueGhoul);
 Kiwi.extend(BlackGhoul, RedGhoul);
@@ -491,174 +500,68 @@ BlackGhoul.prototype.objType = function(){
 	return 'BlackGhoul';
 }
 
+BlackGhoul.prototype.findPathToBandit = function(){
+	var graph = new Graph(this.state.ghoulBlocks);
+	var gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
+	var start = graph.grid[gridPosition[0]][gridPosition[1]];
+	
+	if(this.state.numPlayers == 2){
+		if(this.distanceToBandit(this.state.blue) < this.distanceToBandit(this.state.red)){
+    		var banditPosition = this.state.getGridPosition(this.state.blue.x, this.state.blue.y, 'middle');
+		}else{
+    		var banditPosition = this.state.getGridPosition(this.state.red.x, this.state.red.y, 'middle');			
+		}
+	}else{
+    	var banditPosition = this.state.getGridPosition(this.state.red.x, this.state.red.y, 'middle');
+    }
+    
+    var end = graph.grid[banditPosition[0]][banditPosition[1]];
+    var result = astar.search(graph, start, end);	
+    if(result.length > 0){
+    	console.log('pathfinding success');
+    }
+   	return result;
+}
+
 BlackGhoul.prototype.checkDirection = function(){
 	if(this.shouldCheckDirection){
-		var gridPosition = this.state.getGridPosition(this.x, this.y);		
-		var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];	
+	var gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
 
-		var dx = this.state.banditGroup.members[0].x - this.x;
-		var dy = this.state.banditGroup.members[0].y - this.y;
-
+		if(this.findPathCount == 4){
+			this.findPathCount = 0;
+			this.path = this.findPathToBandit();
+		}else{
+			this.findPathCount ++;
+		}		
 		
-
-		if(Math.abs(dx)>Math.abs(dy)){
-			if(dx>0){
-				var pref1 = 'right';
-			}else{
-				var pref1 = 'left';
+		this.nextNode = this.path.pop();
+		if(this.nextNode !== undefined){
+			if(this.nextNode.x === gridPosition[0] && this.nextNode.y === gridPosition[1]){
+				console.log('bfore: ' + this.nextNode.x + ' ' + this.nextNode.y);
+				this.nextNode = this.path.pop();
 			}
-			if(dy>0){
-				var pref2 = 'down';
+			if(this.nextNode !== undefined){
+				console.log(gridPosition[0] + ' ' + gridPosition[1] + ' ghoul pos');
+				console.log(this.nextNode.x + ' ' + this.nextNode.y);
+				if(this.nextNode.x < gridPosition[0]){
+					console.log('moving up to ' + this.nextNode.x + ' ' + this.nextNode.y);
+					this.facing = 'up';
+				}else if(this.nextNode.x > gridPosition[0]){
+					console.log('moving down to ' + this.nextNode.x);
+					this.facing = 'down';
+				}else if(this.nextNode.y < gridPosition[1]){
+					console.log('moving left to ' + this.nextNode.x + ' ' + this.nextNode.y);
+
+					this.facing = 'left';
+				}else if(this.nextNode.y > gridPosition[1]){
+					this.facing = 'right';
+				}
 			}else{
-				var pref2 = 'up';
+				RedGhoul.prototype.checkDirection.call(this);
 			}
 		}else{
-			if(dy>0){
-				var pref1 = 'down';
-			}else{
-				var pref1 = 'up';
-			}	
-			if(dx>0){
-				var pref2 = 'right';
-			}else{
-				var pref2 = 'left';
-			}			
+			RedGhoul.prototype.checkDirection.call(this);
 		}
-
-		var goToPref2 = true;
-		switch(pref1){
-			case 'right':
-				if(ghoulCode % 2 == 0){
-					this.facing = 'right';
-					goToPref2 = false;
-				}
-				break;
-			case 'up':
-				if(ghoulCode % 5 == 0){
-					this.facing = 'up';
-					goToPref2 = false;
-				}	
-				break;
-			case 'down':
-				if(ghoulCode % 7 == 0){
-					this.facing = 'down';
-					goToPref2 = false;
-				}
-				break;
-			case 'left':
-				if(ghoulCode % 3 == 0){
-					this.facing = 'left';
-					goToPref2 = false;
-				}	
-				break;
-		}
-
-		var goToRedChoice = true;
-
-		if(goToPref2){
-			switch(pref2){
-				case 'right':
-					if(ghoulCode % 2 == 0){
-						this.facing = 'right';
-						goToRedChoice = false;
-					}
-					break;
-				case 'up':
-					if(ghoulCode % 5 == 0){
-						this.facing = 'up';
-						goToRedChoice = false;
-					}	
-					break;
-				case 'down':
-					if(ghoulCode % 7 == 0){
-						this.facing = 'down';
-						goToRedChoice = false;
-					}
-					break;
-				case 'left':
-					if(ghoulCode % 3 == 0){
-						this.facing = 'left';
-						goToRedChoice = false;
-					}	
-					break;
-			}
-
-			if(goToRedChoice){
-				switch(this.facing){
-					case 'left':
-						var moveOptions = [];
-						if(ghoulCode % 3 != 0){
-							moveOptions.push('right');
-						}else{
-							moveOptions.push('left');
-						}
-						if(ghoulCode % 5 == 0){
-							moveOptions.push('up');
-						} 
-						if(ghoulCode % 7 == 0){
-							moveOptions.push('down');
-						}
-						this.facing = moveOptions[this.state.random.integerInRange(0,moveOptions.length)];
-			
-						break;
-					case 'right':
-						var moveOptions = [];
-						if(ghoulCode % 2 != 0){
-							moveOptions.push('left');
-						}else{
-							moveOptions.push('right');
-						}
-						if(ghoulCode % 5 == 0){
-							moveOptions.push('up');
-						} 
-						if(ghoulCode % 7 == 0){
-							moveOptions.push('down');
-						}
-						this.facing = moveOptions[this.state.random.integerInRange(0,moveOptions.length)];
-						
-						break;
-					case 'up':
-						var moveOptions = [];
-						if(ghoulCode % 5 == 0){
-							moveOptions.push('up');
-						}
-						if(ghoulCode % 2 == 0){
-							moveOptions.push('right');
-						} 
-						if(ghoulCode % 3 == 0){
-							moveOptions.push('left');
-						}
-						this.facing = moveOptions[this.state.random.integerInRange(0,moveOptions.length)];
-						
-						if(moveOptions.length == 0){
-							this.facing = 'down';
-						}
-						
-						break;
-					case 'down':
-						var moveOptions = [];
-						if(ghoulCode % 7 == 0){
-							moveOptions.push('down');
-						}
-						if(ghoulCode % 2 == 0){
-							moveOptions.push('right');
-						} 
-						if(ghoulCode % 3 == 0){
-							moveOptions.push('left');
-						}
-						this.facing = moveOptions[this.state.random.integerInRange(0,moveOptions.length)];
-						
-						if(moveOptions.length == 0){
-							this.facing = 'up';
-						}
-						
-						break;						
-				}
-
-			}			
-		}
-						
-
 	}
 }
 

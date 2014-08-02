@@ -5,7 +5,7 @@ function pathTo(node){
         path.push(curr);
         curr = curr.parent;
     }
-    return path.reverse();
+    return path;
 }
 
 function getHeap() {
@@ -62,7 +62,6 @@ var astar = {
 
                 if (neighbor.closed || neighbor.isWall()) {
                     // Not a valid node to process, skip to next neighbor.
-                    console.log('closing node');
                     continue;
                 }
 
@@ -118,7 +117,6 @@ var astar = {
 };
 
 function Graph(gridIn) {
-	console.log('making a graph');
     this.nodes = [];
     this.grid = [];
     for (var x = 0; x < gridIn.length; x++) {

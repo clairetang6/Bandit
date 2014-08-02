@@ -6,6 +6,7 @@ gameState.preload = function(){
 	this.BLOCK_PIXEL_SIZE = 50; 
 	this.bps = this.BLOCK_PIXEL_SIZE; 
 	this.MULTIPLIER = 1; 
+	this.numPlayers = 2;
 
 	this.addSpriteSheet('sprites','bandit_spritesheet.png',this.bps,this.bps);
 	this.addSpriteSheet('ghouliath','ghouliath_spritesheet.png',this.bps*2, this.bps*2);
@@ -893,6 +894,7 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 	}
 }
 
+//code below to build map logic
 gameState.make2DArray = function(rows, cols){
 	var zero2DArray = [];
 	for(var i = 0; i<rows; i++){
@@ -949,7 +951,6 @@ gameState.getGhoulBlocks = function(){
 * getGroundBlocks returns a 2d array containing a 1 where there is a ground block and 0 otherwise. 
 */
 
-
 gameState.getGroundBlocks = function(groundLayerArray, width){
 	var groundBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
 	for (var i = 0; i<groundLayerArray.length; i++){
@@ -1003,7 +1004,6 @@ gameState.updateTopGroundBlocks = function(){
 
 
 gameState.getBlockedBlocks = function(groundBlocks, direction, blockedBlocks){
-
 	switch (direction){
 		case 'left': 
 			for(var i =0;i<this.GRID_ROWS; i++){
@@ -1079,7 +1079,6 @@ gameState.getBlockedBlocks = function(groundBlocks, direction, blockedBlocks){
 			}
 			break;
 	}
-
 }
 
 
@@ -1618,19 +1617,7 @@ gameState.update = function(){
 		this.isGameOver();
 
 		if(this.debugKey.isDown){
-			var graph = new Graph(this.ghoulBlocks);
-			console.log(graph.toString());
-			var gridPosition = this.getGridPosition(this.blackGhoul.x, this.blackGhoul.y, 'middle');
-	    	var start = graph.grid[gridPosition[0]][gridPosition[1]];
-	    	console.log(start);
-    		var banditPosition = this.getGridPosition(this.red.x, this.red.y, 'middle');
-    		var end = graph.grid[banditPosition[0]][banditPosition[1]];
-    		console.log(end);
-    		var result = astar.search(graph, start, end);	
-    		if(result.length != 0){
-    			console.log('SUCESS');
-    			console.log(result);
-    		}		
+			this.blackGhoul.findPathToBandit();	
 		}
 
 		if(this.mouse.isDown){
