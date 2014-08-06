@@ -30,6 +30,9 @@ gameState.preload = function(){
 	this.addAudio('bombSound','sounds/Cannon-SoundBible.com-1661203605.wav');
 	this.addAudio('coinSound','sounds/coin.wav');
 	this.addAudio('gunSound','sounds/gunshot.wav');
+	this.addAudio('blockReappearSound','sounds/blockappear.wav');
+	this.addAudio('banditDeathSound','sounds/death_1.wav');
+	this.addAudio('diamondSound','sounds/diamond_1.wav');
 }
 
 gameState.showLevelScreen = function(){
@@ -352,6 +355,13 @@ gameState.create = function(){
 	this.coinSound.addMarker('start',0,1,false);
 	this.gunSound = new Kiwi.Sound.Audio(this.game, 'gunSound', 0.1, false);
 	this.gunSound.addMarker('start',0,1,false);
+	this.blockReappearSound = new Kiwi.Sound.Audio(this.game, 'blockReappearSound',0.1,false);
+	this.blockReappearSound.addMarker('start',.5,1,false);
+
+	this.banditDeathSound = new Kiwi.Sound.Audio(this.game, 'banditDeathSound',0.1, false);
+	this.banditDeathSound.addMarker('start',0,4,false);
+	this.diamondSound = new Kiwi.Sound.Audio(this.game, 'diamondSound', 0.1, false);
+	this.diamondSound.addMarker('start',0,1,false);
 
 	this.showLevelScreen();
 	
@@ -400,6 +410,7 @@ gameState.checkCoinCollision = function(){
 				if(j == 0){
 					if(coins[i].animation.currentAnimation.name == 'shine'){
 						this.redCoinsCollected += 10;
+						this.diamondSound.play('start',true);
 					}else{
 						this.redCoinsCollected ++;
 					}
@@ -407,6 +418,7 @@ gameState.checkCoinCollision = function(){
 				}else{
 					if(coins[i].animation.currentAnimation.name == 'shine'){
 						this.blueCoinsCollected += 10;
+						this.diamondSound.play('start',true);						
 					}else{
 						this.blueCoinsCollected ++;
 					}
@@ -522,7 +534,9 @@ gameState.checkGhoulCollision = function(){
 		for (var j = 0; j<bandits.length; j++){		
 			var ghoulBox = ghouls[i].box.hitbox;
 			if(bandits[j].box.hitbox.intersects(ghoulBox)){
-				console.log('DEATH');
+				console.log('DEATH sound?');
+				this.banditDeathSound.play('start',false);
+
 				if(j==0){
 					this.redIsAlive = false;
 				}else{
@@ -873,6 +887,8 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 		ghoul.destroy(false);
 	}
 	this.destroy();
+	this.state.blockReappearSound.play('start',true);
+
 	this.state.addToBlocks(this.row, this.col, this.state.groundBlocks);
 	this.state.updateTopGroundBlocks();
 	this.state.updateBlockedBlocks();
