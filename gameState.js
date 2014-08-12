@@ -536,9 +536,9 @@ gameState.checkGhoulCollision = function(){
 		for (var j = 0; j<bandits.length; j++){		
 			var ghoulBox = ghouls[i].box.hitbox;
 			if(bandits[j].box.hitbox.intersects(ghoulBox)){
-				if(bandit[j].isAlive){
+				if(bandits[j].isAlive){
 					this.banditDeathSound.play('start',false);
-					bandit[j].isAlive = false;
+					bandits[j].isAlive = false;
 				}
 			}
 		}
@@ -564,6 +564,7 @@ gameState.deathCount = function(bandit){
 					this.red.x = this.redStartingPixelLocations[0];
 					this.red.y = this.redStartingPixelLocations[1];
 					this.red.isAlive = true;
+					this.red.isDeadAndOnGround = false;
 					this.red.animation.play('idleleft');
 					this.showHearts('red');
 					this.redDeathCount = 0;			
@@ -586,6 +587,7 @@ gameState.deathCount = function(bandit){
 					this.blue.x = this.blueStartingPixelLocations[0];
 					this.blue.y = this.blueStartingPixelLocations[1];
 					this.blue.isAlive = true;
+					this.blue.isDeadAndOnGround = false;
 					this.blue.animation.play('idleleft');
 					this.showHearts('blue');				
 					this.blueDeathCount = 0;
@@ -723,6 +725,7 @@ var Bandit = function(state, x, y, color){
 	this.bombClock.start();
 	this.bombIconGroup = this.state.bombIconGroup;
 	this.isAlive = true;
+	this.isDeadAndOnGround = false;
 
 	var banditHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
 	var banditHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);
@@ -1327,47 +1330,52 @@ gameState.onGunShotCallback = function(){
 	this.gunSound.play('start',true);
 }
 
+gameState.banditGravity = function(bandit, southGridPosition){
+	if(this.onBlockType(this.topGroundBlocks,southGridPosition)){
+		var pixelNum = this.getPixelNumberForGridPosition(southGridPosition,'south');
+		if(bandit.y+this.bps<pixelNum-26){
+			bandit.y+=13;
+		}else{
+			bandit.y=pixelNum-this.bps+1;
+			if(!bandit.isAlive){
+				bandit.isDeadAndOnGround = true;
+			}
+		}
+	}else{
+		if(bandit.y+this.bps<this.bps*this.GRID_ROWS-26){
+			bandit.y+=13;
+		}else{
+			bandit.y=this.bps*this.GRID_ROWS-this.bps;
+			if(!bandit.isAlive){
+				bandit.isDeadAndOnGround = true;
+			}
+		}
+	}	
+}
+
 
 gameState.update = function(){
 	Kiwi.State.prototype.update.call(this);
 
-/*
-	if(this.ghoul.transform.x<10){
-		this.ghoul_facing = 'right';
-	}else if(this.ghoul.transform.x>960){
-		this.ghoul_facing = 'left';
-	}
-	if(this.ghoul_facing == 'left'){
-		this.ghoul.animation.play('idleleft');
-		this.ghoul.transform.x -=2;
-	}
-	else if (this.ghoul_facing == 'right'){
-		this.ghoul.animation.play('idleright');
-		this.ghoul.transform.x +=2;
-	}
-*/
 	if(this.showingLevelScreen == false){
 		//blue player 
-		if(this.blue.isAlive){
+		if(!this.blue.isDeadAndOnGround){
 			var blue_southGridPosition = this.getGridPosition(this.blue.transform.x, this.blue.transform.y,'south');
-		 	if(!(this.onBlockType(this.ladderBlocks,blue_southGridPosition) || this.onBlockType(this.groundBlocks, blue_southGridPosition))){
-		 		if(this.onBlockType(this.topGroundBlocks,blue_southGridPosition)){
-		 			var pixelNum = this.getPixelNumberForGridPosition(blue_southGridPosition,'south');
-		 			if(this.blue.transform.y+this.bps<pixelNum-26)
-		 				this.blue.transform.y+=13;
-		 			else
-		 				this.blue.transform.y=pixelNum-this.bps+1;
-		 		}else{
-		 			if(this.blue.transform.y+this.bps<this.bps*this.GRID_ROWS-26)
-		 				this.blue.transform.y+=13;
-		 			else
-		 				this.blue.transform.y=this.bps*this.GRID_ROWS-this.bps;
-		 		}
-		 	}
+		 	if(this.blue.isAlive){
+			 	if(!(this.onBlockType(this.ladderBlocks,blue_southGridPosition) || this.onBlockType(this.groundBlocks, blue_southGridPosition))){
+			 		this.banditGravity(this.blue, blue_southGridPosition);
+			 	}
+			}else{
+				if(this.onBlockType(this.ladderBlocks,blue_southGridPosition) || !this.onBlockType(this.groundBlocks, blue_southGridPosition)){
+					this.banditGravity(this.blue, blue_southGridPosition);
+				}
+			}
+		}
+		if(this.blue.isAlive){		 	
 		 	if(this.blue_fireKey.isDown){
-				this.blue.animation.play('fire' + this.blue_facing);
+				this.blue.animation.play('fire' + this.blue.facing);
 				if(this.blue.canShoot){
-					var blastedBlockPosition = this.getBlastedBlockPosition(blue_southGridPosition, this.blue_facing, this.groundBlocks);
+					var blastedBlockPosition = this.getBlastedBlockPosition(blue_southGridPosition, this.blue.facing, this.groundBlocks);
 					this.blastBlock(blastedBlockPosition);
 				}
 			}
@@ -1383,7 +1391,7 @@ gameState.update = function(){
 						}				
 					}else{
 						this.blue.transform.y=pixelNum;
-						this.blue.animation.play('idle'+this.blue_facing);			
+						this.blue.animation.play('idle'+this.blue.facing);			
 					}
 				}else if(this.onBlockType(this.ladderBlocks, blue_gridPosition)){
 					if(this.blue.transform.y>3)
@@ -1394,14 +1402,14 @@ gameState.update = function(){
 				
 			}
 			else if(this.blue_rightKey.isDown){
-				this.blue_facing = 'right';
+				this.blue.facing = 'right';
 				if(this.onBlockType(this.rightBlockedBlocks, blue_southGridPosition)){
 					var pixelNum = this.getPixelNumberForGridPosition(blue_southGridPosition,'east');
 					if(this.blue.transform.x+this.bps<pixelNum-6){
 						this.blue.transform.x +=5;
 					}else{
 						this.blue.transform.x = pixelNum-this.bps+1;
-						this.blue.animation.play('idle'+this.blue_facing);
+						this.blue.animation.play('idle'+this.blue.facing);
 					}
 				}
 				else{
@@ -1413,14 +1421,14 @@ gameState.update = function(){
 				}
 			}
 			else if(this.blue_leftKey.isDown){
-				this.blue_facing = 'left';
+				this.blue.facing = 'left';
 				if(this.onBlockType(this.leftBlockedBlocks, blue_southGridPosition)){
 					var pixelNum = this.getPixelNumberForGridPosition(blue_southGridPosition,'west');
 					if(this.blue.transform.x>pixelNum+6){
 						this.blue.transform.x-=5;
 					}else{
 						this.blue.transform.x = pixelNum;
-						this.blue.animation.play('idle'+this.blue_facing);
+						this.blue.animation.play('idle'+this.blue.facing);
 					}
 				}else{
 					if(!this.onBlockType(this.groundBlocks, blue_southGridPosition)){
@@ -1447,7 +1455,7 @@ gameState.update = function(){
 							}
 							else{
 								this.blue.transform.y=pixelNum-this.bps+1; 
-								this.blue.animation.play('idle'+this.blue_facing);
+								this.blue.animation.play('idle'+this.blue.facing);
 							}
 						}
 					}
@@ -1473,8 +1481,8 @@ gameState.update = function(){
 					if(this.blue.animation.currentAnimation.name != 'idleclimb')
 						this.blue.animation.play('idleclimb');
 				}		
-				else if(this.blue.animation.currentAnimation.name != 'idle' + this.blue_facing)
-					this.blue.animation.play('idle' + this.blue_facing);	
+				else if(this.blue.animation.currentAnimation.name != 'idle' + this.blue.facing)
+					this.blue.animation.play('idle' + this.blue.facing);	
 			}
 		}
 		else{
@@ -1482,28 +1490,25 @@ gameState.update = function(){
 		}
 
 		//red player 
-		if(this.red.isAlive){
+		if(!this.red.isDeadAndOnGround){
 			var red_southGridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y,'south');
-		 	if(!(this.onBlockType(this.ladderBlocks,red_southGridPosition) || this.onBlockType(this.groundBlocks, red_southGridPosition))){
-		 		if(this.onBlockType(this.topGroundBlocks,red_southGridPosition)){
-		 			var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'south');
-		 			if(this.red.transform.y+this.bps<pixelNum-26)
-		 				this.red.transform.y+=13;
-		 			else
-		 				this.red.transform.y=pixelNum-this.bps+1;
-		 		}else{
-		 			if(this.red.transform.y+this.bps<this.bps*this.GRID_ROWS-26)
-		 				this.red.transform.y+=13;
-		 			else
-		 				this.red.transform.y=this.bps*this.GRID_ROWS-this.bps;
-		 		}
-		 	}
+		 	if(this.red.isAlive){
+		 		if(!(this.onBlockType(this.ladderBlocks,red_southGridPosition) || this.onBlockType(this.groundBlocks, red_southGridPosition))){
+					this.banditGravity(this.red, red_southGridPosition);
+				}
+			}else{
+				if(this.onBlockType(this.ladderBlocks, red_southGridPosition) || !this.onBlockType(this.groundBlocks, red_southGridPosition)){
+					this.banditGravity(this.red, red_southGridPosition);
+				}
+			}
+		}
+		if(this.red.isAlive){		 	
 		 	if(this.red_fireKey.isDown){
 		 		console.log('fire key down for red');
-				this.red.animation.play('fire' + this.red_facing);
+				this.red.animation.play('fire' + this.red.facing);
 				console.log(this.red.animation.currentAnimation.name);
 				if(this.red.canShoot){
-					var blastedBlockPosition = this.getBlastedBlockPosition(red_southGridPosition, this.red_facing, this.groundBlocks);
+					var blastedBlockPosition = this.getBlastedBlockPosition(red_southGridPosition, this.red.facing, this.groundBlocks);
 					this.blastBlock(blastedBlockPosition);
 				}
 			}
@@ -1520,7 +1525,7 @@ gameState.update = function(){
 							}				
 						}else{
 							this.red.transform.y=pixelNum;
-							this.red.animation.play('idle'+this.red_facing);			
+							this.red.animation.play('idle'+this.red.facing);			
 						}
 					}else if(this.onBlockType(this.ladderBlocks, red_gridPosition)){
 						if(this.red.transform.y>3)
@@ -1532,7 +1537,7 @@ gameState.update = function(){
 				
 			}
 			else if(this.red_rightKey.isDown){
-				this.red_facing = 'right';
+				this.red.facing = 'right';
 				if(this.onBlockType(this.rightBlockedBlocks, red_southGridPosition)){
 					var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'east');
 					if(this.red.transform.x+this.bps<pixelNum-6){
@@ -1551,7 +1556,7 @@ gameState.update = function(){
 				}
 			}
 			else if(this.red_leftKey.isDown){
-				this.red_facing = 'left';
+				this.red.facing = 'left';
 				if(this.onBlockType(this.leftBlockedBlocks, red_southGridPosition)){
 					var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'west');
 					if(this.red.transform.x>pixelNum+6){
@@ -1585,7 +1590,7 @@ gameState.update = function(){
 							}
 							else{
 								this.red.transform.y=pixelNum-this.bps+1; 
-								this.red.animation.play('idle'+this.red_facing);
+								this.red.animation.play('idle'+this.red.facing);
 							}
 						}
 					}
@@ -1615,8 +1620,8 @@ gameState.update = function(){
 					if(!this.onBlockType(this.groundBlocks,red_belowFeetPosition) && this.onBlockType(this.ladderBlocks,red_southGridPosition)){
 						this.red.animation.play('idleclimb');
 					}else{
-						if(this.red.animation.currentAnimation.name != 'idle' + this.red_facing){
-						this.red.animation.play('idle' + this.red_facing);	
+						if(this.red.animation.currentAnimation.name != 'idle' + this.red.facing){
+						this.red.animation.play('idle' + this.red.facing);	
 						}
 					}
 				}
