@@ -100,11 +100,13 @@ gameState.createLevel = function(){
 		}
 	}
 
-	this.blueBombsCollected = 0;
-	this.redBombsCollected = 0;
+	if(this.currentLevel>1){
+		this.blue.bombsCollected = 0;
+		this.red.bombsCollected = 0;
+		this.updateBombCounter(this.blue);
+		this.updateBombCounter(this.red);
+	}
 
-	this.redBombs = [];
-	this.blueBombs = [];
 
 
 
