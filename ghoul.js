@@ -14,13 +14,13 @@ var Ghouliath = function(state, x, y, facing){
 				if(this.animation.currentAnimation.name != 'moveleft'){
 					this.animation.play('moveleft');
 				}
-				this.x -= 2;
+				this.x -= 1;
 				break;
 			case 'right':
 				if(this.animation.currentAnimation.name != 'moveright'){
 					this.animation.play('moveright');
 				}
-				this.x += 2;
+				this.x += 1;
 				break;
 
 		}

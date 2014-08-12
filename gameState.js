@@ -173,8 +173,8 @@ gameState.createLevel = function(){
 	this.blueDeathCount = 0;
 	this.redDeathCount = 0;
 
-	this.blueIsAlive = true;
-	this.redIsAlive = true;
+	this.blue.isAlive = true;
+	this.red.isAlive = true;
 
 
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'+this.currentLevel],-this.TILE_WIDTH,-this.TILE_WIDTH);
@@ -208,8 +208,8 @@ gameState.createLevel = function(){
 	this.removeBackgroundImages();
 
 	this.ghouliath = new Ghouliath(this, 100, 100, 'right');
-	this.ghouliath.animation.add('moveleft',[0,1,2,3,4,5,6,7,8,9],0.1,true);
-	this.ghouliath.animation.add('moveright',[10,11,12,13,14,15,16,17,18,19],0.1,true);
+	this.ghouliath.animation.add('moveleft',[0,1,2,3,4,5,6,7,8,9],0.12,true);
+	this.ghouliath.animation.add('moveright',[10,11,12,13,14,15,16,17,18,19],0.12,true);
 	this.ghouliath.animation.play('moveright');
 	this.ghouliath.facing = 'right';
 
@@ -355,11 +355,11 @@ gameState.create = function(){
 	this.coinSound.addMarker('start',0,1,false);
 	this.gunSound = new Kiwi.Sound.Audio(this.game, 'gunSound', 0.1, false);
 	this.gunSound.addMarker('start',0,1,false);
-	this.blockReappearSound = new Kiwi.Sound.Audio(this.game, 'blockReappearSound',0.1,false);
+	this.blockReappearSound = new Kiwi.Sound.Audio(this.game, 'blockReappearSound',0.3,false);
 	this.blockReappearSound.addMarker('start',.5,1,false);
 
-	this.banditDeathSound = new Kiwi.Sound.Audio(this.game, 'banditDeathSound',0.1, false);
-	this.banditDeathSound.addMarker('start',0,4,false);
+	this.banditDeathSound = new Kiwi.Sound.Audio(this.game, 'banditDeathSound',0.3, false);
+	this.banditDeathSound.addMarker('start',0,1,false);
 	this.diamondSound = new Kiwi.Sound.Audio(this.game, 'diamondSound', 0.1, false);
 	this.diamondSound.addMarker('start',0,1,false);
 
@@ -534,13 +534,9 @@ gameState.checkGhoulCollision = function(){
 		for (var j = 0; j<bandits.length; j++){		
 			var ghoulBox = ghouls[i].box.hitbox;
 			if(bandits[j].box.hitbox.intersects(ghoulBox)){
-				console.log('DEATH sound?');
-				this.banditDeathSound.play('start',false);
-
-				if(j==0){
-					this.redIsAlive = false;
-				}else{
-					this.blueIsAlive = false;
+				if(bandit[j].isAlive){
+					this.banditDeathSound.play('start',false);
+					bandit[j].isAlive = false;
 				}
 			}
 		}
@@ -565,7 +561,7 @@ gameState.deathCount = function(bandit){
 				if(this.redNumberOfHearts>0){
 					this.red.x = this.redStartingPixelLocations[0];
 					this.red.y = this.redStartingPixelLocations[1];
-					this.redIsAlive = true;
+					this.red.isAlive = true;
 					this.red.animation.play('idleleft');
 					this.showHearts('red');
 					this.redDeathCount = 0;			
@@ -587,7 +583,7 @@ gameState.deathCount = function(bandit){
 				if(this.blueNumberOfHearts>0){
 					this.blue.x = this.blueStartingPixelLocations[0];
 					this.blue.y = this.blueStartingPixelLocations[1];
-					this.blueIsAlive = true;
+					this.blue.isAlive = true;
 					this.blue.animation.play('idleleft');
 					this.showHearts('blue');				
 					this.blueDeathCount = 0;
@@ -724,6 +720,7 @@ var Bandit = function(state, x, y, color){
 	this.bombClock = this.state.game.time.addClock(color+'BombClock',100);
 	this.bombClock.start();
 	this.bombIconGroup = this.state.bombIconGroup;
+	this.isAlive = true;
 
 	var banditHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
 	var banditHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);
@@ -1349,7 +1346,7 @@ gameState.update = function(){
 */
 	if(this.showingLevelScreen == false){
 		//blue player 
-		if(this.blueIsAlive){
+		if(this.blue.isAlive){
 			var blue_southGridPosition = this.getGridPosition(this.blue.transform.x, this.blue.transform.y,'south');
 		 	if(!(this.onBlockType(this.ladderBlocks,blue_southGridPosition) || this.onBlockType(this.groundBlocks, blue_southGridPosition))){
 		 		if(this.onBlockType(this.topGroundBlocks,blue_southGridPosition)){
@@ -1483,7 +1480,7 @@ gameState.update = function(){
 		}
 
 		//red player 
-		if(this.redIsAlive){
+		if(this.red.isAlive){
 			var red_southGridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y,'south');
 		 	if(!(this.onBlockType(this.ladderBlocks,red_southGridPosition) || this.onBlockType(this.groundBlocks, red_southGridPosition))){
 		 		if(this.onBlockType(this.topGroundBlocks,red_southGridPosition)){
