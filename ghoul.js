@@ -5,6 +5,7 @@ var Ghouliath = function(state, x, y, facing){
 	this.timer = this.state.game.time.clock.createTimer('ghouliathTimer',3, -1, false);
 	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.changeDirection, this);
 	this.timer.start();
+	this.downCount = 0;
 
 	Ghouliath.prototype.update = function(){
 		Kiwi.GameObjects.Sprite.prototype.update.call(this);
@@ -21,6 +22,13 @@ var Ghouliath = function(state, x, y, facing){
 					this.animation.play('moveright');
 				}
 				this.x += 1;
+				if(this.downCount<50)
+					this.y += 1; 
+				else
+					this.y -= 1;
+				this.downCount ++;
+				if(this.downCount==100)
+					this.downCount =0;
 				break;
 
 		}
