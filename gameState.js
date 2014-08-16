@@ -80,6 +80,8 @@ gameState.createLevel = function(){
 	this.blueCoinsCollected = 0;
 	this.redCoinsCollected = 0;
 
+	this.permBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
+
 	var bombsLayerArray = blockArrays[8];
 
 	var bombHitboxX = Math.round(this.bps*this.BOMB_HITBOX_X_PERCENTAGE);
@@ -95,8 +97,10 @@ gameState.createLevel = function(){
 			bomb.box.hitbox = new Kiwi.Geom.Rectangle(bombHitboxX, bombHitboxY, this.bps-2*bombHitboxX, this.bps-2*bombHitboxY);
 			this.bombGroup.addChild(bomb);
 		}else{
-			if(bombsLayerArray[i] == 69)
+			if(bombsLayerArray[i] == 69){
 				this.permBlocks[this.getRow(i, width)][this.getCol(i,width)] = 1;
+				console.log('perm blocks: ' + this.getRow(i,width) + ' ' + this.getCol(i,width));
+			}
 		}
 	}
 
@@ -205,7 +209,6 @@ gameState.createLevel = function(){
 	
 	this.ghoulBlocks = this.getGhoulBlocks();
 
-	this.permBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
 
 	this.removeBackgroundImages();
 
@@ -870,6 +873,7 @@ var HiddenBlock = function(state, x, y){
 	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.hiddenBlockTimer, this);
 	
 	if(this.state.permBlocks[this.row][this.col] != 1){
+		console.log('starting hidden block timer');
 		this.timer.start();
 	}
 
@@ -1505,9 +1509,7 @@ gameState.update = function(){
 		}
 		if(this.red.isAlive){		 	
 		 	if(this.red_fireKey.isDown){
-		 		console.log('fire key down for red');
-				this.red.animation.play('fire' + this.red.facing);
-				console.log(this.red.animation.currentAnimation.name);
+		 		this.red.animation.play('fire'+this.red.facing);
 				if(this.red.canShoot){
 					var blastedBlockPosition = this.getBlastedBlockPosition(red_southGridPosition, this.red.facing, this.groundBlocks);
 					this.blastBlock(blastedBlockPosition);
@@ -1638,7 +1640,7 @@ gameState.update = function(){
 		this.isGameOver();
 
 		if(this.debugKey.isDown){
-			this.blackGhoul.findPathToBandit();	
+			console.log(this.permBlocks);
 		}
 
 		if(this.mouse.isDown){
