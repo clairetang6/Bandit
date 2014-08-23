@@ -3,6 +3,15 @@ var titleState = new Kiwi.State('titleState');
 titleState.preload = function(){
 	Kiwi.State.prototype.preload.call(this);
 	this.addImage('title','title_1.png');
+	this.addImage('lose','gameover.png');
+	this.addImage('win','bandit_win.png');
+
+	this.addAudio('bombSound','sounds/Cannon-SoundBible.com-1661203605.wav');
+	this.addAudio('coinSound','sounds/coin.wav');
+	this.addAudio('gunSound','sounds/gunshot.wav');
+	this.addAudio('blockReappearSound','sounds/blockappear.wav');
+	this.addAudio('banditDeathSound','sounds/death_1.wav');
+	this.addAudio('diamondSound','sounds/diamond_1.wav');
 }
 
 titleState.create = function(){
@@ -35,9 +44,17 @@ titleState.update = function(){
 	//console.log(this.clock.elapsedSinceLastPaused());
 	if(this.mouse.isDown){		
 	
-	
+		if(this.mouse.x > 350 && this.mouse.x < 650){
+			if(this.mouse.y > 540 && this.mouse.y < 590){
+				this.game.numPlayers = 1;
+				this.game.states.switchState('gameState');
+			}else if(this.mouse.y > 590 && this.mouse.y < 650){
+				this.game.numPlayers = 2;
+				this.game.states.switchState('gameState');
+			}
+
+		}
 		
-		this.game.states.switchState('gameState');
 	}
 }
 

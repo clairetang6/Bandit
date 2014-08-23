@@ -6,7 +6,7 @@ gameState.preload = function(){
 	this.BLOCK_PIXEL_SIZE = 50; 
 	this.bps = this.BLOCK_PIXEL_SIZE; 
 	this.MULTIPLIER = 1; 
-	this.numPlayers = 2;
+	this.numPlayers = this.game.numPlayers;
 
 	this.addSpriteSheet('sprites','bandit_spritesheet.png',this.bps,this.bps);
 	this.addSpriteSheet('ghouliath','ghouliath_spritesheet.png',this.bps*2, this.bps*2);
@@ -22,17 +22,115 @@ gameState.preload = function(){
 		this.addSpriteSheet('backgroundSpriteSheet'+i,'canvas'+i+'.png',this.bps,this.bps);
 		this.addJSON('level_tilemap'+i,'level'+i+'.json');		
 	}
-
 	this.addSpriteSheet('digits','digits.png',18*this.MULTIPLIER,18*this.MULTIPLIER);	
-	this.addImage('lose','gameover.png');
-	this.addImage('win','bandit_win.png');
 
-	this.addAudio('bombSound','sounds/Cannon-SoundBible.com-1661203605.wav');
-	this.addAudio('coinSound','sounds/coin.wav');
-	this.addAudio('gunSound','sounds/gunshot.wav');
-	this.addAudio('blockReappearSound','sounds/blockappear.wav');
-	this.addAudio('banditDeathSound','sounds/death_1.wav');
-	this.addAudio('diamondSound','sounds/diamond_1.wav');
+}
+
+gameState.create = function(){
+	Kiwi.State.prototype.create.call(this);
+
+	this.STAGE_WIDTH = 1024;
+	this.STAGE_HEIGHT = 768;
+
+	this.STAGE_Y_OFFSET = 32 * this.MULTIPLIER;
+	this.STAGE_X_OFFSET = 38 * this.MULTIPLIER;
+
+	this.x = this.bps - this.STAGE_X_OFFSET;
+	this.y = this.bps - this.STAGE_Y_OFFSET;
+
+	this.GRID_ROWS = 15;
+	this.GRID_COLS = 20;	
+
+	myGame.stage.color = '000000';
+	myGame.stage.resize(this.STAGE_WIDTH, this.STAGE_HEIGHT);
+
+	this.winScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['win'],-18*this.MULTIPLIER,-18*this.MULTIPLIER);
+	this.loseScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['lose'],-18*this.MULTIPLIER,-18*this.MULTIPLIER);
+
+	this.mouse = this.game.input.mouse;
+
+
+	this.digitGroup = new Kiwi.Group(this);
+	this.bombIconGroup = new Kiwi.Group(this);
+
+	for (var i = 0; i<4; i++){
+		var digit = new Digit(this, 10+(i*18),-18,'red', 4-i);
+		digit.animation.play('0');
+		this.digitGroup.addChild(digit);
+	}
+	for (var i = 0; i<3; i++){
+		var bomb = new Digit(this, 10+((4+i)*18),-18,'red', i+7);
+		bomb.animation.play('bomb');
+		this.bombIconGroup.addChild(bomb);
+	}
+	if(this.numPlayers == 2){
+		for (var i = 0; i<4; i++){
+			var digit = new Digit(this, 920+(i*18),-18,'blue', 4-i);
+			digit.animation.play('0');
+			this.digitGroup.addChild(digit);
+		}	
+		for (var i = 0; i<3; i++){
+			var bomb = new Digit(this, 920-(18*(i+1)),-18,'blue', i+7);
+			bomb.animation.play('bomb');
+			this.bombIconGroup.addChild(bomb);
+		}
+	}
+
+	for(var i = 0; i <this.bombIconGroup.members.length; i++){
+		this.bombIconGroup.members[i].x = -2*this.bps;
+	}
+
+
+	this.BANDIT_HITBOX_X_PERCENTAGE = 0.2;
+	this.BANDIT_HITBOX_Y_PERCENTAGE = 0.1;
+
+	this.COIN_HITBOX_X_PERCENTAGE = 0.46;
+	this.COIN_HITBOX_Y_PERCENTAGE = 0.46;
+
+	this.BOMB_HITBOX_X_PERCENTAGE = 0.33;
+	this.BOMB_HITBOX_Y_PERCENTAGE = 0.33;	
+
+
+
+	this.banditGroup = new Kiwi.Group(this);
+
+	this.red = new Bandit(this,-(this.bps),-(this.bps),'red');
+	this.red.animation.play('idleleft');
+	this.banditGroup.addChild(this.red);
+	this.redHeartsGroup = new Kiwi.Group(this);
+
+	if(this.numPlayers == 2){
+		this.blue = new Bandit(this,-(this.bps),-(this.bps),'blue');
+		this.blue.animation.play('idleleft');
+		this.banditGroup.addChild(this.blue);
+		this.blueHeartsGroup = new Kiwi.Group(this);	
+	}
+
+	this.game.input.keyboard.onKeyDown.add(this.onKeyDownCallback, this);
+	this.debugKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.I);
+
+	this.coinGroup = new Kiwi.Group(this);
+	this.bombGroup = new Kiwi.Group(this);
+	this.ghoulGroup = new Kiwi.Group(this);
+	this.hiddenBlockGroup = new Kiwi.Group(this);
+
+	this.random = new Kiwi.Utils.RandomDataGenerator();
+
+	this.bombSound = new Kiwi.Sound.Audio(this.game, 'bombSound', 0.3, false);
+	this.coinSound = new Kiwi.Sound.Audio(this.game, 'coinSound', 0.1, false);
+	this.coinSound.addMarker('start',0,1,false);
+	this.gunSound = new Kiwi.Sound.Audio(this.game, 'gunSound', 0.1, false);
+	this.gunSound.addMarker('start',0,1,false);
+	this.blockReappearSound = new Kiwi.Sound.Audio(this.game, 'blockReappearSound',0.3,false);
+	this.blockReappearSound.addMarker('start',.5,1,false);
+
+	this.banditDeathSound = new Kiwi.Sound.Audio(this.game, 'banditDeathSound',0.3, false);
+	this.banditDeathSound.addMarker('start',0,1,false);
+	this.diamondSound = new Kiwi.Sound.Audio(this.game, 'diamondSound', 0.1, false);
+	this.diamondSound.addMarker('start',0,1,false);
+
+	this.showLevelScreen();
+	
 }
 
 gameState.showLevelScreen = function(){
@@ -132,53 +230,60 @@ gameState.createLevel = function(){
 	}
 
 	for(var i = 0; i<ghoulsLayerArray.length; i++){
-		if(ghoulsLayerArray[i] == 19){
-			this.blue.startingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
-		}
 		if(ghoulsLayerArray[i] == 1){
 			this.red.startingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 		}
+		if(this.numPlayers == 2){
+			if(ghoulsLayerArray[i] == 19){
+				this.blue.startingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+			}	
+		}	
 	}
 
-	if(this.currentLevel>1){
-		this.blue.bombsCollected = 0;
-		this.red.bombsCollected = 0;
-		this.updateBombCounter(this.blue);
-		this.updateBombCounter(this.red);
-	}
-
-	this.blue.coinsCollected = 0;
+	
 	this.red.coinsCollected = 0;
-
-	this.blue.x = this.blue.startingPixelLocations[0];
-	this.blue.y = this.blue.startingPixelLocations[1];
-
-	this.red.x = this.red.startingPixelLocations[0];
-	this.red.y = this.red.startingPixelLocations[1];
-
+	this.updateCoinCounter(this.red);
+	this.red.bombsCollected = 0;
+	this.updateBombCounter(this.red);
 	this.red.numberOfHearts = 3;
-	this.blue.numberOfHearts = 3;
-
-	this.blue.isAlive = true;
 	this.red.isAlive = true;
-	this.blue.isDeadAndOnGround = false;
-	this.red.isDeadAndOnGround = false;
+	this.red.isDeadAndOnGround = false;	
+	
+	this.red.x = this.red.startingPixelLocations[0];
+	this.red.y = this.red.startingPixelLocations[1];	
+		
+	if(this.numPlayers==2){
+		this.blue.coinsCollected = 0;
+		this.updateCoinCounter(this.blue); 				
+		this.blue.bombsCollected = 0;
+		this.updateBombCounter(this.blue);	
+		this.blue.numberOfHearts = 3;
+		this.blue.isAlive = true;
+		this.blue.isDeadAndOnGround = false;
+		
+		this.blue.x = this.blue.startingPixelLocations[0];
+		this.blue.y = this.blue.startingPixelLocations[1];
+	}
+	
+
+
 
 	for(var i =1; i<=3; i++){
 		var redHeart = new Heart(this, this.red.startingPixelLocations[0], this.red.startingPixelLocations[1], 'red', i);
-		var blueHeart = new Heart(this, this.blue.startingPixelLocations[0], this.blue.startingPixelLocations[1], 'blue', i);
-
 		redHeart.animation.add('blink',[84,17],.2,true);
-		blueHeart.animation.add('blink',[56,17],.2,true);
 		redHeart.animation.play('blink');
-		blueHeart.animation.play('blink');
-
 		this.redHeartsGroup.addChild(redHeart);
-		this.blueHeartsGroup.addChild(blueHeart);
+		
+		if(this.numPlayers == 2){
+			var blueHeart = new Heart(this, this.blue.startingPixelLocations[0], this.blue.startingPixelLocations[1], 'blue', i);
+			blueHeart.animation.add('blink',[56,17],.2,true);
+			blueHeart.animation.play('blink');
+			this.blueHeartsGroup.addChild(blueHeart);
+		}
 	}
 
 
-	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'+this.currentLevel],-this.TILE_WIDTH,-this.TILE_WIDTH);
+	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'+this.currentLevel],-this.bps,-this.bps);
 
 	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this,'level_tilemap'+this.currentLevel, this.textures.sprites);
 	
@@ -232,12 +337,12 @@ gameState.createLevel = function(){
 	this.addChild(this.bombGroup);
 
 	this.addChild(this.redHeartsGroup);
-	this.addChild(this.blueHeartsGroup);	
+	if(this.numPlayers == 2){
+		this.addChild(this.blueHeartsGroup);
+	}	
 	this.addChild(this.digitGroup);
 	this.addChild(this.bombIconGroup);
-		
-	this.updateCoinCounter(this.red);
-	this.updateCoinCounter(this.blue); 
+
 	
 	this.timer = this.game.time.clock.createTimer('levelOver',10,0,false);
 	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.levelOver,this);
@@ -245,113 +350,15 @@ gameState.createLevel = function(){
 	this.showingLevelScreen = false;
 }
 
-gameState.create = function(){
-	Kiwi.State.prototype.create.call(this);
-
-	this.STAGE_WIDTH = 1024;
-	this.STAGE_HEIGHT = 768;
-
-	this.TILE_WIDTH = 50;
-
-	this.STAGE_Y_OFFSET = 32 * this.MULTIPLIER;
-	this.STAGE_X_OFFSET = 38 * this.MULTIPLIER;
-
-	this.x = this.TILE_WIDTH - this.STAGE_X_OFFSET;
-	this.y = this.TILE_WIDTH - this.STAGE_Y_OFFSET;
-
-	this.GRID_ROWS = 15;
-	this.GRID_COLS = 20;	
-
-	myGame.stage.color = '000000';
-	myGame.stage.resize(this.STAGE_WIDTH, this.STAGE_HEIGHT);
-
-	this.winScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['win'],-18*this.MULTIPLIER,-18*this.MULTIPLIER);
-	this.loseScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['lose'],-18*this.MULTIPLIER,-18*this.MULTIPLIER);
-
-	this.mouse = this.game.input.mouse;
-
-
-	this.digitGroup = new Kiwi.Group(this);
-	this.bombIconGroup = new Kiwi.Group(this);
-
-	for (var i = 0; i<4; i++){
-		var digit = new Digit(this, 10+(i*18),-18,'red', 4-i);
-		digit.animation.play('0');
-		this.digitGroup.addChild(digit);
-	}
-	for (var i = 0; i<4; i++){
-		var digit = new Digit(this, 920+(i*18),-18,'blue', 4-i);
-		digit.animation.play('0');
-		this.digitGroup.addChild(digit);
-	}
-	for (var i = 0; i<3; i++){
-		var bomb = new Digit(this, 10+((4+i)*18),-18,'red', i+7);
-		bomb.animation.play('bomb');
-		this.bombIconGroup.addChild(bomb);
-	}
-	for (var i = 0; i<3; i++){
-		var bomb = new Digit(this, 920-(18*(i+1)),-18,'blue', i+7);
-		bomb.animation.play('bomb');
-		this.bombIconGroup.addChild(bomb);
-	}
-
-	for(var i = 0; i <this.bombIconGroup.members.length; i++){
-		this.bombIconGroup.members[i].x = -2*this.bps;
-	}
-
-
-	this.BANDIT_HITBOX_X_PERCENTAGE = 0.2;
-	this.BANDIT_HITBOX_Y_PERCENTAGE = 0.1;
-
-	this.COIN_HITBOX_X_PERCENTAGE = 0.46;
-	this.COIN_HITBOX_Y_PERCENTAGE = 0.46;
-
-	this.BOMB_HITBOX_X_PERCENTAGE = 0.33;
-	this.BOMB_HITBOX_Y_PERCENTAGE = 0.33;	
-
-
-
-	this.banditGroup = new Kiwi.Group(this);
-
-	this.blue = new Bandit(this,-(this.bps),-(this.bps),'blue');
-	this.blue.animation.play('idleleft');
-	this.red = new Bandit(this,-(this.bps),-(this.bps),'red');
-	this.red.animation.play('idleleft');
-	this.banditGroup.addChild(this.red);
-	this.banditGroup.addChild(this.blue);
-
-	this.game.input.keyboard.onKeyDown.add(this.onKeyDownCallback, this);
-	this.debugKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.I);
-
-	this.coinGroup = new Kiwi.Group(this);
-	this.bombGroup = new Kiwi.Group(this);
-	this.ghoulGroup = new Kiwi.Group(this);
-	this.blueHeartsGroup = new Kiwi.Group(this);
-	this.redHeartsGroup = new Kiwi.Group(this);
-	this.hiddenBlockGroup = new Kiwi.Group(this);
-
-	this.random = new Kiwi.Utils.RandomDataGenerator();
-
-	this.bombSound = new Kiwi.Sound.Audio(this.game, 'bombSound', 0.3, false);
-	this.coinSound = new Kiwi.Sound.Audio(this.game, 'coinSound', 0.1, false);
-	this.coinSound.addMarker('start',0,1,false);
-	this.gunSound = new Kiwi.Sound.Audio(this.game, 'gunSound', 0.1, false);
-	this.gunSound.addMarker('start',0,1,false);
-	this.blockReappearSound = new Kiwi.Sound.Audio(this.game, 'blockReappearSound',0.3,false);
-	this.blockReappearSound.addMarker('start',.5,1,false);
-
-	this.banditDeathSound = new Kiwi.Sound.Audio(this.game, 'banditDeathSound',0.3, false);
-	this.banditDeathSound.addMarker('start',0,1,false);
-	this.diamondSound = new Kiwi.Sound.Audio(this.game, 'diamondSound', 0.1, false);
-	this.diamondSound.addMarker('start',0,1,false);
-
-	this.showLevelScreen();
-	
-}
-
 gameState.onKeyDownCallback = function(keyCode){
-	if(keyCode == this.red.fireKey.keyCode || keyCode == this.blue.fireKey.keyCode){
-		this.gunSound.play('start',true);
+	if(this.numPlayers == 2){
+		if(keyCode == this.red.fireKey.keyCode || keyCode == this.blue.fireKey.keyCode){
+			this.gunSound.play('start',true);
+		}
+	}else{
+		if(keyCode == this.red.fireKey.keyCode){
+			this.gunSound.play('start',true);
+		}		
 	}
 }
 
@@ -407,7 +414,6 @@ gameState.checkCoinCollision = function(){
 gameState.updateBombCounter = function(bandit){
 	var numBombs = bandit.bombsCollected;
 	var bombIcons = bandit.bombIconGroup.members;
-	console.log(numBombs);
 	switch(numBombs){
 		case 0:
 			for (var i =0; i<bombIcons.length; i++){
