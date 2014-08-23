@@ -16,6 +16,7 @@ var Bandit = function(state, x, y, color){
 	this.startingPixelLocations = null;
 	this.coinsCollected = 0;
 	this.totalCoinsCollected = 0;
+	this.bps = this.state.bps;
 
 	var banditHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
 	var banditHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);
@@ -90,6 +91,165 @@ Bandit.prototype.deathCount = function(){
 			this.deathCounter = 0;
 		}
 	}
+}
+
+Bandit.prototype.update = function(){
+	Kiwi.GameObjects.Sprite.prototype.update.call(this);
+	if(this.state.showingLevelScreen == false){
+		if(!this.isDeadAndOnGround){
+			var southGridPosition = this.state.getGridPosition(this.x, this.y,'south');
+		 	if(this.isAlive){
+			 	if(!(this.state.onBlockType(this.state.ladderBlocks,southGridPosition) || this.state.onBlockType(this.state.groundBlocks, southGridPosition))){
+			 		this.gravity(southGridPosition);
+			 	}
+			}else{
+				if(this.state.onBlockType(this.state.ladderBlocks,southGridPosition) || !this.state.onBlockType(this.state.groundBlocks, southGridPosition)){
+					this.gravity(southGridPosition);
+				}
+			}
+		}
+		if(this.isAlive){		 	
+		 	if(this.fireKey.isDown){
+				this.animation.play('fire' + this.facing);
+				if(this.canShoot){
+					var blastedBlockPosition = this.state.getBlastedBlockPosition(southGridPosition, this.facing, this.state.groundBlocks);
+					this.state.blastBlock(blastedBlockPosition);
+				}
+			}
+			else if(this.upKey.isDown){
+				var gridPosition = this.state.getGridPosition(this.x, this.y, 'north');
+				var ladderPixelNum = this.state.getPixelNumberForGridPosition(gridPosition,'west') + this.bps/2;
+				if(this.x+this.bps/2>ladderPixelNum-15 && this.x+this.bps/2<ladderPixelNum+15){	
+					if(this.state.onBlockType(this.state.topLadderBlocks, gridPosition)){
+						var pixelNum = this.state.getPixelNumberForGridPosition(gridPosition,'north');
+						if(this.y>6+pixelNum){
+							this.y-=3;
+							if(this.animation.currentAnimation.name!='climb'){
+								this.animation.play('climb');
+							}				
+						}else{
+							this.y=pixelNum;
+							this.animation.play('idle'+this.blue.facing);			
+						}
+					}else if(this.state.onBlockType(this.state.ladderBlocks, gridPosition)){
+						if(this.y>3)
+							this.y-=3;
+						if(this.animation.currentAnimation.name != 'climb')
+							this.animation.play('climb');
+					}
+				}
+			}
+			else if(this.rightKey.isDown){
+				this.facing = 'right';
+				if(this.state.onBlockType(this.state.rightBlockedBlocks, southGridPosition)){
+					var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition,'east');
+					if(this.x+this.bps<pixelNum-6){
+						this.x +=5;
+					}else{
+						this.x = pixelNum-this.bps+1;
+						this.animation.play('idle'+this.facing);
+					}
+				}
+				else{
+					if(!this.state.onBlockType(this.state.groundBlocks, southGridPosition)){
+						this.x+=5;
+						if(this.animation.currentAnimation.name != 'moveright')
+							this.animation.play('moveright');
+					}
+				}
+			}
+			else if(this.leftKey.isDown){
+				this.facing = 'left';
+				if(this.state.onBlockType(this.state.leftBlockedBlocks, southGridPosition)){
+					var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition,'west');
+					if(this.x>pixelNum+6){
+						this.x-=5;
+					}else{
+						this.x = pixelNum;
+						this.animation.play('idle'+this.facing);
+					}
+				}else{
+					if(!this.state.onBlockType(this.state.groundBlocks, southGridPosition)){
+						this.x-=5;
+						if(this.animation.currentAnimation.name != 'moveleft')
+							this.animation.play('moveleft');
+					}
+				}
+			}
+			else if(this.downKey.isDown){
+				var ladderPixelNum = this.state.getPixelNumberForGridPosition(southGridPosition,'west') + this.bps/2;
+				var belowFeetPosition = this.state.getGridPosition(this.x, this.y+1,'south');				
+				if(this.x+this.bps/2>ladderPixelNum-15 && this.x+this.bps/2<ladderPixelNum+15){	
+					if(this.state.onBlockType(this.state.firstLadderBlocks, southGridPosition)){
+						if(!this.state.onBlockType(this.state.groundBlocks, belowFeetPosition)){
+							this.y+=3;
+						}else{
+							var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition,'south');
+							if(this.y+this.bps<pixelNum-6){
+								this.y+=3;
+								if(this.animation.currentAnimation.name!='climb'){
+									this.animation.play('climb');
+								}				
+							}
+							else{
+								this.transform.y=pixelNum-this.bps+1; 
+								this.animation.play('idle'+this.facing);
+							}
+						}
+					}
+					else if(this.state.onBlockType(this.state.ladderBlocks, belowFeetPosition)){
+						if(this.y<this.bps*this.state.GRID_ROWS)
+							this.y+=5;
+						else
+							this.y = this.bps*this.state.GRID_ROWS;
+						if(this.animation.currentAnimation.name != 'climb')
+							this.animation.play('climb');
+					}else{
+						if(this.state.onBlockType(this.state.topGroundBlocks, southGridPosition)){
+							if(this.bombClock.elapsed() > 5){
+								this.state.placeBomb(this);
+							}
+						}
+					}
+				}
+			}
+			else {
+		 		var belowFeetPosition = this.state.getGridPosition(this.x, this.y+1,'south');
+				if(this.state.onBlockType(this.state.ladderBlocks, belowFeetPosition) && !this.state.onBlockType(this.state.topLadderBlocks,southGridPosition)){
+					if(this.animation.currentAnimation.name != 'idleclimb')
+						this.animation.play('idleclimb');
+				}		
+				else if(this.animation.currentAnimation.name != 'idle' + this.facing)
+					this.animation.play('idle' + this.facing);	
+			}
+		}
+		else{
+			this.deathCount();
+		}
+	}
+}
+
+Bandit.prototype.gravity = function(southGridPosition){
+	if(this.state.onBlockType(this.state.topGroundBlocks,southGridPosition)){
+		var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition,'south');
+		if(this.y+this.bps<pixelNum-26){
+			this.y+=13;
+		}else{
+			this.y=pixelNum-this.bps+1;
+			if(!this.isAlive){
+				this.isDeadAndOnGround = true;
+			}
+		}
+	}else{
+		if(this.y+this.bps<this.bps*this.state.GRID_ROWS-26){
+			this.y+=13;
+		}else{
+			this.y=this.bps*this.state.GRID_ROWS-this.bps;
+			if(!this.isAlive){
+				this.isDeadAndOnGround = true;
+			}
+		}
+	}		
 }
 
 var HiddenBlock = function(state, x, y){
