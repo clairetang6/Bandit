@@ -61,8 +61,6 @@ var Ghoul = function(state, x, y, facing, ghoulType){
  
 	this.box.hitbox = new Kiwi.Geom.Rectangle(ghoulHitboxX,ghoulHitboxY,this.state.bps-2*ghoulHitboxX,this.state.bps-2*ghoulHitboxY);
 
-	console.log('creating ghoul of type ' + ghoulType);
-
 	switch(ghoulType){
 		case 'gray':
 			this.animation.add('idleleft',[70],0.1,false);

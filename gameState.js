@@ -157,6 +157,13 @@ gameState.createLevel = function(){
 	this.red.x = this.red.startingPixelLocations[0];
 	this.red.y = this.red.startingPixelLocations[1];
 
+	this.red.numberOfHearts = 3;
+	this.blue.numberOfHearts = 3;
+
+	this.blue.isAlive = true;
+	this.red.isAlive = true;
+	this.blue.isDeadAndOnGround = false;
+	this.red.isDeadAndOnGround = false;
 
 	for(var i =1; i<=3; i++){
 		var redHeart = new Heart(this, this.red.startingPixelLocations[0], this.red.startingPixelLocations[1], 'red', i);
@@ -170,9 +177,6 @@ gameState.createLevel = function(){
 		this.redHeartsGroup.addChild(redHeart);
 		this.blueHeartsGroup.addChild(blueHeart);
 	}
-
-	this.blue.isAlive = true;
-	this.red.isAlive = true;
 
 
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'+this.currentLevel],-this.TILE_WIDTH,-this.TILE_WIDTH);
