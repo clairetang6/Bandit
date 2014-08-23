@@ -1,5 +1,5 @@
 
-var myGame = new Kiwi.Game();
+var myGame = new Kiwi.Game('game');
 
 
 myGame.states.addState(titleState);

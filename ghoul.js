@@ -471,10 +471,10 @@ Ghoul.prototype.reappear = function(){
 }
 
 BlueGhoul.prototype.destroy = function(immediate){
-	this.teleportTimer.stop();
-	this.orbTimer.stop();
-	this.orbTimer2.stop();
-	this.reappearTimer.stop();
+	this.teleportTimer.removeTimerEvent(this.teleportTimerEvent);
+	this.orbTimer.removeTimerEvent(this.orbTimerEvent);
+	this.orbTimer2.removeTimerEvent(this.orbTimerEvent2);
+	this.reappearTimer.removeTimerEvent(this.reappearTimerEvent);
 	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
 }
 

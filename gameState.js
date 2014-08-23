@@ -230,7 +230,7 @@ gameState.createLevel = function(){
 	this.addChild(this.ghoulGroup);
 	this.addChild(this.banditGroup);
 
-	this.addChild(this.ghouliath);
+	//this.addChild(this.ghouliath);
 
 	this.addChild(this.tilemap.layers[5]);
 
@@ -305,14 +305,14 @@ gameState.create = function(){
 	}
 
 
-	this.BANDIT_HITBOX_X_PERCENTAGE = .2;
-	this.BANDIT_HITBOX_Y_PERCENTAGE = .1;
+	this.BANDIT_HITBOX_X_PERCENTAGE = 0.2;
+	this.BANDIT_HITBOX_Y_PERCENTAGE = 0.1;
 
-	this.COIN_HITBOX_X_PERCENTAGE = .46;
-	this.COIN_HITBOX_Y_PERCENTAGE = .46;
+	this.COIN_HITBOX_X_PERCENTAGE = 0.46;
+	this.COIN_HITBOX_Y_PERCENTAGE = 0.46;
 
-	this.BOMB_HITBOX_X_PERCENTAGE = .33;
-	this.BOMB_HITBOX_Y_PERCENTAGE = .33;	
+	this.BOMB_HITBOX_X_PERCENTAGE = 0.33;
+	this.BOMB_HITBOX_Y_PERCENTAGE = 0.33;	
 
 
 
@@ -402,7 +402,6 @@ gameState.checkBombCollision = function(){
 			}
 		}
 	}
-
 }
 
 gameState.checkCoinCollision = function(){
@@ -436,6 +435,7 @@ gameState.checkCoinCollision = function(){
 		}
 	}
 }
+
 gameState.updateBombCounter = function(bandit){
 	var numBombs = bandit.bombsCollected;
 	var bombIcons = bandit.bombIconGroup.members;
@@ -484,6 +484,7 @@ gameState.updateBombCounter = function(bandit){
 			break;				
 	}
 }
+
 gameState.updateCoinCounter = function(color){
 	switch(color){
 		case 'red':
@@ -529,7 +530,6 @@ gameState.updateCoinCounter = function(color){
 			}		
 			break;
 	}
-
 }
 
 gameState.checkGhoulCollision = function(){
@@ -615,7 +615,6 @@ gameState.showHearts = function(bandit){
 			}
 			break;
 		case 'blue':
-			console.log(this.blueHeartsGroup);
 			var blueHearts = this.blueHeartsGroup.members;
 			for(var i = 0; i< blueHearts.length; i++){
 				blueHearts[i].disappear();
@@ -719,56 +718,6 @@ Heart.prototype.showSelf = function(){
 	}		
 }
 
-var Bandit = function(state, x, y, color){
-	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
-	this.state = state; 
-	this.color = color; 
-	this.bombsCollected = 0;
-	this.bombs = [];
-	this.bombClock = this.state.game.time.addClock(color+'BombClock',100);
-	this.bombClock.start();
-	this.bombIconGroup = this.state.bombIconGroup;
-	this.isAlive = true;
-	this.isDeadAndOnGround = false;
-
-	var banditHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
-	var banditHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);
-
-	this.box.hitbox = new Kiwi.Geom.Rectangle(banditHitboxX, banditHitboxY, this.state.bps-2*banditHitboxX,this.state.bps-2*banditHitboxY);
-
-	switch(color){
-		case 'blue':
-			this.animation.add('climb',[53,54],0.1,true);
-			this.animation.add('idleleft',[33],0.1,false);
-			this.animation.add('idleright',[25],0.1,false);
-			this.animation.add('moveright',[19,20,21,22,23,24],0.1,true);
-			this.animation.add('moveleft',[32,31,30,29,28,27],0.1,true);
-			this.animation.add('fireleft',[26],0.1,false);
-			this.animation.add('fireright',[18],0.1,false);
-			this.animation.add('idleclimb',[53],0.1,false);
-			this.animation.add('die',[55],0.1,false);
-			break;
-		case 'red':
-			this.animation.add('climb',[81,82],0.1,true);
-			this.animation.add('idleleft',[15],0.1,false);
-			this.animation.add('idleright',[0],0.1,false);
-			this.animation.add('moveright',[1,2,3,4,5,6],0.1,true);
-			this.animation.add('moveleft',[14,13,12,11,10,9],0.1,true);
-			this.animation.add('fireright',[7],0.1,false);
-			this.animation.add('fireleft',[8],0.1,false);
-			this.animation.add('idleclimb',[81],0.1,false);
-			this.animation.add('die',[83],0.1,false);
-			break;
-	}
-
-	this.facing = 'left';
-	console.log(this);
-
-	this.canShoot = true; 
-
-}
-Kiwi.extend(Bandit, Kiwi.GameObjects.Sprite);
-
 var Bomb = function(state, x, y){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
 	console.log('bomb created at ' + x + ' ' + y);
@@ -859,63 +808,6 @@ var Digit = function(state, x, y, color, index){
 	}
 }
 Kiwi.extend(Digit, Kiwi.GameObjects.Sprite);
-
-var HiddenBlock = function(state, x, y){
-	Kiwi.GameObjects.Sprite.call(this, state, state.textures['backgroundSpriteSheet'+state.currentLevel], x, y, false);
-	this.occupiedBy = []; //array of Ghouls 
-	this.gridPosition = state.getGridPosition(x,y);
-	this.row = this.gridPosition[0];
-	this.col = this.gridPosition[1];
-	console.log(this.row + ' ' + this.col) 
-	this.state = state;
-
-	this.timer = state.game.time.clock.createTimer('hiddenBlockTimer',5,0,false);
-	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.hiddenBlockTimer, this);
-	
-	if(this.state.permBlocks[this.row][this.col] != 1){
-		console.log('starting hidden block timer');
-		this.timer.start();
-	}
-
-	HiddenBlock.prototype.update = function(){
-		if(this.occupied){
-			console.log('is occupied');
-			console.log(this.occupiedBy);
-			this.occupied =false; 
-		}
-	}
-}
-Kiwi.extend(HiddenBlock, Kiwi.GameObjects.Sprite);
-
-HiddenBlock.prototype.hiddenBlockTimer = function(){
-	var numberOfGhouls = this.occupiedBy.length;
-	for(var i =0; i < numberOfGhouls; i++){
-		var ghoul = this.occupiedBy.pop();
-		ghoul.destroy(false);
-	}
-	this.destroy();
-	this.state.blockReappearSound.play('start',true);
-
-	this.state.addToBlocks(this.row, this.col, this.state.groundBlocks);
-	this.state.updateTopGroundBlocks();
-	this.state.updateBlockedBlocks();
-
-	var redGridPosition = this.state.getGridPosition(this.state.red.x, this.state.red.y, 'middle');
-	var blueGridPosition = this.state.getGridPosition(this.state.blue.x, this.state.blue.y, 'middle');
-
-
-	
-	if(redGridPosition[0] == this.row && redGridPosition[1] == this.col){
-		for(var i =0; i<101; i++){
-			this.state.deathCount('red');
-		}
-	}
-	if(blueGridPosition[0] == this.row && blueGridPosition[1] == this.col){
-		for(var i=0; i<101; i++){
-			this.state.deathCount('blue');
-		}
-	}
-}
 
 //code below to build map logic
 gameState.make2DArray = function(rows, cols){
@@ -1232,6 +1124,7 @@ gameState.levelOver = function(){
 			this.destroyAllMembersOfGroup('ghoul');
 			this.destroyAllMembersOfGroup('coin');
 			this.destroyAllMembersOfGroup('bomb');
+			this.destroyAllMembersOfGroup('hiddenBlock');
 			this.removeBackgroundImages();
 			this.showLevelScreen();
 		}
@@ -1256,6 +1149,11 @@ gameState.destroyAllMembersOfGroup = function(group){
 			break;
 		case 'bomb':
 			var members = this.bombGroup.members;
+			break;
+		case 'hiddenBlock':
+			var members = this.hiddenBlockGroup.members;
+			console.log(members);
+			break;
 	}
 	for (var i =0; i<members.length; i++){
 		members[i].destroy();
