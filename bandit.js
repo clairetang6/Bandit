@@ -88,16 +88,13 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 	this.state.updateTopGroundBlocks();
 	this.state.updateBlockedBlocks();
 
-	var redGridPosition = this.state.getGridPosition(this.state.red.x, this.state.red.y, 'middle');
-	var blueGridPosition = this.state.getGridPosition(this.state.blue.x, this.state.blue.y, 'middle');
+	var bandits = this.state.banditGroup.members;
 
-
-	
-	if(redGridPosition[0] == this.row && redGridPosition[1] == this.col){	
-		this.state.red.isAlive = false;
-	}
-	if(blueGridPosition[0] == this.row && blueGridPosition[1] == this.col){
-		this.state.blue.isAlive = false;
+	for(var i = 0; i<bandits.length; i++){
+		gridPosition = this.state.getGridPosition(bandits[i].x, bandits[i].y, 'middle');
+		if(gridPosition[0] == this.row && gridPosition[1] == this.col){	
+			bandits[i].isAlive = false;
+		}		
 	}
 }
 
