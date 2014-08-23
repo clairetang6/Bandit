@@ -77,8 +77,8 @@ gameState.createLevel = function(){
 		}
 	}
 
-	this.blueCoinsCollected = 0;
-	this.redCoinsCollected = 0;
+	this.blue.coinsCollected = 0;
+	this.red.coinsCollected = 0;
 
 	this.permBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
 
@@ -237,8 +237,8 @@ gameState.createLevel = function(){
 	this.addChild(this.digitGroup);
 	this.addChild(this.bombIconGroup);
 		
-	this.updateCoinCounter('red');
-	this.updateCoinCounter('blue'); 
+	this.updateCoinCounter(this.red);
+	this.updateCoinCounter(this.blue); 
 	
 	this.timer = this.game.time.clock.createTimer('levelOver',10,0,false);
 	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.levelOver,this);
@@ -313,41 +313,22 @@ gameState.create = function(){
 
 
 	this.banditGroup = new Kiwi.Group(this);
-	
+
 	this.blue = new Bandit(this,-(this.bps),-(this.bps),'blue');
-
-	this.blue_leftKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.A);
-	this.blue_rightKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.D);
-	this.blue_upKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.W);
-	this.blue_downKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.S);
-	this.blue_fireKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SHIFT);
-
 	this.blue.animation.play('idleleft');
-
 	this.red = new Bandit(this,-(this.bps),-(this.bps),'red');
-
-	this.red_leftKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.LEFT);
-	this.red_rightKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.RIGHT);
-	this.red_upKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.UP);
-	this.red_downKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.DOWN);
-	this.red_fireKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SPACEBAR);
-
-	this.game.input.keyboard.onKeyDown.add(this.onKeyDownCallback, this);
-
 	this.red.animation.play('idleleft');
-
-
-	this.debugKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.I);
-
 	this.banditGroup.addChild(this.red);
 	this.banditGroup.addChild(this.blue);
+
+	this.game.input.keyboard.onKeyDown.add(this.onKeyDownCallback, this);
+	this.debugKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.I);
 
 	this.coinGroup = new Kiwi.Group(this);
 	this.bombGroup = new Kiwi.Group(this);
 	this.ghoulGroup = new Kiwi.Group(this);
 	this.blueHeartsGroup = new Kiwi.Group(this);
 	this.redHeartsGroup = new Kiwi.Group(this);
-
 	this.hiddenBlockGroup = new Kiwi.Group(this);
 
 	this.random = new Kiwi.Utils.RandomDataGenerator();
@@ -370,7 +351,7 @@ gameState.create = function(){
 }
 
 gameState.onKeyDownCallback = function(keyCode){
-	if(keyCode == this.red_fireKey.keyCode || keyCode == this.blue_fireKey.keyCode){
+	if(keyCode == this.red.fireKey.keyCode || keyCode == this.blue.fireKey.keyCode){
 		this.gunSound.play('start',true);
 	}
 }
@@ -389,11 +370,13 @@ gameState.checkBombCollision = function(){
 			if(bombs[i].timerStarted == false){
 				var bombBox = bombs[i].box.hitbox;
 				if(bandits[j].box.bounds.intersects(bombBox)){
-					bandits[j].bombsCollected ++;
-					bandits[j].bombs.push(bombs[i]);
+					if(bandits[j].bombsCollected < 3){
+						bandits[j].bombsCollected ++;
+						bandits[j].bombs.push(bombs[i]);
 
-					bombs[i].hide();
-					this.updateBombCounter(bandits[j]);
+						bombs[i].hide();
+						this.updateBombCounter(bandits[j]);
+					}
 				}
 			}
 		}
@@ -408,25 +391,15 @@ gameState.checkCoinCollision = function(){
 		for (var j = 0; j<bandits.length; j++){
 			var coinBox = coins[i].box.hitbox;
 			if(bandits[j].box.bounds.intersects(coinBox)){
-				if(j == 0){
-					if(coins[i].animation.currentAnimation.name == 'shine'){
-						this.redCoinsCollected += 10;
-						this.diamondSound.play('start',true);
-					}else{
-						this.redCoinsCollected ++;
-					}
-					this.updateCoinCounter('red');		
+				if(coins[i].animation.currentAnimation.name == 'shine'){
+					bandits[j].coinsCollected += 10;
+					this.diamondSound.play('start',true);
 				}else{
-					if(coins[i].animation.currentAnimation.name == 'shine'){
-						this.blueCoinsCollected += 10;
-						this.diamondSound.play('start',true);						
-					}else{
-						this.blueCoinsCollected ++;
-					}
-					this.updateCoinCounter('blue');
+					bandits[j].coinsCollected ++;
+					this.coinSound.play('start',true);
 				}
+				this.updateCoinCounter(bandits[j]);
 				coins[i].destroy();
-				this.coinSound.play('start',true);
 			}
 		}
 	}
@@ -467,7 +440,7 @@ gameState.updateBombCounter = function(bandit){
 				}
 			}
 			break;
-		case 2:
+		case 3:
 			for (var i =0; i<bombIcons.length; i++){
 				var bombIcon = bombIcons[i];
 				if(bombIcon.color == bandit.color){
@@ -481,50 +454,21 @@ gameState.updateBombCounter = function(bandit){
 	}
 }
 
-gameState.updateCoinCounter = function(color){
-	switch(color){
-		case 'red':
-			var ones = this.redCoinsCollected % 10; 
-			var tens = Math.floor(this.redCoinsCollected / 10) % 10;
-			var huns = Math.floor(this.redCoinsCollected / 100) % 10;
-			digits = this.digitGroup.members;
-			for(var i =0; i<digits.length; i++){
-				if(digits[i].color == 'red'){
-					if(digits[i].index == 1){
-						digits[i].animation.play(ones.toString());
-					}else {
-						if(digits[i].index == 2){
-							digits[i].animation.play(tens.toString());
-						}else{
-							if(digits[i].index == 3){
-								digits[i].animation.play(huns.toString());
-							}
-						}
-					}
-				}
+gameState.updateCoinCounter = function(bandit){
+	var ones = bandit.coinsCollected % 10; 
+	var tens = Math.floor(bandit.coinsCollected / 10) % 10;
+	var huns = Math.floor(bandit.coinsCollected / 100) % 10;
+	digits = this.digitGroup.members;
+	for(var i =0; i<digits.length; i++){
+		if(digits[i].color == bandit.color){
+			if(digits[i].index == 1){
+				digits[i].animation.play(ones.toString());
+			}else if (digits[i].index == 2){
+				digits[i].animation.play(tens.toString());
+			}else if(digits[i].index == 3){
+				digits[i].animation.play(huns.toString());
 			}
-			break;
-		case 'blue':
-			var ones = this.blueCoinsCollected % 10; 
-			var tens = Math.floor(this.blueCoinsCollected / 10) % 10;
-			var huns = Math.floor(this.blueCoinsCollected / 100) % 10;
-			digits = this.digitGroup.members;
-			for(var i =0; i<digits.length; i++){
-				if(digits[i].color == 'blue'){
-					if(digits[i].index == 1){
-						digits[i].animation.play(ones.toString());
-					}else {
-						if(digits[i].index == 2){
-							digits[i].animation.play(tens.toString());
-						}else{
-							if(digits[i].index == 3){
-								digits[i].animation.play(huns.toString());
-							}
-						}
-					}
-				}
-			}		
-			break;
+		}
 	}
 }
 
@@ -1033,14 +977,14 @@ gameState.update = function(){
 			}
 		}
 		if(this.blue.isAlive){		 	
-		 	if(this.blue_fireKey.isDown){
+		 	if(this.blue.fireKey.isDown){
 				this.blue.animation.play('fire' + this.blue.facing);
 				if(this.blue.canShoot){
 					var blastedBlockPosition = this.getBlastedBlockPosition(blue_southGridPosition, this.blue.facing, this.groundBlocks);
 					this.blastBlock(blastedBlockPosition);
 				}
 			}
-			else if(this.blue_upKey.isDown){
+			else if(this.blue.upKey.isDown){
 				var blue_gridPosition = this.getGridPosition(this.blue.transform.x, this.blue.transform.y, 'north');
 				var ladderPixelNum = this.getPixelNumberForGridPosition(blue_gridPosition,'west') + this.bps/2;
 				if(this.blue.x+this.bps/2>ladderPixelNum-15 && this.blue.x+this.bps/2<ladderPixelNum+15){	
@@ -1063,7 +1007,7 @@ gameState.update = function(){
 					}
 				}
 			}
-			else if(this.blue_rightKey.isDown){
+			else if(this.blue.rightKey.isDown){
 				this.blue.facing = 'right';
 				if(this.onBlockType(this.rightBlockedBlocks, blue_southGridPosition)){
 					var pixelNum = this.getPixelNumberForGridPosition(blue_southGridPosition,'east');
@@ -1082,7 +1026,7 @@ gameState.update = function(){
 					}
 				}
 			}
-			else if(this.blue_leftKey.isDown){
+			else if(this.blue.leftKey.isDown){
 				this.blue.facing = 'left';
 				if(this.onBlockType(this.leftBlockedBlocks, blue_southGridPosition)){
 					var pixelNum = this.getPixelNumberForGridPosition(blue_southGridPosition,'west');
@@ -1100,7 +1044,7 @@ gameState.update = function(){
 					}
 				}
 			}
-			else if(this.blue_downKey.isDown){
+			else if(this.blue.downKey.isDown){
 				var ladderPixelNum = this.getPixelNumberForGridPosition(blue_southGridPosition,'west') + this.bps/2;
 				var blue_belowFeetPosition = this.getGridPosition(this.blue.transform.x, this.blue.transform.y+1,'south');				
 				if(this.blue.x+this.bps/2>ladderPixelNum-15 && this.blue.x+this.bps/2<ladderPixelNum+15){	
@@ -1165,14 +1109,14 @@ gameState.update = function(){
 			}
 		}
 		if(this.red.isAlive){		 	
-		 	if(this.red_fireKey.isDown){
+		 	if(this.red.fireKey.isDown){
 		 		this.red.animation.play('fire'+this.red.facing);
 				if(this.red.canShoot){
 					var blastedBlockPosition = this.getBlastedBlockPosition(red_southGridPosition, this.red.facing, this.groundBlocks);
 					this.blastBlock(blastedBlockPosition);
 				}
 			}
-			else if(this.red_upKey.isDown){
+			else if(this.red.upKey.isDown){
 				var red_gridPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y, 'north');
 				var ladderPixelNum = this.getPixelNumberForGridPosition(red_gridPosition,'west') + this.bps/2;
 				if(this.red.x+this.bps/2>ladderPixelNum-15 && this.red.x+this.bps/2<ladderPixelNum+15){
@@ -1195,7 +1139,7 @@ gameState.update = function(){
 					}
 				}
 			}
-			else if(this.red_rightKey.isDown){
+			else if(this.red.rightKey.isDown){
 				this.red.facing = 'right';
 				if(this.onBlockType(this.rightBlockedBlocks, red_southGridPosition)){
 					var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'east');
@@ -1214,7 +1158,7 @@ gameState.update = function(){
 					}
 				}
 			}
-			else if(this.red_leftKey.isDown){
+			else if(this.red.leftKey.isDown){
 				this.red.facing = 'left';
 				if(this.onBlockType(this.leftBlockedBlocks, red_southGridPosition)){
 					var pixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'west');
@@ -1232,7 +1176,7 @@ gameState.update = function(){
 					}
 				}
 			}
-			else if(this.red_downKey.isDown){
+			else if(this.red.downKey.isDown){
 				var ladderPixelNum = this.getPixelNumberForGridPosition(red_southGridPosition,'west') + this.bps/2;
 				var red_belowFeetPosition = this.getGridPosition(this.red.transform.x, this.red.transform.y+1,'south');				
 				if(this.red.x+this.bps/2>ladderPixelNum-15 && this.red.x+this.bps/2<ladderPixelNum+15){	
@@ -1296,7 +1240,7 @@ gameState.update = function(){
 		this.isGameOver();
 
 		if(this.debugKey.isDown){
-			console.log(this.permBlocks);
+			console.log(this.red.bombsCollected);
 		}
 
 		if(this.mouse.isDown){

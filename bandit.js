@@ -14,6 +14,8 @@ var Bandit = function(state, x, y, color){
 	this.numberOfHearts = 3;
 	this.deathCounter = 0;
 	this.startingPixelLocations = null;
+	this.coinsCollected = 0;
+	this.totalCoinsCollected = 0;
 
 	var banditHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
 	var banditHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);
@@ -31,6 +33,11 @@ var Bandit = function(state, x, y, color){
 			this.animation.add('fireright',[18],0.1,false);
 			this.animation.add('idleclimb',[53],0.1,false);
 			this.animation.add('die',[55],0.1,false);
+			this.leftKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.A);
+			this.rightKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.D);
+			this.upKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.W);
+			this.downKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.S);
+			this.fireKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SHIFT);
 			break;
 		case 'red':
 			this.animation.add('climb',[81,82],0.1,true);
@@ -42,6 +49,12 @@ var Bandit = function(state, x, y, color){
 			this.animation.add('fireleft',[8],0.1,false);
 			this.animation.add('idleclimb',[81],0.1,false);
 			this.animation.add('die',[83],0.1,false);
+			this.leftKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.LEFT);
+			this.rightKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.RIGHT);
+			this.upKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.UP);
+			this.downKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.DOWN);
+			this.fireKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SPACEBAR);
+
 			break;
 	}
 }
