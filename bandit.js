@@ -439,7 +439,23 @@ Bomb.prototype.explode = function(){
 	this.state.blastBlock([this.rowPlaced, this.colPlaced]);	
 	this.state.blastBlock([this.rowPlaced, this.colPlaced+1]); 
 	this.state.blastBlock([this.rowPlaced, this.colPlaced+2]);
-	this.state.bombSound.play();
+	var bandits = this.state.banditGroup.members;
+	var ghouls = this.state.ghoulGroup.members;
+	this.state.bombSound.play();	
+	for(var i = 0; i < bandits.length; i++){
+		gridPosition = this.state.getGridPosition(bandits[i].x, bandits[i].y, 'middle');
+		if(gridPosition[0] == this.rowPlaced && gridPosition[1] >= this.colPlaced-2 && gridPosition[1] <= this.colPlaced+2){
+			bandits[i].isAlive = false;
+		}
+	}
+	for(var i = 0; i < ghouls.length; i++){
+		gridPosition = this.state.getGridPosition(ghouls[i].x, ghouls[i].y, 'middle');
+		if(gridPosition[0] == this.rowPlaced && gridPosition[1] >= this.colPlaced-2 && gridPosition[1] <= this.colPlaced+2){
+			ghouls[i].animation.play('diestatic'+ghouls[i].facing);
+			ghouls[i].facing = 'none';
+			ghouls[i].singleBlockDeath('fast');
+		}
+	}	
 	this.destroy();
 }
 

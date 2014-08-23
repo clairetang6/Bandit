@@ -69,6 +69,8 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 			this.animation.add('upleft',[72],0.1,false);
 			this.animation.add('dieright',[74,75],0.1,true);
 			this.animation.add('dieleft',[71,72],0.1,true);
+			this.animation.add('diestaticright',[74],0.1,false);
+			this.animation.add('diestaticleft',[71],0.1,false);			
 			break;
 		case 'red':
 			this.animation.add('idleleft',[90],0.1,false);
@@ -76,7 +78,9 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 			this.animation.add('upright',[99],0.1,false);
 			this.animation.add('upleft',[102],0.1,false);
 			this.animation.add('dieright',[95,106],0.1,true);
-			this.animation.add('dieleft',[98,102],0.1,true);	
+			this.animation.add('dieleft',[98,102],0.1,true);
+			this.animation.add('diestaticright',[95],0.1,false);
+			this.animation.add('diestaticleft',[98],0.1,false);				
 			this.animation.add('climb',[91,94],0.1,true);	
 			break;
 		case 'blue':
@@ -86,6 +90,8 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 			this.animation.add('upleft',[92],0.1,false);
 			this.animation.add('dieright',[100,104],0.1,true);
 			this.animation.add('dieleft',[107,92],0.1,true);
+			this.animation.add('diestaticright',[100],0.1,false);
+			this.animation.add('diestaticleft',[107],0.1,false);
 			this.animation.add('disappear',[93,97,101,105,113],0.1,false);		
 			this.animation.add('orb',[113],0.1,false);
 			this.animation.add('reappear',[113,105,101,97,93],0.15,false);
@@ -98,6 +104,8 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 			this.animation.add('upright',[144],0.1,false);
 			this.animation.add('dieright',[144,139],0.1,true);
 			this.animation.add('dieleft',[134,128],0.1,true);
+			this.animation.add('diestaticright',[144],0.1,false);
+			this.animation.add('diestaticleft',[134],0.1,false);			
 			this.animation.add('climb',[127,138],0.1,true);
 			this.animation.add('disappear',[129,130,131,132,133],0.1,false);
 			this.animation.add('orb',[133],0.1,false);
@@ -277,8 +285,12 @@ Ghoul.prototype.gravity = function(){
 	}
 }
 
-Ghoul.prototype.singleBlockDeath = function(){
-	this.timer = this.state.game.time.clock.createTimer('singleBlockDeathTimer',3,0,false);
+Ghoul.prototype.singleBlockDeath = function(speed){
+	if(speed == 'fast'){
+		this.timer = this.state.game.time.clock.createTimer('singleBlockDeathTimer',1,0,false);
+	}else{
+		this.timer = this.state.game.time.clock.createTimer('singleBlockDeathTimer',3,0,false);
+	}
 	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.destroy, this);
 	if(this.objType() == 'BlueGhoul'){
 		this.teleportTimer.stop();
@@ -464,7 +476,12 @@ Ghoul.prototype.reappearAnimation = function(){
 Ghoul.prototype.reappear = function(){
 	if(typeof this != 'undefined'){
 		this.box.hitbox = new Kiwi.Geom.Rectangle(this.ghoulHitboxX,this.ghoulHitboxY,this.state.bps-2*this.ghoulHitboxX,this.state.bps-2*this.ghoulHitboxY);
-		this.facing = 'left';
+		if(this.state.random.integerInRange(0,2) == 0){
+			this.facing = 'left';
+		}else{
+			this.facing = 'right';
+		}
+
 	}
 }
 
