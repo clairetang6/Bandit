@@ -129,7 +129,7 @@ Bandit.prototype.update = function(){
 							}				
 						}else{
 							this.y=pixelNum;
-							this.animation.play('idle'+this.blue.facing);			
+							this.animation.play('idle'+this.facing);			
 						}
 					}else if(this.state.onBlockType(this.state.ladderBlocks, gridPosition)){
 						if(this.y>3)

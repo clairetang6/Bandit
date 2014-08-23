@@ -870,9 +870,15 @@ gameState.isLevelOver = function(){
 }
 
 gameState.isGameOver = function(){
-	if(this.blueNumberOfHearts < 1 && this.redNumberOfHearts < 1){
+	var bandits = this.banditGroup.members;
+	this.gameIsOver = true;
+	for(var i = 0; i < bandits.length; i++){
+		if(bandits[i].numberOfHearts > 0){
+			this.gameIsOver = false;
+		}
+	}
+	if(this.gameIsOver){
 		this.addChild(this.loseScreen);
-		this.gameIsOver = true;
 	}
 }
 
@@ -909,9 +915,7 @@ gameState.addToBlocks = function(row, col, blocks){
 }
 
 gameState.removeFromGroundBlocks = function(blastedBlockPosition){
-	if(this.groundBlocks[blastedBlockPosition[0]][blastedBlockPosition[1]]==1){
-		this.groundBlocks[blastedBlockPosition[0]][blastedBlockPosition[1]] = 0;
-	}
+	this.groundBlocks[blastedBlockPosition[0]][blastedBlockPosition[1]] = 0;
 }
 
 gameState.onGunShotCallback = function(){
