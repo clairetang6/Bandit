@@ -207,7 +207,7 @@ Bandit.prototype.update = function(){
 					}else{
 						if(this.state.onBlockType(this.state.topGroundBlocks, southGridPosition)){
 							if(this.bombClock.elapsed() > 5){
-								this.state.placeBomb(this);
+								this.placeBomb();
 							}
 						}
 					}
@@ -250,6 +250,21 @@ Bandit.prototype.gravity = function(southGridPosition){
 			}
 		}
 	}		
+}
+
+Bandit.prototype.placeBomb = function(){
+	if(this.bombsCollected > 0){
+		this.bombClock.start();
+		bomb = this.bombs.pop();
+		bomb.x = this.state.getPixelNumberForGridPosition(this.state.getGridPosition(this.x, this.y,'middle'),'west');
+		bomb.y = this.state.getPixelNumberForGridPosition(this.state.getGridPosition(this.x, this.y,'middle'),'north');	
+		var bombGridPosition = this.state.getGridPosition(bomb.x,bomb.y);
+		bomb.rowPlaced = bombGridPosition[0];
+		bomb.colPlaced = bombGridPosition[1]; 
+		bomb.startTimer();
+		this.bombsCollected--;
+		this.state.updateBombCounter(this);			
+	}
 }
 
 var HiddenBlock = function(state, x, y){

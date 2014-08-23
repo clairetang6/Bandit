@@ -914,22 +914,6 @@ gameState.removeFromGroundBlocks = function(blastedBlockPosition){
 	}
 }
 
-gameState.placeBomb = function(bandit){
-	if(bandit.bombsCollected > 0){
-		bandit.bombClock.start();
-		bomb = bandit.bombs.pop();
-		bomb.x = this.getPixelNumberForGridPosition(this.getGridPosition(bandit.x, bandit.y,'middle'),'west');
-		bomb.y = this.getPixelNumberForGridPosition(this.getGridPosition(bandit.x, bandit.y,'middle'),'north');	
-		var bombGridPosition = this.getGridPosition(bomb.x,bomb.y);
-		bomb.rowPlaced = bombGridPosition[0];
-		bomb.colPlaced = bombGridPosition[1]; 
-		bomb.startTimer();
-		bandit.bombsCollected--;
-		console.log(bandit.bombsCollected);	
-		this.updateBombCounter(bandit);	
-	}
-}
-
 gameState.onGunShotCallback = function(){
 	this.gunSound.play('start',true);
 }
