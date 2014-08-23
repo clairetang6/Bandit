@@ -142,27 +142,25 @@ gameState.createLevel = function(){
 		}
 	}
 
-	this.blueStartingPixelLocations = [0,0];
-	this.redStartingPixelLocations = [0,0];
 	for(var i = 0; i<ghoulsLayerArray.length; i++){
 		if(ghoulsLayerArray[i] == 19){
-			this.blueStartingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+			this.blue.startingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 		}
 		if(ghoulsLayerArray[i] == 1){
-			this.redStartingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+			this.red.startingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 		}
 	}
 
-	this.blue.x = this.blueStartingPixelLocations[0];
-	this.blue.y = this.blueStartingPixelLocations[1];
+	this.blue.x = this.blue.startingPixelLocations[0];
+	this.blue.y = this.blue.startingPixelLocations[1];
 
-	this.red.x = this.redStartingPixelLocations[0];
-	this.red.y = this.redStartingPixelLocations[1];
+	this.red.x = this.red.startingPixelLocations[0];
+	this.red.y = this.red.startingPixelLocations[1];
 
 
 	for(var i =1; i<=3; i++){
-		var redHeart = new Heart(this, this.redStartingPixelLocations[0], this.redStartingPixelLocations[1], 'red', i);
-		var blueHeart = new Heart(this, this.blueStartingPixelLocations[0], this.blueStartingPixelLocations[1], 'blue', i);
+		var redHeart = new Heart(this, this.red.startingPixelLocations[0], this.red.startingPixelLocations[1], 'red', i);
+		var blueHeart = new Heart(this, this.blue.startingPixelLocations[0], this.blue.startingPixelLocations[1], 'blue', i);
 
 		redHeart.animation.add('blink',[84,17],.2,true);
 		blueHeart.animation.add('blink',[56,17],.2,true);
@@ -172,12 +170,6 @@ gameState.createLevel = function(){
 		this.redHeartsGroup.addChild(redHeart);
 		this.blueHeartsGroup.addChild(blueHeart);
 	}
-	
-	this.blueNumberOfHearts = 3;
-	this.redNumberOfHearts = 3;
-
-	this.blueDeathCount = 0;
-	this.redDeathCount = 0;
 
 	this.blue.isAlive = true;
 	this.red.isAlive = true;
@@ -549,81 +541,25 @@ gameState.checkGhoulCollision = function(){
 	}
 }
 
-
-gameState.deathCount = function(bandit){
-	switch(bandit){
+gameState.showHearts = function(color){
+	switch(color){
 		case 'red':
-			if(this.redDeathCount<100){
-				if(this.redDeathCount==1){
-					var hearts = this.redHeartsGroup.members;
-					for(var i = 0; i<hearts.length; i++){
-						hearts[i].disappear();
-					}
-				}
-				this.redDeathCount++;
-				this.red.animation.play('die');
-			}else{
-				this.redNumberOfHearts -= 1;
-				if(this.redNumberOfHearts>0){
-					this.red.x = this.redStartingPixelLocations[0];
-					this.red.y = this.redStartingPixelLocations[1];
-					this.red.isAlive = true;
-					this.red.isDeadAndOnGround = false;
-					this.red.animation.play('idleleft');
-					this.showHearts('red');
-					this.redDeathCount = 0;			
-				}	
-			}
-			break;
-		case 'blue':	
-			if(this.blueDeathCount<100){
-				if(this.blueDeathCount==1){
-					var hearts = this.blueHeartsGroup.members;
-					for(var i = 0; i<hearts.length; i++){
-						hearts[i].disappear();
-					}					
-				}
-				this.blueDeathCount ++;
-				this.blue.animation.play('die');
-			}else{
-				this.blueNumberOfHearts -= 1;
-				if(this.blueNumberOfHearts>0){
-					this.blue.x = this.blueStartingPixelLocations[0];
-					this.blue.y = this.blueStartingPixelLocations[1];
-					this.blue.isAlive = true;
-					this.blue.isDeadAndOnGround = false;
-					this.blue.animation.play('idleleft');
-					this.showHearts('blue');				
-					this.blueDeathCount = 0;
-				}	
-			}
-			break;	
-	}
-}
-
-
-gameState.showHearts = function(bandit){
-	switch(bandit){
-		case 'red':
-			var redHearts = this.redHeartsGroup.members;
-			for(var i = 0; i< redHearts.length; i++){
-				redHearts[i].disappear();
-				if(i<this.redNumberOfHearts){
-					redHearts[i].shouldBeGone = false;
-					redHearts[i].timerStarted = false;
-				}
-			}
+			var heartsGroup = this.redHeartsGroup;
+			var numberOfHearts = this.red.numberOfHearts;
 			break;
 		case 'blue':
-			var blueHearts = this.blueHeartsGroup.members;
-			for(var i = 0; i< blueHearts.length; i++){
-				blueHearts[i].disappear();
-				if(i<this.blueNumberOfHearts){
-					blueHearts[i].shouldBeGone = false;
-					blueHearts[i].timerStarted = false;
-				}
-			}	
+			var heartsGroup = this.blueHeartsGroup;
+			var numberOfHearts = this.blue.numberOfHearts;
 			break;
+	}
+
+	var hearts = heartsGroup.members;
+	for(var i = 0; i< hearts.length; i++){
+		hearts[i].disappear();
+		if(i<numberOfHearts){
+			hearts[i].shouldBeGone = false;
+			hearts[i].timerStarted = false;
+		}
 	}
 }
 
@@ -1389,7 +1325,7 @@ gameState.update = function(){
 			}
 		}
 		else{
-			this.deathCount('blue');
+			this.blue.deathCount();
 		}
 
 		//red player 
@@ -1528,7 +1464,7 @@ gameState.update = function(){
 				}
 			}
 		}else{
-			this.deathCount('red');
+			this.red.deathCount();
 		}
 
 		this.checkCoinCollision();

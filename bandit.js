@@ -9,6 +9,11 @@ var Bandit = function(state, x, y, color){
 	this.bombIconGroup = this.state.bombIconGroup;
 	this.isAlive = true;
 	this.isDeadAndOnGround = false;
+	this.facing = 'left';
+	this.canShoot = true; 
+	this.numberOfHearts = 3;
+	this.deathCounter = 0;
+	this.startingPixelLocations = null;
 
 	var banditHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
 	var banditHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);
@@ -39,14 +44,40 @@ var Bandit = function(state, x, y, color){
 			this.animation.add('die',[83],0.1,false);
 			break;
 	}
-
-	this.facing = 'left';
-	console.log(this);
-
-	this.canShoot = true; 
-
 }
 Kiwi.extend(Bandit, Kiwi.GameObjects.Sprite);
+
+Bandit.prototype.deathCount = function(){
+	if(this.deathCounter < 100){
+		if(this.deathCounter == 1){
+			switch(this.color){
+				case 'red':
+					var heartGroup = this.state.redHeartsGroup;
+					break;
+				case 'blue':
+					var heartGroup = this.state.blueHeartsGroup;
+					break;
+			}
+			var hearts = heartGroup.members;
+			for(var i = 0; i<hearts.length; i++){
+				hearts[i].disappear();
+			}
+		}
+		this.deathCounter++;
+		this.animation.play('die');
+	}else{
+		this.numberOfHearts--;
+		if(this.numberOfHearts>0){
+			this.x = this.startingPixelLocations[0];
+			this.y = this.startingPixelLocations[1];
+			this.isAlive = true;
+			this.isDeadAndOnGround = false;
+			this.animation.play('idleleft');
+			this.state.showHearts(this.color);
+			this.deathCounter = 0;
+		}
+	}
+}
 
 var HiddenBlock = function(state, x, y){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['backgroundSpriteSheet'+state.currentLevel], x, y, false);
