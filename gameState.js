@@ -10,8 +10,8 @@ gameState.preload = function(){
 
 	this.addSpriteSheet('sprites','bandit_spritesheet.png',this.bps,this.bps);
 	this.addSpriteSheet('ghouliath','ghouliath_spritesheet.png',this.bps*2, this.bps*2);
-	this.currentLevel = 1; 
-	this.numberOfLevels = 14;
+	this.currentLevel = 16; 
+	this.numberOfLevels = 16;
 
 	for (var i = 1; i<=this.numberOfLevels; i++){
 		this.addImage('level'+i,'level'+i+'_screen.png',true);
@@ -223,6 +223,13 @@ gameState.createLevel = function(){
 						var ghoul = new BlackGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
 						this.blackGhoul = ghoul;
 						this.ghoulGroup.addChild(ghoul);
+					}else{
+						if(ghoulsLayerArray[i]==167){
+							var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+							var ghoul = new KingGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
+							this.ghoulGroup.addChild(ghoul);
+							this.kingGhoul = ghoul;
+						}
 					}
 				}
 			}
@@ -939,7 +946,8 @@ gameState.update = function(){
 		this.isGameOver();
 
 		if(this.debugKey.isDown){
-			console.log(this.red.bombsCollected);
+			console.log(this.kingGhoul);
+			this.kingGhoul.animation.play('laugh');
 		}
 
 		if(this.mouse.isDown){

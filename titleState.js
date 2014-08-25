@@ -44,7 +44,7 @@ titleState.update = function(){
 	//console.log(this.clock.elapsedSinceLastPaused());
 	if(this.mouse.isDown){		
 	
-		if(this.mouse.x > 350 && this.mouse.x < 650){
+		if(this.mouse.x > 300 && this.mouse.x < 700){
 			if(this.mouse.y > 540 && this.mouse.y < 590){
 				this.game.numPlayers = 1;
 				this.game.states.switchState('gameState');

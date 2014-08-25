@@ -110,133 +110,132 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 			this.animation.add('disappear',[129,130,131,132,133],0.1,false);
 			this.animation.add('orb',[133],0.1,false);
 			this.animation.add('reappear',[133,132,131,130,129],0.1,false);
-
-			this.animation.
 			break;	
+		case 'king':
+			this.animation.add('idleleft',[166],0.1,false);
+			this.animation.add('dieleft',[162,163],0.1,true);
+			this.animation.add('laugh',[164,165],0.1,true);
+			this.animation.add('shoot',[166,167,166,168,165,166],0.1,false);
+			this.animation.add('explode',[168],0.1,false);
+			break;
 	}
 
 	this.animation.play('idleleft');	
 
-	Ghoul.prototype.update = function(){
-		Kiwi.GameObjects.Sprite.prototype.update.call(this);
-		var rightGridPosition = state.getGridPosition(this.x, this.y, 'east');
-		var leftGridPosition = state.getGridPosition(this.x, this.y, 'west');
-      	var topGridPosition = state.getGridPosition(this.x, this.y+15, 'north');
+}
+Kiwi.extend(Ghoul, Kiwi.GameObjects.Sprite);
 
+Ghoul.prototype.update = function(){
+	Kiwi.GameObjects.Sprite.prototype.update.call(this);
+	var rightGridPosition = this.state.getGridPosition(this.x, this.y, 'east');
+	var leftGridPosition = this.state.getGridPosition(this.x, this.y, 'west');
+    var topGridPosition = this.state.getGridPosition(this.x, this.y+15, 'north');
 
+	if(this.isInHole){
+		this.inHole();
+	}else{
+		this.shouldCheckDirection = (this.x % this.state.bps == 0 && this.y % this.state.bps == 0); 	
 
-		if(this.isInHole){
-			this.inHole();
-		}else{
-			this.shouldCheckDirection = (this.x % this.state.bps == 0 && this.y % this.state.bps == 0); 	
-
-			if(this.shouldFall){
-				console.log('calling gravity');
-				this.gravity();
-				if(!(this.y>this.state.bps*(this.state.GRID_ROWS-1))){
-					switch(this.facing){
-						case 'left':
-							var ghoulCode = this.state.ghoulBlocks[rightGridPosition[0]][rightGridPosition[1]];
-							if(ghoulCode % 3 != 0){
-								this.facing = 'right';
-								this.animation.play('idleright');
-								console.log('playing animation');
-							}
-							break;
-						case 'right':
-							var ghoulCode = this.state.ghoulBlocks[leftGridPosition[0]][leftGridPosition[1]];
-							if(ghoulCode % 2 != 0){
-								this.facing = 'left';
-								this.animation.play('idleleft');
-								console.log('playing animation)');
-							}					
-							break;
-					}
-				}
-			}
-			
-			if(!this.shouldFall){
-				this.checkDirection();
-
+		if(this.shouldFall){
+			this.gravity();
+			if(!(this.y>this.state.bps*(this.state.GRID_ROWS-1))){
 				switch(this.facing){
 					case 'left':
-						var checkForHiddenBlockPosition = [rightGridPosition[0]+1, rightGridPosition[1]];
-						var hiddenBlock = null;
-						for (var i = 0; i<state.hiddenBlockGroup.members.length; i++){
-							hiddenBlock = state.hiddenBlockGroup.members[i];
-							if(hiddenBlock.row == checkForHiddenBlockPosition[0] && hiddenBlock.col == checkForHiddenBlockPosition[1]){
-								this.shouldFall = true;
-							}else{
-								if(hiddenBlock.row == topGridPosition[0] && hiddenBlock.col == topGridPosition[1]){
-									if(this.shouldFall == false){
-										this.isInHole = true;
-									}
-								}
-							}
+						var ghoulCode = this.state.ghoulBlocks[rightGridPosition[0]][rightGridPosition[1]];
+						if(ghoulCode % 3 != 0){
+							this.facing = 'right';
+							this.animation.play('idleright');
+							console.log('playing animation');
 						}
-						if(this.isInHole){
-							console.log('in hole');
-							hiddenBlock.occupiedBy.push(this);
-						}
-
 						break;
 					case 'right':
-						var checkForHiddenBlockPosition = [leftGridPosition[0]+1, leftGridPosition[1]];
-						var hiddenBlock = null;
-						for (var i = 0; i<state.hiddenBlockGroup.members.length; i++){
-							hiddenBlock = state.hiddenBlockGroup.members[i];
-							if(hiddenBlock.row == checkForHiddenBlockPosition[0] && hiddenBlock.col == checkForHiddenBlockPosition[1]){
-								this.shouldFall = true;
-							}else{
-								if(hiddenBlock.row == topGridPosition[0] && hiddenBlock.col == topGridPosition[1]){
-									if(this.shouldFall == false){
-										this.isInHole = true;
-									}
-								}
-							}
-						}
-						if(this.isInHole){
-							console.log('in hole right');
-							hiddenBlock.occupiedBy.push(this);
-						}
+						var ghoulCode = this.state.ghoulBlocks[leftGridPosition[0]][leftGridPosition[1]];
+						if(ghoulCode % 2 != 0){
+							this.facing = 'left';
+							this.animation.play('idleleft');
+							console.log('playing animation)');
+						}					
 						break;
 				}
 			}
+		}
+			
+		if(!this.shouldFall){
+			this.checkDirection();
 
 			switch(this.facing){
 				case 'left':
-					this.x -= 1;
-					if(this.animation.currentAnimation.name != 'idleleft'){
-						this.animation.play('idleleft');
+					var checkForHiddenBlockPosition = [rightGridPosition[0]+1, rightGridPosition[1]];
+					var hiddenBlock = null;
+					for (var i = 0; i < this.state.hiddenBlockGroup.members.length; i++){
+						hiddenBlock = this.state.hiddenBlockGroup.members[i];
+						if(hiddenBlock.row == checkForHiddenBlockPosition[0] && hiddenBlock.col == checkForHiddenBlockPosition[1]){
+							this.shouldFall = true;
+						}else{
+							if(hiddenBlock.row == topGridPosition[0] && hiddenBlock.col == topGridPosition[1]){
+								if(this.shouldFall == false){
+									this.isInHole = true;
+								}
+							}
+						}
 					}
+					if(this.isInHole){
+						console.log('in hole');
+						hiddenBlock.occupiedBy.push(this);
+					}
+
 					break;
 				case 'right':
-					this.x += 1;
-					if(this.animation.currentAnimation.name != 'idleright'){
-						this.animation.play('idleright');
+					var checkForHiddenBlockPosition = [leftGridPosition[0]+1, leftGridPosition[1]];
+					var hiddenBlock = null;
+					for (var i = 0; i < this.state.hiddenBlockGroup.members.length; i++){
+						hiddenBlock = this.state.hiddenBlockGroup.members[i];
+						if(hiddenBlock.row == checkForHiddenBlockPosition[0] && hiddenBlock.col == checkForHiddenBlockPosition[1]){
+							this.shouldFall = true;
+						}else{
+							if(hiddenBlock.row == topGridPosition[0] && hiddenBlock.col == topGridPosition[1]){
+								if(this.shouldFall == false){
+									this.isInHole = true;
+								}
+							}
+						}
 					}
-					break;
-				case 'up':
-					this.y -= 1;
-					if(this.animation.currentAnimation.name != 'climb'){
-						this.animation.play('climb');
-					}
-					break;
-				case 'down':
-					this.y += 1;
-					if(this.animation.currentAnimation.name != 'climb'){
-						this.animation.play('climb');
+					if(this.isInHole){
+						console.log('in hole right');
+						hiddenBlock.occupiedBy.push(this);
 					}
 					break;
 			}
-
-			
-
 		}
 
+		switch(this.facing){
+			case 'left':
+				this.x -= 1;
+				if(this.animation.currentAnimation.name != 'idleleft'){
+					this.animation.play('idleleft');
+				}
+				break;
+			case 'right':
+				this.x += 1;
+				if(this.animation.currentAnimation.name != 'idleright'){
+					this.animation.play('idleright');
+				}
+				break;
+			case 'up':
+				this.y -= 1;
+				if(this.animation.currentAnimation.name != 'climb'){
+					this.animation.play('climb');
+				}
+				break;
+			case 'down':
+				this.y += 1;
+				if(this.animation.currentAnimation.name != 'climb'){
+					this.animation.play('climb');
+				}
+				break;
+		}		
 	}
 }
-Kiwi.extend(Ghoul, Kiwi.GameObjects.Sprite);
 
 Ghoul.prototype.inHole = function(){
 	//this.animation.play('up' + this.facing);
@@ -246,28 +245,20 @@ Ghoul.prototype.inHole = function(){
 }
 
 Ghoul.prototype.gravity = function(){
-	console.log('calling gravity');
 	this.shouldCheckDirection = false;	
 	var southGridPosition = this.state.getGridPosition(this.x, this.y, 'south');
-	var inStoppingBlock = false;
-	for(var i = 0; i < this.state.topGroundBlocks.length; i++){
-		if(this.state.onBlockType(this.state.topGroundBlocks, southGridPosition)){
-			inStoppingBlock = true;
-		}	
-	}
-	if(inStoppingBlock){
+	//if in stopping block
+	if(this.state.onBlockType(this.state.topGroundBlocks, southGridPosition)){
 		var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition, 'south');
-		if(this.y + this.state.bps <pixelNum-10){
+		if(this.y + this.state.bps < pixelNum-10){
 			this.y += 10;
-		}
-		else{
+		}else{
 			this.y = pixelNum-this.state.bps+1;
 			this.shouldFall = false;
 			var gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
 			var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];	
 			if(ghoulCode % 2 != 0 && ghoulCode % 3 != 0){
 				this.isInHole = true;
-				console.log('in stopping block deaht?');
 				this.singleBlockDeath();
 			}
 			if(this.objType() == 'BlackGhoul'){
@@ -588,4 +579,59 @@ BlackGhoul.prototype.checkDirection = function(){
 	}
 }
 
+var KingGhoul = function(state, x, y, facing){
+	Ghoul.call(this, state, x, y, facing, 'king');
+
+	this.laughTimer = this.state.game.time.clock.createTimer('laughTimer',0.5,0,false);
+	this.laughTimerEvent = this.laughTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.laugh, this);
+
+	this.laughOverTimer = this.state.game.time.clock.createTimer('laughOverTimer',3,0,false);
+	this.laughOverTimerEvent = this.laughOverTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.laughOver, this);
+
+	this.gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
+	this.banditInRange = [this.gridPosition[0], this.gridPosition[1]-3];
+
+	this.bandits = this.state.banditGroup.members;
+	this.banditDeathCount = 0;
+
+}
+Kiwi.extend(KingGhoul, Kiwi.GameObjects.Sprite);
+
+KingGhoul.prototype.update = function(){
+	Kiwi.GameObjects.Sprite.prototype.update.call(this);
+
+	for(var i = 0; i<this.bandits.length; i++){
+		var banditGridPosition = this.state.getGridPosition(this.bandits[i].x, this.bandits[i].y, 'middle');
+		if(banditGridPosition[0] == this.banditInRange[0] && banditGridPosition[1] == this.banditInRange[1]){
+			if(this.bandits[i].isAlive){
+				if(this.animation.currentAnimation.name != 'shoot' && this.animation.currentAnimation.name != 'laugh'){
+					this.animation.play('shoot');
+				}
+				if(this.banditDeathCount > 5){
+					this.bandits[i].isAlive = false;
+					this.banditDeathCount = 0;
+				}else{
+					if(this.banditDeathCount == 0){
+						this.laughTimer.start();
+					}
+					this.banditDeathCount ++;
+				}
+			}
+		}
+	}
+}
+
+KingGhoul.prototype.laughOver = function(){
+	this.animation.play('idleleft');
+	console.log('laugh over');
+}
+
+KingGhoul.prototype.laugh = function(){
+	if(this.animation.currentAnimation.name!='laugh'){
+		this.animation.play('laugh');
+		console.log('am i laughing');
+		//this.state.kingGhoulLaughSound.play('start',false);
+		this.laughOverTimer.start();
+	}	
+}
 
