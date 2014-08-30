@@ -10,7 +10,7 @@ gameState.preload = function(){
 
 	this.addSpriteSheet('sprites','bandit_spritesheet.png',this.bps,this.bps);
 	this.addSpriteSheet('ghouliath','ghouliath_spritesheet.png',this.bps*2, this.bps*2);
-	this.currentLevel = 1; 
+	this.currentLevel = 16; 
 	this.numberOfLevels = 16;
 
 	for (var i = 1; i<=this.numberOfLevels; i++){
@@ -241,14 +241,20 @@ gameState.createLevel = function(){
 	}
 
 	for(var i = 0; i<ghoulsLayerArray.length; i++){
-		if(ghoulsLayerArray[i] == 1){
-			this.red.startingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
-		}
-		if(this.numPlayers == 2){
-			if(ghoulsLayerArray[i] == 19){
-				this.blue.startingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+		if(ghoulsLayerArray[i] == 163){
+			var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+			var ghouliath = new Ghouliath(this, ghoulPixels[0], ghoulPixels[1], 'right');
+			this.ghoulGroup.addChild(ghouliath);			
+		}else{
+			if(ghoulsLayerArray[i] == 1){
+				this.red.startingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+			}
+			if(this.numPlayers == 2){
+				if(ghoulsLayerArray[i] == 19){
+					this.blue.startingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+				}	
 			}	
-		}	
+		}
 	}
 
 	

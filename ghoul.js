@@ -2,47 +2,58 @@ var Ghouliath = function(state, x, y, facing){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['ghouliath'], x, y, false);
 	this.facing = facing;
 	this.state = state;
-	this.timer = this.state.game.time.clock.createTimer('ghouliathTimer',3, -1, false);
-	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.changeDirection, this);
-	this.timer.start();
-	this.downCount = 0;
 
-	Ghouliath.prototype.update = function(){
-		Kiwi.GameObjects.Sprite.prototype.update.call(this);
-
-		switch(this.facing){
-			case 'left':
-				if(this.animation.currentAnimation.name != 'moveleft'){
-					this.animation.play('moveleft');
-				}
-				this.x -= 1;
-				break;
-			case 'right':
-				if(this.animation.currentAnimation.name != 'moveright'){
-					this.animation.play('moveright');
-				}
-				this.x += 1;
-				if(this.downCount<50)
-					this.y += 1; 
-				else
-					this.y -= 1;
-				this.downCount ++;
-				if(this.downCount==100)
-					this.downCount =0;
-				break;
-
-		}
-
-	}
-
+	this.animation.add('moveright',[0,2,3,4,5,6,7,8,9,1],0.2,true);
+	this.animation.add('moveleft',[0,2,3,4,5,6,7,8,9,1],0.2,true);
 }
 Kiwi.extend(Ghouliath, Kiwi.GameObjects.Sprite);
 
-Ghouliath.prototype.changeDirection = function(){
-	if(this.facing == 'left'){
-		this.facing = 'right';
-	}else{
-		this.facing = 'left';
+Ghouliath.prototype.update = function(){
+	Kiwi.GameObjects.Sprite.prototype.update.call(this);
+	this.shouldCheckDirection = (this.x % this.state.bps == 0 && this.y % this.state.bps == 0); 	
+	
+	if(this.shouldCheckDirection){
+		this.gridPosition = this.state.getGridPosition(this.x, this.y);
+		switch(this.facing){
+			case 'left':
+				if(this.x <= 0){
+					this.facing = 'right';
+				}else{
+					var checkGroundBlock1 = [this.gridPosition[0], this.gridPosition[1]-1];
+					var checkGroundBlock2 = [this.gridPosition[0] + 1, this.gridPosition[1]-1];
+					if(this.state.onBlockType(this.state.groundBlocks, checkGroundBlock1) || this.state.onBlockType(this.state.groundBlocks, checkGroundBlock2)){
+						this.facing = 'right';
+					}
+				}
+				break;
+			case 'right':
+				if(this.x + 100 >= this.state.bps*this.state.GRID_COLS){
+					this.facing = 'left';
+				}else{
+					var checkGroundBlock1 = [this.gridPosition[0], this.gridPosition[1]+2];
+					var checkGroundBlock2 = [this.gridPosition[0] + 1, this.gridPosition[1]+2];
+					if(this.state.onBlockType(this.state.groundBlocks, checkGroundBlock1) || this.state.onBlockType(this.state.groundBlocks, checkGroundBlock2)){
+						this.facing = 'left';
+					}
+				}	
+				break;	
+		}
+	}
+	switch(this.facing){
+		case 'left':
+			if(this.animation.currentAnimation.name != 'moveleft'){
+				this.animation.play('moveleft');
+			}
+			this.x -= 0.5;
+			this.scaleX = -1;
+			break;
+		case 'right':
+			if(this.animation.currentAnimation.name != 'moveright'){
+				this.animation.play('moveright');
+			}
+			this.x += 0.5;
+			this.scaleX = 1;
+			break;
 	}
 }
 
