@@ -22,6 +22,7 @@ titleState.create = function(){
 	this.STAGE_HEIGHT = 768;
 	myGame.stage.color = '000000';
 	myGame.stage.resize(this.STAGE_WIDTH, this.STAGE_HEIGHT);
+
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['title'],0,0);
 
 
@@ -43,7 +44,8 @@ titleState.update = function(){
 	Kiwi.State.prototype.update.call(this);
 	//console.log(this.clock.elapsedSinceLastPaused());
 	if(this.mouse.isDown){		
-	
+
+		//console.log(this.mouse._cursor.x + ' ' this.mouse._cursor.y);
 		if(this.mouse.x > 300 && this.mouse.x < 700){
 			if(this.mouse.y > 540 && this.mouse.y < 590){
 				this.game.numPlayers = 1;

@@ -413,6 +413,14 @@ Heart.prototype.showSelf = function(){
 	}		
 }
 
+var Cracks = function(state, x, y){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
+	this.state = state;
+	this.animation.add('cracks',[150],.1,false);
+	this.animation.play('cracks');
+}
+Kiwi.extend(Cracks, Kiwi.GameObjects.Sprite);
+
 var Bomb = function(state, x, y){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
 	console.log('bomb created at ' + x + ' ' + y);

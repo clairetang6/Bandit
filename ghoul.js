@@ -607,7 +607,7 @@ KingGhoul.prototype.update = function(){
 				if(this.animation.currentAnimation.name != 'shoot' && this.animation.currentAnimation.name != 'laugh'){
 					this.animation.play('shoot');
 				}
-				if(this.banditDeathCount > 5){
+				if(this.banditDeathCount > 7){
 					this.bandits[i].isAlive = false;
 					this.banditDeathCount = 0;
 				}else{

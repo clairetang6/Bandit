@@ -833,8 +833,8 @@ var Kiwi;
         * @private
         */
         Stage.prototype._calculateContainerScale = function () {
-            this.offset = this.getOffsetPoint(this.container);
             this._scaleContainer();
+            this.offset = this.getOffsetPoint(this.container);
 
             this._scale.x = this._width / this.container.clientWidth;
             this._scale.y = this._height / this.container.clientHeight;
@@ -905,7 +905,7 @@ var Kiwi;
             this._width = width;
 
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this._calculateContainerScale();
+                this._calculateContainerScale();     
             }
 
             this.onResize.dispatch(this._width, this._height);

@@ -10,7 +10,7 @@ gameState.preload = function(){
 
 	this.addSpriteSheet('sprites','bandit_spritesheet.png',this.bps,this.bps);
 	this.addSpriteSheet('ghouliath','ghouliath_spritesheet.png',this.bps*2, this.bps*2);
-	this.currentLevel = 16; 
+	this.currentLevel = 1; 
 	this.numberOfLevels = 16;
 
 	for (var i = 1; i<=this.numberOfLevels; i++){
@@ -113,6 +113,7 @@ gameState.create = function(){
 	this.bombGroup = new Kiwi.Group(this);
 	this.ghoulGroup = new Kiwi.Group(this);
 	this.hiddenBlockGroup = new Kiwi.Group(this);
+	this.cracksGroup = new Kiwi.Group(this);
 
 	this.random = new Kiwi.Utils.RandomDataGenerator();
 
@@ -194,6 +195,9 @@ gameState.createLevel = function(){
 			this.bombGroup.addChild(bomb);
 		}else{
 			if(bombsLayerArray[i] == 69){
+				var cracksPixel = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+				var cracks = new Cracks(this, cracksPixel[0], cracksPixel[1]);
+				this.cracksGroup.addChild(cracks);
 				this.permBlocks[this.getRow(i, width)][this.getCol(i,width)] = 1;
 				console.log('perm blocks: ' + this.getRow(i,width) + ' ' + this.getCol(i,width));
 			}
@@ -329,10 +333,11 @@ gameState.createLevel = function(){
 
 	this.addChild(this.background);
 	this.addChild(this.tilemap.layers[0]);
+	this.addChild(this.cracksGroup);	
 	this.addChild(this.hiddenBlockGroup);	
 	this.addChild(this.tilemap.layers[1]);
 	this.addChild(this.tilemap.layers[2]);
-	
+
 	this.addChild(this.coinGroup);
 	this.addChild(this.ghoulGroup);
 	this.addChild(this.banditGroup);
@@ -839,6 +844,7 @@ gameState.levelOver = function(){
 			this.destroyAllMembersOfGroup('coin');
 			this.destroyAllMembersOfGroup('bomb');
 			this.destroyAllMembersOfGroup('hiddenBlock');
+			this.destroyAllMembersOfGroup('cracks');
 			this.removeBackgroundImages();
 			this.showLevelScreen();
 		}
@@ -867,6 +873,8 @@ gameState.destroyAllMembersOfGroup = function(group){
 		case 'hiddenBlock':
 			var members = this.hiddenBlockGroup.members;
 			console.log(members);
+		case 'cracks':
+			var members = this.cracksGroup.members;	
 			break;
 	}
 	for (var i =0; i<members.length; i++){
