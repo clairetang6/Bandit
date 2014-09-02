@@ -10,7 +10,7 @@ gameState.preload = function(){
 
 	this.addSpriteSheet('sprites','bandit_spritesheet.png',this.bps,this.bps);
 	this.addSpriteSheet('ghouliath','ghouliath_spritesheet.png',this.bps*2, this.bps*2);
-	this.currentLevel = 16; 
+	this.currentLevel = 2; 
 	this.numberOfLevels = 16;
 
 	for (var i = 1; i<=this.numberOfLevels; i++){
@@ -960,8 +960,7 @@ gameState.update = function(){
 		this.isGameOver();
 
 		if(this.debugKey.isDown){
-			console.log(this.kingGhoul);
-			this.kingGhoul.animation.play('laugh');
+			this.blackGhoul.teleport();
 		}
 
 		if(this.mouse.isDown){

@@ -62,6 +62,7 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 	this.facing = facing; 
 	this.shouldFall = false;
 	this.isInHole = false;
+	this.isInHiddenBlock = false;
 	this.testvar = 0;
 	this.state = state;
 	this.shouldCheckDirection = true;
@@ -156,7 +157,6 @@ Ghoul.prototype.update = function(){
 						if(ghoulCode % 3 != 0){
 							this.facing = 'right';
 							this.animation.play('idleright');
-							console.log('playing animation');
 						}
 						break;
 					case 'right':
@@ -164,7 +164,6 @@ Ghoul.prototype.update = function(){
 						if(ghoulCode % 2 != 0){
 							this.facing = 'left';
 							this.animation.play('idleleft');
-							console.log('playing animation)');
 						}					
 						break;
 				}
@@ -191,8 +190,8 @@ Ghoul.prototype.update = function(){
 						}
 					}
 					if(this.isInHole){
-						console.log('in hole');
 						hiddenBlock.occupiedBy.push(this);
+						this.isInHiddenBlock = true;
 					}
 
 					break;
@@ -212,7 +211,7 @@ Ghoul.prototype.update = function(){
 						}
 					}
 					if(this.isInHole){
-						console.log('in hole right');
+						this.isInHiddenBlock = true;
 						hiddenBlock.occupiedBy.push(this);
 					}
 					break;
@@ -293,11 +292,19 @@ Ghoul.prototype.singleBlockDeath = function(speed){
 	}else{
 		this.timer = this.state.game.time.clock.createTimer('singleBlockDeathTimer',3,0,false);
 	}
-	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.destroy, this);
+	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.checkSingleBlockDeath, this);
 	if(this.objType() == 'BlueGhoul'){
 		this.teleportTimer.stop();
 	}
 	this.timer.start();	
+}
+
+Ghoul.prototype.checkSingleBlockDeath = function(){
+	if(!this.isInHiddenBlock){
+		this.destroy(false);
+	}else{
+		this.isInHiddenBlock = true;
+	}
 }
 
 Ghoul.prototype.checkDirection = function(){
@@ -483,7 +490,11 @@ Ghoul.prototype.reappear = function(){
 		}else{
 			this.facing = 'right';
 		}
-
+		this.isInHole = false;
+		//BlackGhouls only teleport when they are supposed to die.
+		if(this.objType() == 'BlackGhoul'){
+			this.lives--;
+		}
 	}
 }
 
@@ -504,6 +515,7 @@ var BlackGhoul = function(state, x, y, facing){
 	this.findPathCount = 4;
 	this.path = [];
 	this.nextNode = undefined;
+	this.lives = 3;
 	
 	this.orbTimer = this.state.game.time.clock.createTimer('orbTimer',1.4,0,false);
 	this.orbTimerEvent = this.orbTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.showOrb, this);
@@ -520,6 +532,23 @@ var BlackGhoul = function(state, x, y, facing){
 }
 Kiwi.extend(BlackGhoul, BlueGhoul);
 Kiwi.extend(BlackGhoul, RedGhoul);
+
+BlackGhoul.prototype.inHole = function(){
+	if(this.lives < 1 && this.facing != 'teleport'){
+		Ghoul.prototype.inHole.call(this);
+	}else{	
+		if(this.facing != 'teleport'){
+			this.teleport();
+		}
+	}
+}
+
+BlackGhoul.prototype.destroy = function(immediate){
+	this.orbTimer.removeTimerEvent(this.orbTimerEvent);
+	this.orbTimer2.removeTimerEvent(this.orbTimerEvent2);
+	this.reappearTimer.removeTimerEvent(this.reappearTimerEvent);
+	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
+}
 
 BlackGhoul.prototype.objType = function(){
 	return 'BlackGhoul';
@@ -543,7 +572,7 @@ BlackGhoul.prototype.findPathToBandit = function(){
     var end = graph.grid[banditPosition[0]][banditPosition[1]];
     var result = astar.search(graph, start, end);	
     if(result.length > 0){
-    	console.log('pathfinding success');
+    	//console.log('pathfinding success');
     }
    	return result;
 }
@@ -562,20 +591,20 @@ BlackGhoul.prototype.checkDirection = function(){
 		this.nextNode = this.path.pop();
 		if(this.nextNode !== undefined){
 			if(this.nextNode.x === gridPosition[0] && this.nextNode.y === gridPosition[1]){
-				console.log('bfore: ' + this.nextNode.x + ' ' + this.nextNode.y);
+				//console.log('bfore: ' + this.nextNode.x + ' ' + this.nextNode.y);
 				this.nextNode = this.path.pop();
 			}
 			if(this.nextNode !== undefined){
-				console.log(gridPosition[0] + ' ' + gridPosition[1] + ' ghoul pos');
-				console.log(this.nextNode.x + ' ' + this.nextNode.y);
+				//console.log(gridPosition[0] + ' ' + gridPosition[1] + ' ghoul pos');
+				//console.log(this.nextNode.x + ' ' + this.nextNode.y);
 				if(this.nextNode.x < gridPosition[0]){
-					console.log('moving up to ' + this.nextNode.x + ' ' + this.nextNode.y);
+					//console.log('moving up to ' + this.nextNode.x + ' ' + this.nextNode.y);
 					this.facing = 'up';
 				}else if(this.nextNode.x > gridPosition[0]){
-					console.log('moving down to ' + this.nextNode.x);
+					//console.log('moving down to ' + this.nextNode.x);
 					this.facing = 'down';
 				}else if(this.nextNode.y < gridPosition[1]){
-					console.log('moving left to ' + this.nextNode.x + ' ' + this.nextNode.y);
+					//console.log('moving left to ' + this.nextNode.x + ' ' + this.nextNode.y);
 
 					this.facing = 'left';
 				}else if(this.nextNode.y > gridPosition[1]){

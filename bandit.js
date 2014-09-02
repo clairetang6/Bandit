@@ -298,7 +298,13 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 	var numberOfGhouls = this.occupiedBy.length;
 	for(var i =0; i < numberOfGhouls; i++){
 		var ghoul = this.occupiedBy.pop();
-		ghoul.destroy(false);
+		if(ghoul.objType() == 'BlackGhoul'){
+			if(ghoul.lives < 1){
+				ghoul.destroy(false);
+			}
+		}else{
+			ghoul.destroy(false);
+		}
 	}
 	this.destroy();
 	this.state.blockReappearSound.play('start',true);
