@@ -10,7 +10,7 @@ gameState.preload = function(){
 
 	this.addSpriteSheet('sprites','bandit_spritesheet.png',this.bps,this.bps);
 	this.addSpriteSheet('ghouliath','ghouliath_spritesheet.png',this.bps*2, this.bps*2);
-	this.currentLevel = 2; 
+	this.currentLevel = 16; 
 	this.numberOfLevels = 16;
 
 	for (var i = 1; i<=this.numberOfLevels; i++){
@@ -210,23 +210,23 @@ gameState.createLevel = function(){
 		if(ghoulsLayerArray[i]==74){
 			var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 			var ghoul = new Ghoul(this,ghoulPixels[0],ghoulPixels[1],'left','gray');
-			this.ghoulGroup.addChild(ghoul);
+			//this.ghoulGroup.addChild(ghoul);
 		}else{
 			if(ghoulsLayerArray[i]==91){
 				var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 				var ghoul = new RedGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
-				this.ghoulGroup.addChild(ghoul);
+				//this.ghoulGroup.addChild(ghoul);
 			}else{
 				if(ghoulsLayerArray[i]==104){
 					var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 					var ghoul = new BlueGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
-					this.ghoulGroup.addChild(ghoul);					
+					//this.ghoulGroup.addChild(ghoul);					
 				}else{
 					if(ghoulsLayerArray[i]==127){
 						var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 						var ghoul = new BlackGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
 						this.blackGhoul = ghoul;
-						this.ghoulGroup.addChild(ghoul);
+						//this.ghoulGroup.addChild(ghoul);
 					}else{
 						if(ghoulsLayerArray[i]==167){
 							var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
@@ -244,7 +244,7 @@ gameState.createLevel = function(){
 		if(ghoulsLayerArray[i] == 163){
 			var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 			var ghouliath = new Ghouliath(this, ghoulPixels[0], ghoulPixels[1], 'right');
-			this.ghoulGroup.addChild(ghouliath);			
+			//this.ghoulGroup.addChild(ghouliath);			
 		}else{
 			if(ghoulsLayerArray[i] == 1){
 				this.red.startingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
@@ -256,6 +256,9 @@ gameState.createLevel = function(){
 			}	
 		}
 	}
+
+	this.ghoulGroup.addChild(ghouliath);
+	this.ghouliath = ghouliath;
 
 	
 	this.red.coinsCollected = 0;
@@ -914,7 +917,6 @@ gameState.getArrayIndexFromRowCol = function(row, col){
 }
 
 gameState.blastBlock = function(blastedBlockPosition){
-	console.log('blast block ' + blastedBlockPosition[0] + ' ' +blastedBlockPosition[1]);
 	var hiddenBlocks = this.hiddenBlockGroup.members;
 	var alreadyExists = false;
 	var wasAGroundBlock = this.onBlockType(this.groundBlocks, blastedBlockPosition);
@@ -960,7 +962,6 @@ gameState.update = function(){
 		this.isGameOver();
 
 		if(this.debugKey.isDown){
-			this.blackGhoul.teleport();
 		}
 
 		if(this.mouse.isDown){
