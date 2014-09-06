@@ -3,6 +3,8 @@ var Ghouliath = function(state, x, y, facing){
 	this.facing = facing;
 	this.state = state;
 	this.shouldFall = false;
+	this.moveUp = 0;
+	this.movingUp = false;
 
 	this.animation.add('moveright',[0,2,3,4,5,6,7,8,9,1],0.2,true);
 	this.animation.add('moveleft',[0,2,3,4,5,6,7,8,9,1],0.2,true);
@@ -12,9 +14,9 @@ Kiwi.extend(Ghouliath, Kiwi.GameObjects.Sprite);
 Ghouliath.prototype.update = function(){
 	Kiwi.GameObjects.Sprite.prototype.update.call(this);
 	this.shouldCheckDirection = (this.x % this.state.bps == 0 && this.y % this.state.bps == 0); 	
-	var justTurned = false;
+	this.justTurned = false;
 
-	if(this.shouldFall){
+	if(this.shouldFall && !this.movingUp){
 		this.gravity();
 	}else{
 		this.checkForHiddenBlock();
@@ -25,34 +27,33 @@ Ghouliath.prototype.update = function(){
 				case 'left':
 					if(this.x <= 0){
 						this.facing = 'right';
-						justTurned = true;
+						this.justTurned = true;
 					}else{
 						var checkGroundBlock1 = [this.gridPosition[0], this.gridPosition[1]-1];
 						var checkGroundBlock2 = [this.gridPosition[0] + 1, this.gridPosition[1]-1];
 						if(this.state.onBlockType(this.state.originalGroundBlocks, checkGroundBlock1) || this.state.onBlockType(this.state.groundBlocks, checkGroundBlock2)){
 							this.facing = 'right';
-							justTurned = true;
+							this.justTurned = true;
 						}
 					}
 					break;
 				case 'right':
 					if(this.x + 100 >= this.state.bps*this.state.GRID_COLS){
 						this.facing = 'left';
-						justTurned = true;
+						this.justTurned = true;
 					}else{
 						var checkGroundBlock1 = [this.gridPosition[0], this.gridPosition[1]+2];
 						var checkGroundBlock2 = [this.gridPosition[0] + 1, this.gridPosition[1]+2];
 						if(this.state.onBlockType(this.state.originalGroundBlocks, checkGroundBlock1) || this.state.onBlockType(this.state.groundBlocks, checkGroundBlock2)){
 							this.facing = 'left';
-							justTurned = true;
+							this.justTurned = true;
 						}
 					}	
 					break;	
 			}
 		}
 	}
-
-	if(!justTurned){
+	if(!this.justTurned){
 		switch(this.facing){
 			case 'left':
 				if(this.animation.currentAnimation.name != 'moveleft'){
@@ -63,11 +64,27 @@ Ghouliath.prototype.update = function(){
 				break;
 			case 'right':
 				if(this.animation.currentAnimation.name != 'moveright'){
+					console.log('plaing move right');
 					this.animation.play('moveright');
 				}
 				this.x += 0.5;
 				this.scaleX = 1;
 				break;
+		}
+	}
+	if(this.shouldCheckDirection){
+		this.checkClimbOut();
+	}
+	if(this.moveUp > 0){
+		console.log(this.moveUp);
+		if(this.moveUp < this.state.bps+0.5){
+			this.y -= 0.5;
+			this.moveUp += 0.5; 
+			this.movingUp = true;
+		}else{
+			this.moveUp = 0;
+			console.log('resetting');
+			this.movingUp = false;
 		}
 	}
 }
@@ -127,6 +144,29 @@ Ghouliath.prototype.gravity = function(){
 	if(this.y > this.state.bps * this.state.GRID_ROWS){
 		this.isInHole = true;
 		this.destroy();
+	}
+}
+
+Ghouliath.prototype.checkClimbOut = function(){
+	console.log('checking climb out');
+	console.log(this.animation.currentAnimation.name);
+	switch(this.animation.currentAnimation.name){
+		case 'moveright':
+
+			break;
+		case 'moveleft':
+			var checkGroundBlock1 = this.state.getGridPosition(this.x-1, this.y+this.state.bps);
+			var checkGroundBlock2 = this.state.getGridPosition(this.x-this.state.bps-1, this.y+this.state.bps);
+			var checkEmptyBlock1 = this.state.getGridPosition(this.x-1, this.y);
+			var checkEmptyBlock2 = this.state.getGridPosition(this.x-this.state.bps*2, this.y);
+			console.log(checkGroundBlock2 + ' ' + checkGroundBlock1 + ' ' + checkEmptyBlock1 + ' ' + checkGroundBlock2);
+			if(this.state.onBlockType(this.state.groundBlocks, checkGroundBlock2) && this.state.onBlockType(this.state.groundBlocks, checkGroundBlock1)){
+				if(!this.state.onBlockType(this.state.groundBlocks, checkEmptyBlock1) && !this.state.onBlockType(this.state.groundBlocks, checkEmptyBlock2)){
+					this.justTurned = false;
+					this.moveUp++; 
+				}
+			}
+			break;
 	}
 }
 

@@ -260,7 +260,6 @@ gameState.createLevel = function(){
 	this.ghoulGroup.addChild(ghouliath);
 	this.ghouliath = ghouliath;
 
-	
 	this.red.coinsCollected = 0;
 	this.updateCoinCounter(this.red);
 	this.red.bombsCollected = 0;
@@ -331,14 +330,6 @@ gameState.createLevel = function(){
 
 
 	this.removeBackgroundImages();
-
-
-	this.ghouliath = new Ghouliath(this, 100, 100, 'right');
-	this.ghouliath.animation.add('moveleft',[0,1,2,3,4,5,6,7,8,9],0.12,true);
-	this.ghouliath.animation.add('moveright',[10,11,12,13,14,15,16,17,18,19],0.12,true);
-	this.ghouliath.animation.play('moveright');
-	this.ghouliath.facing = 'right';
-
 
 	this.addChild(this.background);
 	this.addChild(this.tilemap.layers[0]);
@@ -962,6 +953,8 @@ gameState.update = function(){
 		this.isGameOver();
 
 		if(this.debugKey.isDown){
+			this.ghouliath.checkClimbOut();
+			console.log(this.ghouliath);
 		}
 
 		if(this.mouse.isDown){
