@@ -240,11 +240,16 @@ gameState.createLevel = function(){
 		}
 	}
 
+	var count = 0;
+
 	for(var i = 0; i<ghoulsLayerArray.length; i++){
 		if(ghoulsLayerArray[i] == 163){
 			var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 			var ghouliath = new Ghouliath(this, ghoulPixels[0], ghoulPixels[1], 'right');
-			//this.ghoulGroup.addChild(ghouliath);			
+			count++;
+			if(count == 1){
+				this.ghoulGroup.addChild(ghouliath);					
+			}					
 		}else{
 			if(ghoulsLayerArray[i] == 1){
 				this.red.startingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);

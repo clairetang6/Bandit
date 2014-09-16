@@ -5,9 +5,11 @@ var Ghouliath = function(state, x, y, facing){
 	this.shouldFall = false;
 	this.moveUp = 0;
 	this.movingUp = false;
+	this.fallen = false;
 
 	this.animation.add('moveright',[0,2,3,4,5,6,7,8,9,1],0.2,true);
 	this.animation.add('moveleft',[0,2,3,4,5,6,7,8,9,1],0.2,true);
+	this.animation.play('moveleft');
 }
 Kiwi.extend(Ghouliath, Kiwi.GameObjects.Sprite);
 
@@ -72,19 +74,19 @@ Ghouliath.prototype.update = function(){
 				break;
 		}
 	}
-	if(this.shouldCheckDirection){
+	if(this.fallen){
 		this.checkClimbOut();
 	}
 	if(this.moveUp > 0){
-		console.log(this.moveUp);
 		if(this.moveUp < this.state.bps+0.5){
 			this.y -= 0.5;
 			this.moveUp += 0.5; 
 			this.movingUp = true;
 		}else{
 			this.moveUp = 0;
-			console.log('resetting');
 			this.movingUp = false;
+			this.fallen = false;
+			this.gravity();
 		}
 	}
 }
@@ -121,12 +123,14 @@ Ghouliath.prototype.checkForHiddenBlock = function(){
 	}	
 	if(check1 && check2){
 		this.shouldFall = true;
+		console.log('setting should Fall to true');
 	}
 			
 	
 }
 
 Ghouliath.prototype.gravity = function(){
+	this.fallen = true;
 	var southGridPosition1 = this.state.getGridPosition(this.x, this.y + this.state.bps, 'south');
 	var southGridPosition2 = this.state.getGridPosition(this.x + this.state.bps, this.y + this.state.bps, 'south');
 	if(this.state.onBlockType(this.state.topGroundBlocks, southGridPosition1) || this.state.onBlockType(this.state.topGroundBlocks, southGridPosition2)){
@@ -148,25 +152,21 @@ Ghouliath.prototype.gravity = function(){
 }
 
 Ghouliath.prototype.checkClimbOut = function(){
-	console.log('checking climb out');
-	console.log(this.animation.currentAnimation.name);
 	switch(this.animation.currentAnimation.name){
 		case 'moveright':
-
+			var checkGroundBlock1 = this.state.getGridPosition(this.x+2*this.state.bps, this.y+this.state.bps);
+			var checkEmptyBlock1 = this.state.getGridPosition(this.x+2*this.state.bps, this.y);	
 			break;
 		case 'moveleft':
 			var checkGroundBlock1 = this.state.getGridPosition(this.x-1, this.y+this.state.bps);
-			var checkGroundBlock2 = this.state.getGridPosition(this.x-this.state.bps-1, this.y+this.state.bps);
 			var checkEmptyBlock1 = this.state.getGridPosition(this.x-1, this.y);
-			var checkEmptyBlock2 = this.state.getGridPosition(this.x-this.state.bps*2, this.y);
-			console.log(checkGroundBlock2 + ' ' + checkGroundBlock1 + ' ' + checkEmptyBlock1 + ' ' + checkGroundBlock2);
-			if(this.state.onBlockType(this.state.groundBlocks, checkGroundBlock2) && this.state.onBlockType(this.state.groundBlocks, checkGroundBlock1)){
-				if(!this.state.onBlockType(this.state.groundBlocks, checkEmptyBlock1) && !this.state.onBlockType(this.state.groundBlocks, checkEmptyBlock2)){
-					this.justTurned = false;
-					this.moveUp++; 
-				}
-			}
 			break;
+	}
+	if(this.state.onBlockType(this.state.groundBlocks, checkGroundBlock1)){
+		if(!this.state.onBlockType(this.state.groundBlocks, checkEmptyBlock1)){
+			this.justTurned = false;
+			this.moveUp++; 
+		}
 	}
 }
 
