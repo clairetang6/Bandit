@@ -213,23 +213,23 @@ gameState.createLevel = function(){
 		if(ghoulsLayerArray[i]==74){
 			var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 			var ghoul = new Ghoul(this,ghoulPixels[0],ghoulPixels[1],'left','gray');
-			this.ghoulGroup.addChild(ghoul);
+			//this.ghoulGroup.addChild(ghoul);
 		}else{
 			if(ghoulsLayerArray[i]==91){
 				var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 				var ghoul = new RedGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
-				this.ghoulGroup.addChild(ghoul);
+				//this.ghoulGroup.addChild(ghoul);
 			}else{
 				if(ghoulsLayerArray[i]==104){
 					var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 					var ghoul = new BlueGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
-					this.ghoulGroup.addChild(ghoul);					
+					//this.ghoulGroup.addChild(ghoul);					
 				}else{
 					if(ghoulsLayerArray[i]==127){
 						var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 						var ghoul = new BlackGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
 						this.blackGhoul = ghoul;
-						this.ghoulGroup.addChild(ghoul);
+						//this.ghoulGroup.addChild(ghoul);
 					}else{
 						if(ghoulsLayerArray[i]==167){
 							var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
@@ -250,9 +250,9 @@ gameState.createLevel = function(){
 			var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 			var ghouliath = new Ghouliath(this, ghoulPixels[0], ghoulPixels[1], 'right');
 			count++;
-			if(count == 1){
-				this.ghoulGroup.addChild(ghouliath);					
-			}					
+			//if(count == 1){
+			//	this.ghoulGroup.addChild(ghouliath);					
+			//}					
 		}else{
 			if(ghoulsLayerArray[i] == 1){
 				this.red.startingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);

@@ -187,6 +187,7 @@
             <filename>../../Documents/LodeRunner/ghouliath_right_dead_1.png</filename>
             <filename>../../Documents/LodeRunner/ghouliath_right_dead_2.png</filename>
             <filename>../../Documents/LodeRunner/ghouliath_right_dead_3.png</filename>
+            <filename>../../Documents/LodeRunner/ghouliath_right_climb3.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

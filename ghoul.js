@@ -9,8 +9,8 @@ var Ghouliath = function(state, x, y, facing){
 
 	this.animation.add('moveright',[0,2,3,4,5,6,7,8,9,1],0.2,true);
 	this.animation.add('moveleft',[0,2,3,4,5,6,7,8,9,1],0.2,true);
-	this.animation.add('climbright',[10,11,4,5,6,7,8,1],0.3,false);
-	this.animation.add('climbleft',[10,11,4,5,6,7,8,1],0.5,false);
+	this.animation.add('climbright',[10,11,12,4,5,6,7,8,1],0.2,false);
+	this.animation.add('climbleft',[10,11,12,4,5,6,7,8,1],0.2,false);
 
 	this.animation.play('climbright');
 }
@@ -21,13 +21,16 @@ Ghouliath.prototype.update = function(){
 	this.shouldCheckDirection = (this.x % this.state.bps == 0 && this.y % this.state.bps == 0); 	
 	this.justTurned = false;
 
+	if(this.fallen && !this.movingUp && this.shouldCheckDirection){
+		this.checkClimbOut();
+	}
 	
 	if(this.shouldFall && !this.movingUp){
 		this.gravity();
 	}else{
 		this.checkForHiddenBlock();
 
-		if(this.shouldCheckDirection){
+		if(this.shouldCheckDirection && !this.climbingOut){
 			this.gridPosition = this.state.getGridPosition(this.x, this.y);
 			switch(this.facing){
 				case 'left':
@@ -62,37 +65,49 @@ Ghouliath.prototype.update = function(){
 	if(!this.justTurned){
 		switch(this.facing){
 			case 'left':
-				if(this.animation.currentAnimation.name != 'moveleft' && !this.movingUp){
-					this.animation.play('moveleft');
+				if(this.movingUp){
+					this.x -= 0.5;
+					this.scaleX = -1;
+				}else{
+					if(this.animation.currentAnimation.name != 'moveleft'){
+						this.animation.playAt(0,'moveleft');
+					}
+					this.x -= 0.5;
+					this.scaleX = -1;					
 				}
-				this.x -= 0.5;
-				this.scaleX = -1;
 				break;
 			case 'right':
-				if(this.animation.currentAnimation.name != 'moveright' && !this.movingUp){
-					console.log('plaing move right');
-					this.animation.play('moveright');
+				if(this.movingUp){
+					this.x += 0.5;
+					this.scaleX = 1;
+				}else{
+					if(this.animation.currentAnimation.name != 'moveright'){
+						this.animation.playAt(0,'moveright');
+					}
+					this.x += 0.5;
+					this.scaleX = 1;					
 				}
-				this.x += 0.5;
-				this.scaleX = 1;
 				break;
 		}
 	}
-	if(this.fallen && !this.movingUp){
-		this.checkClimbOut();
-	}
 	if(this.moveUp > 0){
-		if(this.moveUp < this.state.bps+0.5){
-			if(this.animation.currentAnimation.name != 'climb' + this.facing){
-				this.animation.play('climb' + this.facing);
+		if(this.moveUp < this.state.bps+50.5){
+			if(this.moveUp>50){
+				if(this.animation.currentAnimation.name != 'climb' + this.facing){
+					this.animation.playAt(0,'climb' + this.facing);
+					console.log('playing climb');
+				}
 			}
-			this.y -= 0.5;
-			this.moveUp += 0.5; 
+			if(this.moveUp>50){
+				this.y -= 2;
+			}
+			this.moveUp += 2; 
 			this.movingUp = true;
 		}else{
 			this.moveUp = 0;
 			this.movingUp = false;
 			this.fallen = false;
+			this.climbingOut = false;
 			this.gravity();
 		}
 	}
@@ -129,7 +144,9 @@ Ghouliath.prototype.checkForHiddenBlock = function(){
 		check2 = true;
 	}	
 	if(check1 && check2){
+		if(!this.climbingOut){
 		this.shouldFall = true;
+	}
 		console.log('setting should Fall to true');
 	}
 			
@@ -176,6 +193,7 @@ Ghouliath.prototype.checkClimbOut = function(){
 			if(!this.state.onBlockType(this.state.groundBlocks, checkEmptyBlock2)){
 				this.justTurned = false;
 				this.moveUp++; 
+				this.climbingOut = true;
 			}
 		}
 	}
