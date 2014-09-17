@@ -9,7 +9,10 @@ var Ghouliath = function(state, x, y, facing){
 
 	this.animation.add('moveright',[0,2,3,4,5,6,7,8,9,1],0.2,true);
 	this.animation.add('moveleft',[0,2,3,4,5,6,7,8,9,1],0.2,true);
-	this.animation.play('moveleft');
+	this.animation.add('climbright',[10,11,4,5,6,7,8,1],0.3,false);
+	this.animation.add('climbleft',[10,11,4,5,6,7,8,1],0.5,false);
+
+	this.animation.play('climbright');
 }
 Kiwi.extend(Ghouliath, Kiwi.GameObjects.Sprite);
 
@@ -18,6 +21,7 @@ Ghouliath.prototype.update = function(){
 	this.shouldCheckDirection = (this.x % this.state.bps == 0 && this.y % this.state.bps == 0); 	
 	this.justTurned = false;
 
+	
 	if(this.shouldFall && !this.movingUp){
 		this.gravity();
 	}else{
@@ -58,14 +62,14 @@ Ghouliath.prototype.update = function(){
 	if(!this.justTurned){
 		switch(this.facing){
 			case 'left':
-				if(this.animation.currentAnimation.name != 'moveleft'){
+				if(this.animation.currentAnimation.name != 'moveleft' && !this.movingUp){
 					this.animation.play('moveleft');
 				}
 				this.x -= 0.5;
 				this.scaleX = -1;
 				break;
 			case 'right':
-				if(this.animation.currentAnimation.name != 'moveright'){
+				if(this.animation.currentAnimation.name != 'moveright' && !this.movingUp){
 					console.log('plaing move right');
 					this.animation.play('moveright');
 				}
@@ -74,11 +78,14 @@ Ghouliath.prototype.update = function(){
 				break;
 		}
 	}
-	if(this.fallen){
+	if(this.fallen && !this.movingUp){
 		this.checkClimbOut();
 	}
 	if(this.moveUp > 0){
 		if(this.moveUp < this.state.bps+0.5){
+			if(this.animation.currentAnimation.name != 'climb' + this.facing){
+				this.animation.play('climb' + this.facing);
+			}
 			this.y -= 0.5;
 			this.moveUp += 0.5; 
 			this.movingUp = true;
@@ -156,16 +163,20 @@ Ghouliath.prototype.checkClimbOut = function(){
 		case 'moveright':
 			var checkGroundBlock1 = this.state.getGridPosition(this.x+2*this.state.bps, this.y+this.state.bps);
 			var checkEmptyBlock1 = this.state.getGridPosition(this.x+2*this.state.bps, this.y);	
+			var checkEmptyBlock2 = this.state.getGridPosition(this.x+2*this.state.bps, this.y-this.state.bps);
 			break;
 		case 'moveleft':
 			var checkGroundBlock1 = this.state.getGridPosition(this.x-1, this.y+this.state.bps);
 			var checkEmptyBlock1 = this.state.getGridPosition(this.x-1, this.y);
+			var checkEmptyBlock2 = this.state.getGridPosition(this.x-1, this.y-this.state.bps);
 			break;
 	}
 	if(this.state.onBlockType(this.state.groundBlocks, checkGroundBlock1)){
 		if(!this.state.onBlockType(this.state.groundBlocks, checkEmptyBlock1)){
-			this.justTurned = false;
-			this.moveUp++; 
+			if(!this.state.onBlockType(this.state.groundBlocks, checkEmptyBlock2)){
+				this.justTurned = false;
+				this.moveUp++; 
+			}
 		}
 	}
 }
@@ -241,7 +252,7 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 			this.animation.add('dieleft',[162,163],0.1,true);
 			this.animation.add('laugh',[164,165],0.1,true);
 			this.animation.add('shoot',[166,167,166,168,165,166],0.1,false);
-			this.animation.add('explode',[168],0.1,false);
+			this.animation.add('explode',[169],0.1,false);
 			break;
 	}
 
@@ -719,6 +730,7 @@ BlackGhoul.prototype.checkDirection = function(){
 
 var KingGhoul = function(state, x, y, facing){
 	Ghoul.call(this, state, x, y, facing, 'king');
+	this.isAlive = true;
 
 	this.laughTimer = this.state.game.time.clock.createTimer('laughTimer',0.5,0,false);
 	this.laughTimerEvent = this.laughTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.laugh, this);
@@ -727,10 +739,10 @@ var KingGhoul = function(state, x, y, facing){
 	this.laughOverTimerEvent = this.laughOverTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.laughOver, this);
 
 	this.explodeTimer = this.state.game.time.clock.createTimer('explodeTimer',3,0,false);
-	this.explodeTimerEvent = this.laughOverTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.explode, this);
+	this.explodeTimerEvent = this.explodeTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.explode, this);
 
-	this.destroyTimer = this.state.game.time.clock.createTimer('explodeTimer',0.5,0,false);
-	this.destroyTimerEvent = this.laughOverTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.destroy, this);
+	this.destroyTimer = this.state.game.time.clock.createTimer('destroyTimer',0.5,0,false);
+	this.destroyTimerEvent = this.destroyTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.destroy, this);
 
 	this.gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
 	this.banditInRange = [this.gridPosition[0], this.gridPosition[1]-3];
@@ -744,6 +756,7 @@ Kiwi.extend(KingGhoul, Kiwi.GameObjects.Sprite);
 KingGhoul.prototype.explode = function(){
 	this.isInHole = false;
 	this.animation.play('explode');
+	this.state.bombSound.play();		
 	this.destroyTimer.start();
 }
 
@@ -756,31 +769,35 @@ KingGhoul.prototype.destroy = function(immediate){
 KingGhoul.prototype.update = function(){
 	Kiwi.GameObjects.Sprite.prototype.update.call(this);
 
- 	if(this.isInHole){
-		Ghoul.prototype.inHole.call(this);
-		this.explodeTimer.start();
-	}else if(this.shouldFall){
-		Ghoul.prototype.gravity.call(this);
-	}else{
-  		var topGridPosition = this.state.getGridPosition(this.x, this.y+15, 'north');
-  		Ghoul.prototype.checkForHiddenBlock.call(this, this.gridPosition, topGridPosition);
-  	}
+ 	if(this.isAlive){
+	 	if(this.isInHole){
+			Ghoul.prototype.inHole.call(this);
+			this.isAlive = false;
+			this.explodeTimer.start();
+		}else if(this.shouldFall){
+			Ghoul.prototype.gravity.call(this);
+		}else{
+	  		var topGridPosition = this.state.getGridPosition(this.x, this.y+15, 'north');
+	  		Ghoul.prototype.checkForHiddenBlock.call(this, this.gridPosition, topGridPosition);
+	  	}
 
-	for(var i = 0; i<this.bandits.length; i++){
-		var banditGridPosition = this.state.getGridPosition(this.bandits[i].x, this.bandits[i].y, 'middle');
-		if(banditGridPosition[0] == this.banditInRange[0] && banditGridPosition[1] == this.banditInRange[1]){
-			if(this.bandits[i].isAlive){
-				if(this.animation.currentAnimation.name != 'shoot' && this.animation.currentAnimation.name != 'laugh'){
-					this.animation.play('shoot');
-				}
-				if(this.banditDeathCount > 7){
-					this.bandits[i].isAlive = false;
-					this.banditDeathCount = 0;
-				}else{
-					if(this.banditDeathCount == 0){
-						this.laughTimer.start();
+		for(var i = 0; i<this.bandits.length; i++){
+			var banditGridPosition = this.state.getGridPosition(this.bandits[i].x, this.bandits[i].y, 'middle');
+			if(banditGridPosition[0] == this.banditInRange[0] && banditGridPosition[1] == this.banditInRange[1]){
+				if(this.bandits[i].isAlive){
+					if(this.animation.currentAnimation.name != 'shoot' && this.animation.currentAnimation.name != 'laugh'){
+						this.animation.play('shoot');
+						this.state.shotgunSound.play('start');
 					}
-					this.banditDeathCount ++;
+					if(this.banditDeathCount > 7){
+						this.bandits[i].isAlive = false;
+						this.banditDeathCount = 0;
+					}else{
+						if(this.banditDeathCount == 0){
+							this.laughTimer.start();
+						}
+						this.banditDeathCount ++;
+					}
 				}
 			}
 		}

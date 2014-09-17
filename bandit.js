@@ -141,7 +141,6 @@ Bandit.prototype.update = function(){
 			}
 			else if(this.rightKey.isDown){
 				this.facing = 'right';
-				console.log(southGridPosition);
 				if(this.state.onBlockType(this.state.rightBlockedBlocks, southGridPosition)){
 					var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition,'east');
 					if(this.x+this.bps<pixelNum-6){

@@ -12,6 +12,7 @@ titleState.preload = function(){
 	this.addAudio('blockReappearSound','sounds/blockappear.wav');
 	this.addAudio('banditDeathSound','sounds/death_1.wav');
 	this.addAudio('diamondSound','sounds/diamond_1.wav');
+	this.addAudio('shotgunSound','sounds/shotgun.wav')
 }
 
 titleState.create = function(){

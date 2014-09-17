@@ -122,6 +122,9 @@ gameState.create = function(){
 	this.coinSound.addMarker('start',0,1,false);
 	this.gunSound = new Kiwi.Sound.Audio(this.game, 'gunSound', 0.1, false);
 	this.gunSound.addMarker('start',0,1,false);
+	this.shotgunSound = new Kiwi.Sound.Audio(this.game, 'shotgunSound', 0.1, false);
+	this.shotgunSound.addMarker('start',0,3,false);
+
 	this.blockReappearSound = new Kiwi.Sound.Audio(this.game, 'blockReappearSound',0.3,false);
 	this.blockReappearSound.addMarker('start',.5,1,false);
 
@@ -210,23 +213,23 @@ gameState.createLevel = function(){
 		if(ghoulsLayerArray[i]==74){
 			var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 			var ghoul = new Ghoul(this,ghoulPixels[0],ghoulPixels[1],'left','gray');
-			//this.ghoulGroup.addChild(ghoul);
+			this.ghoulGroup.addChild(ghoul);
 		}else{
 			if(ghoulsLayerArray[i]==91){
 				var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 				var ghoul = new RedGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
-				//this.ghoulGroup.addChild(ghoul);
+				this.ghoulGroup.addChild(ghoul);
 			}else{
 				if(ghoulsLayerArray[i]==104){
 					var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 					var ghoul = new BlueGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
-					//this.ghoulGroup.addChild(ghoul);					
+					this.ghoulGroup.addChild(ghoul);					
 				}else{
 					if(ghoulsLayerArray[i]==127){
 						var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 						var ghoul = new BlackGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
 						this.blackGhoul = ghoul;
-						//this.ghoulGroup.addChild(ghoul);
+						this.ghoulGroup.addChild(ghoul);
 					}else{
 						if(ghoulsLayerArray[i]==167){
 							var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
