@@ -363,14 +363,11 @@ Ghoul.prototype.checkForHiddenBlock = function(gridPosition, topGridPosition){
 			if(hiddenBlock.row == topGridPosition[0] && hiddenBlock.col == topGridPosition[1]){
 				if(this.shouldFall == false){
 					this.isInHole = true;
-					hiddenBlockToPushTo = hiddenBlock;
+					hiddenBlock.occupiedBy.push(this);
+					this.isInHiddenBlock = true;
 				}
 			}
 		}
-	}
-	if(this.isInHole){
-		hiddenBlockToPushTo.occupiedBy.push(this);
-		this.isInHiddenBlock = true;
 	}	
 }
 
