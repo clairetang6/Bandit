@@ -1,3 +1,13 @@
+var TurboKingGhoul = function(state, x, y, facing){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['ghouliath'], x, y, false);
+	this.facing = facing;
+	this.state = state;
+
+	this.animation.add('idleleft',[16],0.2,false);
+	this.animation.play('idleleft');
+}
+Kiwi.extend(TurboKingGhoul, Kiwi.GameObjects.Sprite);
+
 var Ghouliath = function(state, x, y, facing){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['ghouliath'], x, y, false);
 	this.facing = facing;
@@ -6,11 +16,20 @@ var Ghouliath = function(state, x, y, facing){
 	this.moveUp = 0;
 	this.movingUp = false;
 	this.fallen = false;
+	this.hiddenBlocksPaused = [];
 
-	this.animation.add('moveright',[0,2,3,4,5,6,7,8,9,1],0.2,true);
-	this.animation.add('moveleft',[0,2,3,4,5,6,7,8,9,1],0.2,true);
-	this.animation.add('climbright',[10,11,12,4,5,6,7,8,1],0.2,false);
-	this.animation.add('climbleft',[10,11,12,4,5,6,7,8,1],0.2,false);
+	this.resumeBlocksTimer = this.state.game.time.clock.createTimer('resumeBlocksTimer',2,0,false);
+	this.resumeBlocksTimerEvent = this.resumeBlocksTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.resumeHiddenBlocks, this);
+
+	this.explodeTimer = this.state.game.time.clock.createTimer('explodeTimer',0.5,0,false);
+	this.explodeTimerEvent = this.explodeTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.destroy, this);
+
+	this.animation.add('moveright',[3,4,5,6,7,8,9,1,0,2],0.2,true);
+	this.animation.add('moveleft',[3,4,5,6,7,8,9,1,0,2],0.2,true);
+	this.animation.add('climbright',[10,11,12,2],0.125,false);
+	this.animation.add('climbleft',[10,11,12,2],0.125,false);
+	this.animation.add('die',[13,14],0.1,true);
+	this.animation.add('explode',[15],0.2,false);
 
 	this.animation.play('climbright');
 }
@@ -19,16 +38,21 @@ Kiwi.extend(Ghouliath, Kiwi.GameObjects.Sprite);
 Ghouliath.prototype.update = function(){
 	Kiwi.GameObjects.Sprite.prototype.update.call(this);
 	this.shouldCheckDirection = (this.x % this.state.bps == 0 && this.y % this.state.bps == 0); 	
+	this.shouldCheckForHiddenBlock = (this.x % (this.state.bps/10) == 0);
 	this.justTurned = false;
 
 	if(this.fallen && !this.movingUp && this.shouldCheckDirection){
 		this.checkClimbOut();
 	}
 	
-	if(this.shouldFall && !this.movingUp){
-		this.gravity();
+	if(this.shouldFall){
+		if(!this.movingUp){
+			this.gravity();
+		}
 	}else{
-		this.checkForHiddenBlock();
+		if(this.shouldCheckForHiddenBlock){
+			this.checkForHiddenBlock();
+		}
 
 		if(this.shouldCheckDirection && !this.climbingOut){
 			this.gridPosition = this.state.getGridPosition(this.x, this.y);
@@ -106,13 +130,21 @@ Ghouliath.prototype.update = function(){
 		}else{
 			this.moveUp = 0;
 			this.movingUp = false;
+			console.log('setting fallen to false');
 			this.fallen = false;
 			this.climbingOut = false;
-			this.gravity();
+			this.resumeBlocksTimer.start();
 		}
 	}
 }
 
+Ghouliath.prototype.resumeHiddenBlocks = function(){
+	console.log(this.hiddenBlocksPaused.length);
+	var hiddenBlock = null;
+	while(hiddenBlock = this.hiddenBlocksPaused.pop()){
+		hiddenBlock.timer.resume();
+	}
+}
 Ghouliath.prototype.checkForHiddenBlock = function(){
 	var checkForHiddenBlockPosition1 = this.state.getGridPosition(this.x, this.y+this.state.bps*2, 'middle');
 	var checkForHiddenBlockPosition2 = this.state.getGridPosition(this.x + this.state.bps, this.y + this.state.bps*2, 'middle');
@@ -132,10 +164,16 @@ Ghouliath.prototype.checkForHiddenBlock = function(){
 		}
 	}
 	if(hiddenBlock1){
-		hiddenBlock1.timer.pause();
+		if(!hiddenBlock1._isPaused){		
+			hiddenBlock1.timer.pause();
+			this.hiddenBlocksPaused.push(hiddenBlock1);
+		}
 	}
 	if(hiddenBlock2){
-		hiddenBlock2.timer.pause();
+		if(!hiddenBlock2._isPaused){
+			hiddenBlock2.timer.pause();
+			this.hiddenBlocksPaused.push(hiddenBlock2);
+		}
 	}
 	if(!this.state.onBlockType(this.state.originalGroundBlocks, checkForHiddenBlockPosition1)){
 		check1 = true;
@@ -145,12 +183,10 @@ Ghouliath.prototype.checkForHiddenBlock = function(){
 	}	
 	if(check1 && check2){
 		if(!this.climbingOut){
-		this.shouldFall = true;
+			this.shouldFall = true;
+			console.log('setting should Fall to true');
+		}
 	}
-		console.log('setting should Fall to true');
-	}
-			
-	
 }
 
 Ghouliath.prototype.gravity = function(){
@@ -188,15 +224,48 @@ Ghouliath.prototype.checkClimbOut = function(){
 			var checkEmptyBlock2 = this.state.getGridPosition(this.x-1, this.y-this.state.bps);
 			break;
 	}
-	if(this.state.onBlockType(this.state.groundBlocks, checkGroundBlock1)){
-		if(!this.state.onBlockType(this.state.groundBlocks, checkEmptyBlock1)){
-			if(!this.state.onBlockType(this.state.groundBlocks, checkEmptyBlock2)){
-				this.justTurned = false;
-				this.moveUp++; 
-				this.climbingOut = true;
+	if(this.facing!='die'){
+		if(this.state.onBlockType(this.state.groundBlocks, checkGroundBlock1)){
+			if(!this.state.onBlockType(this.state.groundBlocks, checkEmptyBlock1)){
+				if(!this.state.onBlockType(this.state.groundBlocks, checkEmptyBlock2)){
+					this.justTurned = false;
+					this.moveUp++; 
+					this.climbingOut = true;
+				}
+			}else{
+				if(this.fallen){
+					this.animation.play('die');
+					this.facing = 'die';
+					this.addToOccupiedBy();
+					this.resumeBlocksTimer.start();
+				}
 			}
 		}
 	}
+}
+
+Ghouliath.prototype.addToOccupiedBy = function(){
+	var gridPosition = this.state.getGridPosition(this.x, this.y);
+	console.log(gridPosition);
+	for(var i = 0; i < this.state.hiddenBlockGroup.members.length; i++){
+		var hiddenBlock = this.state.hiddenBlockGroup.members[i];
+		console.log(hiddenBlock.row + ' ' + hiddenBlock.col);
+		if(hiddenBlock.row == gridPosition[0] || hiddenBlock.row == gridPosition[0]+1){
+			if(hiddenBlock.col == gridPosition[1] || hiddenBlock.col == gridPosition[1]+1){
+				hiddenBlock.occupiedBy.push(this);
+				console.log('added to ' + hiddenBlock.row + ' ' + hiddenBlock.col);
+			}
+		}
+	}
+}
+
+Ghouliath.prototype.destroy = function(immediate){
+	this.resumeBlocksTimer.stop();
+	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
+}
+
+Ghouliath.prototype.objType = function(){
+	return 'Ghouliath';
 }
 
 var Ghoul = function(state, x, y, facing, ghoulType){

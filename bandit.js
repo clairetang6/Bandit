@@ -283,14 +283,6 @@ var HiddenBlock = function(state, x, y){
 		console.log('starting hidden block timer');
 		this.timer.start();
 	}
-
-	HiddenBlock.prototype.update = function(){
-		if(this.occupied){
-			console.log('is occupied');
-			console.log(this.occupiedBy);
-			this.occupied =false; 
-		}
-	}
 }
 Kiwi.extend(HiddenBlock, Kiwi.GameObjects.Sprite);
 
@@ -302,6 +294,10 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 			if(ghoul.lives < 1){
 				ghoul.destroy(false);
 			}
+		}else if(ghoul.objType() == 'Ghouliath'){
+			ghoul.animation.play('explode');
+			this.state.bombSound.play();		
+			ghoul.explodeTimer.start();
 		}else{
 			ghoul.destroy(false);
 		}

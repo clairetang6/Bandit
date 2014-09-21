@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="50" tileheight="50">
+ <tileset firstgid="1" name="bandit_spritesheet" tilewidth="50" tileheight="50">
+  <image source="../../../Documents/LodeRunner/bandit_spritesheet.png" width="900" height="500"/>
+ </tileset>
+ <layer name="Blocks" width="20" height="15" opacity="0.97">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAO6KJhXGqIBcSYh00dpRibufjsoaVbCNlHLqC2mbjCjZZxQkyc0co91I4PWgBC6XawYFzuxuZ2dH9howG0NR49
+  </data>
+ </layer>
+ <layer name="Ladders" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBi8IACKSdVDTfMI2YXNPErsGOzmUQtQ2w0BONik2I3LjMFsHil2oOvBRg928wD3ug+h
+  </data>
+ </layer>
+ <layer name="Back" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAeCKeiWaNgFIyCUYAOAIK7AFg=
+  </data>
+ </layer>
+ <layer name="Cast" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYEAFiwnw0cESLGIZONS6EzBrMAN6un0xDjYh9YTURqPxQfHkjkbjUsvAgDtehzMgNS7w6UcG6GHpjoRBAFv4owNhMtwzEICRimYBAKX0C+Y=
+  </data>
+ </layer>
+ <layer name="Coins" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAuiARiZzJwJBQjmwMzi5qAHuZRYgctzKMGpnZcIJsViVMVfnlkcWccbEJ24xKnlXnUig9nNHOJcTO6Hmw0rczDZzYpAAA/SBnn
+  </data>
+ </layer>
+ <layer name="Front" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYKA/CB8AO0fBKBgF9AdhULqUAZLv/ZD4DFC+LxZ9vljUgQAAIgID6A==
+  </data>
+ </layer>
+ <layer name="bombs" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgY4IqGaW0PAxJthQXjchuyGnT30tLd1ALUcCM9/IkeB4TkCakf7mAopD1sAJanYGx0cWR5KyziAFm0Cg4=
+  </data>
+ </layer>
+</map>
