@@ -38,7 +38,7 @@
         <key>dataFormat</key>
         <string>json-array</string>
         <key>textureFileName</key>
-        <filename>../../Documents/LodeRunner/ghouliath_spritesheet.png</filename>
+        <filename>ghouliath_spritesheet.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>ditherType</key>
@@ -131,7 +131,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../../Documents/LodeRunner/ghouliath_spritesheet.json</filename>
+                <filename>ghouliath_spritesheet.json</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -188,6 +188,7 @@
             <filename>../../Documents/LodeRunner/ghouliath_right_dead_2.png</filename>
             <filename>../../Documents/LodeRunner/ghouliath_right_dead_3.png</filename>
             <filename>../../Documents/LodeRunner/ghouliath_right_climb3.png</filename>
+            <filename>../../Documents/LodeRunner/turbo_king_1.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

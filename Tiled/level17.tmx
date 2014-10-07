@@ -15,12 +15,12 @@
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAeCKeiWaNgFIyCUYAOAIK7AFg=
+   eJxjYBgFo2AUjIKhAQAEsAAB
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYEAFiwnw0cESLGIZONS6EzBrMAN6un0xDjYh9YTURqPxQfHkjkbjUsvAgDtehzMgNS7w6UcG6GHpjoRBAFv4owNhMtwzEICRimYBAKX0C+Y=
+   eJxjYEAFiwnw0cESLGIZULoeTdydgFmDGdDT7YtxsAmpJ6Q2Go0Piid3NBqXWgY0+ZECSI0LfPqRAXpYuiNhEMAW/uhAmAz3DARgpKJZAMu+DGU=
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
