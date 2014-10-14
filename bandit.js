@@ -262,6 +262,13 @@ Bandit.prototype.placeBomb = function(){
 		bomb.rowPlaced = bombGridPosition[0];
 		bomb.colPlaced = bombGridPosition[1]; 
 		bomb.startTimer();
+		if(this.state.soundsOn){
+			if(this.state.random.integerInRange(0,2)==0){
+				this.state.voicesSound.play('bombPlace',true);
+			}else{
+				this.state.voicesSound.play('bombPlace2',true);
+			}
+		}
 		this.bombsCollected--;
 		this.state.updateBombCounter(this);			
 	}
@@ -296,14 +303,31 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 			}
 		}else if(ghoul.objType() == 'Ghouliath'){
 			ghoul.animation.play('explode');
-			this.state.bombSound.play();		
+			if(this.state.soundsOn){
+				this.state.bombSound.play();	
+			}	
 			ghoul.explodeTimer.start();
 		}else{
 			ghoul.destroy(false);
 		}
 	}
+	if(this.state.soundsOn){
+		if(numberOfGhouls>1){
+			if(numberOfGhouls>3){
+				this.state.voicesSound.play('hotDamnSon',true);
+			}else{
+				this.state.voicesSound.play('ghoulKiller',true);
+			}
+		}else if(numberOfGhouls>0){
+			if(this.state.random.frac() <= 0.05){
+				this.state.voicesSound.play('restInPieces',true);
+			}
+		}
+	}
 	this.destroy();
-	this.state.blockReappearSound.play('start',true);
+	if(this.state.soundsOn){
+		this.state.blockReappearSound.play('start',true);
+	}
 
 	this.state.addToBlocks(this.row, this.col, this.state.groundBlocks);
 	this.state.updateTopGroundBlocks();
@@ -321,6 +345,7 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 
 HiddenBlock.prototype.destroy = function(immediate){
 	this.timer.removeTimerEvent(this.timerEvent);
+	console.log('hidden block destroying');
 	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
 }
 
@@ -451,7 +476,9 @@ Bomb.prototype.explode = function(){
 	this.state.blastBlock([this.rowPlaced, this.colPlaced+2]);
 	var bandits = this.state.banditGroup.members;
 	var ghouls = this.state.ghoulGroup.members;
-	this.state.bombSound.play();	
+	if(this.state.soundsOn){
+		this.state.bombSound.play();	
+	}
 	for(var i = 0; i < bandits.length; i++){
 		gridPosition = this.state.getGridPosition(bandits[i].x, bandits[i].y, 'middle');
 		if(gridPosition[0] == this.rowPlaced && gridPosition[1] >= this.colPlaced-2 && gridPosition[1] <= this.colPlaced+2){

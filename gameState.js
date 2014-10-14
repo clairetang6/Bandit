@@ -10,8 +10,8 @@ gameState.preload = function(){
 
 	this.addSpriteSheet('sprites','bandit_spritesheet.png',this.bps,this.bps);
 	this.addSpriteSheet('ghouliath','ghouliath_spritesheet.png',this.bps*2, this.bps*2);
-	this.currentLevel = 16; 
-	this.numberOfLevels = 17;
+	this.currentLevel = 1; 
+	this.numberOfLevels = 15;
 
 	for (var i = 1; i<=this.numberOfLevels; i++){
 		this.addImage('level'+i,'level'+i+'_screen.png',true);
@@ -24,10 +24,17 @@ gameState.preload = function(){
 	}
 	this.addSpriteSheet('digits','digits.png',18*this.MULTIPLIER,18*this.MULTIPLIER);	
 
+	this.addImage('menuBackground','menu_up_bandit.png',250,0);
+	this.addImage('menuArrow','menu_arrow.png',469,0);
+	this.addSpriteSheet('menu','menu_sprite.png',500,50);
 }
 
 gameState.create = function(){
 	Kiwi.State.prototype.create.call(this);
+
+	this.isPaused = false;
+	this.soundsOn = true;
+	this.musicOn = true;
 
 	this.STAGE_WIDTH = 1024;
 	this.STAGE_HEIGHT = 768;
@@ -48,6 +55,53 @@ gameState.create = function(){
 	this.loseScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['lose'],-18*this.MULTIPLIER,-18*this.MULTIPLIER);
 
 	this.mouse = this.game.input.mouse;
+	this.mouse.onUp.add(this.mouseClicked, this);
+
+	
+	this.menuBackground = new Kiwi.GameObjects.StaticImage(this, this.textures['menuBackground'],250,-800);
+	this.menuTween = this.game.tweens.create(this.menuBackground);	
+	this.menuArrow = new Kiwi.GameObjects.StaticImage(this, this.textures['menuArrow'], 450, -18*this.MULTIPLIER);
+	this.menuArrow.name = 'menu';
+	this.menuArrowTween = this.game.tweens.create(this.menuArrow);
+	this.menuBackground.name = 'menu';
+
+	this.menuGroup = new Kiwi.Group(this);
+
+	this.menuSound_yPosition = 330;
+	this.menuSound = new Kiwi.GameObjects.Sprite(this, this.textures['menu'], 250, this.menuSound_yPosition);
+	this.menuSound.animation.add('off',[0],0.1,false);
+	this.menuSound.animation.add('on',[4],0.1,false);
+	this.menuSound.animation.add('hoveroff',[2],0.1,false);
+	this.menuSound.animation.add('hoveron',[8],0.1,false);
+	this.menuSound.animation.play('on');
+
+	this.menuMusic_yPosition = 400;
+	this.menuMusic = new Kiwi.GameObjects.Sprite(this, this.textures['menu'], 250, this.menuMusic_yPosition);
+	this.menuMusic.animation.add('off',[1],0.1,false);
+	this.menuMusic.animation.add('on',[5],0.1,false);
+	this.menuMusic.animation.add('hoveroff',[3],0.1,false);
+	this.menuMusic.animation.add('hoveron',[9],0.1,false);	
+	this.menuMusic.animation.play('on');
+
+	this.menuRestart_yPosition = 470;
+	this.menuRestart = new Kiwi.GameObjects.Sprite(this, this.textures['menu'], 250, this.menuRestart_yPosition);
+	this.menuRestart.animation.add('on',[6],0.1,false);
+	this.menuRestart.animation.add('hover',[10],0.1,false);	
+	this.menuRestart.animation.play('on');
+
+	this.menuHome_yPosition = 540;
+	this.menuHome = new Kiwi.GameObjects.Sprite(this, this.textures['menu'], 250, this.menuHome_yPosition);
+	this.menuHome.animation.add('on',[7],0.1,false);
+	this.menuHome.animation.add('hover',[11],0.1,false);	
+	this.menuHome.animation.play('on');
+
+	this.menuGroup.addChild(this.menuSound);
+	this.menuGroup.addChild(this.menuMusic);
+	this.menuGroup.addChild(this.menuRestart);
+	this.menuGroup.addChild(this.menuHome);
+
+	this.menuGroup.y = -800;
+	this.menuGroupTween = this.game.tweens.create(this.menuGroup);
 
 
 	this.digitGroup = new Kiwi.Group(this);
@@ -133,6 +187,31 @@ gameState.create = function(){
 	this.diamondSound = new Kiwi.Sound.Audio(this.game, 'diamondSound', 0.1, false);
 	this.diamondSound.addMarker('start',0,1,false);
 
+	this.voicesSound = new Kiwi.Sound.Audio(this.game, 'voicesSound', 0.3, false);
+	this.voicesSound.addMarker('bombPickup',0,1.3845,false);
+	this.voicesSound.addMarker('bombPlace',1.3845,3.1347,false);
+	this.voicesSound.addMarker('bombPlace2',3.1347,4.2057,false);
+	this.voicesSound.addMarker('critters',4.2057,6.4261,false);
+	this.voicesSound.addMarker('dontTread',6.4261,7.6016,false);
+	this.voicesSound.addMarker('ghoulKiller',7.6016,9.0645,false);
+	this.voicesSound.addMarker('hotDamnSon',9.0645,10.5535,false);
+	this.voicesSound.addMarker('killAllThemGhouls',10.5535, 12.3820,false);
+	this.voicesSound.addMarker('laugh1',12.3820,19.7747,false);
+	this.voicesSound.addMarker('money1',19.7747,21.6555,false);
+	this.voicesSound.addMarker('money2',21.6555, 23.1967, false);
+	this.voicesSound.addMarker('restInPieces',23.1967, 25.2082, false);
+	this.voicesSound.addMarker('rideOut',25.2082, 26.3837, false);
+	this.voicesSound.addMarker('sixFeetUnder',26.3837,28.3429, false);
+	this.voicesSound.addMarker('standYourGround',28.3429,30.3804,false);
+	this.voicesSound.addMarker('tenFootTall',30.3804, 33.0971, false);
+	this.voicesSound.addMarker('westBest',33.0971,34.8996,false);
+	this.voicesSound.addMarker('whatBlazes',34.8996, 36.2580, false);
+	this.voicesSound.addMarker('whoa1',36.2580, 37.6424, false);
+	this.voicesSound.addMarker('whoa2',37.6424, 39.0008, false);
+	this.voicesSound.addMarker('yaaahhh',39.0008,40.5682, false);
+	this.voicesSound.addMarker('yeehaw',40.5682, 42.6057, false);
+
+	this.beginningLevelVoices = ['critters','dontTread','killAllThemGhouls','westBest'];
 	this.showLevelScreen();
 	
 }
@@ -213,23 +292,23 @@ gameState.createLevel = function(){
 		if(ghoulsLayerArray[i]==74){
 			var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 			var ghoul = new Ghoul(this,ghoulPixels[0],ghoulPixels[1],'left','gray');
-			//this.ghoulGroup.addChild(ghoul);
+			this.ghoulGroup.addChild(ghoul);
 		}else{
 			if(ghoulsLayerArray[i]==91){
 				var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 				var ghoul = new RedGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
-				//this.ghoulGroup.addChild(ghoul);
+				this.ghoulGroup.addChild(ghoul);
 			}else{
 				if(ghoulsLayerArray[i]==104){
 					var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 					var ghoul = new BlueGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
-					//this.ghoulGroup.addChild(ghoul);					
+					this.ghoulGroup.addChild(ghoul);					
 				}else{
 					if(ghoulsLayerArray[i]==127){
 						var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 						var ghoul = new BlackGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
 						this.blackGhoul = ghoul;
-						//this.ghoulGroup.addChild(ghoul);
+						this.ghoulGroup.addChild(ghoul);
 					}else{
 						if(ghoulsLayerArray[i]==167){
 							var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
@@ -271,8 +350,8 @@ gameState.createLevel = function(){
 		}
 	}
 
-	this.ghoulGroup.addChild(ghouliath);
-	this.ghouliath = ghouliath;
+	//this.ghoulGroup.addChild(ghouliath);
+	//this.ghouliath = ghouliath;
 
 	this.red.coinsCollected = 0;
 	this.updateCoinCounter(this.red);
@@ -368,7 +447,16 @@ gameState.createLevel = function(){
 	}	
 	this.addChild(this.digitGroup);
 	this.addChild(this.bombIconGroup);
+	this.addChild(this.menuArrow);
+	this.addChild(this.menuBackground);
+	this.addChild(this.menuGroup);
 
+	this.rideOutPlayed = false;
+	if(this.soundsOn){
+		var toPlay = this.beginningLevelVoices[this.random.integerInRange(0,this.beginningLevelVoices.length)];
+		console.log(toPlay);
+		this.voicesSound.play(toPlay,true);
+	}	
 	
 	this.timer = this.game.time.clock.createTimer('levelOver',10,0,false);
 	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.levelOver,this);
@@ -377,14 +465,16 @@ gameState.createLevel = function(){
 }
 
 gameState.onKeyDownCallback = function(keyCode){
-	if(this.numPlayers == 2){
-		if(keyCode == this.red.fireKey.keyCode || keyCode == this.blue.fireKey.keyCode){
-			this.gunSound.play('start',true);
+	if(this.soundsOn){
+		if(this.numPlayers == 2){
+			if(keyCode == this.red.fireKey.keyCode || keyCode == this.blue.fireKey.keyCode){
+				this.gunSound.play('start',true);
+			}
+		}else{
+			if(keyCode == this.red.fireKey.keyCode){
+				this.gunSound.play('start',true);
+			}		
 		}
-	}else{
-		if(keyCode == this.red.fireKey.keyCode){
-			this.gunSound.play('start',true);
-		}		
 	}
 }
 
@@ -408,6 +498,9 @@ gameState.checkBombCollision = function(){
 
 						bombs[i].hide();
 						this.updateBombCounter(bandits[j]);
+						if(this.soundsOn){
+							this.voicesSound.play('bombPickup',true);
+						}
 					}
 				}
 			}
@@ -425,10 +518,21 @@ gameState.checkCoinCollision = function(){
 			if(bandits[j].box.bounds.intersects(coinBox)){
 				if(coins[i].animation.currentAnimation.name == 'shine'){
 					bandits[j].coinsCollected += 10;
-					this.diamondSound.play('start',true);
+					if(this.soundsOn){
+						this.diamondSound.play('start',true);
+					}
 				}else{
 					bandits[j].coinsCollected ++;
-					this.coinSound.play('start',true);
+					if(this.soundsOn){
+						this.coinSound.play('start',true);
+						if(bandits[j].coinsCollected == 100){
+							this.voicesSound.play('money2',true);
+						}else if(bandits[j].coinsCollected == 200){
+							this.voicesSound.play('money1',true);
+						}else if(bandits[j].coinsCollected == 300){
+							this.voicesSound.play('yeehaw',true);
+						}
+					}
 				}
 				this.updateCoinCounter(bandits[j]);
 				coins[i].destroy();
@@ -512,7 +616,9 @@ gameState.checkGhoulCollision = function(){
 			var ghoulBox = ghouls[i].box.hitbox;
 			if(bandits[j].box.hitbox.intersects(ghoulBox)){
 				if(bandits[j].isAlive){
-					this.banditDeathSound.play('start',false);
+					if(this.soundsOn){
+						this.banditDeathSound.play('start',false);
+					}
 					bandits[j].isAlive = false;
 				}
 			}
@@ -846,30 +952,37 @@ gameState.getBlastedBlockPosition = function(gridPosition, facing, groundBlocks)
 
 gameState.levelOver = function(){
 	if(this.gameIsOver){
+		this.destroyEverything();
 		this.game.states.switchState('titleState');
 	}else{
 		this.currentLevel += 1;
 		if(this.currentLevel > this.numberOfLevels+1){
+			this.destroyEverything();
 			this.game.states.switchState('titleState');
 		}else if(this.currentLevel > this.numberOfLevels){
 			this.addChild(this.winScreen);
 		}else{
-			this.destroyAllMembersOfGroup('ghoul');
-			this.destroyAllMembersOfGroup('coin');
-			this.destroyAllMembersOfGroup('bomb');
-			this.destroyAllMembersOfGroup('hiddenBlock');
-			this.destroyAllMembersOfGroup('cracks');
-			this.removeBackgroundImages();
+			this.destroyEverything();
 			this.showLevelScreen();
 		}
 	}
 }
 
+gameState.destroyEverything = function(){
+	this.destroyAllMembersOfGroup('ghoul');
+	this.destroyAllMembersOfGroup('coin');
+	this.destroyAllMembersOfGroup('bomb');
+	this.destroyAllMembersOfGroup('hiddenBlock');
+	this.destroyAllMembersOfGroup('cracks');
+	this.removeBackgroundImages();	
+}
+
 gameState.removeBackgroundImages = function(){
 	var members = this.members;
 	for(var i = 0; i<members.length; i++){
-		if(members[i].objType()!='Group')
+		if(members[i].objType()!='Group' && members[i].name!='menu'){
 			members[i].destroy();
+		}
 	}
 }
 
@@ -886,7 +999,7 @@ gameState.destroyAllMembersOfGroup = function(group){
 			break;
 		case 'hiddenBlock':
 			var members = this.hiddenBlockGroup.members;
-			console.log(members);
+			break;
 		case 'cracks':
 			var members = this.cracksGroup.members;	
 			break;
@@ -894,10 +1007,17 @@ gameState.destroyAllMembersOfGroup = function(group){
 	for (var i =0; i<members.length; i++){
 		members[i].destroy();
 	}
+
 }
 
 gameState.isLevelOver = function(){
-	if(this.coinGroup.members.length==0){	
+	if(this.coinGroup.members.length==0){
+		if(this.soundsOn){	
+			if(this.rideOutPlayed == false){
+				this.voicesSound.play('rideOut',false);
+				this.rideOutPlayed = true;
+			}
+		}
 		this.timer.start();
 	}else if(!this.blue && !this.red){
 		this.timer.start();
@@ -941,6 +1061,11 @@ gameState.blastBlock = function(blastedBlockPosition){
 		this.removeFromGroundBlocks(blastedBlockPosition);
 		this.updateTopGroundBlocks();
 		this.updateBlockedBlocks();
+		if(this.soundsOn){
+			if(this.random.frac() <= 0.05){
+				this.voicesSound.play('sixFeetUnder',true);
+			}
+		}
 	}
 }
 
@@ -956,24 +1081,119 @@ gameState.onGunShotCallback = function(){
 	this.gunSound.play('start',true);
 }
 
-gameState.update = function(){
-	Kiwi.State.prototype.update.call(this);
-
-	if(this.showingLevelScreen == false){
-		this.checkCoinCollision();
-		this.checkGhoulCollision();
-		this.checkBombCollision();
-		this.isLevelOver();
-		this.isGameOver();
-
-		if(this.debugKey.isDown){
-			this.ghouliath.checkClimbOut();
-			console.log(this.ghouliath);
+gameState.mouseClicked = function(){
+	if(this.isPaused == true){
+		if(this.mouse.x > 250 && this.mouse.x < 750){
+			if(this.mouse.y > this.menuSound_yPosition &&this.mouse.y < this.menuSound_yPosition+40){
+				if(this.soundsOn == true){
+					this.soundsOn = false;
+				}else{
+					this.soundsOn = true;
+				}
+			}
+			if(this.mouse.y > this.menuMusic_yPosition &&this.mouse.y < this.menuMusic_yPosition+40){
+				if(this.musicOn == true){
+					this.musicOn = false;
+				}else{
+					this.musicOn = true;
+				}
+			}
+			if(this.mouse.y > this.menuRestart_yPosition &&this.mouse.y < this.menuRestart_yPosition+40){
+				console.log('restart clicked');
+			}
+			if(this.mouse.y > this.menuHome_yPosition && this.mouse.y < this.menuHome_yPosition+40){
+				this.destroyEverything();
+				this.game.states.switchState('titleState');
+			}
+		
+			if(this.mouse.x > 450 && this.mouse.x < 600){
+				if(this.mouse.y > 620 && this.mouse.y < 680){
+					this.isPaused = false;
+					this.menuArrowTween.to({alpha: 1}, 1000, Kiwi.Animations.Tweens.Easing.Linear.Out,true);
+					this.menuTween.to({y: -800}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+					this.menuGroupTween.to({y: -800}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);					
+				}
+			}
 		}
 
+	}
+}
+
+gameState.update = function(){
+	if(this.isPaused == false){
+		Kiwi.State.prototype.update.call(this);
+
+		if(this.showingLevelScreen == false){
+			this.checkCoinCollision();
+			this.checkGhoulCollision();
+			this.checkBombCollision();
+			this.isLevelOver();
+			this.isGameOver();
+
+			if(this.debugKey.isDown){
+				console.log(this.hiddenBlockGroup.members)
+			}
+		
+			if(this.mouse.isDown){
+				if(this.mouse.y > this.bps*this.GRID_ROWS && this.mouse.x < 20){
+					this.levelOver();
+					this.game.input.mouse.reset();
+				}
+			}
+		}
+	}else{
+		if(this.mouse.x > 250 && this.mouse.x < 750){
+			if(this.mouse.y > this.menuSound_yPosition &&this.mouse.y < this.menuSound_yPosition+40){
+				if(this.soundsOn){
+					this.menuSound.animation.play('hoveron');
+				}else{
+					this.menuSound.animation.play('hoveroff')
+				}					
+			}else{
+				if(this.soundsOn){
+					this.menuSound.animation.play('on');
+				}else{
+					this.menuSound.animation.play('off');
+				}	
+			}
+			if(this.mouse.y > this.menuMusic_yPosition &&this.mouse.y < this.menuMusic_yPosition+40){
+				if(this.musicOn){
+					this.menuMusic.animation.play('hoveron');
+				}else{
+					this.menuMusic.animation.play('hoveroff')
+				}
+			}else{	
+				if(this.musicOn){
+					this.menuMusic.animation.play('on');
+				}else{
+					this.menuMusic.animation.play('off');
+				}
+			}
+			if(this.mouse.y > this.menuRestart_yPosition &&this.mouse.y < this.menuRestart_yPosition+40){
+				this.menuRestart.animation.play('hover');
+			}else{
+				this.menuRestart.animation.play('on');
+			}
+			if(this.mouse.y > this.menuHome_yPosition && this.mouse.y < this.menuHome_yPosition+40){
+				this.menuHome.animation.play('hover');
+			}else{
+				this.menuHome.animation.play('on');
+			}				
+		}
+	}
+	if(this.showingLevelScreen == false){
+		this.game.tweens.update();
 		if(this.mouse.isDown){
-			this.levelOver();
-			this.game.input.mouse.reset();
+			console.log(this.mouse.x +  ' ' + this.mouse.y);
+			if(this.mouse.x > 400 && this.mouse.x < 700 && this.mouse.y < 25 * this.MULTIPLIER){
+				if(this.isPaused == false){
+					this.isPaused = true;
+					this.menuArrow.alpha = 0;
+					this.menuTween.to({y: -this.STAGE_Y_OFFSET}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+					this.menuGroupTween.to({y: -this.STAGE_Y_OFFSET}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+				}
+				this.game.input.mouse.reset();
+			}
 		}
 	}	
 }
