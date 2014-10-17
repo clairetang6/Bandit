@@ -448,6 +448,23 @@ var Cracks = function(state, x, y){
 }
 Kiwi.extend(Cracks, Kiwi.GameObjects.Sprite);
 
+var Horse = function(state, x, y){
+	console.log('making a horse');
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['horses'], x, y, false);
+	this.state = state;
+	this.animation.add('bluerun',[0,1,2,3,4,5,6,7],0.1,true);
+	this.animation.add('redrun',[8,9,10,11,12,13,14,15],0.1,true);
+}
+Kiwi.extend(Horse, Kiwi.GameObjects.Sprite);
+
+Horse.prototype.update = function(){
+	Kiwi.GameObjects.Sprite.prototype.update.call(this);
+	this.x += 2;
+	if(this.x > 1000){
+		this.x = 0;
+	}
+}
+
 var Bomb = function(state, x, y){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
 	console.log('bomb created at ' + x + ' ' + y);

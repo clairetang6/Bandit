@@ -27,6 +27,7 @@ gameState.preload = function(){
 	this.addImage('menuBackground','menu_up_bandit.png',250,0);
 	this.addImage('menuArrow','menu_arrow.png',469,0);
 	this.addSpriteSheet('menu','menu_sprite.png',500,50);
+	this.addSpriteSheet('horses','bandit_horse.png',100,100);
 }
 
 gameState.create = function(){
@@ -144,6 +145,13 @@ gameState.create = function(){
 	this.BOMB_HITBOX_X_PERCENTAGE = 0.33;
 	this.BOMB_HITBOX_Y_PERCENTAGE = 0.33;	
 
+	this.horseGroup = new Kiwi.Group(this);
+	this.redHorse = new Horse(this, 550, 500);
+	this.redHorse.animation.play('redrun');
+	this.blueHorse = new Horse(this, 700, 300);
+	this.blueHorse.animation.play('bluerun');
+	this.horseGroup.addChild(this.redHorse);
+	this.horseGroup.addChild(this.blueHorse);
 
 
 	this.banditGroup = new Kiwi.Group(this);
@@ -434,6 +442,7 @@ gameState.createLevel = function(){
 	this.addChild(this.coinGroup);
 	this.addChild(this.ghoulGroup);
 	this.addChild(this.banditGroup);
+	this.addChild(this.horseGroup);
 
 	//this.addChild(this.ghouliath);
 
@@ -525,11 +534,11 @@ gameState.checkCoinCollision = function(){
 					bandits[j].coinsCollected ++;
 					if(this.soundsOn){
 						this.coinSound.play('start',true);
-						if(bandits[j].coinsCollected == 100){
+						if(bandits[j].coinsCollected == 40){
 							this.voicesSound.play('money2',true);
-						}else if(bandits[j].coinsCollected == 200){
+						}else if(bandits[j].coinsCollected == 80){
 							this.voicesSound.play('money1',true);
-						}else if(bandits[j].coinsCollected == 300){
+						}else if(bandits[j].coinsCollected == 120){
 							this.voicesSound.play('yeehaw',true);
 						}
 					}
