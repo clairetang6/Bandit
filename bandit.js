@@ -280,14 +280,12 @@ var HiddenBlock = function(state, x, y){
 	this.gridPosition = state.getGridPosition(x,y);
 	this.row = this.gridPosition[0];
 	this.col = this.gridPosition[1];
-	console.log(this.row + ' ' + this.col) 
 	this.state = state;
 
 	this.timer = state.game.time.clock.createTimer('hiddenBlockTimer',5,0,false);
 	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.hiddenBlockTimer, this);
 	
 	if(this.state.permBlocks[this.row][this.col] != 1){
-		console.log('starting hidden block timer');
 		this.timer.start();
 	}
 }
@@ -345,7 +343,6 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 
 HiddenBlock.prototype.destroy = function(immediate){
 	this.timer.removeTimerEvent(this.timerEvent);
-	console.log('hidden block destroying');
 	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
 }
 
@@ -385,7 +382,6 @@ var Heart = function(state, banditX, banditY, bandit, number){
 				case 'red':
 					if(this.state.red.x != this.banditX || this.state.red.y != this.banditY){
 						if(this.timerStarted == false){
-							console.log('timer starting');
 							this.timer.start();
 						}
 						this.timerStarted = true;
@@ -394,7 +390,6 @@ var Heart = function(state, banditX, banditY, bandit, number){
 				case 'blue':
 					if(this.state.blue.x != this.banditX || this.state.blue.y != this.banditY){
 						if(this.timerStarted == false){
-							console.log('timer starting');
 							this.timer.start();
 						}
 						this.timerStarted = true;
@@ -448,8 +443,22 @@ var Cracks = function(state, x, y){
 }
 Kiwi.extend(Cracks, Kiwi.GameObjects.Sprite);
 
+var StageCoach = function(state, x, y){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['stagecoach'], x, y, false);
+	this.state = state;
+	this.animation.add('move',[0,1,2,3,4,5,6,7],0.1,true);
+}
+Kiwi.extend(StageCoach, Kiwi.GameObjects.Sprite);
+
+StageCoach.prototype.update = function(){
+	Kiwi.GameObjects.Sprite.prototype.update.call(this);
+	this.x += 4;
+	if(this.x > 2000){
+		this.x = -300;
+	}
+}
+
 var Horse = function(state, x, y){
-	console.log('making a horse');
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['horses'], x, y, false);
 	this.state = state;
 	this.animation.add('bluerun',[0,1,2,3,4,5,6,7],0.1,true);
@@ -459,15 +468,14 @@ Kiwi.extend(Horse, Kiwi.GameObjects.Sprite);
 
 Horse.prototype.update = function(){
 	Kiwi.GameObjects.Sprite.prototype.update.call(this);
-	this.x += 2;
-	if(this.x > 1000){
-		this.x = 0;
+	this.x += 4;
+	if(this.x > 2000){
+		this.x = -300;
 	}
 }
 
 var Bomb = function(state, x, y){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
-	console.log('bomb created at ' + x + ' ' + y);
 	this.state = state;
 
 	this.rowPlaced = -1;
@@ -515,7 +523,6 @@ Bomb.prototype.explode = function(){
 
 Bomb.prototype.explodeAnimation = function(){
 	this.animation.play('explode');
-	console.log(this.animation.currentAnimation.name);
 }
 
 Bomb.prototype.startTimer = function(){
@@ -532,7 +539,6 @@ Bomb.prototype.hide = function(){
 
 var Digit = function(state, x, y, color, index){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['digits'], x, y, false);
-	console.log('adding digit');
 	this.color = color;
 	this.state = state;
 	this.index = index; 

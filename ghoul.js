@@ -119,7 +119,6 @@ Ghouliath.prototype.update = function(){
 			if(this.moveUp>50){
 				if(this.animation.currentAnimation.name != 'climb' + this.facing){
 					this.animation.playAt(0,'climb' + this.facing);
-					console.log('playing climb');
 				}
 			}
 			if(this.moveUp>50){
@@ -130,7 +129,6 @@ Ghouliath.prototype.update = function(){
 		}else{
 			this.moveUp = 0;
 			this.movingUp = false;
-			console.log('setting fallen to false');
 			this.fallen = false;
 			this.climbingOut = false;
 			this.resumeBlocksTimer.start();
@@ -139,7 +137,6 @@ Ghouliath.prototype.update = function(){
 }
 
 Ghouliath.prototype.resumeHiddenBlocks = function(){
-	console.log(this.hiddenBlocksPaused.length);
 	var hiddenBlock = null;
 	while(hiddenBlock = this.hiddenBlocksPaused.pop()){
 		hiddenBlock.timer.resume();
@@ -184,7 +181,6 @@ Ghouliath.prototype.checkForHiddenBlock = function(){
 	if(check1 && check2){
 		if(!this.climbingOut){
 			this.shouldFall = true;
-			console.log('setting should Fall to true');
 		}
 	}
 }
@@ -246,14 +242,11 @@ Ghouliath.prototype.checkClimbOut = function(){
 
 Ghouliath.prototype.addToOccupiedBy = function(){
 	var gridPosition = this.state.getGridPosition(this.x, this.y);
-	console.log(gridPosition);
 	for(var i = 0; i < this.state.hiddenBlockGroup.members.length; i++){
 		var hiddenBlock = this.state.hiddenBlockGroup.members[i];
-		console.log(hiddenBlock.row + ' ' + hiddenBlock.col);
 		if(hiddenBlock.row == gridPosition[0] || hiddenBlock.row == gridPosition[0]+1){
 			if(hiddenBlock.col == gridPosition[1] || hiddenBlock.col == gridPosition[1]+1){
 				hiddenBlock.occupiedBy.push(this);
-				console.log('added to ' + hiddenBlock.row + ' ' + hiddenBlock.col);
 			}
 		}
 	}
@@ -624,7 +617,6 @@ var BlueGhoul = function(state, x, y, facing){
 
 	this.box.hitbox = new Kiwi.Geom.Rectangle(this.ghoulHitboxX,this.ghoulHitboxY,this.state.bps-2*this.ghoulHitboxX,this.state.bps-2*this.ghoulHitboxY);
 	var randTime = this.state.random.integerInRange(10,20);
-	console.log(randTime);
 
 	this.teleportTimer = this.state.game.time.clock.createTimer('teleportTimer',randTime, -1, false);
 	this.teleportTimerEvent = this.teleportTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.teleport, this);

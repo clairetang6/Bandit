@@ -2,139 +2,139 @@
 
 {
 	"filename": "ride_blue_1.png",
-	"frame": {"x":0,"y":0,"w":100,"h":100},
+	"frame": {"x":0,"y":0,"w":200,"h":200},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
-	"sourceSize": {"w":100,"h":100}
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":200},
+	"sourceSize": {"w":200,"h":200}
 },
 {
 	"filename": "ride_blue_2.png",
-	"frame": {"x":100,"y":0,"w":100,"h":100},
+	"frame": {"x":200,"y":0,"w":200,"h":200},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
-	"sourceSize": {"w":100,"h":100}
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":200},
+	"sourceSize": {"w":200,"h":200}
 },
 {
 	"filename": "ride_blue_3.png",
-	"frame": {"x":200,"y":0,"w":100,"h":100},
+	"frame": {"x":400,"y":0,"w":200,"h":200},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
-	"sourceSize": {"w":100,"h":100}
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":200},
+	"sourceSize": {"w":200,"h":200}
 },
 {
 	"filename": "ride_blue_4.png",
-	"frame": {"x":300,"y":0,"w":100,"h":100},
+	"frame": {"x":600,"y":0,"w":200,"h":200},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
-	"sourceSize": {"w":100,"h":100}
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":200},
+	"sourceSize": {"w":200,"h":200}
 },
 {
 	"filename": "ride_blue_5.png",
-	"frame": {"x":400,"y":0,"w":100,"h":100},
+	"frame": {"x":800,"y":0,"w":200,"h":200},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
-	"sourceSize": {"w":100,"h":100}
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":200},
+	"sourceSize": {"w":200,"h":200}
 },
 {
 	"filename": "ride_blue_6.png",
-	"frame": {"x":500,"y":0,"w":100,"h":100},
+	"frame": {"x":1000,"y":0,"w":200,"h":200},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
-	"sourceSize": {"w":100,"h":100}
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":200},
+	"sourceSize": {"w":200,"h":200}
 },
 {
 	"filename": "ride_blue_7.png",
-	"frame": {"x":600,"y":0,"w":100,"h":100},
+	"frame": {"x":1200,"y":0,"w":200,"h":200},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
-	"sourceSize": {"w":100,"h":100}
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":200},
+	"sourceSize": {"w":200,"h":200}
 },
 {
 	"filename": "ride_blue_8.png",
-	"frame": {"x":700,"y":0,"w":100,"h":100},
+	"frame": {"x":1400,"y":0,"w":200,"h":200},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
-	"sourceSize": {"w":100,"h":100}
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":200},
+	"sourceSize": {"w":200,"h":200}
 },
 {
 	"filename": "ride_red_1.png",
-	"frame": {"x":800,"y":0,"w":100,"h":100},
+	"frame": {"x":0,"y":200,"w":200,"h":200},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
-	"sourceSize": {"w":100,"h":100}
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":200},
+	"sourceSize": {"w":200,"h":200}
 },
 {
 	"filename": "ride_red_2.png",
-	"frame": {"x":900,"y":0,"w":100,"h":100},
+	"frame": {"x":200,"y":200,"w":200,"h":200},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
-	"sourceSize": {"w":100,"h":100}
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":200},
+	"sourceSize": {"w":200,"h":200}
 },
 {
 	"filename": "ride_red_3.png",
-	"frame": {"x":1000,"y":0,"w":100,"h":100},
+	"frame": {"x":400,"y":200,"w":200,"h":200},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
-	"sourceSize": {"w":100,"h":100}
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":200},
+	"sourceSize": {"w":200,"h":200}
 },
 {
 	"filename": "ride_red_4.png",
-	"frame": {"x":1100,"y":0,"w":100,"h":100},
+	"frame": {"x":600,"y":200,"w":200,"h":200},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
-	"sourceSize": {"w":100,"h":100}
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":200},
+	"sourceSize": {"w":200,"h":200}
 },
 {
 	"filename": "ride_red_5.png",
-	"frame": {"x":1200,"y":0,"w":100,"h":100},
+	"frame": {"x":800,"y":200,"w":200,"h":200},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
-	"sourceSize": {"w":100,"h":100}
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":200},
+	"sourceSize": {"w":200,"h":200}
 },
 {
 	"filename": "ride_red_6.png",
-	"frame": {"x":1300,"y":0,"w":100,"h":100},
+	"frame": {"x":1000,"y":200,"w":200,"h":200},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
-	"sourceSize": {"w":100,"h":100}
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":200},
+	"sourceSize": {"w":200,"h":200}
 },
 {
 	"filename": "ride_red_7.png",
-	"frame": {"x":1400,"y":0,"w":100,"h":100},
+	"frame": {"x":1200,"y":200,"w":200,"h":200},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
-	"sourceSize": {"w":100,"h":100}
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":200},
+	"sourceSize": {"w":200,"h":200}
 },
 {
 	"filename": "ride_red_8.png",
-	"frame": {"x":1500,"y":0,"w":100,"h":100},
+	"frame": {"x":1400,"y":200,"w":200,"h":200},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
-	"sourceSize": {"w":100,"h":100}
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":200},
+	"sourceSize": {"w":200,"h":200}
 }],
 "meta": {
 	"app": "http://www.codeandweb.com/texturepacker ",
 	"version": "1.0",
 	"image": "bandit_horse.png",
 	"format": "RGBA8888",
-	"size": {"w":1600,"h":100},
+	"size": {"w":1600,"h":400},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:32bc501f877c3bb7702fb08a7b5fa69e:a3fa97c32940761866ac0886d3f9719a:e6ec636761b627f9941d530443339060$"
+	"smartupdate": "$TexturePacker:SmartUpdate:cfa0414369b076b4486860d003edf51a:ddab1fbc7c73bef2c00c8ca68de2aa3b:e6ec636761b627f9941d530443339060$"
 }
 }

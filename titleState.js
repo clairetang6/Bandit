@@ -15,6 +15,7 @@ titleState.preload = function(){
 	this.addAudio('diamondSound','sounds/diamond_1.wav');
 	this.addAudio('shotgunSound','sounds/shotgun.wav');
 	this.addAudio('voicesSound','voices/bandit_voices.wav');
+	this.addAudio('musicSound','sounds/level_1.mp3');
 
 }
 
@@ -51,8 +52,8 @@ titleState.update = function(){
 	//console.log(this.clock.elapsedSinceLastPaused());
 	if(this.mouse.isDown){		
 
-		console.log(this.mouse._cursor.x + ' ' + this.mouse._cursor.y);
-		
+		console.log(this);
+		console.log(this.mouse.x + ' ' +this.mouse.y);
 		if(!this.showingControls){
 			if(this.mouse.x > 300 && this.mouse.x < 700){
 				if(this.mouse.y > 450 && this.mouse.y < 490){
