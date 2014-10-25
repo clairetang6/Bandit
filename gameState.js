@@ -23,6 +23,7 @@ gameState.preload = function(){
 		this.addJSON('level_tilemap'+i,'level'+i+'.json');		
 	}
 	this.addSpriteSheet('digits','digits.png',18*this.MULTIPLIER,18*this.MULTIPLIER);	
+	this.addSpriteSheet('big_digits','digits@2x.png',36,36);//hardcoded 36 pixels. 
 
 	this.addImage('menuBackground','menu_up_bandit.png',250,0);
 	this.addImage('menuArrow','menu_arrow.png',469,0);
@@ -105,6 +106,21 @@ gameState.create = function(){
 	this.menuGroup.y = -800;
 	this.menuGroupTween = this.game.tweens.create(this.menuGroup);
 
+	this.bigDigitGroup = new Kiwi.Group(this);
+	for(var i = 0; i < 6; i++){
+		var bigDigit = new BigDigit(this, 400+(i*40), 200, 'red', 6-i);
+		bigDigit.scale = 1.5;
+		bigDigit.animation.play('cycle');
+		this.bigDigitGroup.addChild(bigDigit);
+	}
+	if(this.numPlayers == 2){
+		for(var i = 0; i < 6; i++){
+			var bigDigit = new BigDigit(this, 400+(i*40), 250, 'blue', 6-i);
+			bigDigit.animation.play('cycle');
+			bigDigit.scale = 1.5;
+			this.bigDigitGroup.addChild(bigDigit);
+		}		
+	}
 
 	this.digitGroup = new Kiwi.Group(this);
 	this.bombIconGroup = new Kiwi.Group(this);
@@ -147,17 +163,18 @@ gameState.create = function(){
 	this.BOMB_HITBOX_Y_PERCENTAGE = 0.33;	
 
 	this.horseGroup = new Kiwi.Group(this);
-	this.redHorse = new Horse(this, -500, 580);
+	this.redHorse = new Horse(this, this.bps*(this.GRID_COLS+2), 580);
 	this.redHorse.animation.play('redrun');
-	this.blueHorse = new Horse(this, -300, 620);
+	this.blueHorse = new Horse(this, this.bps*(this.GRID_COLS+2), 620);
 	this.blueHorse.animation.play('bluerun');
 	this.horseGroup.addChild(this.redHorse);
 	if(this.numPlayers == 2){
 		this.horseGroup.addChild(this.blueHorse);
 	}
 
-	this.stageCoach = new StageCoach(this, 500, 500);
+	this.stageCoach = new StageCoach(this, this.bps*(this.GRID_COLS+2), 500);
 	this.stageCoach.animation.play('move');
+	this.horseGroup.addChild(this.stageCoach);
 
 
 	this.banditGroup = new Kiwi.Group(this);
@@ -410,6 +427,7 @@ gameState.createLevel = function(){
 
 
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'+this.currentLevel],-this.bps,-this.bps);
+	this.background.name = 'background';
 
 	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this,'level_tilemap'+this.currentLevel, this.textures.sprites);
 	
@@ -440,7 +458,7 @@ gameState.createLevel = function(){
 
 	this.addChild(this.background);
 	
-	/*
+	
 	this.addChild(this.tilemap.layers[0]);
 	this.addChild(this.cracksGroup);	
 	this.addChild(this.hiddenBlockGroup);	
@@ -450,12 +468,12 @@ gameState.createLevel = function(){
 	this.addChild(this.coinGroup);
 	this.addChild(this.ghoulGroup);
 	this.addChild(this.banditGroup);
-	*/
+	
 	this.addChild(this.horseGroup);
 
 	//this.addChild(this.ghouliath);
 
-	/*
+	
 	this.addChild(this.tilemap.layers[5]);
 	this.addChild(this.bombGroup);
 
@@ -463,12 +481,15 @@ gameState.createLevel = function(){
 	if(this.numPlayers == 2){
 		this.addChild(this.blueHeartsGroup);
 	}	
-	*/
+	
 
-	this.addChild(this.stageCoach);
 	
 	this.addChild(this.digitGroup);
 	this.addChild(this.bombIconGroup);
+
+	this.bigDigitGroup.visible = false;
+	this.addChild(this.bigDigitGroup);
+
 	this.addChild(this.menuArrow);
 	this.addChild(this.menuBackground);
 	this.addChild(this.menuGroup);
@@ -479,14 +500,14 @@ gameState.createLevel = function(){
 		this.voicesSound.play(toPlay,true);
 	}	
 	
-	this.timer = this.game.time.clock.createTimer('levelOver',10,0,false);
+	this.timer = this.game.time.clock.createTimer('levelOver',2,0,false);
 	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.levelOver,this);
-
-	this.showingLevelScreen = false;
 
 	if(this.musicOn){
 		this.musicSound.play();
 	}
+
+	this.showingLevelScreen = false;
 }
 
 gameState.onKeyDownCallback = function(keyCode){
@@ -627,6 +648,40 @@ gameState.updateCoinCounter = function(bandit){
 				digits[i].animation.play(tens.toString());
 			}else if(digits[i].index == 3){
 				digits[i].animation.play(huns.toString());
+			}
+		}
+	}
+}
+
+gameState.updateBigCoinCounter = function(){
+	this.bigCoinCounterStep = 1;
+	var bigDigits = this.bigDigitGroup.members;
+	for(var i = 0; i < bigDigits.length; i++){
+		bigDigits[i].animation.play('cycle');
+	}
+	
+	this.bigCoinTimer = this.game.time.clock.createTimer('bigCoin',.2,6,false);
+	this.bigCoinTimerEvent = this.bigCoinTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.tickBigCoinCounter, this);
+	this.bigCoinTimer.start();
+}
+
+gameState.tickBigCoinCounter = function(){
+	var bandits = this.banditGroup.members;	
+	for(var i =0; i <bandits.length; i++){
+		this.stepBigCoinCounter(bandits[i], this.bigCoinCounterStep);
+		this.stepBigCoinCounter(bandits[i], this.bigCoinCounterStep);
+	}	
+	this.bigCoinCounterStep++;
+}
+
+gameState.stepBigCoinCounter = function(bandit, bigCoinCounterStep){
+	var value = Math.floor(bandit.totalCoinsCollected/(Math.pow(10,bigCoinCounterStep-1)))% 10;
+	console.log(value);
+	bigDigits = this.bigDigitGroup.members;
+	for(var i = 0; i<bigDigits.length; i++){
+		if(bigDigits[i].color == bandit.color){
+			if(bigDigits[i].index == bigCoinCounterStep){
+				bigDigits[i].animation.play(value.toString());
 			}
 		}
 	}
@@ -976,36 +1031,83 @@ gameState.getBlastedBlockPosition = function(gridPosition, facing, groundBlocks)
 
 gameState.levelOver = function(){
 	if(this.gameIsOver){
-		this.destroyEverything();
+		this.destroyEverything(true);
 		this.game.states.switchState('titleState');
 	}else{
 		this.currentLevel += 1;
 		if(this.currentLevel > this.numberOfLevels+1){
-			this.destroyEverything();
+			this.destroyEverything(true);
 			this.game.states.switchState('titleState');
 		}else if(this.currentLevel > this.numberOfLevels){
 			this.addChild(this.winScreen);
 		}else{
-			this.destroyEverything();
-			this.showLevelScreen();
+			this.destroyEverything(false);
+			this.showCutScene();
 		}
 	}
 }
 
-gameState.destroyEverything = function(){
+gameState.showCutScene = function(){
+	this.showingLevelScreen = true;
+
+	var members = this.banditGroup.members;
+	for(var i = 0; i<members.length; i++){
+		members[i].totalCoinsCollected += members[i].coinsCollected;
+	}
+
+	this.bigDigitGroup.visible = true;
+	this.updateBigCoinCounter();
+
+	this.moveBanditsOffscreen();
+	this.showStageCoachAndHorses();
+
+	this.showingLevelScreenTimer = this.game.time.clock.createTimer('showingLevelScreenTimer',10,0,false);
+	this.showingLevelScreenTimerEvent = this.showingLevelScreenTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.showLevelScreen,this);
+	
+	this.showingLevelScreenTimer.start();	
+
+	//this.showLevelScreen();
+
+}
+
+gameState.showStageCoachAndHorses = function(){
+	this.redHorse.x = -1200;
+	if(this.numPlayers == 2){
+		this.blueHorse.x = -1000;
+	}
+	this.stageCoach.x = -500;
+}
+
+gameState.moveBanditsOffscreen = function(){
+	for(var i = 0; i<this.banditGroup.members.length; i++){
+		this.banditGroup.members[i].x = this.bps * (this.GRID_COLS + 2);
+	}
+}
+
+gameState.destroyEverything = function(removeBackground){
 	this.destroyAllMembersOfGroup('ghoul');
 	this.destroyAllMembersOfGroup('coin');
 	this.destroyAllMembersOfGroup('bomb');
 	this.destroyAllMembersOfGroup('hiddenBlock');
 	this.destroyAllMembersOfGroup('cracks');
-	this.removeBackgroundImages();	
+	if(removeBackground){
+		this.removeBackgroundImages(false);	
+	}else{
+		this.removeBackgroundImages(true);
+	}
 }
 
-gameState.removeBackgroundImages = function(){
+gameState.removeBackgroundImages = function(leaveBackground){
 	var members = this.members;
 	for(var i = 0; i<members.length; i++){
 		if(members[i].objType()!='Group' && members[i].name!='menu'){
-			members[i].destroy();
+			if(leaveBackground){
+			  	if(members[i].name!='background'){
+					members[i].destroy();
+				}
+			}else{
+				members[i].destroy(); 
+			}
 		}
 	}
 }
@@ -1130,7 +1232,7 @@ gameState.mouseClicked = function(){
 			if(this.mouse.y > this.menuRestart_yPosition &&this.mouse.y < this.menuRestart_yPosition+40){
 			}
 			if(this.mouse.y > this.menuHome_yPosition && this.mouse.y < this.menuHome_yPosition+40){
-				this.destroyEverything();
+				this.destroyEverything(true);
 				this.game.states.switchState('titleState');
 			}
 		

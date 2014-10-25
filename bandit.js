@@ -452,10 +452,10 @@ Kiwi.extend(StageCoach, Kiwi.GameObjects.Sprite);
 
 StageCoach.prototype.update = function(){
 	Kiwi.GameObjects.Sprite.prototype.update.call(this);
-	this.x += 4;
-	if(this.x > 2000){
-		this.x = -300;
+	if(this.x < this.state.bps * (this.state.GRID_COLS +2)){
+		this.x += 4;
 	}
+	console.log(this.x);
 }
 
 var Horse = function(state, x, y){
@@ -468,9 +468,8 @@ Kiwi.extend(Horse, Kiwi.GameObjects.Sprite);
 
 Horse.prototype.update = function(){
 	Kiwi.GameObjects.Sprite.prototype.update.call(this);
-	this.x += 4;
-	if(this.x > 2000){
-		this.x = -300;
+	if(this.x < this.state.bps * (this.state.GRID_COLS +2)){
+		this.x += 4;
 	}
 }
 
@@ -580,5 +579,49 @@ var Digit = function(state, x, y, color, index){
 }
 Kiwi.extend(Digit, Kiwi.GameObjects.Sprite);
 
+var BigDigit = function(state, x, y, color, index){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['big_digits'], x, y, false);
+	this.color = color;
+	this.state = state;
+	this.index = index; 
+	this.originalx = x;
+	this.originaly = y;
+
+	switch(color){
+		case 'blue':
+			this.animation.add('0',[0],0.1,false);
+			this.animation.add('1',[1],0.1,false); 
+			this.animation.add('2',[2],0.1,false);
+			this.animation.add('3',[3],0.1,false); 
+			this.animation.add('4',[4],0.1,false);
+			this.animation.add('5',[5],0.1,false); 
+			this.animation.add('6',[6],0.1,false);
+			this.animation.add('7',[7],0.1,false); 
+			this.animation.add('8',[8],0.1,false);
+			this.animation.add('9',[9],0.1,false); 	
+			this.animation.add('cycle',[0,1,2,3,4,5,6,7,8,9],0.06,true);
+			this.animation.add('bomb',[10],0.1,false);											
+			break;
+		case 'red':
+			this.animation.add('0',[11],0.1,false);
+			this.animation.add('1',[12],0.1,false); 
+			this.animation.add('2',[13],0.1,false);
+			this.animation.add('3',[14],0.1,false); 
+			this.animation.add('4',[15],0.1,false);
+			this.animation.add('5',[16],0.1,false); 
+			this.animation.add('6',[17],0.1,false);
+			this.animation.add('7',[18],0.1,false); 
+			this.animation.add('8',[19],0.1,false);
+			this.animation.add('9',[20],0.1,false); 
+			this.animation.add('cycle',[11,12,13,14,15,16,17,18,19,20],0.06,true);	
+			this.animation.add('bomb',[10],0.1,false);																									
+			break;
+	}
+
+	BigDigit.prototype.resetCounter = function(){
+		this.animation.play('0');
+	}
+}
+Kiwi.extend(BigDigit, Kiwi.GameObjects.Sprite);
 
 
