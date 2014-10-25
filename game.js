@@ -1,5 +1,5 @@
 
-var myGame = new Kiwi.Game('game','Bandit',null,{ debug: Kiwi.DEBUG_OFF});
+var myGame = new Kiwi.Game('game','Bandit',null,{ debug: Kiwi.DEBUG_OFF, plugins:["Fullscreen"]});
 
 
 myGame.states.addState(titleState);
