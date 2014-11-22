@@ -17,6 +17,11 @@ var Bandit = function(state, x, y, color){
 	this.coinsCollected = 0;
 	this.totalCoinsCollected = 0;
 	this.bps = this.state.bps;
+	this.grayGhoulsKilled = 0;
+	this.redGhoulsKilled = 0;
+	this.blueGhoulsKilled = 0;
+	this.blackGhoulsKilled = 0;
+	this.ghouliathsKilled = 0;
 
 	var banditHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
 	var banditHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);
@@ -113,7 +118,7 @@ Bandit.prototype.update = function(){
 				this.animation.play('fire' + this.facing);
 				if(this.canShoot){
 					var blastedBlockPosition = this.state.getBlastedBlockPosition(southGridPosition, this.facing, this.state.groundBlocks);
-					this.state.blastBlock(blastedBlockPosition);
+					this.state.blastBlock(blastedBlockPosition, this.color);
 				}
 			}
 			else if(this.upKey.isDown){
@@ -262,6 +267,7 @@ Bandit.prototype.placeBomb = function(){
 		bomb.rowPlaced = bombGridPosition[0];
 		bomb.colPlaced = bombGridPosition[1]; 
 		bomb.startTimer();
+		bomb.placedBy = this.color;
 		if(this.state.soundsOn){
 			if(this.state.random.integerInRange(0,2)==0){
 				this.state.voicesSound.play('bombPlace',true);
@@ -292,12 +298,21 @@ var HiddenBlock = function(state, x, y){
 Kiwi.extend(HiddenBlock, Kiwi.GameObjects.Sprite);
 
 HiddenBlock.prototype.hiddenBlockTimer = function(){
+	switch(this.blastedBy){
+		case 'red':
+			var banditToAddGhoulKillTo = this.state.banditGroup.members[0];
+			break;
+		case 'blue':
+			var banditToAddGhoulKillTo = this.state.banditGroup.members[1];
+			break;
+	}
 	var numberOfGhouls = this.occupiedBy.length;
 	for(var i =0; i < numberOfGhouls; i++){
 		var ghoul = this.occupiedBy.pop();
 		if(ghoul.objType() == 'BlackGhoul'){
 			if(ghoul.lives < 1){
 				ghoul.destroy(false);
+				banditToAddGhoulKillTo.blackGhoulsKilled++;
 			}
 		}else if(ghoul.objType() == 'Ghouliath'){
 			ghoul.animation.play('explode');
@@ -305,7 +320,16 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 				this.state.bombSound.play();	
 			}	
 			ghoul.explodeTimer.start();
+			banditToAddGhoulKillTo.ghouliathsKilled++;
+
 		}else{
+			if(ghoul.objType() == 'Ghoul'){
+				banditToAddGhoulKillTo.grayGhoulsKilled++;
+			}else if(ghoul.objType() == 'BlueGhoul'){
+				banditToAddGhoulKillTo.blueGhoulsKilled++;
+			}else if(ghoul.objType() == 'RedGhoul'){
+				banditToAddGhoulKillTo.redGhoulsKilled++;
+			}
 			ghoul.destroy(false);
 		}
 	}
@@ -493,11 +517,11 @@ var Bomb = function(state, x, y){
 Kiwi.extend(Bomb, Kiwi.GameObjects.Sprite);
 
 Bomb.prototype.explode = function(){
-	this.state.blastBlock([this.rowPlaced, this.colPlaced-1]); 
-	this.state.blastBlock([this.rowPlaced, this.colPlaced-2]);
-	this.state.blastBlock([this.rowPlaced, this.colPlaced]);	
-	this.state.blastBlock([this.rowPlaced, this.colPlaced+1]); 
-	this.state.blastBlock([this.rowPlaced, this.colPlaced+2]);
+	this.state.blastBlock([this.rowPlaced, this.colPlaced-1],this.placedBy); 
+	this.state.blastBlock([this.rowPlaced, this.colPlaced-2],this.placedBy);
+	this.state.blastBlock([this.rowPlaced, this.colPlaced],this.placedBy);	
+	this.state.blastBlock([this.rowPlaced, this.colPlaced+1],this.placedBy); 
+	this.state.blastBlock([this.rowPlaced, this.colPlaced+2],this.placedBy);
 	var bandits = this.state.banditGroup.members;
 	var ghouls = this.state.ghoulGroup.members;
 	if(this.state.soundsOn){
@@ -588,7 +612,6 @@ Digit.prototype.increaseByOne = function(){
 			this.animation.play('0');
 			return 1; 
 		}else{
-			console.log(parseInt(this.animation.currentAnimation.name)+1);
 			this.animation.play((parseInt(this.animation.currentAnimation.name)+1).toString());
 			return 0;
 		}

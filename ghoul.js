@@ -341,6 +341,10 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 }
 Kiwi.extend(Ghoul, Kiwi.GameObjects.Sprite);
 
+Ghoul.prototype.objType = function(){
+	return 'Ghoul';
+}
+
 Ghoul.prototype.update = function(){
 	Kiwi.GameObjects.Sprite.prototype.update.call(this);
 	if(this.facing == 'left'){
@@ -534,6 +538,10 @@ var RedGhoul = function(state, x, y, facing){
 	}
 }
 Kiwi.extend(RedGhoul, Ghoul);
+
+RedGhoul.prototype.objType = function(){
+	return 'RedGhoul';
+}
 
 RedGhoul.prototype.checkDirectionAndSetFacing = function(){
 	if(this.shouldCheckDirection){
