@@ -351,13 +351,19 @@ Ghoul.prototype.update = function(){
   	  	var topGridPosition = this.state.getGridPosition(this.x, this.y+15, 'north');
 	}
 
+	//If the ghoul is in a hole, play the die animation, otherwise
+	//do everything else. 
 	if(this.isInHole){
+		//Ghoul = playDieAnimation
+		//BlackGhoul = teleport or playDieAnimation.
 		this.inHole();
 	}else{
 		this.shouldCheckDirection = (this.x % this.state.bps == 0 && this.y % this.state.bps == 0); 	
 
 		if(this.shouldFall){
 			this.gravity();
+			//below makes ghouls change facing as they fall. 
+			//and dictates their facing after landing onto the ground
 			if(!(this.y>this.state.bps*(this.state.GRID_ROWS-1))){
 				var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];
 				switch(this.facing){
@@ -381,7 +387,10 @@ Ghoul.prototype.update = function(){
 			if(this.facing == 'left' || this.facing == 'right'){
 				this.checkForHiddenBlock(gridPosition, topGridPosition);
 			}
-			this.checkDirection();			
+			if(this.shouldCheckDirection){
+				//checkDirection sets the facing.
+				this.checkDirectionAndSetFacing();	
+			}		
 		}
 
 		switch(this.facing){
@@ -434,7 +443,10 @@ Ghoul.prototype.checkForHiddenBlock = function(gridPosition, topGridPosition){
 }
 
 Ghoul.prototype.inHole = function(){
-	//this.animation.play('up' + this.facing);
+	this.playDieAnimation();
+}
+
+Ghoul.prototype.playDieAnimation = function(){
 	if(this.animation.currentAnimation.name != 'die' + this.facing){
 		this.animation.play('die' + this.facing);
 	}
@@ -493,26 +505,24 @@ Ghoul.prototype.checkSingleBlockDeath = function(){
 	}
 }
 
-Ghoul.prototype.checkDirection = function(){
-	if(this.shouldCheckDirection){
-		var gridPosition = this.state.getGridPosition(this.x, this.y);		
-		var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];	
+Ghoul.prototype.checkDirectionAndSetFacing = function(){
+	var gridPosition = this.state.getGridPosition(this.x, this.y);		
+	var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];	
 
-		switch(this.facing){
-			case 'left':
-				if(ghoulCode % 3 != 0){
-					this.facing = 'right';
-					this.animation.play('idleright');
-				}
+	switch(this.facing){
+		case 'left':
+			if(ghoulCode % 3 != 0){
+				this.facing = 'right';
+				this.animation.play('idleright');
+			}
 
-			break;
-			case 'right':
-				if(ghoulCode % 2 != 0){
-					this.facing = 'left';
-					this.animation.play('idleleft');
-				}
-			break;
-		}
+		break;
+		case 'right':
+			if(ghoulCode % 2 != 0){
+				this.facing = 'left';
+				this.animation.play('idleleft');
+			}
+		break;
 	}	
 }
 
@@ -525,7 +535,7 @@ var RedGhoul = function(state, x, y, facing){
 }
 Kiwi.extend(RedGhoul, Ghoul);
 
-RedGhoul.prototype.checkDirection = function(){
+RedGhoul.prototype.checkDirectionAndSetFacing = function(){
 	if(this.shouldCheckDirection){
 		var gridPosition = this.state.getGridPosition(this.x, this.y);		
 		var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];	
@@ -720,7 +730,7 @@ Kiwi.extend(BlackGhoul, RedGhoul);
 
 BlackGhoul.prototype.inHole = function(){
 	if(this.lives < 1 && this.facing != 'teleport'){
-		Ghoul.prototype.inHole.call(this);
+		Ghoul.prototype.playDieAnimation.call(this);
 	}else{	
 		if(this.facing != 'teleport'){
 			this.teleport();
@@ -762,7 +772,7 @@ BlackGhoul.prototype.findPathToBandit = function(){
    	return result;
 }
 
-BlackGhoul.prototype.checkDirection = function(){
+BlackGhoul.prototype.checkDirectionAndSetFacing = function(){
 	if(this.shouldCheckDirection){
 	var gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
 
@@ -796,10 +806,10 @@ BlackGhoul.prototype.checkDirection = function(){
 					this.facing = 'right';
 				}
 			}else{
-				RedGhoul.prototype.checkDirection.call(this);
+				RedGhoul.prototype.checkDirectionAndSetFacing.call(this);
 			}
 		}else{
-			RedGhoul.prototype.checkDirection.call(this);
+			RedGhoul.prototype.checkDirectionAndSetFacing.call(this);
 		}
 	}
 }
@@ -847,7 +857,7 @@ KingGhoul.prototype.update = function(){
 
  	if(this.isAlive){
 	 	if(this.isInHole){
-			Ghoul.prototype.inHole.call(this);
+			Ghoul.prototype.playDieAnimation.call(this);
 			this.isAlive = false;
 			this.explodeTimer.start();
 		}else if(this.shouldFall){

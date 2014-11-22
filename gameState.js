@@ -11,7 +11,7 @@ gameState.preload = function(){
 	this.addSpriteSheet('sprites','bandit_spritesheet.png',this.bps,this.bps);
 	this.addSpriteSheet('ghouliath','ghouliath_spritesheet.png',this.bps*2, this.bps*2);
 	this.currentLevel = 1; 
-	this.numberOfLevels = 15;
+	this.numberOfLevels = 17;
 
 	for (var i = 1; i<=this.numberOfLevels; i++){
 		this.addImage('level'+i,'level'+i+'_screen.png',true);

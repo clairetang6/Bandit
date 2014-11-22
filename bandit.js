@@ -514,7 +514,7 @@ Bomb.prototype.explode = function(){
 		if(gridPosition[0] == this.rowPlaced && gridPosition[1] >= this.colPlaced-2 && gridPosition[1] <= this.colPlaced+2){
 			ghouls[i].animation.play('diestatic'+ghouls[i].facing);
 			ghouls[i].facing = 'none';
-			ghouls[i].singleBlockDeath('fast');
+			ghouls[i].singleBlockDeath('fast');	
 		}
 	}	
 	this.destroy();
