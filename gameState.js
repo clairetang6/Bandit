@@ -130,7 +130,20 @@ gameState.create = function(){
 	}
 
 	this.digitGroup = new Kiwi.Group(this);
+	this.timerDigitGroup = new Kiwi.Group(this);
 	this.bombIconGroup = new Kiwi.Group(this);
+
+	if(this.numPlayers==1){
+		for (var i = 0; i<4; i++){
+			if(i<2){
+				var digit = new Digit(this, (i*18), -18,'red',i+1);
+			}else{
+				var digit = new Digit(this, 6+(i*18), -18,'red',i+1);			
+			}
+			digit.animation.play('0');
+			this.timerDigitGroup.addChild(digit);
+		}
+	}
 
 	for (var i = 0; i<4; i++){
 		var digit = new Digit(this, 10+(i*18),-18,'red', 4-i);
@@ -252,6 +265,13 @@ gameState.create = function(){
 	this.musicSound = new Kiwi.Sound.Audio(this.game, 'musicSound', 0.2, true);
 
 	this.beginningLevelVoices = ['critters','dontTread','killAllThemGhouls','westBest'];
+
+	if(this.numPlayers==1){
+		this.gameTimer = this.game.time.clock.createTimer('updateTimer',1,-1,false);
+		this.gameTimerEvent = this.gameTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.updateTimer, this);
+		this.gameTimer.start();
+		this.gameTimer.pause();
+	}
 
 	this.showLevelScreen();
 	
@@ -495,6 +515,9 @@ gameState.createLevel = function(){
 	this.digitGroup.visible = true;
 	this.addChild(this.digitGroup);
 	this.addChild(this.bombIconGroup);
+	this.timerDigitGroup.visible = true;
+	this.addChild(this.timerDigitGroup);
+	this.timerDigitGroup.x = 920;
 
 	this.bigDigitGroup.visible = false;
 	this.addChild(this.bigDigitGroup);
@@ -515,8 +538,37 @@ gameState.createLevel = function(){
 	if(this.musicOn){
 		this.musicSound.play();
 	}
+	
+	if(this.numPlayers==1){
+		this.gameTimeSeconds = 0;
+		for (var i = 0; i < this.timerDigitGroup.members.length; i++){
+			this.timerDigitGroup.members[i].resetCounter();
+		}
+		this.gameTimer.resume();
+	}
 
 	this.showingLevelScreen = false;
+}
+
+gameState.updateTimer = function(){
+	this.gameTimeSeconds++;
+
+	var minutes = Math.round(this.gameTimeSeconds / 60);
+	var seconds = this.gameTimeSeconds % 60; 
+	var ones = seconds % 10;
+
+	console.log(this.gameTimeSeconds);
+	var increaseNext = this.timerDigitGroup.members[3].increaseByOne();
+	if(increaseNext == 1){
+		var increaseNext = this.timerDigitGroup.members[2].increaseByOne();
+	}
+	if(increaseNext == 1){
+		var increaseNext = this.timerDigitGroup.members[1].increaseByOne();
+	}
+	if(increaseNext == 1){
+		var increaseNext = this.timerDigitGroup.members[0].increaseByOne();
+	}	
+
 }
 
 gameState.onKeyDownCallback = function(keyCode){
@@ -1072,6 +1124,7 @@ gameState.showCutScene = function(){
 
 	this.bigDigitGroup.visible = true;
 	this.digitGroup.visible = false;
+	this.timerDigitGroup.visible = false;
 	this.updateBigCoinCounter();
 
 	this.moveBanditsOffscreen();

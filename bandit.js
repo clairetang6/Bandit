@@ -579,6 +579,22 @@ var Digit = function(state, x, y, color, index){
 }
 Kiwi.extend(Digit, Kiwi.GameObjects.Sprite);
 
+Digit.prototype.increaseByOne = function(){
+	if(this.animation.currentAnimation.name == '5' && this.index == 3){
+		this.animation.play('0');
+		return 1;
+	}else{
+		if(this.animation.currentAnimation.name == '9'){
+			this.animation.play('0');
+			return 1; 
+		}else{
+			console.log(parseInt(this.animation.currentAnimation.name)+1);
+			this.animation.play((parseInt(this.animation.currentAnimation.name)+1).toString());
+			return 0;
+		}
+	}
+}
+
 var BigDigit = function(state, x, y, color, index){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['big_digits'], x, y, false);
 	this.color = color;
