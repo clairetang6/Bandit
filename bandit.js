@@ -66,6 +66,10 @@ var Bandit = function(state, x, y, color){
 }
 Kiwi.extend(Bandit, Kiwi.GameObjects.Sprite);
 
+Bandit.prototype.totalGhoulKills = function(){
+	return this.grayGhoulsKilled + this.blueGhoulsKilled + this.redGhoulsKilled + this.blackGhoulsKilled;
+}
+
 Bandit.prototype.deathCount = function(){
 	if(this.deathCounter < 100){
 		if(this.deathCounter == 1){
@@ -280,6 +284,16 @@ Bandit.prototype.placeBomb = function(){
 	}
 }
 
+Bandit.prototype.resetPropertiesAtBeginningOfLevel = function(){
+	this.coinsCollected = 0; 
+	this.bombsCollected = 0;
+	this.numberOfHearts = 3;
+	this.isAlive = true;
+	this.isDeadAndOnGround = false;
+	this.x = this.startingPixelLocations[0];
+	this.y = this.startingPixelLocations[1];
+}
+
 var HiddenBlock = function(state, x, y){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['backgroundSpriteSheet'+state.currentLevel], x, y, false);
 	this.occupiedBy = []; //array of Ghouls 
@@ -313,6 +327,7 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 			if(ghoul.lives < 1){
 				ghoul.destroy(false);
 				banditToAddGhoulKillTo.blackGhoulsKilled++;
+				this.state.addGhoulKill(banditToAddGhoulKillTo.color);
 			}
 		}else if(ghoul.objType() == 'Ghouliath'){
 			ghoul.animation.play('explode');
@@ -321,6 +336,7 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 			}	
 			ghoul.explodeTimer.start();
 			banditToAddGhoulKillTo.ghouliathsKilled++;
+			this.state.addGhoulKill(banditToAddGhoulKillTo.color);
 
 		}else{
 			if(ghoul.objType() == 'Ghoul'){
@@ -330,6 +346,7 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 			}else if(ghoul.objType() == 'RedGhoul'){
 				banditToAddGhoulKillTo.redGhoulsKilled++;
 			}
+			this.state.addGhoulKill(banditToAddGhoulKillTo.color);
 			ghoul.destroy(false);
 		}
 	}
@@ -595,6 +612,10 @@ var Digit = function(state, x, y, color, index){
 			this.animation.add('9',[20],0.1,false); 	
 			this.animation.add('bomb',[10],0.1,false);																									
 			break;
+		case 'ghoul':
+			this.animation.add('skull',[21],0.1,false);
+			this.animation.add('dot',[22],0.1,false);
+			break;
 	}
 
 	Digit.prototype.resetCounter = function(){
@@ -662,5 +683,96 @@ var BigDigit = function(state, x, y, color, index){
 	}
 }
 Kiwi.extend(BigDigit, Kiwi.GameObjects.Sprite);
+
+var LevelSelectionIcon = function(state, x, y, number){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['level_selection'], x, y, false);
+
+	this.state = state;
+	this.number = number;
+
+	switch(this.number){
+		case 10:
+			this.animation.add('off',[0],0.1,false);
+			this.animation.add('on',[1],0.1,false);
+			this.animation.add('hover',[2],0.1,false);
+			break;
+		case 11:
+			this.animation.add('off',[3],0.1,false);
+			this.animation.add('on',[4],0.1,false);
+			this.animation.add('hover',[5],0.1,false);
+			break;		
+		case 12:
+			this.animation.add('off',[6],0.1,false);
+			this.animation.add('on',[7],0.1,false);
+			this.animation.add('hover',[8],0.1,false);
+			break;		
+		case 13:
+			this.animation.add('off',[9],0.1,false);
+			this.animation.add('on',[10],0.1,false);
+			this.animation.add('hover',[11],0.1,false);
+			break;		
+		case 14:
+			this.animation.add('off',[12],0.1,false);
+			this.animation.add('on',[13],0.1,false);
+			this.animation.add('hover',[14],0.1,false);
+			break;		
+		case 15:
+			this.animation.add('off',[15],0.1,false);
+			this.animation.add('on',[16],0.1,false);
+			this.animation.add('hover',[17],0.1,false);
+			break;		
+		case 16:
+			this.animation.add('off',[18],0.1,false);
+			this.animation.add('on',[19],0.1,false);
+			this.animation.add('hover',[20],0.1,false);
+			break;
+		case 1:
+			this.animation.add('off',[21],0.1,false);
+			this.animation.add('on',[22],0.1,false);
+			this.animation.add('hover',[23],0.1,false);
+			break;
+		case 2:
+			this.animation.add('off',[24],0.1,false);
+			this.animation.add('on',[25],0.1,false);
+			this.animation.add('hover',[26],0.1,false);
+			break;
+		case 3:
+			this.animation.add('off',[27],0.1,false);
+			this.animation.add('on',[28],0.1,false);
+			this.animation.add('hover',[29],0.1,false);
+			break;
+		case 4:
+			this.animation.add('off',[30],0.1,false);
+			this.animation.add('on',[31],0.1,false);
+			this.animation.add('hover',[32],0.1,false);
+			break;
+		case 5:
+			this.animation.add('off',[33],0.1,false);
+			this.animation.add('on',[34],0.1,false);
+			this.animation.add('hover',[35],0.1,false);
+			break;
+		case 6:
+			this.animation.add('off',[36],0.1,false);
+			this.animation.add('on',[37],0.1,false);
+			this.animation.add('hover',[38],0.1,false);
+			break;
+		case 7:
+			this.animation.add('off',[39],0.1,false);
+			this.animation.add('on',[40],0.1,false);
+			this.animation.add('hover',[41],0.1,false);
+			break;
+		case 8:
+			this.animation.add('off',[42],0.1,false);
+			this.animation.add('on',[43],0.1,false);
+			this.animation.add('hover',[44],0.1,false);
+			break;
+		case 9:
+			this.animation.add('off',[45],0.1,false);
+			this.animation.add('on',[46],0.1,false);
+			this.animation.add('hover',[47],0.1,false);
+			break;
+	}
+}
+Kiwi.extend(LevelSelectionIcon, Kiwi.GameObjects.Sprite);
 
 

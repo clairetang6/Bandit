@@ -24,7 +24,9 @@ gameState.preload = function(){
 	}
 	this.addSpriteSheet('digits','digits.png',18*this.MULTIPLIER,18*this.MULTIPLIER);	
 	this.addSpriteSheet('big_digits','digits@2x.png',36,36);//hardcoded 36 pixels. 
+	this.addSpriteSheet('level_selection','level_selection_spritesheet.png',131,131);
 
+	this.addImage('levelSelectionBackground','level_select_1.png',0,0);
 	this.addImage('menuBackground','menu_up_bandit.png',250,0);
 	this.addImage('menuArrow','menu_arrow.png',469,0);
 	this.addSpriteSheet('menu','menu_sprite.png',500,50);
@@ -55,6 +57,24 @@ gameState.create = function(){
 
 	myGame.stage.color = '000000';
 	myGame.stage.resize(this.STAGE_WIDTH, this.STAGE_HEIGHT);
+
+	this.levelSelectionScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['levelSelectionBackground'],-18*this.MULTIPLIER,-18*this.MULTIPLIER);
+	this.levelSelectionGroup = new Kiwi.Group(this);
+	for (var i = 1; i<=16; i++){
+		var row = Math.floor((i-1)/4.0);
+		var col = i%4; 
+		if(col == 0){
+			col = 4;
+		}
+		var icon = new LevelSelectionIcon(this, 0+175*col, 55+150*row, i);
+		if(i==1){
+			icon.animation.play('on');
+		}else{
+			icon.animation.play('off');
+		}
+		this.levelSelectionGroup.addChild(icon);
+	}
+
 
 	this.winScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['win'],-18*this.MULTIPLIER,-18*this.MULTIPLIER);
 	this.loseScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['lose'],-18*this.MULTIPLIER,-18*this.MULTIPLIER);
@@ -108,6 +128,19 @@ gameState.create = function(){
 	this.menuGroup.y = -800;
 	this.menuGroupTween = this.game.tweens.create(this.menuGroup);
 
+	this.betweenScreenGroup = new Kiwi.Group(this);
+	if(this.numPlayers == 1){
+		var coin = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],320,200);
+		coin.animation.add('spin',[66,67,68,69],0.1,true);
+		coin.animation.play('spin');
+		coin.scaleX = 2;
+		coin.scaleY = 2;
+		this.betweenScreenGroup.addChild(coin);
+		var skull = new Digit(this, 320,250,'ghoul',1);
+		skull.animation.play('skull');
+		this.betweenScreenGroup.addChild(skull);
+	}
+
 	this.bigDigitGroup = new Kiwi.Group(this);
 	if(this.numPlayers == 1){
 		for(var i = 0; i < 6; i++){
@@ -134,6 +167,25 @@ gameState.create = function(){
 	this.digitGroup = new Kiwi.Group(this);
 	this.timerDigitGroup = new Kiwi.Group(this);
 	this.bombIconGroup = new Kiwi.Group(this);
+	this.ghoulKillCountGroup = [];
+
+	if(this.numPlayers == 1){
+		this.ghoulKillCountGroup[0] = new Kiwi.Group(this);
+		var skull = new Digit(this, 136,-18,'ghoul',1);
+		skull.animation.play('skull');
+		this.ghoulKillCountGroup[0].addChild(skull);		
+	}else{
+		this.ghoulKillCountGroup[0] = new Kiwi.Group(this);
+		this.ghoulKillCountGroup[1] = new Kiwi.Group(this);
+		var skull = new Digit(this, 848,-18,'ghoul',1);
+		skull.animation.play('skull');
+		this.ghoulKillCountGroup[1].addChild(skull);	
+		var skull = new Digit(this, 136,-18,'ghoul',1);
+		skull.animation.play('skull');
+		this.ghoulKillCountGroup[0].addChild(skull);				
+	}
+
+
 
 	if(this.numPlayers==1){
 		for (var i = 0; i<4; i++){
@@ -275,8 +327,18 @@ gameState.create = function(){
 		this.gameTimer.pause();
 	}
 
-	this.showLevelScreen();
+	if(this.currentLevel == 1){
+		this.showLevelSelectionScreen();
+	}else{
+		this.showLevelScreen();
+	}
 	
+}
+
+gameState.showLevelSelectionScreen = function(){
+	this.showingLevelSelectionScreen = true;
+	this.addChild(this.levelSelectionScreen);
+	this.addChild(this.levelSelectionGroup);
 }
 
 gameState.showLevelScreen = function(){
@@ -414,32 +476,19 @@ gameState.createLevel = function(){
 	//this.ghoulGroup.addChild(ghouliath);
 	//this.ghouliath = ghouliath;
 
-	this.red.coinsCollected = 0;
+	this.red.resetPropertiesAtBeginningOfLevel();
 	this.updateCoinCounter(this.red);
-	this.red.bombsCollected = 0;
 	this.updateBombCounter(this.red);
-	this.red.numberOfHearts = 3;
-	this.red.isAlive = true;
-	this.red.isDeadAndOnGround = false;	
-	
-	this.red.x = this.red.startingPixelLocations[0];
-	this.red.y = this.red.startingPixelLocations[1];	
 		
 	if(this.numPlayers==2){
-		this.blue.coinsCollected = 0;
-		this.updateCoinCounter(this.blue); 				
-		this.blue.bombsCollected = 0;
-		this.updateBombCounter(this.blue);	
-		this.blue.numberOfHearts = 3;
-		this.blue.isAlive = true;
-		this.blue.isDeadAndOnGround = false;
-		
-		this.blue.x = this.blue.startingPixelLocations[0];
-		this.blue.y = this.blue.startingPixelLocations[1];
+		this.blue.resetPropertiesAtBeginningOfLevel();
+		this.updateCoinCounter(this.blue);
+		this.updateBombCounter(this.blue);
+		this.updateGhou
 	}
+
+	this.removeGhoulDots();
 	
-
-
 
 	for(var i =1; i<=3; i++){
 		var redHeart = new Heart(this, this.red.startingPixelLocations[0], this.red.startingPixelLocations[1], 'red', i);
@@ -513,15 +562,18 @@ gameState.createLevel = function(){
 		this.addChild(this.blueHeartsGroup);
 	}	
 	
+	this.iconsNotDuringCutscene();
 
-	this.digitGroup.visible = true;
+	this.addChild(this.betweenScreenGroup);
 	this.addChild(this.digitGroup);
 	this.addChild(this.bombIconGroup);
-	this.timerDigitGroup.visible = true;
 	this.addChild(this.timerDigitGroup);
 	this.timerDigitGroup.x = 920;
 
-	this.bigDigitGroup.visible = false;
+	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
+		this.addChild(this.ghoulKillCountGroup[i]);
+	}
+	console.log(this.ghoulKillCountGroup);
 	this.addChild(this.bigDigitGroup);
 
 	this.addChild(this.menuArrow);
@@ -550,6 +602,44 @@ gameState.createLevel = function(){
 	}
 
 	this.showingLevelScreen = false;
+}
+
+gameState.addGhoulKill = function(bandit){
+	switch(bandit){
+		case 'red':
+			var ghoulsKilled = this.banditGroup.members[0].totalGhoulKills();
+			console.log(ghoulsKilled);
+			var dots = this.ghoulKillCountGroup[0].members.length - 1; 
+			var dotsToAdd = ghoulsKilled - dots;
+			for (var i = 0; i < dotsToAdd; i++){
+				var dot = new Digit(this, 136+18+18*dots+18*i, -18, 'ghoul',1);
+				dot.animation.play('dot');
+				this.ghoulKillCountGroup[0].addChild(dot);
+			}
+			console.log('got here');
+			break;
+		case 'blue':
+			var ghoulsKilled = this.banditGroup.members[1].totalGhoulKills();
+			var dots = this.ghoulKillCountGroup[1].members.length - 1; 
+			var dotsToAdd = ghoulsKilled - dots;
+			for (var i = 0; i < dotsToAdd; i++){
+				var dot = new Digit(this, 848-18-18*dots-18*i, -18, 'ghoul',1);
+				dot.animation.play('dot');
+				this.ghoulKillCountGroup[1].addChild(dot);
+			}			
+			break;
+	}		
+}
+
+gameState.removeGhoulDots = function(){
+	for(var i = 0; i < this.banditGroup.members.length; i++){
+		var dots = this.ghoulKillCountGroup[i].members;
+		for (var j = 0; j<dots.length; j++){
+			if(dots[j].animation.currentAnimation.name == 'dot'){
+				dots[j].destroy();
+			}
+		}
+	}
 }
 
 gameState.updateTimer = function(){
@@ -1123,9 +1213,7 @@ gameState.showCutScene = function(){
 		members[i].totalCoinsCollected += members[i].coinsCollected;
 	}
 
-	this.bigDigitGroup.visible = true;
-	this.digitGroup.visible = false;
-	this.timerDigitGroup.visible = false;
+	this.iconsDuringCutScene();
 	this.updateBigCoinCounter();
 
 	this.moveBanditsOffscreen();
@@ -1138,6 +1226,28 @@ gameState.showCutScene = function(){
 
 	//this.showLevelScreen();
 
+}
+
+gameState.iconsDuringCutScene = function(){
+	this.bigDigitGroup.visible = true;
+	this.betweenScreenGroup.visible = true;
+	this.digitGroup.visible = false;
+	this.timerDigitGroup.visible = false;
+	this.bombIconGroup.visible = false;
+	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
+		this.ghoulKillCountGroup[i].visible = false;
+	}
+}
+
+gameState.iconsNotDuringCutscene = function(){
+	this.digitGroup.visible = true;
+	this.timerDigitGroup.visible = true;
+	this.bombIconGroup.visible = true;
+	this.bigDigitGroup.visible = false;
+	this.betweenScreenGroup.visible = false;	
+	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
+		this.ghoulKillCountGroup[i].visible = true;
+	}	
 }
 
 gameState.showStageCoachAndHorses = function(){
@@ -1308,6 +1418,7 @@ gameState.mouseClicked = function(){
 			}
 			if(this.mouse.y > this.menuHome_yPosition && this.mouse.y < this.menuHome_yPosition+40){
 				this.destroyEverything(true);
+				this.gameTimer.removeTimerEvent(this.gameTimerEvent);
 				this.game.states.switchState('titleState');
 			}
 		
@@ -1331,7 +1442,19 @@ gameState.update = function(){
 	if(this.isPaused == false){
 		Kiwi.State.prototype.update.call(this);
 
-		if(this.showingLevelScreen == false){
+		if(this.showingLevelSelectionScreen){
+			if(this.mouse.x > 175 && this.mouse.x < 175+131){
+				if(this.mouse.y > 70 && this.mouse.y <70+131){
+					this.levelSelectionGroup.members[0].animation.play('hover');
+				}else{
+					this.levelSelectionGroup.members[0].animation.play('on');
+				}
+			}else{
+				this.levelSelectionGroup.members[0].animation.play('on');
+			}
+		}
+
+		if(this.showingLevelScreen == false && this.showingLevelSelectionScreen == false){
 			this.checkCoinCollision();
 			this.checkGhoulCollision();
 			this.checkBombCollision();
@@ -1392,7 +1515,7 @@ gameState.update = function(){
 			}				
 		}
 	}
-	if(this.showingLevelScreen == false){
+	if(this.showingLevelScreen == false && this.showingLevelSelectionScreen == false){
 		this.game.tweens.update();
 		if(this.mouse.isDown){
 			if(this.mouse.x > 400 && this.mouse.x < 700 && this.mouse.y < 25 * this.MULTIPLIER){
