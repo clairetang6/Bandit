@@ -496,7 +496,6 @@ StageCoach.prototype.update = function(){
 	if(this.x < this.state.bps * (this.state.GRID_COLS +2)){
 		this.x += 4;
 	}
-	console.log(this.x);
 }
 
 var Horse = function(state, x, y){
@@ -569,7 +568,12 @@ Bomb.prototype.startTimer = function(){
 	this.timerStarted = true;
 	this.timer.start();
 	this.timerAnimation.start();
+}
 
+Bomb.prototype.destroy = function(immediate){
+	this.timer.removeTimerEvent(this.timerEvent);
+	this.timerAnimation.removeTimerEvent(this.timerAnimationEvent);
+	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
 }
 
 Bomb.prototype.hide = function(){
@@ -640,7 +644,7 @@ Digit.prototype.increaseByOne = function(){
 }
 
 var BigDigit = function(state, x, y, color, index){
-	Kiwi.GameObjects.Sprite.call(this, state, state.textures['big_digits'], x, y, false);
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
 	this.color = color;
 	this.state = state;
 	this.index = index; 
@@ -649,31 +653,31 @@ var BigDigit = function(state, x, y, color, index){
 
 	switch(color){
 		case 'blue':
-			this.animation.add('0',[0],0.1,false);
-			this.animation.add('1',[1],0.1,false); 
-			this.animation.add('2',[2],0.1,false);
-			this.animation.add('3',[3],0.1,false); 
-			this.animation.add('4',[4],0.1,false);
-			this.animation.add('5',[5],0.1,false); 
-			this.animation.add('6',[6],0.1,false);
-			this.animation.add('7',[7],0.1,false); 
-			this.animation.add('8',[8],0.1,false);
-			this.animation.add('9',[9],0.1,false); 	
-			this.animation.add('cycle',[0,1,2,3,4,5,6,7,8,9],0.06,true);
+			this.animation.add('0',[152],0.1,false);
+			this.animation.add('1',[153],0.1,false); 
+			this.animation.add('2',[154],0.1,false);
+			this.animation.add('3',[155],0.1,false); 
+			this.animation.add('4',[156],0.1,false);
+			this.animation.add('5',[157],0.1,false); 
+			this.animation.add('6',[158],0.1,false);
+			this.animation.add('7',[159],0.1,false); 
+			this.animation.add('8',[160],0.1,false);
+			this.animation.add('9',[161],0.1,false); 	
+			this.animation.add('cycle',[152,153,154,155,156,157,158,159,160,161],0.06,true);
 			this.animation.add('bomb',[10],0.1,false);											
 			break;
 		case 'red':
-			this.animation.add('0',[11],0.1,false);
-			this.animation.add('1',[12],0.1,false); 
-			this.animation.add('2',[13],0.1,false);
-			this.animation.add('3',[14],0.1,false); 
-			this.animation.add('4',[15],0.1,false);
-			this.animation.add('5',[16],0.1,false); 
-			this.animation.add('6',[17],0.1,false);
-			this.animation.add('7',[18],0.1,false); 
-			this.animation.add('8',[19],0.1,false);
-			this.animation.add('9',[20],0.1,false); 
-			this.animation.add('cycle',[11,12,13,14,15,16,17,18,19,20],0.06,true);	
+			this.animation.add('0',[170],0.1,false);
+			this.animation.add('1',[171],0.1,false); 
+			this.animation.add('2',[172],0.1,false);
+			this.animation.add('3',[173],0.1,false); 
+			this.animation.add('4',[174],0.1,false);
+			this.animation.add('5',[175],0.1,false); 
+			this.animation.add('6',[176],0.1,false);
+			this.animation.add('7',[177],0.1,false); 
+			this.animation.add('8',[178],0.1,false);
+			this.animation.add('9',[179],0.1,false); 
+			this.animation.add('cycle',[170,171,172,173,174,175,176,177,178,179],0.06,true);	
 			this.animation.add('bomb',[10],0.1,false);																									
 			break;
 	}
@@ -683,6 +687,31 @@ var BigDigit = function(state, x, y, color, index){
 	}
 }
 Kiwi.extend(BigDigit, Kiwi.GameObjects.Sprite);
+
+var BetweenScreenIcon = function(state, type){
+	switch(type){
+		case 'money':
+			var yPos = 100;
+			break;
+		case 'death':
+			var yPos = 195;
+			break;
+		case 'time':
+			var yPos = 290;
+			break;
+	}
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['betweenScreen'], state.BETWEEN_SCREEN_XPOS, yPos, false);
+
+	this.state = state;
+	this.type = type;
+
+	this.animation.add('money',[1],0.1,false);
+	this.animation.add('death',[0],0.1,false);
+	this.animation.add('time',[2],0.1,false);
+
+	this.animation.play(type);
+}
+Kiwi.extend(BetweenScreenIcon, Kiwi.GameObjects.Sprite);
 
 var MenuIcon = function(state, x, y, type){
 	switch(type){
@@ -919,5 +948,6 @@ LevelSelectionIcon.prototype.startLevel = function(){
 	this.state.levelSelectionGroup.active = false;
 	this.state.showLevelScreen();
 }
+
 
 
