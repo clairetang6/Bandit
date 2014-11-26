@@ -684,6 +684,127 @@ var BigDigit = function(state, x, y, color, index){
 }
 Kiwi.extend(BigDigit, Kiwi.GameObjects.Sprite);
 
+var MenuIcon = function(state, x, y, type){
+	switch(type){
+		case 'sound':
+			var yPos = state.menuSound_yPosition;
+			break;
+		case 'music':
+			var yPos = state.menuMusic_yPosition;
+			break;
+		case 'restart':
+			var yPos = state.menuRestart_yPosition;
+			break;
+		case 'home':
+			var yPos = state.menuHome_yPosition;
+			break;
+	}
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['menu'], state.MENU_XPOS, yPos, true);
+
+	this.state = state;
+	this.type = type; 
+
+	switch(type){
+		case 'sound':
+			this.animation.add('off',[0],0.1,false);
+			this.animation.add('on',[4],0.1,false);
+			this.animation.add('hoveroff',[2],0.1,false);
+			this.animation.add('hoveron',[8],0.1,false);
+			break;
+		case 'music':
+			this.animation.add('off',[1],0.1,false);
+			this.animation.add('on',[5],0.1,false);
+			this.animation.add('hoveroff',[3],0.1,false);
+			this.animation.add('hoveron',[9],0.1,false);
+			break;
+		case 'restart':
+			this.animation.add('on',[6],0.1,false);
+			this.animation.add('hover',[10],0.1,false);	
+			break;
+		case 'home':
+			this.animation.add('on',[7],0.1,false);
+			this.animation.add('hover',[11],0.1,false);		
+			break;	
+	}
+	this.animation.play('on');
+
+	this.input.onEntered.add(MenuIcon.prototype.playHover, this);
+	this.input.onLeft.add(MenuIcon.prototype.playOff, this);
+	this.input.onUp.add(MenuIcon.prototype.mouseClicked, this);
+}
+Kiwi.extend(MenuIcon, Kiwi.GameObjects.Sprite);
+
+MenuIcon.prototype.mouseClicked = function(){
+	switch(this.type){
+		case 'sound':
+			if(this.state.soundsOn == true){
+				this.state.soundsOn = false;
+				this.animation.play('hoveroff');
+			}else{
+				this.state.soundsOn = true;
+				this.animation.play('hoveron');
+			}
+			break;
+		case 'music':
+			if(this.state.musicOn == true){
+				this.state.musicOn = false;
+				this.state.musicSound.pause();
+				this.animation.play('hoveroff');
+			}else{
+				this.state.musicOn = true;
+				this.state.musicSound.resume();
+				this.animation.play('hoveron');
+			}
+			break;
+		case 'restart':
+			this.state.currentLevel--;
+			this.state.closeMenu();
+			this.state.levelOver(false);
+			break;
+		case 'home':
+			this.state.destroyEverything(true);
+			this.state.gameTimer.removeTimerEvent(this.state.gameTimerEvent);
+			this.state.game.states.switchState('titleState');
+			break;
+	}
+}
+
+MenuIcon.prototype.playHover = function(){
+	if(this.type == 'sound'){
+		if(this.state.soundsOn){
+			this.animation.play('hoveron');
+		}else{
+			this.animation.play('hoveroff');
+		}
+	}else if (this.type == 'music'){
+		if(this.state.musicOn){
+			this.animation.play('hoveron');
+		}else{
+			this.animation.play('hoveroff');
+		}
+	}else{
+		this.animation.play('hover');
+	}
+}
+
+MenuIcon.prototype.playOff = function(){
+	if(this.type == 'sound'){
+		if(this.state.soundsOn){
+			this.animation.play('on');
+		}else{
+			this.animation.play('off');
+		}
+	}else if(this.type == 'music'){
+		if(this.state.musicOn){
+			this.animation.play('on');
+		}else{
+			this.animation.play('off');
+		}
+	}else{
+		this.animation.play('on');
+	}
+}
+
 var LevelSelectionIcon = function(state, x, y, number){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['level_selection'], x, y, true);
 

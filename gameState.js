@@ -93,34 +93,16 @@ gameState.create = function(){
 	this.menuBackground.name = 'menu';
 
 	this.menuGroup = new Kiwi.Group(this);
-
+	this.MENU_XPOS = 250; 
 	this.menuSound_yPosition = 330;
-	this.menuSound = new Kiwi.GameObjects.Sprite(this, this.textures['menu'], 250, this.menuSound_yPosition);
-	this.menuSound.animation.add('off',[0],0.1,false);
-	this.menuSound.animation.add('on',[4],0.1,false);
-	this.menuSound.animation.add('hoveroff',[2],0.1,false);
-	this.menuSound.animation.add('hoveron',[8],0.1,false);
-	this.menuSound.animation.play('on');
-
 	this.menuMusic_yPosition = 400;
-	this.menuMusic = new Kiwi.GameObjects.Sprite(this, this.textures['menu'], 250, this.menuMusic_yPosition);
-	this.menuMusic.animation.add('off',[1],0.1,false);
-	this.menuMusic.animation.add('on',[5],0.1,false);
-	this.menuMusic.animation.add('hoveroff',[3],0.1,false);
-	this.menuMusic.animation.add('hoveron',[9],0.1,false);	
-	this.menuMusic.animation.play('on');
-
 	this.menuRestart_yPosition = 470;
-	this.menuRestart = new Kiwi.GameObjects.Sprite(this, this.textures['menu'], 250, this.menuRestart_yPosition);
-	this.menuRestart.animation.add('on',[6],0.1,false);
-	this.menuRestart.animation.add('hover',[10],0.1,false);	
-	this.menuRestart.animation.play('on');
-
 	this.menuHome_yPosition = 540;
-	this.menuHome = new Kiwi.GameObjects.Sprite(this, this.textures['menu'], 250, this.menuHome_yPosition);
-	this.menuHome.animation.add('on',[7],0.1,false);
-	this.menuHome.animation.add('hover',[11],0.1,false);	
-	this.menuHome.animation.play('on');
+	
+	this.menuSound = new MenuIcon(this, this.MENU_XPOS, this.menuSound_yPosition, 'sound');
+	this.menuMusic = new MenuIcon(this, this.MENU_XPOS, this.menuMusic_yPosition, 'music');
+	this.menuRestart = new MenuIcon(this, this.MENU_XPOS, this.menuRestart_yPosition, 'restart');
+	this.menuHome = new MenuIcon(this, this.MENU_XPOS, this.menuHome_yPosition, 'home');
 
 	this.menuGroup.addChild(this.menuSound);
 	this.menuGroup.addChild(this.menuMusic);
@@ -1406,33 +1388,6 @@ gameState.onGunShotCallback = function(){
 gameState.mouseClicked = function(){
 	if(this.isPaused == true){
 		if(this.mouse.x > 250 && this.mouse.x < 750){
-			if(this.mouse.y > this.menuSound_yPosition &&this.mouse.y < this.menuSound_yPosition+40){
-				if(this.soundsOn == true){
-					this.soundsOn = false;
-				}else{
-					this.soundsOn = true;
-				}
-			}
-			if(this.mouse.y > this.menuMusic_yPosition &&this.mouse.y < this.menuMusic_yPosition+40){
-				if(this.musicOn == true){
-					this.musicOn = false;
-					this.musicSound.pause();
-				}else{
-					this.musicOn = true;
-					this.musicSound.resume();
-				}
-			}
-			if(this.mouse.y > this.menuRestart_yPosition &&this.mouse.y < this.menuRestart_yPosition+40){
-				this.currentLevel--;
-				this.closeMenu();
-				this.levelOver(false);
-			}
-			if(this.mouse.y > this.menuHome_yPosition && this.mouse.y < this.menuHome_yPosition+40){
-				this.destroyEverything(true);
-				this.gameTimer.removeTimerEvent(this.gameTimerEvent);
-				this.game.states.switchState('titleState');
-			}
-		
 			if(this.mouse.x > 450 && this.mouse.x < 600){
 				if(this.mouse.y > 620 && this.mouse.y < 680){
 					this.closeMenu();
@@ -1443,6 +1398,7 @@ gameState.mouseClicked = function(){
 }
 
 gameState.closeMenu = function(){
+	this.menuGroup.active = false;
 	this.isPaused = false;
 	this.menuArrowTween.to({alpha: 1}, 1000, Kiwi.Animations.Tweens.Easing.Linear.Out,true);
 	this.menuTween.to({y: -800}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
@@ -1452,18 +1408,6 @@ gameState.closeMenu = function(){
 gameState.update = function(){
 	if(this.isPaused == false){
 		Kiwi.State.prototype.update.call(this);
-
-		if(this.showingLevelSelectionScreen){
-			if(this.mouse.x > 175 && this.mouse.x < 175+131){
-				if(this.mouse.y > 70 && this.mouse.y <70+131){
-					this.levelSelectionGroup.members[0].animation.play('hover');
-				}else{
-					this.levelSelectionGroup.members[0].animation.play('on');
-				}
-			}else{
-				this.levelSelectionGroup.members[0].animation.play('on');
-			}
-		}
 
 		if(this.showingLevelScreen == false && this.showingLevelSelectionScreen == false){
 			this.checkCoinCollision();
@@ -1487,50 +1431,15 @@ gameState.update = function(){
 			}
 		}
 	}else{
-		if(this.mouse.x > 250 && this.mouse.x < 750){
-			if(this.mouse.y > this.menuSound_yPosition &&this.mouse.y < this.menuSound_yPosition+40){
-				if(this.soundsOn){
-					this.menuSound.animation.play('hoveron');
-				}else{
-					this.menuSound.animation.play('hoveroff')
-				}					
-			}else{
-				if(this.soundsOn){
-					this.menuSound.animation.play('on');
-				}else{
-					this.menuSound.animation.play('off');
-				}	
-			}
-			if(this.mouse.y > this.menuMusic_yPosition &&this.mouse.y < this.menuMusic_yPosition+40){
-				if(this.musicOn){
-					this.menuMusic.animation.play('hoveron');
-				}else{
-					this.menuMusic.animation.play('hoveroff')
-				}
-			}else{	
-				if(this.musicOn){
-					this.menuMusic.animation.play('on');
-				}else{
-					this.menuMusic.animation.play('off');
-				}
-			}
-			if(this.mouse.y > this.menuRestart_yPosition &&this.mouse.y < this.menuRestart_yPosition+40){
-				this.menuRestart.animation.play('hover');
-			}else{
-				this.menuRestart.animation.play('on');
-			}
-			if(this.mouse.y > this.menuHome_yPosition && this.mouse.y < this.menuHome_yPosition+40){
-				this.menuHome.animation.play('hover');
-			}else{
-				this.menuHome.animation.play('on');
-			}				
-		}
+		//menu is down
+		Kiwi.Group.prototype.update.call(this.menuGroup);
 	}
 	if(this.showingLevelScreen == false && this.showingLevelSelectionScreen == false){
 		this.game.tweens.update();
 		if(this.mouse.isDown){
 			if(this.mouse.x > 400 && this.mouse.x < 700 && this.mouse.y < 25 * this.MULTIPLIER){
 				if(this.isPaused == false){
+					this.menuGroup.active = true;
 					this.isPaused = true;
 					this.menuArrow.alpha = 0;
 					this.menuTween.to({y: -this.STAGE_Y_OFFSET}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
