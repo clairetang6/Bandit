@@ -685,7 +685,7 @@ var BigDigit = function(state, x, y, color, index){
 Kiwi.extend(BigDigit, Kiwi.GameObjects.Sprite);
 
 var LevelSelectionIcon = function(state, x, y, number){
-	Kiwi.GameObjects.Sprite.call(this, state, state.textures['level_selection'], x, y, false);
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['level_selection'], x, y, true);
 
 	this.state = state;
 	this.number = number;
@@ -774,5 +774,29 @@ var LevelSelectionIcon = function(state, x, y, number){
 	}
 }
 Kiwi.extend(LevelSelectionIcon, Kiwi.GameObjects.Sprite);
+
+LevelSelectionIcon.prototype.playHover = function(){
+	this.animation.play('hover');
+}
+
+LevelSelectionIcon.prototype.playOn = function(){
+	this.animation.play('on');
+}
+
+LevelSelectionIcon.prototype.addHovering = function(){
+	this.input.onEntered.add(LevelSelectionIcon.prototype.playHover, this);
+	this.input.onLeft.add(LevelSelectionIcon.prototype.playOn, this);			
+}
+
+LevelSelectionIcon.prototype.addClicking = function(){
+	this.input.onUp.add(LevelSelectionIcon.prototype.startLevel, this);
+}
+
+LevelSelectionIcon.prototype.startLevel = function(){
+	this.state.currentLevel = this.number;
+	this.showingLevelSelectionScreen = false;
+	this.state.levelSelectionGroup.active = false;
+	this.state.showLevelScreen();
+}
 
 

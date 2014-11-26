@@ -67,8 +67,10 @@ gameState.create = function(){
 			col = 4;
 		}
 		var icon = new LevelSelectionIcon(this, 0+175*col, 55+150*row, i);
-		if(i==1){
+		if(this.game.levelsUnlocked[i-1]==1){
 			icon.animation.play('on');
+			icon.addHovering();
+			icon.addClicking();
 		}else{
 			icon.animation.play('off');
 		}
@@ -337,6 +339,7 @@ gameState.create = function(){
 
 gameState.showLevelSelectionScreen = function(){
 	this.showingLevelSelectionScreen = true;
+	this.levelSelectionGroup.active = true;
 	this.addChild(this.levelSelectionScreen);
 	this.addChild(this.levelSelectionGroup);
 }
@@ -602,6 +605,7 @@ gameState.createLevel = function(){
 	}
 
 	this.showingLevelScreen = false;
+	this.showingLevelSelectionScreen = false;
 }
 
 gameState.addGhoulKill = function(bandit){
@@ -1195,6 +1199,7 @@ gameState.levelOver = function(showCutScene){
 		}else if(this.currentLevel > this.numberOfLevels){
 			this.addChild(this.winScreen);
 		}else{
+			this.updateLevelSelectionScreen(this.currentLevel);
 			this.destroyEverything(false);
 			if(showCutScene){
 				this.showCutScene();
@@ -1203,6 +1208,12 @@ gameState.levelOver = function(showCutScene){
 			}
 		}
 	}
+}
+
+gameState.updateLevelSelectionScreen = function(levelUnlocked){
+	this.game.levelsUnlocked[levelUnlocked-1] = 1;
+	this.levelSelectionGroup.members[levelUnlocked-1].addHovering();
+	this.levelSelectionGroup.members[levelUnlocked-1].addClicking();
 }
 
 gameState.showCutScene = function(){
