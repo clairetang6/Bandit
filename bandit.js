@@ -801,11 +801,17 @@ MenuIcon.prototype.mouseClicked = function(){
 		case 'restart':
 			this.state.currentLevel--;
 			this.state.closeMenu();
+			if(this.state.musicOn){
+				this.state.musicSound.stop();
+			}		
 			this.state.levelOver(false);
 			break;
 		case 'home':
 			this.state.destroyEverything(true);
 			this.state.gameTimer.removeTimerEvent(this.state.gameTimerEvent);
+			if(this.state.musicOn){
+				this.state.musicSound.stop();
+			}
 			this.state.game.states.switchState('titleState');
 			break;
 	}
