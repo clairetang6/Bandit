@@ -132,13 +132,13 @@ gameState.create = function(){
 			this.bigDigitGroup.addChild(bigDigit);
 			this.POINTS_XPOS[i] = 350+(i+52);
 			if(i>2){
-				var bigDigit = new BigDigit(this, 350+(i*52), this.MONEY_YPOS+15, 'red', 'money'+(6-i));
+				var bigDigit = new BigDigit(this, 350+(i*52), this.MONEY_YPOS+15, 'black', 'money'+(6-i));
 				bigDigit.visible = false;
 				this.betweenScreenGroup.addChild(bigDigit);
-				var bigDigit = new BigDigit(this, 350+(i*52), this.DEATH_YPOS+15, 'red', 'death'+(6-i));
+				var bigDigit = new BigDigit(this, 350+(i*52), this.DEATH_YPOS+15, 'black', 'death'+(6-i));
 				bigDigit.visible = false;
 				this.betweenScreenGroup.addChild(bigDigit);
-				var bigDigit = new BigDigit(this, 350+(i*52), this.TIME_YPOS+15, 'red', 'time'+(6-i));
+				var bigDigit = new BigDigit(this, 350+(i*52), this.TIME_YPOS+15, 'black', 'time'+(6-i));
 				bigDigit.visible = false;	
 				this.betweenScreenGroup.addChild(bigDigit);							
 			}
@@ -935,13 +935,12 @@ gameState.getTopBlocks = function(blocks){
 }
 
 gameState.updateTopGroundBlocks = function(){
-	
 	for (var i = 0; i<this.GRID_ROWS-1; i++){
 		var thisRow = this.groundBlocks[i];
 		var nextRow = this.groundBlocks[i+1];
 		for(var j = 0; j<this.GRID_COLS; j++){
 			if(thisRow[j] == 0 && nextRow[j]==1){
-				this.topGroundBlocks[i][j] = 1; 
+				this.topGroundBlocks[i][j] = 1;
 			}else{
 				this.topGroundBlocks[i][j] = 0;
 			}
@@ -1195,7 +1194,7 @@ gameState.showCutScene = function(){
 	this.showingLevelScreenTimer = this.game.time.clock.createTimer('showingLevelScreenTimer',10,0,false);
 	this.showingLevelScreenTimerEvent = this.showingLevelScreenTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.showLevelScreen,this);
 	
-	//this.showingLevelScreenTimer.start();	
+	this.showingLevelScreenTimer.start();	
 
 	//this.showLevelScreen();
 
@@ -1203,7 +1202,7 @@ gameState.showCutScene = function(){
 
 gameState.addPointCounters = function(){
 	if(this.numPlayers==1){
-		var moneyPoints = this.banditGroup.members[0].coinsCollected;
+		var moneyPoints = this.banditGroup.members[0].coinsCollected * 2;
 		var deathPoints = this.banditGroup.members[0].totalGhoulKills()*10;
 		if(this.gameTimeSeconds < this.timeBonus.length - 1){
 			var timePoints = this.timeBonus[this.gameTimeSeconds];
@@ -1486,10 +1485,7 @@ gameState.update = function(){
 			this.isGameOver();
 
 			if(this.debugKey.isDown){
-				console.log('gray: ' + this.banditGroup.members[0].grayGhoulsKilled);
-				console.log('red: ' + this.banditGroup.members[0].redGhoulsKilled);
-				console.log('blue: ' + this.banditGroup.members[0].blueGhoulsKilled);
-
+				console.log(this.debugKey.timeDown);
 			}
 		
 			if(this.mouse.isDown){

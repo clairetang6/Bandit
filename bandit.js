@@ -106,7 +106,7 @@ Bandit.prototype.update = function(){
 	Kiwi.GameObjects.Sprite.prototype.update.call(this);
 	if(this.state.showingLevelScreen == false){
 		if(!this.isDeadAndOnGround){
-			var southGridPosition = this.state.getGridPosition(this.x, this.y,'south');
+			var southGridPosition = this.state.getGridPosition(this.x, this.y, 'south');
 		 	if(this.isAlive){
 			 	if(!(this.state.onBlockType(this.state.ladderBlocks,southGridPosition) || this.state.onBlockType(this.state.groundBlocks, southGridPosition))){
 			 		this.gravity(southGridPosition);
@@ -199,14 +199,12 @@ Bandit.prototype.update = function(){
 								if(this.animation.currentAnimation.name!='climb'){
 									this.animation.play('climb');
 								}				
-							}
-							else{
+							}else{
 								this.transform.y=pixelNum-this.bps+1; 
 								this.animation.play('idle'+this.facing);
 							}
 						}
-					}
-					else if(this.state.onBlockType(this.state.ladderBlocks, belowFeetPosition)){
+					}else if(this.state.onBlockType(this.state.ladderBlocks, belowFeetPosition)){
 						if(this.y<this.bps*this.state.GRID_ROWS)
 							this.y+=5;
 						else
@@ -215,8 +213,10 @@ Bandit.prototype.update = function(){
 							this.animation.play('climb');
 					}else{
 						if(this.state.onBlockType(this.state.topGroundBlocks, southGridPosition)){
-							if(this.bombClock.elapsed() > 5){
-								this.placeBomb();
+							if(this.downKey.justPressed(30)){
+								if(this.bombClock.elapsed() > 5){
+									this.placeBomb();
+								}
 							}
 						}
 					}
@@ -679,6 +679,19 @@ var BigDigit = function(state, x, y, color, index){
 			this.animation.add('9',[179],0.1,false); 
 			this.animation.add('cycle',[170,171,172,173,174,175,176,177,178,179],0.06,true);	
 			this.animation.add('bomb',[10],0.1,false);																									
+			break;
+		case 'black':
+			this.animation.add('0',[188],0.1,false);
+			this.animation.add('1',[189],0.1,false); 
+			this.animation.add('2',[190],0.1,false);
+			this.animation.add('3',[191],0.1,false); 
+			this.animation.add('4',[192],0.1,false);
+			this.animation.add('5',[193],0.1,false); 
+			this.animation.add('6',[194],0.1,false);
+			this.animation.add('7',[195],0.1,false); 
+			this.animation.add('8',[196],0.1,false);
+			this.animation.add('9',[197],0.1,false); 
+			this.animation.add('cycle',[188,189,190,191,192,193,194,195,196,197],0.06,true);	
 			break;
 	}
 
