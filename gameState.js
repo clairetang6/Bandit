@@ -58,7 +58,7 @@ gameState.create = function(){
 	myGame.stage.color = '000000';
 	myGame.stage.resize(this.STAGE_WIDTH, this.STAGE_HEIGHT);
 
-	this.levelSelectionScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['levelSelectionBackground'],-18*this.MULTIPLIER,-18*this.MULTIPLIER);
+	this.levelSelectionScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['levelSelectionBackground'],0,-18*this.MULTIPLIER);
 	this.levelSelectionGroup = new Kiwi.Group(this);
 	for (var i = 1; i<=16; i++){
 		var row = Math.floor((i-1)/4.0);
@@ -113,50 +113,66 @@ gameState.create = function(){
 	this.menuGroupTween = this.game.tweens.create(this.menuGroup);
 
 	this.betweenScreenGroup = new Kiwi.Group(this);
+	this.MONEY_YPOS = 100;
+	this.DEATH_YPOS = 195;
+	this.TIME_YPOS = 290;		
 	if(this.numPlayers == 1){
-		this.BETWEEN_SCREEN_XPOS = 250;
-		this.MONEY_YPOS = 100;
-		this.DEATH_YPOS = 195;
-		this.TIME_YPOS = 290;
+		this.BETWEEN_SCREEN_XPOS = 300;
+	}else{
+		this.BETWEEN_SCREEN_XPOS = 90;
 		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'time'));
 		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'death'));
 		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'money'));
+		this.BETWEEN_SCREEN_XPOS = 510;
 	}
+	this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'time'));
+	this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'death'));
+	this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'money'));
 
 	this.bigDigitGroup = new Kiwi.Group(this);
-	this.POINTS_XPOS = [];
+		
 	if(this.numPlayers == 1){
-		for(var i = 0; i < 6; i++){
-			var bigDigit = new BigDigit(this, 350+(i*52), 400, 'red', 6-i);
+		for(var i = 1; i < 6; i++){
+			var bigDigit = new BigDigit(this, 310+(i*60), 400, 'red', 6-i);
 			bigDigit.animation.play('cycle');
+			bigDigit.scale = 1.2;
 			this.bigDigitGroup.addChild(bigDigit);
-			this.POINTS_XPOS[i] = 350+(i+52);
 			if(i>2){
-				var bigDigit = new BigDigit(this, 350+(i*52), this.MONEY_YPOS+15, 'black', 'money'+(6-i));
+				var bigDigit = new BigDigit(this, 375+(i*52), this.MONEY_YPOS+15, 'black', 'money'+(6-i));
 				bigDigit.visible = false;
 				this.betweenScreenGroup.addChild(bigDigit);
-				var bigDigit = new BigDigit(this, 350+(i*52), this.DEATH_YPOS+15, 'black', 'death'+(6-i));
+				var bigDigit = new BigDigit(this, 375+(i*52), this.DEATH_YPOS+15, 'black', 'death'+(6-i));
 				bigDigit.visible = false;
 				this.betweenScreenGroup.addChild(bigDigit);
-				var bigDigit = new BigDigit(this, 350+(i*52), this.TIME_YPOS+15, 'black', 'time'+(6-i));
+				var bigDigit = new BigDigit(this, 375+(i*52), this.TIME_YPOS+15, 'black', 'time'+(6-i));
 				bigDigit.visible = false;	
 				this.betweenScreenGroup.addChild(bigDigit);							
 			}
+		}			
+	}else{
+		var colors = ['red','blue'];
+		for (var j = 0; j < 2; j++){
+			for(var i = 1; i < 6; i++){
+				var bigDigit = new BigDigit(this, 80+(i*60)+(j*420), 400, colors[j], 6-i);
+				bigDigit.animation.play('cycle');
+				bigDigit.scale = 1.2;
+				this.bigDigitGroup.addChild(bigDigit);
+			
+				if(i>2){
+					var bigDigit = new BigDigit(this, 130+(i*52)+(j*420), this.MONEY_YPOS+15, 'black', 'money'+(6-i));
+					bigDigit.visible = false;
+					this.betweenScreenGroup.addChild(bigDigit);
+					var bigDigit = new BigDigit(this, 130+(i*52)+(j*420), this.DEATH_YPOS+15, 'black', 'death'+(6-i));
+					bigDigit.visible = false;
+					this.betweenScreenGroup.addChild(bigDigit);
+					var bigDigit = new BigDigit(this, 130+(i*52)+(j*420), this.TIME_YPOS+15, 'black', 'time'+(6-i));
+					bigDigit.visible = false;	
+					this.betweenScreenGroup.addChild(bigDigit);	
+				}						
+			}	
 		}
-	}else if(this.numPlayers == 2){
-		for(var i = 0; i < 6; i++){
-			var bigDigit = new BigDigit(this, 200+(i*40), 250, 'red', 6-i);
-			bigDigit.scale = 1.5;
-			bigDigit.animation.play('cycle');
-			this.bigDigitGroup.addChild(bigDigit);
-		}		
-		for(var i = 0; i < 6; i++){
-			var bigDigit = new BigDigit(this, 600+(i*40), 250, 'blue', 6-i);
-			bigDigit.animation.play('cycle');
-			bigDigit.scale = 1.5;
-			this.bigDigitGroup.addChild(bigDigit);
-		}		
 	}
+	
 
 	this.digitGroup = new Kiwi.Group(this);
 	this.timerDigitGroup = new Kiwi.Group(this);
@@ -178,8 +194,6 @@ gameState.create = function(){
 		skull.animation.play('skull');
 		this.ghoulKillCountGroup[0].addChild(skull);				
 	}
-
-
 
 	if(this.numPlayers==1){
 		for (var i = 0; i<4; i++){
@@ -314,12 +328,11 @@ gameState.create = function(){
 
 	this.beginningLevelVoices = ['critters','dontTread','killAllThemGhouls','westBest'];
 
-	if(this.numPlayers==1){
-		this.gameTimer = this.game.time.clock.createTimer('updateTimer',1,-1,false);
-		this.gameTimerEvent = this.gameTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.updateTimer, this);
-		this.gameTimer.start();
-		this.gameTimer.pause();
-	}
+	this.gameTimer = this.game.time.clock.createTimer('updateTimer',1,-1,false);
+	this.gameTimerEvent = this.gameTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.updateTimer, this);
+	this.gameTimer.start();
+	this.gameTimer.pause();
+
 
 	if(this.currentLevel == 1){
 		this.showLevelSelectionScreen();
@@ -338,10 +351,10 @@ gameState.showLevelSelectionScreen = function(){
 
 gameState.showLevelScreen = function(){
 	this.showingLevelScreen = true;
-	this.levelScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['level'+this.currentLevel],-18*this.MULTIPLIER,-18*this.MULTIPLIER);
+	this.levelScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['level'+this.currentLevel],0,-18*this.MULTIPLIER);
 	this.addChild(this.levelScreen);
 
-	this.createLevelTimer = this.game.time.clock.createTimer('createLevelTimer',.5,0,false);
+	this.createLevelTimer = this.game.time.clock.createTimer('createLevelTimer',0.5,0,false);
 	this.createLevelTimerEvent = this.createLevelTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.createLevel,this);
 	
 	this.createLevelTimer.start();	
@@ -588,13 +601,13 @@ gameState.createLevel = function(){
 		this.musicSound.play();
 	}
 	
+	this.gameTimeSeconds = 0;
 	if(this.numPlayers==1){
-		this.gameTimeSeconds = 0;
 		for (var i = 0; i < this.timerDigitGroup.members.length; i++){
 			this.timerDigitGroup.members[i].resetCounter();
 		}
-		this.gameTimer.resume();
 	}
+	this.gameTimer.resume();
 
 	this.showingLevelScreen = false;
 	this.showingLevelSelectionScreen = false;
@@ -640,22 +653,22 @@ gameState.removeGhoulDots = function(){
 
 gameState.updateTimer = function(){
 	this.gameTimeSeconds++;
+	if(this.numPlayers==1){
+		var minutes = Math.round(this.gameTimeSeconds / 60);
+		var seconds = this.gameTimeSeconds % 60; 
+		var ones = seconds % 10;
 
-	var minutes = Math.round(this.gameTimeSeconds / 60);
-	var seconds = this.gameTimeSeconds % 60; 
-	var ones = seconds % 10;
-
-	var increaseNext = this.timerDigitGroup.members[3].increaseByOne();
-	if(increaseNext == 1){
-		var increaseNext = this.timerDigitGroup.members[2].increaseByOne();
+		var increaseNext = this.timerDigitGroup.members[3].increaseByOne();
+		if(increaseNext == 1){
+			var increaseNext = this.timerDigitGroup.members[2].increaseByOne();
+		}
+		if(increaseNext == 1){
+			var increaseNext = this.timerDigitGroup.members[1].increaseByOne();
+		}
+		if(increaseNext == 1){
+			var increaseNext = this.timerDigitGroup.members[0].increaseByOne();
+		}	
 	}
-	if(increaseNext == 1){
-		var increaseNext = this.timerDigitGroup.members[1].increaseByOne();
-	}
-	if(increaseNext == 1){
-		var increaseNext = this.timerDigitGroup.members[0].increaseByOne();
-	}	
-
 }
 
 gameState.onKeyDownCallback = function(keyCode){
@@ -1182,10 +1195,12 @@ gameState.showCutScene = function(){
 	}
 
 	this.iconsDuringCutScene();
-	var totalPoints = this.addPointCounters();
-	if(this.numPlayers==1){
-		members[0].totalCoinsCollected = totalPoints;
+	var totalPoints = this.addPointCounters();	
+	for(var i =0; i<members.length; i++){
+		members[i].totalCoinsCollected = totalPoints[i];		
 	}
+
+	
 	this.updateBigCoinCounter();
 
 	this.moveBanditsOffscreen();
@@ -1201,46 +1216,54 @@ gameState.showCutScene = function(){
 }
 
 gameState.addPointCounters = function(){
-	if(this.numPlayers==1){
-		var moneyPoints = this.banditGroup.members[0].coinsCollected * 2;
-		var deathPoints = this.banditGroup.members[0].totalGhoulKills()*10;
-		if(this.gameTimeSeconds < this.timeBonus.length - 1){
-			var timePoints = this.timeBonus[this.gameTimeSeconds];
-		}else{
-			var timePoints = 0;
-		}
+	totalPoints = [];
+	if(this.gameTimeSeconds < this.timeBonus.length - 1){
+		var timePoints = this.timeBonus[this.gameTimeSeconds];
+	}else{
+		var timePoints = 0;
+	}	
+	if(this.numPlayers == 1){
+		var addWhat = 1;
+	}else{
+		var addWhat = 2;
+	}
+	for(var j = 0; j < this.banditGroup.members.length; j++){
+		var moneyPoints = this.banditGroup.members[j].coinsCollected * 2;
+		var deathPoints = this.banditGroup.members[j].totalGhoulKills()*10;
+
 		var moneyPointsArray = [Math.floor(moneyPoints/100), Math.floor((moneyPoints - 100*Math.floor(moneyPoints/100))/10), moneyPoints % 10];
 		var startingIndex = this.getStartingIndex(moneyPointsArray);
 		for (var i = 0; i < moneyPointsArray.length; i++){
 			if(i >= startingIndex){
-				this.betweenScreenGroup.members[(i+1)*3].animation.play(''+moneyPointsArray[i]);
-				this.betweenScreenGroup.members[(i+1)*3].visible = true;
+				this.betweenScreenGroup.members[(i+addWhat)*3+(j*9)].animation.play(''+moneyPointsArray[i]);
+				this.betweenScreenGroup.members[(i+addWhat)*3+(j*9)].visible = true;
 			}else{
-				this.betweenScreenGroup.members[(i+1)*3].visible = false;
+				this.betweenScreenGroup.members[(i+addWhat)*3+(j*9)].visible = false;
 			}
 		}
 		var deathPointsArray = [Math.floor(deathPoints/100), Math.floor((deathPoints - 100*Math.floor(deathPoints/100))/10), deathPoints % 10];
 		var startingIndex = this.getStartingIndex(deathPointsArray);
 		for (var i = 0; i < deathPointsArray.length; i++){
 			if(i >= startingIndex){
-				this.betweenScreenGroup.members[(i+1)*3+1].animation.play(''+deathPointsArray[i]);
-				this.betweenScreenGroup.members[(i+1)*3+1].visible = true;
+				this.betweenScreenGroup.members[(i+addWhat)*3+1+(j*9)].animation.play(''+deathPointsArray[i]);
+				this.betweenScreenGroup.members[(i+addWhat)*3+1+(j*9)].visible = true;
 			}else{
-				this.betweenScreenGroup.members[(i+1)*3+1].visible = false;
+				this.betweenScreenGroup.members[(i+addWhat)*3+1+(j*9)].visible = false;
 			}
 		}
 		var timePointsArray = [Math.floor(timePoints/100), Math.floor((timePoints - 100*Math.floor(timePoints/100))/10), timePoints % 10];
 		var startingIndex = this.getStartingIndex(timePointsArray);		
 		for (var i = 0; i < timePointsArray.length; i++){
 			if(i >= startingIndex){
-				this.betweenScreenGroup.members[(i+1)*3+2].animation.play(''+timePointsArray[i]);
-				this.betweenScreenGroup.members[(i+1)*3+2].visible = true;
+				this.betweenScreenGroup.members[(i+addWhat)*3+2+(j*9)].animation.play(''+timePointsArray[i]);
+				this.betweenScreenGroup.members[(i+addWhat)*3+2+(j*9)].visible = true;
 			}else{
-				this.betweenScreenGroup.members[(i+1)*3+2].visible = false;
+				this.betweenScreenGroup.members[(i+addWhat)*3+2+(j*9)].visible = false;
 			}
 		}	
-		return moneyPoints + deathPoints + timePoints; 
+		totalPoints[j] = moneyPoints + deathPoints + timePoints; 
 	}
+	return totalPoints;
 }
 
 gameState.getStartingIndex = function(threeArray){
@@ -1278,7 +1301,6 @@ gameState.tickBigCoinCounter = function(){
 
 gameState.stepBigCoinCounter = function(bandit, bigCoinCounterStep){
 	var value = Math.floor(bandit.totalCoinsCollected/(Math.pow(10,bigCoinCounterStep-1)))% 10;
-	console.log(value);
 	bigDigits = this.bigDigitGroup.members;
 	for(var i = 0; i<bigDigits.length; i++){
 		if(bigDigits[i].color == bandit.color){

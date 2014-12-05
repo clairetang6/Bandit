@@ -286,12 +286,18 @@ Bandit.prototype.placeBomb = function(){
 
 Bandit.prototype.resetPropertiesAtBeginningOfLevel = function(){
 	this.coinsCollected = 0; 
+	this.totalCoinsCollected = 0; //this is really total level points;
 	this.bombsCollected = 0;
 	this.numberOfHearts = 3;
 	this.isAlive = true;
 	this.isDeadAndOnGround = false;
 	this.x = this.startingPixelLocations[0];
 	this.y = this.startingPixelLocations[1];
+	this.grayGhoulsKilled = 0;
+	this.redGhoulsKilled = 0;
+	this.blueGhoulsKilled = 0;
+	this.blackGhoulsKilled = 0;
+	this.ghouliathsKilled = 0;
 }
 
 var HiddenBlock = function(state, x, y){
