@@ -6,7 +6,7 @@ module.exports = function(grunt){
 		concat: {
 			dist: {
 				src: [ 
-					'1.0.1/kiwi.js',
+					'1.1.1/kiwi.js',
 					'astar.js',
 					'ghoul.js',
 					'bandit.js',
