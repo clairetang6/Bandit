@@ -14,14 +14,14 @@ module.exports = function(grunt){
 					'gameState.js',
 					'game.js'
 				],
-				dest: 'bandit-0.9.0.js'
+				dest: 'bandit-0.8.1.js'
 			}
 		},
 
 		uglify: {
 			build: {
-				src: 'bandit-0.9.0.js',
-				dest: 'bandit-0.9.0.min.js'
+				src: 'bandit-0.8.1.js',
+				dest: 'bandit-0.8.1.min.js'
 			}
 		},
 
