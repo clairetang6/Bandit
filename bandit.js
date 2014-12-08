@@ -98,6 +98,8 @@ Bandit.prototype.deathCount = function(){
 			this.animation.play('idleleft');
 			this.state.showHearts(this.color);
 			this.deathCounter = 0;
+		}else{
+			this.numberOfHearts = 0;
 		}
 	}
 }
