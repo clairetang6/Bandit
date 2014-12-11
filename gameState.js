@@ -29,7 +29,6 @@ gameState.preload = function(){
 	this.addImage('levelSelectionBackground','level_select_1.png',0,0);
 	this.addImage('menuBackground','menu_up_bandit.png',250,0);
 	this.addImage('menuArrow','menu_arrow.png',469,0);
-	this.addSpriteSheet('menu','menu_sprite.png',500,50);
 	this.addSpriteSheet('horses','bandit_horse.png',200,200);
 	this.addSpriteSheet('stagecoach','stagecoach.png',500,250);
 
@@ -77,6 +76,8 @@ gameState.create = function(){
 		this.levelSelectionGroup.addChild(icon);
 	}
 
+	this.backButton = new MenuIcon(this, 30, 665, 'backLevelSelection');
+	this.levelSelectionGroup.addChild(this.backButton);
 
 	this.winScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['win'],-18*this.MULTIPLIER,-18*this.MULTIPLIER);
 	this.loseScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['lose'],-18*this.MULTIPLIER,-18*this.MULTIPLIER);
@@ -87,7 +88,7 @@ gameState.create = function(){
 	
 	this.menuBackground = new Kiwi.GameObjects.StaticImage(this, this.textures['menuBackground'],250,-800);
 	this.menuTween = this.game.tweens.create(this.menuBackground);	
-	this.menuArrow = new Kiwi.GameObjects.StaticImage(this, this.textures['menuArrow'], 450, -18*this.MULTIPLIER);
+	this.menuArrow = new Kiwi.GameObjects.Sprite(this, this.textures['menuArrow'], 450, -18*this.MULTIPLIER);
 	this.menuArrow.name = 'menu';
 	this.menuArrowTween = this.game.tweens.create(this.menuArrow);
 	this.menuBackground.name = 'menu';
@@ -133,9 +134,8 @@ gameState.create = function(){
 		
 	if(this.numPlayers == 1){
 		for(var i = 2; i < 6; i++){
-			var bigDigit = new BigDigit(this, 280+(i*60), 400, 'red', 6-i);
+			var bigDigit = new BigDigit(this, 370+(i*52), 400, 'red', 6-i);
 			bigDigit.animation.play('cycle');
-			bigDigit.scale = 1.2;
 			this.bigDigitGroup.addChild(bigDigit);
 			if(i>2){
 				var bigDigit = new BigDigit(this, 370+(i*52), this.MONEY_YPOS+15, 'black', 'money'+(6-i));
@@ -153,9 +153,8 @@ gameState.create = function(){
 		var colors = ['red','blue'];
 		for (var j = 0; j < 2; j++){
 			for(var i = 2; i < 6; i++){
-				var bigDigit = new BigDigit(this, 50+(i*60)+(j*450), 400, colors[j], 6-i);
+				var bigDigit = new BigDigit(this, 120+(i*52)+(j*450), 400, colors[j], 6-i);
 				bigDigit.animation.play('cycle');
-				bigDigit.scale = 1.2;
 				this.bigDigitGroup.addChild(bigDigit);
 			
 				if(i>2){

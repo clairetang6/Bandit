@@ -735,24 +735,11 @@ var BetweenScreenIcon = function(state, type){
 Kiwi.extend(BetweenScreenIcon, Kiwi.GameObjects.Sprite);
 
 var MenuIcon = function(state, x, y, type){
-	switch(type){
-		case 'sound':
-			var yPos = state.menuSound_yPosition;
-			break;
-		case 'music':
-			var yPos = state.menuMusic_yPosition;
-			break;
-		case 'restart':
-			var yPos = state.menuRestart_yPosition;
-			break;
-		case 'home':
-			var yPos = state.menuHome_yPosition;
-			break;
-	}
-	Kiwi.GameObjects.Sprite.call(this, state, state.textures['menu'], state.MENU_XPOS, yPos, true);
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['menu'], x, y, true);
 
 	this.state = state;
 	this.type = type; 
+	this.isDown = false;
 
 	switch(type){
 		case 'sound':
@@ -775,16 +762,48 @@ var MenuIcon = function(state, x, y, type){
 			this.animation.add('on',[7],0.1,false);
 			this.animation.add('hover',[11],0.1,false);		
 			break;	
+		case '1player':
+			this.animation.add('on',[12],0.1,false);
+			this.animation.add('hover',[13],0.1,false);
+			break;
+		case '2player':
+			this.animation.add('on',[14],0.1,false);
+			this.animation.add('hover',[15],0.1,false);
+			break;
+		case 'controls':
+			this.animation.add('on',[16],0.1,false);
+			this.animation.add('hover',[17],0.1,false);
+			break;
+		case 'backControls':
+			this.animation.add('on',[18],0.1,false);
+			this.animation.add('hover',[19],0.1,false);
+			break;
+		case 'backLevelSelection':
+			this.animation.add('on',[18],0.1,false);
+			this.animation.add('hover',[19],0.1,false);
+			break;						
 	}
 	this.animation.play('on');
 
 	this.input.onEntered.add(MenuIcon.prototype.playHover, this);
 	this.input.onLeft.add(MenuIcon.prototype.playOff, this);
 	this.input.onUp.add(MenuIcon.prototype.mouseClicked, this);
+	this.input.onDown.add(MenuIcon.prototype.playDown, this);
 }
 Kiwi.extend(MenuIcon, Kiwi.GameObjects.Sprite);
 
+MenuIcon.prototype.playDown = function(){
+	if(this.isDown == false){
+		this.y += 2; 
+		this.isDown = true;
+	}
+}
+
 MenuIcon.prototype.mouseClicked = function(){
+	if(this.isDown == true){
+		this.y -= 2;
+		this.isDown = false;
+	}
 	switch(this.type){
 		case 'sound':
 			if(this.state.soundsOn == true){
@@ -822,6 +841,30 @@ MenuIcon.prototype.mouseClicked = function(){
 			}
 			this.state.game.states.switchState('titleState');
 			break;
+		case '1player':
+			this.state.game.numPlayers = 1;
+			this.state.game.states.switchState('gameState');
+			break;
+		case '2player':
+			this.state.game.numPlayers = 2;
+			this.state.game.states.switchState('gameState');
+			break;
+		case 'controls':
+			this.state.controlsScreen.y = 0;
+			this.state.buttonGroup.visible = false;
+			this.state.buttonGroup.active = false;
+			this.state.backButton.visible = true;
+			this.state.backButton.active = true;
+			break;
+		case 'backControls':
+			this.state.controlsScreen.y = -1000;
+			this.state.buttonGroup.visible = true;
+			this.state.buttonGroup.active = true;
+			this.state.backButton.visible = false;
+			this.state.backButton.active = false;
+			break;
+		case 'backLevelSelection':
+
 	}
 }
 
@@ -844,6 +887,10 @@ MenuIcon.prototype.playHover = function(){
 }
 
 MenuIcon.prototype.playOff = function(){
+	if(this.isDown == true){
+		this.y -= 2;
+		this.isDown = false;
+	}	
 	if(this.type == 'sound'){
 		if(this.state.soundsOn){
 			this.animation.play('on');
@@ -866,6 +913,7 @@ var LevelSelectionIcon = function(state, x, y, number){
 
 	this.state = state;
 	this.number = number;
+	this.isDown = false;
 
 	switch(this.number){
 		case 10:
@@ -960,6 +1008,13 @@ LevelSelectionIcon.prototype.playOn = function(){
 	this.animation.play('on');
 }
 
+LevelSelectionIcon.prototype.playDown = function(){
+	if(this.isDown == false){
+		this.y += 2;
+		this.isDown = true;
+	}
+}
+
 LevelSelectionIcon.prototype.addHovering = function(){
 	this.input.onEntered.add(LevelSelectionIcon.prototype.playHover, this);
 	this.input.onLeft.add(LevelSelectionIcon.prototype.playOn, this);			
@@ -967,9 +1022,14 @@ LevelSelectionIcon.prototype.addHovering = function(){
 
 LevelSelectionIcon.prototype.addClicking = function(){
 	this.input.onUp.add(LevelSelectionIcon.prototype.startLevel, this);
+	this.input.onDown.add(LevelSelectionIcon.prototype.playDown, this);
 }
 
 LevelSelectionIcon.prototype.startLevel = function(){
+	if(this.isDown == true){
+		this.y -= 2; 
+		this.isDown = false;
+	}
 	this.state.currentLevel = this.number;
 	this.showingLevelSelectionScreen = false;
 	this.state.levelSelectionGroup.active = false;
