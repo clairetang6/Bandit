@@ -244,9 +244,9 @@ gameState.create = function(){
 	this.BOMB_HITBOX_Y_PERCENTAGE = 0.33;	
 
 	this.horseGroup = new Kiwi.Group(this);
-	this.redHorse = new Horse(this, this.bps*(this.GRID_COLS+2), 550);
+	this.redHorse = new Horse(this, this.bps*(this.GRID_COLS+2), 570);
 	this.redHorse.animation.play('redrun');
-	this.blueHorse = new Horse(this, this.bps*(this.GRID_COLS+2), 590);
+	this.blueHorse = new Horse(this, this.bps*(this.GRID_COLS+2), 610);
 	this.blueHorse.animation.play('bluerun');
 	this.horseGroup.addChild(this.redHorse);
 	if(this.numPlayers == 2){
@@ -1180,9 +1180,11 @@ gameState.levelOver = function(showCutScene){
 }
 
 gameState.updateLevelSelectionScreen = function(levelUnlocked){
-	this.game.levelsUnlocked[levelUnlocked-1] = 1;
-	this.levelSelectionGroup.members[levelUnlocked-1].addHovering();
-	this.levelSelectionGroup.members[levelUnlocked-1].addClicking();
+	if(levelUnlocked<=16){
+		this.game.levelsUnlocked[levelUnlocked-1] = 1;
+		this.levelSelectionGroup.members[levelUnlocked-1].addHovering();
+		this.levelSelectionGroup.members[levelUnlocked-1].addClicking();
+	}
 }
 
 gameState.showCutScene = function(){
@@ -1480,6 +1482,7 @@ gameState.mouseClicked = function(){
 			if(this.mouse.x > 450 && this.mouse.x < 600){
 				if(this.mouse.y > 620 && this.mouse.y < 680){
 					this.closeMenu();
+					this.resumeAllTimers();
 				}
 			}
 		}
@@ -1519,6 +1522,11 @@ gameState.update = function(){
 				if(this.mouse.y > this.bps*this.GRID_ROWS && this.mouse.x < 20){
 					this.levelOver(true);
 					this.game.input.mouse.reset();
+				}
+				if(this.mouse.y > this.bps*this.GRID_ROWS && this.mouse.x > 980){
+					this.currentLevel = 15;
+					this.levelOver(true);
+					this.game.input.mouse.reset();
 				}		
 			}
 		}
@@ -1527,12 +1535,12 @@ gameState.update = function(){
 		Kiwi.Group.prototype.update.call(this.menuGroup);
 	}
 	if(this.showingLevelScreen == false && this.showingLevelSelectionScreen == false){
-		this.game.tweens.update();
 		if(this.mouse.isDown){
 			if(this.mouse.x > 400 && this.mouse.x < 700 && this.mouse.y < 25 * this.MULTIPLIER){
 				if(this.isPaused == false){
 					this.menuGroup.active = true;
 					this.isPaused = true;
+					this.pauseAllTimers();
 					this.menuArrow.alpha = 0;
 					this.menuTween.to({y: -this.STAGE_Y_OFFSET}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
 					this.menuGroupTween.to({y: -this.STAGE_Y_OFFSET}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
@@ -1540,5 +1548,18 @@ gameState.update = function(){
 				this.game.input.mouse.reset();
 			}
 		}
+	}	
+}
+
+gameState.pauseAllTimers = function(){
+	console.log('number of timers ' + this.game.time.clock.timers.length);
+	for (var i = 0; i < this.game.time.clock.timers.length; i++){
+		this.game.time.clock.timers[i].pause();
+	}
+}
+
+gameState.resumeAllTimers = function(){
+	for (var i = 0; i < this.game.time.clock.timers.length; i++){
+		this.game.time.clock.timers[i].resume();
 	}	
 }

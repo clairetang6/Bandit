@@ -28617,6 +28617,8 @@ var Kiwi;
                     if (this.repeatCount !== -1 && this._currentCount >= this.repeatCount) {
                         this.stop();
                     }
+                }else if(this._isPaused) {
+                    this._timeLastCount = this._clock.elapsed() || 0;
                 }
             };
 

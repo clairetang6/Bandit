@@ -864,7 +864,8 @@ MenuIcon.prototype.mouseClicked = function(){
 			this.state.backButton.active = false;
 			break;
 		case 'backLevelSelection':
-
+			this.game.states.switchState('titleState');
+			break;
 	}
 }
 
