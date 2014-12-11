@@ -34001,9 +34001,8 @@ gameState.create = function(){
 		
 	if(this.numPlayers == 1){
 		for(var i = 2; i < 6; i++){
-			var bigDigit = new BigDigit(this, 280+(i*60), 400, 'red', 6-i);
+			var bigDigit = new BigDigit(this, 370+(i*52), 400, 'red', 6-i);
 			bigDigit.animation.play('cycle');
-			bigDigit.scale = 1.2;
 			this.bigDigitGroup.addChild(bigDigit);
 			if(i>2){
 				var bigDigit = new BigDigit(this, 370+(i*52), this.MONEY_YPOS+15, 'black', 'money'+(6-i));
@@ -34021,9 +34020,8 @@ gameState.create = function(){
 		var colors = ['red','blue'];
 		for (var j = 0; j < 2; j++){
 			for(var i = 2; i < 6; i++){
-				var bigDigit = new BigDigit(this, 50+(i*60)+(j*450), 400, colors[j], 6-i);
+				var bigDigit = new BigDigit(this, 120+(i*52)+(j*450), 400, colors[j], 6-i);
 				bigDigit.animation.play('cycle');
-				bigDigit.scale = 1.2;
 				this.bigDigitGroup.addChild(bigDigit);
 			
 				if(i>2){
