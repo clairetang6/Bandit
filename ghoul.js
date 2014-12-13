@@ -719,7 +719,10 @@ var BlackGhoul = function(state, x, y, facing){
 	this.path = [];
 	this.nextNode = undefined;
 	this.lives = 3;
-	
+
+	this.ghoulHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
+	this.ghoulHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);	
+
 	this.orbTimer = this.state.game.time.clock.createTimer('orbTimer',1.4,0,false);
 	this.orbTimerEvent = this.orbTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.showOrb, this);
 	
@@ -737,7 +740,7 @@ Kiwi.extend(BlackGhoul, BlueGhoul);
 Kiwi.extend(BlackGhoul, RedGhoul);
 
 BlackGhoul.prototype.inHole = function(){
-	if(this.lives < 1 && this.facing != 'teleport'){
+	if(this.lives < 2 && this.facing != 'teleport'){
 		Ghoul.prototype.playDieAnimation.call(this);
 	}else{	
 		if(this.facing != 'teleport'){

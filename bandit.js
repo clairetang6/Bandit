@@ -332,7 +332,7 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 	for(var i =0; i < numberOfGhouls; i++){
 		var ghoul = this.occupiedBy.pop();
 		if(ghoul.objType() == 'BlackGhoul'){
-			if(ghoul.lives < 1){
+			if(ghoul.lives < 2){
 				ghoul.destroy(false);
 				banditToAddGhoulKillTo.blackGhoulsKilled++;
 				this.state.addGhoulKill(banditToAddGhoulKillTo.color);

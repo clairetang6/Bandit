@@ -615,7 +615,6 @@ gameState.addGhoulKill = function(bandit){
 	switch(bandit){
 		case 'red':
 			var ghoulsKilled = this.banditGroup.members[0].totalGhoulKills();
-			console.log(ghoulsKilled);
 			var dots = this.ghoulKillCountGroup[0].members.length - 1; 
 			var dotsToAdd = ghoulsKilled - dots;
 			for (var i = 0; i < dotsToAdd; i++){
@@ -623,7 +622,6 @@ gameState.addGhoulKill = function(bandit){
 				dot.animation.play('dot');
 				this.ghoulKillCountGroup[0].addChild(dot);
 			}
-			console.log('got here');
 			break;
 		case 'blue':
 			var ghoulsKilled = this.banditGroup.members[1].totalGhoulKills();
