@@ -34,8 +34,8 @@ titleState.create = function(){
 
 	this.buttonGroup = new Kiwi.Group(this);
 
-	this.playerButton1 = new MenuIcon(this, 270, 450, '1player');
-	this.playerButton2 = new MenuIcon(this, 270, 525, '2player');
+	this.playerButton1 = new MenuIcon(this, 270, 475, '1player');
+	this.playerButton2 = new MenuIcon(this, 270, 550, '2player');
 	this.controlsButton = new MenuIcon(this, 270, 625, 'controls');
 
 	this.addChild(this.background);

@@ -309,8 +309,13 @@ var HiddenBlock = function(state, x, y){
 	this.row = this.gridPosition[0];
 	this.col = this.gridPosition[1];
 	this.state = state;
+	if(this.state.currentLevel >=16){
+		this.hiddenBlockTime = 8;
+	}else{
+		this.hiddenBlockTime = 5;
+	}
 
-	this.timer = state.game.time.clock.createTimer('hiddenBlockTimer',5,0,false);
+	this.timer = state.game.time.clock.createTimer('hiddenBlockTimer',this.hiddenBlockTime,0,false);
 	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.hiddenBlockTimer, this);
 	
 	if(this.state.permBlocks[this.row][this.col] != 1){
@@ -338,14 +343,15 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 				this.state.addGhoulKill(banditToAddGhoulKillTo.color);
 			}
 		}else if(ghoul.objType() == 'Ghouliath'){
-			ghoul.animation.play('explode');
-			if(this.state.soundsOn){
-				this.state.bombSound.play();	
-			}	
-			ghoul.explodeTimer.start();
-			banditToAddGhoulKillTo.ghouliathsKilled++;
-			this.state.addGhoulKill(banditToAddGhoulKillTo.color);
-
+			if(ghoul!='undefined'){
+				ghoul.animation.play('explode');
+				if(this.state.soundsOn){
+					this.state.bombSound.play();	
+				}	
+				ghoul.explodeTimer.start();
+				banditToAddGhoulKillTo.ghouliathsKilled++;
+				this.state.addGhoulKill(banditToAddGhoulKillTo.color);
+			}
 		}else{
 			if(ghoul.objType() == 'Ghoul'){
 				banditToAddGhoulKillTo.grayGhoulsKilled++;
