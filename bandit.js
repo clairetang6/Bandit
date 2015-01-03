@@ -595,6 +595,20 @@ Bomb.prototype.hide = function(){
 	this.y = -3*this.state.bps;
 }
 
+var Potion = function(state, x, y, type){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
+	this.state = state;
+	this.type = type; 
+
+	this.animation.add('whiskey',[116],0.1,false);
+	this.animation.play('whiskey');
+}
+Kiwi.extend(Potion, Kiwi.GameObjects.Sprite);
+
+Potion.prototype.objType = function(){
+	return 'Potion';
+}
+
 var Digit = function(state, x, y, color, index){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['digits'], x, y, false);
 	this.color = color;

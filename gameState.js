@@ -389,6 +389,12 @@ gameState.createLevel = function(){
 				this.coinGroup.addChild(diamond);
 			}
 		}
+		//hack for adding potions here. 
+		if(blockArrays[6][i] == 117){
+			var potionPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+			var potion = new Potion(this, potionPixels[0], potionPixels[1], 'whiskey');
+			this.coinGroup.addChild(potion);
+		}
 	}
 
 	//bombs
@@ -548,7 +554,7 @@ gameState.createLevel = function(){
 	this.addChild(this.cracksGroup);	
 	this.addChild(this.hiddenBlockGroup);	
 	this.addChild(this.tilemap.layers[1]);
-	this.addChild(this.tilemap.layers[2]);
+	//this.addChild(this.tilemap.layers[2]);
 
 	this.addChild(this.coinGroup);
 	this.addChild(this.ghoulGroup);
@@ -559,7 +565,7 @@ gameState.createLevel = function(){
 
 	//this.addChild(this.ghouliath);
 
-	
+
 	this.addChild(this.tilemap.layers[5]);
 	this.addChild(this.bombGroup);
 
@@ -719,26 +725,36 @@ gameState.checkCoinCollision = function(){
 		for (var j = 0; j<bandits.length; j++){
 			var coinBox = coins[i].box.hitbox;
 			if(bandits[j].box.bounds.intersects(coinBox)){
-				if(coins[i].animation.currentAnimation.name == 'shine'){
-					bandits[j].coinsCollected += 10;
-					if(this.soundsOn){
-						this.diamondSound.play('start',true);
-					}
-				}else{
-					bandits[j].coinsCollected ++;
-					if(this.soundsOn){
-						this.coinSound.play('start',true);
-						if(bandits[j].coinsCollected == 40){
-							this.voicesSound.play('money2',true);
-						}else if(bandits[j].coinsCollected == 80){
-							this.voicesSound.play('money1',true);
-						}else if(bandits[j].coinsCollected == 120){
-							this.voicesSound.play('yeehaw',true);
+				if(coins[i].objType()=='Potion'){
+					if(coins[i].type == 'whiskey'){
+						if(bandits[j].numberOfHearts < 3){
+							bandits[j].numberOfHearts ++;
+							this.showHearts(bandits[j].color);
+							coins[i].destroy();
 						}
 					}
+				}else{
+					if(coins[i].animation.currentAnimation.name == 'shine'){
+						bandits[j].coinsCollected += 10;
+						if(this.soundsOn){
+							this.diamondSound.play('start',true);
+						}
+					}else{
+						bandits[j].coinsCollected ++;
+						if(this.soundsOn){
+							this.coinSound.play('start',true);
+							if(bandits[j].coinsCollected == 40){
+								this.voicesSound.play('money2',true);
+							}else if(bandits[j].coinsCollected == 80){
+								this.voicesSound.play('money1',true);
+							}else if(bandits[j].coinsCollected == 120){
+								this.voicesSound.play('yeehaw',true);
+							}
+						}
+					}
+					this.updateCoinCounter(bandits[j]);
+					coins[i].destroy();
 				}
-				this.updateCoinCounter(bandits[j]);
-				coins[i].destroy();
 			}
 		}
 	}
