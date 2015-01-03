@@ -365,9 +365,9 @@ gameState.createLevel = function(){
 	this.permBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
 
 	//coins
-	var coinsLayerArray = blockArrays[2];
-	var width = blockArrays[4];
-	var tileWidth = blockArrays[3];
+	var coinsLayerArray = blockArrays[4];
+	var width = blockArrays[8];
+	var tileWidth = blockArrays[7];
 
 	var coinHitboxX = Math.round(this.bps*this.COIN_HITBOX_X_PERCENTAGE);
 	var coinHitboxY = Math.round(this.bps*this.COIN_HITBOX_Y_PERCENTAGE);
@@ -390,7 +390,7 @@ gameState.createLevel = function(){
 			}
 		}
 		//hack for adding potions here. 
-		if(blockArrays[6][i] == 117){
+		if(blockArrays[2][i] == 117){
 			var potionPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 			var potion = new Potion(this, potionPixels[0], potionPixels[1], 'whiskey');
 			this.coinGroup.addChild(potion);
@@ -398,7 +398,7 @@ gameState.createLevel = function(){
 	}
 
 	//bombs
-	var bombsLayerArray = blockArrays[8];
+	var bombsLayerArray = blockArrays[6];
 
 	var bombHitboxX = Math.round(this.bps*this.BOMB_HITBOX_X_PERCENTAGE);
 	var bombHitboxY = Math.round(this.bps*this.BOMB_HITBOX_Y_PERCENTAGE);
@@ -423,7 +423,7 @@ gameState.createLevel = function(){
 	}
 
 	//ghouls
-	var ghoulsLayerArray = blockArrays[5];
+	var ghoulsLayerArray = blockArrays[3];
 	for(var i = 0; i<ghoulsLayerArray.length;i++){
 		if(ghoulsLayerArray[i]==74){
 			var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
@@ -523,9 +523,9 @@ gameState.createLevel = function(){
 	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this,'level_tilemap'+this.currentLevel, this.textures.sprites);
 	
 	
-	this.groundBlocks = this.getGroundBlocks(blockArrays[0],blockArrays[4]);
-	this.originalGroundBlocks = this.getGroundBlocks(blockArrays[0],blockArrays[4]);
-	this.ladderBlocks = this.getLadderBlocks(blockArrays[1],blockArrays[4]);
+	this.groundBlocks = this.getGroundBlocks(blockArrays[0],width);
+	this.originalGroundBlocks = this.getGroundBlocks(blockArrays[0],width);
+	this.ladderBlocks = this.getLadderBlocks(blockArrays[1],width);
 	this.firstLadderBlocks = this.getFirstLadderBlocks(this.ladderBlocks);
 
 	this.topLadderBlocks = this.getTopBlocks(this.ladderBlocks);
@@ -1085,7 +1085,7 @@ gameState.parseBlocks = function(level_tilemap){
 	var width = json.width;
 	var tileWidth = json.tilewidth;
 
-	return [groundLayerArray, ladderLayerArray, coinsLayerArray, tileWidth, width, ghoulsLayerArray, backObjectsLayerArray, frontObjectsLayerArray, bombsLayerArray];
+	return [groundLayerArray, ladderLayerArray, backObjectsLayerArray, ghoulsLayerArray, coinsLayerArray, frontObjectsLayerArray, bombsLayerArray, tileWidth, width];
 }
 
 gameState.getPixelPositionFromArrayIndex = function(index, tileWidth, width){
