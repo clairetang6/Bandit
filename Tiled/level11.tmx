@@ -5,37 +5,37 @@
  </tileset>
  <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJy1kVEKACAIQ3eg7n++fgpCpm5RglAx3TMBYKyEeEY4I7y/zMyj8st4FD53HubR1Vfxg4/VZPVM43hWWnbvwvm7re8YFc3ZK7K4/at5bvmcfcXI6lQ2JzsOd78TlucemQ==
+   eJylU8kNADAIYiX3X65f06JgNfFTRfAoAAReY285FkVONM7iCu9q6vgdfazO1KoeN674MudEJ+Po9uRqZPueaNn0UWE3s1a597xc3I1XGFdfl6uw7l/5vYfpflmdAy3iHOg=
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBh4EIhG09M8YtUS6zZ083DpI9U8UvXhUotPP7XCgFj7SYkfYuSJMZvcNEbIPHLjkxLzAuloHjnhSQvzAMoFDe0=
+   eJxjYKAtCCDAJ0UvsebhsoMU8wLwqKHUbkrDYCDNI8WuwWgeOfbh0zvQ5hEygxjzCKnHJk9sHFDbPACDcg4R
   </data>
  </layer>
- <layer name="Back" width="20" height="15" opacity="0.98">
+ <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2DgQO0A2RsxQPaORAAKa1g81zIQDnsnLOphfABBbgSR
+   eJxjYBgeIGygHTAKRsEoIBrUArEvEpsByq9Fo33R9AEAzpMDzA==
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYCANRCOxvdDY0QzUBzAzvdBoEMigoX3odlFqFi4As4OUsCPVXehhCAL4wg6bHLF2YrOLVIAtrmEgg0h11ALU8A/MHFq5ExYm0Wh89PDxwqIG3QxaAkYS1QtjEQMARHkNFw==
+   eJxjYEAFXkAczYAdYBPHpZYc4EWmHDUAsj9w2QUTx+bnDOo6BycgJRxAbopG04NNP73cTo496GHuhUYT0kdqukFWT8i9jFjEhAnoQTaTkjRNjF5s8U5MfkVPM+QCWqQrAEgQC54=
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJylkFEKwDAIQ3s379Wz72ewIjF7oUKpaDQxe32xQV7vO/Nq9TSq/b2nOBxfoqdjpnvobcQThXFYoo9qcf5NmBtO1fvTR3akt53zy/QV7nZf6h/Rp7Qlfro5p4vWp72Ex2l7ALrLJQs=
+   eJyrY4AAZzSMTQxZjgGPPnR5dLX49GNTT4yb0NVgA/jcR8hcYjCxdhMKJ3RxQvFAqh9w2YHNPELuxGd2JIn+IEYtufpwuZ+QfnxqcZlHSA5XmibGPFqEH648h0selztx2Q8CUWS4D5tbAKBxLOc=
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYECAMIZRMApGwSgYvAAAk9cAVw==
+   eJxjYBgFo2AUjIKhAQAEsAAB
   </data>
  </layer>
  <layer name="bomb" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgcIViBiLZQxVYDREzR8HgBsTE+Wi6IAzQw4iYMAMARuQDhQ==
+   eJxjYGBgcGUYBaMAkg5G0wLpwGqgHYAEBpNbkAEsbZHrPpg+AG3RAkI=
   </data>
  </layer>
 </map>

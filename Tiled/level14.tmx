@@ -5,37 +5,37 @@
  </tileset>
  <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYGBg0IZiBgrZyHxaY2wAlxwu9fjcTIwaavkBF5sSQI4/sKklVi8145ESgG42Oe6hhTtJsYsU9zEwYHcfNnl0/ejqCbmHXD9iswefHnz6AQ5qHGQ=
+   eJxjYIAAdShmQKKJBeh6qYlx2YMuhsvttHQPMfbjA9R2G7HuxeYGXG6nR3h6EbATmzg+vbRMf4TcRUiO1vFLyF3E6KFl+BHjbnxqAR9BG9o=
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBi8IHCAzCNGXSAaPdjMg6lDV0tKmOLTS4p76W0eJX7Gpode5uEzl5iwo7Z5pPgbXQ+l5uHSCwDR5g+C
+   eJxjYKAvCCBTbiDNI8cccswbSmGDrp8U84gJE3LNI6SPGHNpaR4hfeTaTS3zyPUPuXaSah4A58kMMQ==
   </data>
  </layer>
- <layer name="Back" width="20" height="15">
+ <layer name="Back" width="20" height="15" opacity="0.98">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFwwU4DbQDyARhVDAjnApmjALqA2Lilth0C4pjAEvKAd8=
+   eJxjYBgFo2AUjILBAZwIyAMADPAAQw==
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAO8ALiDCqZRQyIRrLTC4d7GBgQbsLGj2bArhfZDFzmUxvgcwvMrQxIaqJxqMWlP4MIPcj+xRV+1Abo5iP7z4sBM74ysKiltRuRATb3orsJxicljqgJiA0HcsINPd+g07gAIwl2oANhJDYAHa8UQQ==
+   eJxjYMAOopHYXkSwBwLgs5/WbgOZn4FHHlnOC4keqDDD5l5Swo8e7sZlB7o4tnCnR3yDAK58gS7mRYRaagFkszNw2EVIDa3Dj5EKZggDMQD9Zwsa
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJyLYkCASCR2FInizlBMTYDPPGcsGJccLvW43EysGkJuJOQPYt1HDsZnJj53EmMusp9IiXN0tdT2M7qbKHEjLr9S6jZ87iMUN9joKDx2kRrXUUhy2PSTG/a4xEjJOzD1AKbEKc0=
+   eJydUlsKwDAM8m49RXf/g+yrbAzjY0KhJKZayQaw8eDcV3EOLnisssd0Jn01k2J6L9VmHJeb0k56aoZpptkp/ne28afyZJqsPnGcj8Tn5K/1m+TttB3X7Vfj9Y/H5A/JnikP79oNRoIj8g==
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYECAMIZRMApGwVADroPEDGygCko7IYmVImFiAEwvyCwAi0IDuA==
+   eJxjYBgFo2AUjALagTAsYn5IGAQqgdgXjxnhUBoAbjQCXg==
   </data>
  </layer>
- <layer name="bombs" width="20" height="15">
+ <layer name="bomb" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgcIViBgrZ+IAVEWooBfSwYxSMTEBJ2hrIdGmFgyaknl4An33Y5AD0FwWB
+   eJxjYIAAVyhmQKKJBch6aQkI2WNFBzfgAwNtPyVgMLl9MLllFFAfEBO/uNQAABzVA0A=
   </data>
  </layer>
 </map>

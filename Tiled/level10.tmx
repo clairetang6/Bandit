@@ -5,37 +5,37 @@
  </tileset>
  <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYIAAdShmQKKJBeh6qYlx2YMuhsvttHQPMfbjA9R2G7HuxeYGXG6nR3h6EbATmzg+vbRMf4TcRUiO1vFLyF3E6KFl+BHjbnxqAR9BG9o=
+   eJytkzEOACAIA/kR//+dgwshlhbhEhfEeBAwu7hxUI6HO3/Etw7yqbwY2XfbG3lUbqxulMd6NumvkqvWr3gpTLyQZ3fO2Nvs0PV7/cF27IftXa3mL8eYT+QAf0QdkA==
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAvCCBTbiDNI8cccswbSmGDrp8U84gJE3LNI6SPGHNpaR4hfeTaTS3zyPUPuXaSah4A58kMMQ==
+   eJxjYKAu8CeRjU+M1uYh8wmZRywgxS2DxTxK9FPbPErNJMc8fPIjyTx/EswjJo5oYR4AyIYNlQ==
   </data>
  </layer>
- <layer name="Back" width="20" height="15" opacity="0.98">
+ <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjILBAZwIyAMADPAAQw==
+   eJyLYBhaIGKgHTACwHAJ48Hgj9qBdsAgANjCoBYLG0RHYFEPEwcBALTXBXw=
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYMAOopHYXkSwBwLgs5/WbgOZn4FHHlnOC4keqDDD5l5Swo8e7sZlB7o4tnCnR3yDAK58gS7mRYRaagFkszNw2EVIDa3Dj5EKZggDMQD9Zwsa
+   eJxjYEAALygdjcQGgQwsarCpGywAl5u8iFBDT4DuhgysqiDhjE09sSCasBKyAHJ6oZXZ2MynddwRaz4l7gD5CVd8UwpwpXNc4UgrdyADRixiwmSYAwBOhwl3
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJydUlsKwDAM8m49RXf/g+yrbAzjY0KhJKZayQaw8eDcV3EOLnisssd0Jn01k2J6L9VmHJeb0k56aoZpptkp/ne28afyZJqsPnGcj8Tn5K/1m+TttB3X7Vfj9Y/H5A/JnikP79oNRoIj8g==
+   eJydUtsJADEIy25uccN09vs4+iPm4QUKRZM0UgtA4UOZwzgXj+h1fcdU6/U0T9p3/D/oum22E+rTfNObCffypjyMyzxZDrUL6X85HQh30jEfNscme+Ktsqm96jNsdl55YLi7Gps15bneC4A8LU8=
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALagTAsYn5IGAQqgdgXjxnhUBoAbjQCXg==
+   eJxjYBgFo2AUjALagDAy9ITjkQMAKRQArg==
   </data>
  </layer>
  <layer name="bomb" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYIAAVyhmQKKJBch6aQkI2WNFBzfgAwNtPyVgMLl9MLllFFAfEBO/uNQAABzVA0A=
+   eJxjYKAcuELxKBgF9AZWA+0AhsHhhpECACjZAP8=
   </data>
  </layer>
 </map>

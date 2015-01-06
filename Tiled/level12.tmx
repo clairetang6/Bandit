@@ -5,37 +5,37 @@
  </tileset>
  <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJytkssNADAIQl3H/RfstTF9+KkmXEQU0pqZ+YVuRa0DfrjNov2TXuyrO9VcNJNpKjum/lT+DU3nP9BMvEl5ict024ieKu9L2g2ftEf5oJkO/8qqtAdSKhrA
+   eJxjYEAALTQaGyCkRovKmJBdDGhqcbmHFm4jJpyIFUd3LyVuwec+QvZT6gZSw4uSsMTmVmx6aOUHdHcRE7aE3E+P9ElMWJMSb5TkEVLTKgD2lhw5
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAt8MfCxiaGzh4I8wjpo4d56GKUmOePRy0x5tFaHb3MocQ8fHpINY9QfFDbPFLNx5afyDWP1HxIrHkAm6kM9w==
+   eJxjYKAuCKRAHbFiw9k8ckAgGk0t8yhVQ2/zAolQQ4p99DQPXxwS8i8+PYPdPHz6sIkDAFlhDj4=
   </data>
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALagggCcr5E6gUAPLgBVg==
+   eJxjYBgFo2AUjALagho0mpA6XGIAW+AB8Q==
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYEAFGUjsaCD2grLRaXS1tATY7IaxsbkBmzp0NiEQTYJaSsMBZhcx7iPHP+h6SPEbvnDGBZDNp1caQbYbPY3iSrNeSHLI+tD10AugpwNi44oaYUzIDGLsIKSGkUi3IANhND4A93oPNg==
+   eJxjYIAALwbsIJqAPEwumoAaagJi7KGXW7DZGY1DDtlN2NRkUMENuMyAxRGMjS5HDbtJAfjiB5s7sYnhMoPWfsFmPrIYMW5Fjg96AuQ0Sk4eoUa+YsQhLkyEXgBl9Qxv
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJydUlsKACAI626dovtfJPqz5XJzEIS5h9IaN6Z5ItZ4MeEeeaiBep08Tt4sg1PDOvNx58p6fhzmre6hyodzMnQ5rPbjshnUHalvToYKip7rr+w49ivZqj+IeuzvZdrMV+k52ONMJqY=
+   eJy1k1EKACAIQ72bp+j+F4nAr6FuggkSxGyPVW5mHv3qxOpFqxpWUx3zUVl+8FW+k/0uO8aC53Z8zF+9QzUf1FY+jEVh3cw040Yf9GScSuaTN6vMbDJ0f4/xKR6ozWYvJ+Un9Q==
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJwLY6AeCKeiWaNgFIyC4Q/8SFQPACSZAPw=
+   eJxjYBgFo2AUjALagzAS1IbjEAcAI7AArg==
   </data>
  </layer>
  <layer name="bomb" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgcEXCpAJK9I6C4QusBtoBgxxY4WBTS/1wBQDj1ALB
+   eJxjYEAAVzQaGyBGDT2BFZXVjYJRMAqoB6idPwHJAgH9
   </data>
  </layer>
 </map>

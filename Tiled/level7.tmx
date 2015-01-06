@@ -5,27 +5,27 @@
  </tileset>
  <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJylU8kNADAIYiX3X65f06JgNfFTRfAoAAReY285FkVONM7iCu9q6vgdfazO1KoeN674MudEJ+Po9uRqZPueaNn0UWE3s1a597xc3I1XGFdfl6uw7l/5vYfpflmdAy3iHOg=
+   eJydkcsNACAIQxmK/WfzShD6gcSL0vYhEX/lcIcqiyYPB+mU7M7g8lUfJQ/xOf8w5V5mZ4yMAWlQjloXzu1d0V1YVLbu4bBMu95yFX93x5M/y2czMEbUp3rU3ge83B55
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAtCCDAJ0UvsebhsoMU8wLwqKHUbkrDYCDNI8WuwWgeOfbh0zvQ5hEygxjzCKnHJk9sHFDbPACDcg4R
+   eJxjYKAuCCRTnlRxSvXhUkdt88gxg5bmkWvXQJhHin5i1NLTPGLTFbnmESNPT/MImUEt8wCDTgpy
   </data>
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgeIGygHTAKRsEoIBrUArEvEpsByq9Fo33R9AEAzpMDzA==
+   eJxjYBiaoHagHTACwVAN84iBdsAIB/jCP4KAPDoAAAdYAls=
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYEAFXkAczYAdYBPHpZYc4EWmHDUAsj9w2QUTx+bnDOo6BycgJRxAbopG04NNP73cTo496GHuhUYT0kdqukFWT8i9jFjEhAnoQTaTkjRNjF5s8U5MfkVPM+QCWqQrAEgQC54=
+   eJxjYEAALyR2NBYxbOxoBtoCL8JKBtT+DLq4AgLwuYVe4USMPfjSxGByJz3TFno6QeYPVBqnNIyI0c9IpFsIAWEoDQDk6gb+
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJyrY4AAZzSMTQxZjgGPPnR5dLX49GNTT4yb0NVgA/jcR8hcYjCxdhMKJ3RxQvFAqh9w2YHNPELuxGd2JIn+IEYtufpwuZ+QfnxqcZlHSA5XmibGPFqEH648h0selztx2Q8CUWS4D5tbAKBxLOc=
+   eJydk1EKACAIQ72bp+j+F+krkOHmTIiotD21MiKyjGe5GBgTsIdz54N7Ww7mX+2I+10tl4/l0q1Z3KYHrBaTYf6M+ZdFxbtcHc8v5yYXR2fiV9qdH8ajrtKbWNU/2Zy7fZxq5b6F6n8BcTcrzA==
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
@@ -35,7 +35,7 @@
  </layer>
  <layer name="bomb" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgcGUYBaMAkg5G0wLpwGqgHYAEBpNbkAEsbZHrPpg+AG3RAkI=
+   eJxjYEAFVgykA1coHowA5J/B7L5RMArQATl5cKQAAJrKAcM=
   </data>
  </layer>
 </map>

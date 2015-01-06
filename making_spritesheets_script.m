@@ -201,3 +201,8 @@ img_new(401:450,101:150,:) = img;
 alpha_new(401:450,101:150) = alpha;
 imagesc(img_new)
 imwrite(uint8(img_new),'bandit_spritesheet.png','Alpha',uint8(alpha_new));
+
+% need to make the right size first, but this was run later.
+%[img, map, alpha] = imread('sign_1.png');
+%img_new(501:550,1:50,:) = img;
+%alpha_new(501:550,1:50) = alpha;

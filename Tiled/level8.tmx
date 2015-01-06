@@ -5,37 +5,37 @@
  </tileset>
  <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYEAALTQaGyCkRovKmJBdDGhqcbmHFm4jJpyIFUd3LyVuwec+QvZT6gZSw4uSsMTmVmx6aOUHdHcRE7aE3E+P9ElMWJMSb5TkEVLTKgD2lhw5
+   eJxjYIAAYygmFhhjwQwMmGZgU4dLL7p+YvUak6CeWgCfnaS6HZf7qOFeariHFuGH7D5s6YcYmt7uIxS/xOhHlyPHfmphXPaR6g9S3UuKXnQAACTOHX0=
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAuCKRAHbFiw9k8ckAgGk0t8yhVQ2/zAolQQ4p99DQPXxwS8i8+PYPdPHz6sIkDAFlhDj4=
+   eJxjYKAuCCRRnJBZQ9U8YvWj2z1Q5uFTR0vziDWX1HChtnnU1k+OeaSGKSF5WptHShgRax4A6fIMBw==
   </data>
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALagho0mpA6XGIAW+AB8Q==
+   eJyrYRgFo4ByUINGo4uPglEAA6A04YuECaURZHkAIQYETA==
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYIAALwbsIJqAPEwumoAaagJi7KGXW7DZGY1DDtlN2NRkUMENuMyAxRGMjS5HDbtJAfjiB5s7sYnhMoPWfsFmPrIYMW5Fjg96AuQ0Sk4eoUa+YsQhLkyEXgBl9Qxv
+   eJxjYEAF0QyYwIsAHxcgVt1AAJjbsPkXmzpkkEFlt+AD6HYhu9cLjY1LjhaAGubTwo3o8YluB6H4xqaHVPtJ0Y/PvfRMZ5QAUsOLkQS1wmh8AAliCHs=
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJy1k1EKACAIQ72bp+j+F4nAr6FuggkSxGyPVW5mHv3qxOpFqxpWUx3zUVl+8FW+k/0uO8aC53Z8zF+9QzUf1FY+jEVh3cw040Yf9GScSuaTN6vMbDJ0f4/xKR6ozWYvJ+Un9Q==
+   eJy1ksENACAIA7sbU7j/Ij41pEAx2MSPQnpUDIDhyMTDtJLaqMf7Moaovit1NnX+iE9lY/2RxwRvxdJhnuZiu8Iy8KxZfr9yy+6r/u7/Kr73W4e52mt1jldexcPXbt6oLA8=
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALagzAS1IbjEAcAI7AArg==
+   eJxjYBgFo4B8EDbQDhgFIwKEQ2kA2QgArg==
   </data>
  </layer>
  <layer name="bomb" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYEAAVzQaGyBGDT2BFZXVjYJRMAqoB6idPwHJAgH9
+   eJxjYBhcwJVMfVZUdcUoGAWjABlY4WDT0h5sAABGJgEu
   </data>
  </layer>
 </map>

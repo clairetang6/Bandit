@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="50" tileheight="50">
  <tileset firstgid="1" name="bandit_spritesheet" tilewidth="50" tileheight="50">
-  <image source="bandit_spritesheet.png" width="900" height="500"/>
+  <image source="../../../Documents/LodeRunner/bandit_spritesheet.png" width="900" height="500"/>
  </tileset>
- <layer name="Blocks" width="20" height="15">
+ <layer name="Blocks" width="20" height="15" opacity="0.97">
   <data encoding="base64" compression="zlib">
-   eJydkcsNACAIQxmK/WfzShD6gcSL0vYhEX/lcIcqiyYPB+mU7M7g8lUfJQ/xOf8w5V5mZ4yMAWlQjloXzu1d0V1YVLbu4bBMu95yFX93x5M/y2czMEbUp3rU3ge83B55
+   eJxjYCAe6CNhSoE+kZgU86hpL7FuoKYfaGUeteylRrwPFCAn3oeCf8n111DFAAjvF98=
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAuCCRTnlRxSvXhUkdt88gxg5bmkWvXQJhHin5i1NLTPGLTFbnmESNPT/MImUEt8wCDTgpy
+   eJxjYBgFo2AUjIKhAQAEsAAB
   </data>
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBiaoHagHTACwVAN84iBdsAIB/jCP4KAPDoAAAdYAls=
+   eJxjYBgFo2AUjIKhAQAEsAAB
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYEAALyR2NBYxbOxoBtoCL8JKBtT+DLq4AgLwuYVe4USMPfjSxGByJz3TFno6QeYPVBqnNIyI0c9IpFsIAWEoDQDk6gb+
+   eJxjYBgFo2AUjIKhAQAEsAAB
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJydk1EKACAIQ72bp+j+F+krkOHmTIiotD21MiKyjGe5GBgTsIdz54N7Ww7mX+2I+10tl4/l0q1Z3KYHrBaTYf6M+ZdFxbtcHc8v5yYXR2fiV9qdH8ajrtKbWNU/2Zy7fZxq5b6F6n8BcTcrzA==
+   eJxjYBgFo2AUjIKhAQAEsAAB
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
@@ -33,9 +33,9 @@
    eJxjYBgFo2AUjIKhAQAEsAAB
   </data>
  </layer>
- <layer name="bomb" width="20" height="15">
+ <layer name="bombs" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYEAFVgykA1coHowA5J/B7L5RMArQATl5cKQAAJrKAcM=
+   eJxjYBgFo2AUjIKhAQAEsAAB
   </data>
  </layer>
 </map>

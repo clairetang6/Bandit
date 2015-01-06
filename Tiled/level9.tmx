@@ -5,37 +5,37 @@
  </tileset>
  <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYMAEqgRoXOphbEowNnPw2YHNLcTYga4Xmzwu88m1j5QwwEZjsxsboGZ84IofQnYS405auI9Uu7HxyYkzbHpIAfjCD1mcXLeQoh6XXkLuJzVeyElrADkjGk8=
+   eJydUkEKADAI8kX9/3k7jCAiyxKCLStlC/gwcHSc8xbOFWcCV0WuY9pqzVVXmR/vjGO8MkP1WWHKb7Qvntj8zmPXo77PJbLOtP8qtnun9AC158kHy23/+uKP+eh8O/cA1EUcwQ==
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKA+8MfBxsbHJYYsTk/zsImTYh4uQIw7aWUeMYBcOyk1jxQziTF3oMwjNu4oMY/SOCInfdDTPGLUAgAxCQ4z
+   eJxjYKAuCCBRDp96eplHqh0jzTxCdoyqI08dujihsCc1rskxD5c8qWwYn9rmAQDtFA9R
   </data>
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYMAPnAjIj4JRMApGATGA3LIEWR8ARn8Axw==
+   eJxzYhgFo2AUYANOA+2AYQqICVdcagC37wEJ
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYIAALyCOZiAekKqeHiCDRPVeJKqF+ZdUe6gJYG6OxiKGDGjtRi8kGl+4oLvXC42mFUA3H5mPLd3Syj3YwgmbHAxkYJEfLADkfmzhSmo5wEim/cJADACUbQu9
+   eJxjYMAOvHCIZ6DJR+NRgw/gMp8QQDabkBnk2kEsIORPWttPjr3Ictjijp4ggwEzPTFg4aOHsxcOcVoDLxxsYtTROqyxme+FRuPKO/RMp4xEqBHGIwcArTYKpw==
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJyVkwsKACAIQ71bp/D+F4mgIMacU4g+LPcqWxGxoJ3I27M50+M4yJjN/zWVGz1epNArH/RDXcXE9lV+LB/jqfgS+sq7ew8nHC3zUjXQcU4ZGSd7U9Q5zF3NOFyYR515cn+Tu1I16fxFtcfh73JNaxI9NpJ/JRM=
+   eJylUsENADEIcjencP9FLk3TDwG0PZI+DA2ikhGRsZHiOe7wC2U4phHkDwJ1nL7yibyrmV7Xg3ktwXVzs53/9eduOOk93dl0tpecIadqh9vMudy9POUHe7gaUcLz7Z67/spH50/lqbsh87dm/QC4nyo5
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBjaIHygHTAKRsEoIAmUkqA2DE0PAH/DAZg=
+   eJxjYBgFo2AUjALaAj8C8uFEmgMAKDgApg==
   </data>
  </layer>
  <layer name="bomb" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYMAErgToUUB7gC3sR8OfOGCFRtNL71AGVjjY9LKTGHEQAAAmogP5
+   eJxjYKAcuELxcAJWw8QOYsBgcccoIA9QI+/RMv8Saza+dAgzAwAW/wKH
   </data>
  </layer>
 </map>
