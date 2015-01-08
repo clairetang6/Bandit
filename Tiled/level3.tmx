@@ -8,37 +8,37 @@
  </tileset>
  <layer name="Blocks" width="20" height="15" opacity="0.97">
   <data encoding="base64" compression="zlib">
-   eJxjYMAEykiYVkCZSDxQ9hLrFmr7AV0PNcwj5F5c4vSID1oBYvw9nPyLC1CS3mmFKXE/ABRqD90=
+   eJxjYCAdGBLAlAB0c/CZT8gdxGJy3UdIL6Vuwcanpd+IAdQKc0rcT0//ottLD73E+ieCgfjwo3e8UZo/cAEA3dsdDw==
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBhYEEimHLnmYZMnVmw4m0eMWZS4ZTCYR45dw808UswmFdDDPAApaQ2c
+   eJxjYBj8IJBKauhtHilmIKsfzOZREnbYxEfNo8w8YswgpG8o5S8AwpYLFA==
   </data>
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjAL6Aicc/ExG7PIwAAAw3wEx
+   eJyLYBgF1AIRA+2AUYACKImP0bikDohAo0Egk5E0vchsAE+jAys=
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIKBA4xQWpgItQAHiAAV
+   eJxjYBgFxAKvgXYAlcBw8cdIBLSIO2cam8cIpYWpYDYAZ74BeQ==
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYCAMnEnAxABnHGxK7CXGLfjE8dlNyH3EmkcIkOs+csKBVOCMRtPaPHLjG5/7yHE7vc0jN02Tkx/JiTdqmEco3vC5HwDzMRzL
+   eJxjYKA+cIZibGxkMWwYGUSi6WPAwcclhs992Pj43IXPvfjMIwXQwjxaYGL9QYz4cDEPW9jgMo+Y/IBuBrY0h89txKojFlDDDFJAKQN2PwAAErAZJg==
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2DggdNAO2AUDAkAAJMAAEM=
+   eJxjYBhcYDoSHgWjYBSMAhiIAGIATAUCHg==
   </data>
  </layer>
  <layer name="bombs" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIKhAQAEsAAB
+   eJxjYKAdsCJSDBm4IuFRMAqGK7BCo4lRi4s/mAG6P0nxNzZ1AIvWA04=
   </data>
  </layer>
 </map>

@@ -554,7 +554,7 @@ gameState.createLevel = function(){
 	this.addChild(this.cracksGroup);	
 	this.addChild(this.hiddenBlockGroup);	
 	this.addChild(this.tilemap.layers[1]);
-	//this.addChild(this.tilemap.layers[2]);
+	this.addChild(this.tilemap.layers[2]);
 
 	this.addChild(this.coinGroup);
 	this.addChild(this.ghoulGroup);
