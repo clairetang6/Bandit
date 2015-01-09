@@ -112,6 +112,7 @@ Bandit.prototype.update = function(){
 		 	if(this.isAlive){
 			 	if(!(this.state.onBlockType(this.state.ladderBlocks,southGridPosition) || this.state.onBlockType(this.state.groundBlocks, southGridPosition))){
 			 		this.gravity(southGridPosition);
+			 		southGridPosition = this.state.getGridPosition(this.x, this.y, 'south');
 			 	}
 			}else{
 				if(this.state.onBlockType(this.state.ladderBlocks,southGridPosition) || !this.state.onBlockType(this.state.groundBlocks, southGridPosition)){
@@ -119,7 +120,7 @@ Bandit.prototype.update = function(){
 				}
 			}
 		}
-		if(this.isAlive){		 	
+		if(this.isAlive){
 		 	if(this.fireKey.isDown){
 				this.animation.play('fire' + this.facing);
 				if(this.canShoot){

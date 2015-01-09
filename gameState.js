@@ -1523,7 +1523,7 @@ gameState.update = function(){
 			this.isGameOver();
 
 			if(this.debugKey.isDown){
-				console.log(this.debugKey.timeDown);
+				console.log(this.banditGroup.members[0].x + ' ' + this.banditGroup.members[0].y);
 			}
 		
 			if(this.mouse.isDown){
