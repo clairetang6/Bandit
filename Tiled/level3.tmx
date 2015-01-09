@@ -4,11 +4,11 @@
   <image source="../../../Documents/LodeRunner/bandit_spritesheet.png" width="900" height="500"/>
  </tileset>
  <tileset firstgid="181" name="t2" tilewidth="50" tileheight="50">
-  <image source="../bandit_spritesheet.png" width="900" height="550"/>
+  <image source="../bandit_spritesheet.png" width="900" height="900"/>
  </tileset>
  <layer name="Blocks" width="20" height="15" opacity="0.97">
   <data encoding="base64" compression="zlib">
-   eJxjYCAdGBLAlAB0c/CZT8gdxGJy3UdIL6Vuwcanpd+IAdQKc0rcT0//ottLD73E+ieCgfjwo3e8UZo/cAEA3dsdDw==
+   eJxjYCAdGBLAlAB0c7CZ38rIwDCdkbA7iMXkuo+QXkrdgo1PS78RA6gV5pS4n57+RbeXHnqJ9U8EA/HhR+94ozR/4AIAT0weLQ==
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
@@ -28,7 +28,7 @@
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKA+cIZibGxkMWwYGUSi6WPAwcclhs992Pj43IXPvfjMIwXQwjxaYGL9QYz4cDEPW9jgMo+Y/IBuBrY0h89txKojFlDDDFJAKQN2PwAAErAZJg==
+   eJxjYKA+cIZiZDY+MXR5GIhEUk+MnaS4D5c4qZiQeaQAWphHC0ysP4gRHy7mYQsbXOahxzO+MMamBt0cXG4iRh2xgBpmkAJKGbD7AQCDKxhd
   </data>
  </layer>
  <layer name="Front" width="20" height="15">

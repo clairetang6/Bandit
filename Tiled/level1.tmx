@@ -4,11 +4,11 @@
   <image source="../../../Documents/LodeRunner/bandit_spritesheet.png" width="900" height="500"/>
  </tileset>
  <tileset firstgid="181" name="t2" tilewidth="50" tileheight="50">
-  <image source="../bandit_spritesheet.png" width="900" height="550"/>
+  <image source="../bandit_spritesheet.png" width="900" height="900"/>
  </tileset>
  <layer name="Blocks" width="20" height="15" opacity="0.97">
   <data encoding="base64" compression="zlib">
-   eJxjYMAEykiYVkCZSDxQ9hLrFmr7AV0PNcwj5F5c4vSID1oBYvw9nPyLC1CS3mmFKXE/ABRqD90=
+   eJxjYMAEykiYVkCZSDxQ9mLD7YwMDLVQPJORNn5A10MN87CZj27eQMUHtQFy3LSTEVdDzb+EACXpnVaYEvcDAO6ZFNY=
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
