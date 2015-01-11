@@ -22,6 +22,12 @@ var Bandit = function(state, x, y, color){
 	this.blueGhoulsKilled = 0;
 	this.blackGhoulsKilled = 0;
 	this.ghouliathsKilled = 0;
+	this.goUp = false;
+	this.goDown = false;
+	this.goLeft = false;
+	this.goRight = false;
+	this.goFire = false;
+	this.goBomb = false;
 
 	var banditHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
 	var banditHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);
@@ -104,9 +110,99 @@ Bandit.prototype.deathCount = function(){
 	}
 }
 
+Bandit.prototype.moveUp = function(){
+	var gridPosition = this.state.getGridPosition(this.x, this.y, 'north');
+	var ladderPixelNum = this.state.getPixelNumberForGridPosition(gridPosition,'west') + this.bps/2;
+	if(this.x+this.bps/2>ladderPixelNum-35 && this.x+this.bps/2<ladderPixelNum+35){	
+		if(this.state.onBlockType(this.state.topLadderBlocks, gridPosition)){
+			if(this.x + this.bps/2 < ladderPixelNum -15){
+				this.x = ladderPixelNum - 15 - this.bps/2;
+			}else if (this.x + this.bps/2 > ladderPixelNum + 15){
+				this.x = ladderPixelNum + 15 - this.bps/2;
+			}			
+			var pixelNum = this.state.getPixelNumberForGridPosition(gridPosition,'north');
+			if(this.y>6+pixelNum){
+				this.y-=3;
+				if(this.animation.currentAnimation.name!='climb'){
+					this.animation.play('climb');
+				}				
+			}else{
+				this.y=pixelNum;
+				this.animation.play('idle'+this.facing);			
+			}
+		}else if(this.state.onBlockType(this.state.ladderBlocks, gridPosition)){
+			if(this.x + this.bps/2 < ladderPixelNum -10){
+				this.x = ladderPixelNum - 10 - this.bps/2;
+			}else if (this.x + this.bps/2 > ladderPixelNum + 10){
+				this.x = ladderPixelNum + 10 - this.bps/2;
+			}				
+			if(this.y>3){
+				this.y-=3;
+			}
+			if(this.animation.currentAnimation.name != 'climb'){
+				this.animation.play('climb');
+			}
+		}
+	}	
+}
+
+Bandit.prototype.moveDown = function(southGridPosition){
+	//return true if should then check downKey for bomb placement
+	var ladderPixelNum = this.state.getPixelNumberForGridPosition(southGridPosition,'west') + this.bps/2;
+	var belowFeetPosition = this.state.getGridPosition(this.x, this.y+this.bps,'south');				
+	if(this.x+this.bps/2>ladderPixelNum-35 && this.x+this.bps/2<ladderPixelNum+35){	
+		if(this.state.onBlockType(this.state.firstLadderBlocks, southGridPosition)){
+			var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition,'south');
+			if(!this.state.onBlockType(this.state.groundBlocks, belowFeetPosition)){
+				//this if block for falling off edge of ladder. 
+				if(this.x + this.bps/2 < ladderPixelNum -10){
+					this.x = ladderPixelNum - 10 - this.bps/2;
+				}else if (this.x + this.bps/2 > ladderPixelNum + 10){
+					this.x = ladderPixelNum + 10 - this.bps/2;
+				}				
+				this.y+=3;
+			}else{
+				if(this.y+this.bps<pixelNum-5){
+					if(this.x + this.bps/2 < ladderPixelNum -10){
+						this.x = ladderPixelNum - 10 - this.bps/2;
+					}else if (this.x + this.bps/2 > ladderPixelNum + 10){
+						this.x = ladderPixelNum + 10 - this.bps/2;
+					}	
+					this.y+=3;
+					if(this.animation.currentAnimation.name!='climb'){
+						this.animation.play('climb');
+					}				
+				}else{
+					this.y=pixelNum-this.bps+1; 
+					this.animation.play('idle'+this.facing);
+				}
+			}
+			return false;
+		}else if(this.state.onBlockType(this.state.ladderBlocks, belowFeetPosition)){
+			if(this.y<this.bps*this.state.GRID_ROWS){
+				if(this.x + this.bps/2 < ladderPixelNum -10){
+					this.x = ladderPixelNum - 10 - this.bps/2;
+				}else if (this.x + this.bps/2 > ladderPixelNum + 10){
+					this.x = ladderPixelNum + 10 - this.bps/2;
+				}				
+				this.y+=5;
+			}else{
+				this.y = this.bps*this.state.GRID_ROWS;
+			}
+			if(this.animation.currentAnimation.name != 'climb')
+				this.animation.play('climb');
+			return false;
+		}else{
+			return true;
+		}
+	}
+	return false;
+}
+
 Bandit.prototype.update = function(){
 	Kiwi.GameObjects.Sprite.prototype.update.call(this);
 	if(this.state.showingLevelScreen == false){
+		this.state.checkController();
 		if(!this.isDeadAndOnGround){
 			var southGridPosition = this.state.getGridPosition(this.x, this.y, 'south');
 		 	if(this.isAlive){
@@ -121,37 +217,17 @@ Bandit.prototype.update = function(){
 			}
 		}
 		if(this.isAlive){
-		 	if(this.fireKey.isDown){
+		 	if(this.fireKey.isDown || this.goFire){
 				this.animation.play('fire' + this.facing);
 				if(this.canShoot){
 					var blastedBlockPosition = this.state.getBlastedBlockPosition(southGridPosition, this.facing, this.state.groundBlocks);
 					this.state.blastBlock(blastedBlockPosition, this.color);
 				}
 			}
-			else if(this.upKey.isDown){
-				var gridPosition = this.state.getGridPosition(this.x, this.y, 'north');
-				var ladderPixelNum = this.state.getPixelNumberForGridPosition(gridPosition,'west') + this.bps/2;
-				if(this.x+this.bps/2>ladderPixelNum-15 && this.x+this.bps/2<ladderPixelNum+15){	
-					if(this.state.onBlockType(this.state.topLadderBlocks, gridPosition)){
-						var pixelNum = this.state.getPixelNumberForGridPosition(gridPosition,'north');
-						if(this.y>6+pixelNum){
-							this.y-=3;
-							if(this.animation.currentAnimation.name!='climb'){
-								this.animation.play('climb');
-							}				
-						}else{
-							this.y=pixelNum;
-							this.animation.play('idle'+this.facing);			
-						}
-					}else if(this.state.onBlockType(this.state.ladderBlocks, gridPosition)){
-						if(this.y>3)
-							this.y-=3;
-						if(this.animation.currentAnimation.name != 'climb')
-							this.animation.play('climb');
-					}
-				}
+			else if(this.upKey.isDown || this.goUp){
+				this.moveUp();
 			}
-			else if(this.rightKey.isDown){
+			else if(this.rightKey.isDown || this.goRight){
 				this.facing = 'right';
 				if(this.state.onBlockType(this.state.rightBlockedBlocks, southGridPosition)){
 					var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition,'east');
@@ -170,7 +246,7 @@ Bandit.prototype.update = function(){
 					}
 				}
 			}
-			else if(this.leftKey.isDown){
+			else if(this.leftKey.isDown || this.goLeft){
 				this.facing = 'left';
 				if(this.state.onBlockType(this.state.leftBlockedBlocks, southGridPosition)){
 					var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition,'west');
@@ -188,40 +264,10 @@ Bandit.prototype.update = function(){
 					}
 				}
 			}
-			else if(this.downKey.isDown){
-				var ladderPixelNum = this.state.getPixelNumberForGridPosition(southGridPosition,'west') + this.bps/2;
-				var belowFeetPosition = this.state.getGridPosition(this.x, this.y+1,'south');				
-				if(this.x+this.bps/2>ladderPixelNum-15 && this.x+this.bps/2<ladderPixelNum+15){	
-					if(this.state.onBlockType(this.state.firstLadderBlocks, southGridPosition)){
-						if(!this.state.onBlockType(this.state.groundBlocks, belowFeetPosition)){
-							this.y+=3;
-						}else{
-							var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition,'south');
-							if(this.y+this.bps<pixelNum-6){
-								this.y+=3;
-								if(this.animation.currentAnimation.name!='climb'){
-									this.animation.play('climb');
-								}				
-							}else{
-								this.transform.y=pixelNum-this.bps+1; 
-								this.animation.play('idle'+this.facing);
-							}
-						}
-					}else if(this.state.onBlockType(this.state.ladderBlocks, belowFeetPosition)){
-						if(this.y<this.bps*this.state.GRID_ROWS)
-							this.y+=5;
-						else
-							this.y = this.bps*this.state.GRID_ROWS;
-						if(this.animation.currentAnimation.name != 'climb')
-							this.animation.play('climb');
-					}else{
-						if(this.state.onBlockType(this.state.topGroundBlocks, southGridPosition)){
-							if(this.downKey.justPressed(30)){
-								if(this.bombClock.elapsed() > 5){
-									this.placeBomb();
-								}
-							}
-						}
+			else if(this.downKey.isDown || this.goDown){
+				if(this.moveDown(southGridPosition)){
+					if(this.downKey.justPressed(30)){
+						this.tryPlacingBomb(southGridPosition);
 					}
 				}
 			}
@@ -233,12 +279,23 @@ Bandit.prototype.update = function(){
 				}		
 				else if(this.animation.currentAnimation.name != 'idle' + this.facing)
 					this.animation.play('idle' + this.facing);	
+				if(this.goBomb){
+					this.tryPlacingBomb(southGridPosition);
+				}
 			}
 		}
 		else{
 			this.deathCount();
 		}
 	}
+}
+
+Bandit.prototype.tryPlacingBomb = function(southGridPosition){
+	if(this.state.onBlockType(this.state.topGroundBlocks, southGridPosition)){
+		if(this.bombClock.elapsed() > 5){
+			this.placeBomb();
+		}
+	}	
 }
 
 Bandit.prototype.gravity = function(southGridPosition){
@@ -494,7 +551,7 @@ Heart.prototype.showSelf = function(){
 var Cracks = function(state, x, y){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
 	this.state = state;
-	this.animation.add('cracks',[150],.1,false);
+	this.animation.add('cracks',[114],.1,false);
 	this.animation.play('cracks');
 }
 Kiwi.extend(Cracks, Kiwi.GameObjects.Sprite);

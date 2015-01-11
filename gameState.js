@@ -272,6 +272,12 @@ gameState.create = function(){
 		this.blueHeartsGroup = new Kiwi.Group(this);	
 	}
 
+	//Gamepad experimenting
+	console.log('NUMBER OF GAMEPADS: ' + this.game.gamepads.gamepads.length);
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce, this);
+	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp, this);
+	this.game.gamepads.gamepads[0].buttonIsDown.add(this.buttonIsDown, this)
+	
 	this.game.input.keyboard.onKeyDown.add(this.onKeyDownCallback, this);
 	this.debugKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.I);
 
@@ -1523,7 +1529,7 @@ gameState.update = function(){
 			this.isGameOver();
 
 			if(this.debugKey.isDown){
-				console.log(this.banditGroup.members[0].x + ' ' + this.banditGroup.members[0].y);
+				console.log(this.game.gamepads.gamepads[0].button0)
 			}
 		
 			if(this.mouse.isDown){
@@ -1576,4 +1582,174 @@ gameState.resumeAllTimers = function(){
 	for (var i = 0; i < this.game.time.clock.timers.length; i++){
 		this.game.time.clock.timers[i].resume();
 	}	
+}
+
+gameState.buttonOnDownOnce = function(button){
+	switch ( button.name ) {
+		case "XBOX_A":
+			this.banditGroup.members[0].goFire = true;
+			this.gunSound.play('start',true);
+			break;
+		case "XBOX_B":
+			this.banditGroup.members[0].goBomb = true;
+			break;
+		case "XBOX_X":
+			this.banditGroup.members[0].goBomb = true;
+			break;
+		case "XBOX_Y":
+			this.banditGroup.members[0].goBomb = true;
+			break;
+		case "XBOX_DPAD_LEFT":
+			this.banditGroup.members[0].goLeft = true;
+			this.banditGroup.members[0].goRight = false;
+			break;
+		case "XBOX_DPAD_RIGHT":
+			this.banditGroup.members[0].goLeft = false;
+			this.banditGroup.members[0].goRight = true;
+			break;
+		case "XBOX_DPAD_UP":
+			this.banditGroup.members[0].goDown = false;
+			this.banditGroup.members[0].goUp = true;
+			break;
+		case "XBOX_DPAD_DOWN":
+			this.banditGroup.members[0].goDown = true;
+			this.banditGroup.members[0].goUp = false;
+			break;
+		default:
+			// Code
+	}
+
+}
+
+gameState.buttonIsDown = function(button){
+	switch ( button.name ) {
+		case "XBOX_DPAD_LEFT":
+			this.banditGroup.members[0].goLeft = true;
+			this.banditGroup.members[0].goRight = false;
+			break;
+		case "XBOX_DPAD_RIGHT":
+			this.banditGroup.members[0].goLeft = false;
+			this.banditGroup.members[0].goRight = true;
+			break;
+		case "XBOX_DPAD_UP":
+			this.banditGroup.members[0].goDown = false;
+			this.banditGroup.members[0].goUp = true;
+			break;
+		case "XBOX_DPAD_DOWN":
+			this.banditGroup.members[0].goDown = true;
+			this.banditGroup.members[0].goUp = false;
+			break;
+		default:
+			// Code
+	}
+}
+
+gameState.buttonOnUp = function( button ){
+	// console.log("UP:  ", button.name);
+	switch ( button.name ) {
+		case "XBOX_A":
+			this.banditGroup.members[0].goFire = false;
+			break;
+		case "XBOX_B":
+			this.banditGroup.members[0].goBomb = false;
+			break;
+		case "XBOX_X":
+			this.banditGroup.members[0].goBomb = false;
+			break;
+		case "XBOX_Y":
+			this.banditGroup.members[0].goBomb = false;
+			break;
+		case "XBOX_DPAD_LEFT":
+			this.banditGroup.members[0].goLeft = false;
+			this.banditGroup.members[0].goRight = false;
+			break;
+		case "XBOX_DPAD_RIGHT":
+			this.banditGroup.members[0].goLeft = false;
+			this.banditGroup.members[0].goRight = false;
+			break;
+		case "XBOX_DPAD_UP":
+			this.banditGroup.members[0].goDown = false;
+			this.banditGroup.members[0].goUp = false;	
+			break;
+		case "XBOX_DPAD_DOWN":
+			this.banditGroup.members[0].goDown = false;
+			this.banditGroup.members[0].goUp = false;	
+			break;
+		default:
+			// Code
+	}
+}
+
+
+gameState.checkController = function(){
+	var leftright = this.game.gamepads.gamepads[0].axis0;
+	var updown = this.game.gamepads.gamepads[0].axis1;
+
+	if(leftright.value < 0){
+		if(leftright.value < -0.5){
+			if(Math.abs(updown.value) < 0.3 || Math.abs(leftright.value) > Math.abs(updown.value)){
+				this.banditGroup.members[0].goLeft = true;
+				this.banditGroup.members[0].goRight = false;
+			}else{
+				this.banditGroup.members[0].goLeft = false;
+				this.banditGroup.members[0].goRight = false;
+			}
+		}else{
+			if(leftright.value < -0.3){
+				if(this.banditGroup.members[0].facing = 'right'){
+					this.banditGroup.members[0].facing = 'left';
+					this.banditGroup.members[0].goFire = false;
+				}
+			}
+			this.banditGroup.members[0].goLeft = false;
+			this.banditGroup.members[0].goRight = false;			
+		}
+	}else{
+		if(leftright.value > 0.5){
+			if(Math.abs(updown.value) < 0.3 || Math.abs(leftright.value) > Math.abs(updown.value)){
+				this.banditGroup.members[0].goLeft = false;
+				this.banditGroup.members[0].goRight = true;
+			}else{
+				this.banditGroup.members[0].goLeft = false;
+				this.banditGroup.members[0].goRight = false;
+			}
+		}else{
+			if(leftright.value > 0.3){
+				if(this.banditGroup.members[0].facing = 'left'){
+					this.banditGroup.members[0].facing = 'right';
+					this.banditGroup.members[0].goFire = false;
+				}
+			}
+			this.banditGroup.members[0].goLeft = false;
+			this.banditGroup.members[0].goRight = false;			
+		}
+	}
+	
+	if(updown.value < 0){
+		if(updown.value < -0.3){
+			if(Math.abs(leftright.value) < 0.3 || Math.abs(updown.value) > Math.abs(leftright.value)){
+				this.banditGroup.members[0].goDown = false;
+				this.banditGroup.members[0].goUp = true;
+			}else{
+				this.banditGroup.members[0].goDown = false;
+				this.banditGroup.members[0].goUp = false;
+			}
+		}else{
+			this.banditGroup.members[0].goDown = false;
+			this.banditGroup.members[0].goUp = false;			
+		}
+	}else{
+		if(updown.value > 0.3){
+			if(Math.abs(leftright.value) < 0.3 || Math.abs(updown.value) > Math.abs(leftright.value)){
+				this.banditGroup.members[0].goDown = true;
+				this.banditGroup.members[0].goUp = false;
+			}else{
+				this.banditGroup.members[0].goDown = false;
+				this.banditGroup.members[0].goUp = false;
+			}
+		}else{
+			this.banditGroup.members[0].goDown = false;
+			this.banditGroup.members[0].goUp = false;			
+		}
+	}
 }
