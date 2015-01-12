@@ -178,20 +178,27 @@ gameState.create = function(){
 	this.bombIconGroup = new Kiwi.Group(this);
 	this.ghoulKillCountGroup = [];
 
-	if(this.numPlayers == 1){
-		this.ghoulKillCountGroup[0] = new Kiwi.Group(this);
-		var skull = new Digit(this, 136,-18,'ghoul',1);
-		skull.animation.play('skull');
-		this.ghoulKillCountGroup[0].addChild(skull);		
-	}else{
-		this.ghoulKillCountGroup[0] = new Kiwi.Group(this);
+	
+	this.ghoulKillCountGroup[0] = new Kiwi.Group(this);
+	//var skull = new Digit(this, 118,-18,'ghoul',1);
+	//skull.animation.play('skull');
+	//this.ghoulKillCountGroup[0].addChild(skull);
+	for(var i = 0; i < 17; i++){
+		var dot = new Digit(this, 118+18*i, -18, 'ghoul', 1);
+		dot.animation.play('dot');
+		this.ghoulKillCountGroup[0].addChild(dot);
+		console.log(dot);
+	}		
+	if(this.numPlayers == 2){
 		this.ghoulKillCountGroup[1] = new Kiwi.Group(this);
-		var skull = new Digit(this, 848,-18,'ghoul',1);
-		skull.animation.play('skull');
-		this.ghoulKillCountGroup[1].addChild(skull);	
-		var skull = new Digit(this, 136,-18,'ghoul',1);
-		skull.animation.play('skull');
-		this.ghoulKillCountGroup[0].addChild(skull);				
+		//var skull = new Digit(this, 866,-18,'ghoul',1);
+		//skull.animation.play('skull');
+		//this.ghoulKillCountGroup[1].addChild(skull);	
+		for(var i = 0; i < 17; i++){
+			var dot = new Digit(this, 866-18*i, -18, 'ghoul', 1);
+			dot.animation.play('dot');
+			this.ghoulKillCountGroup[1].addChild(dot);
+		}			
 	}
 
 	if(this.numPlayers==1){
@@ -206,24 +213,24 @@ gameState.create = function(){
 		}
 	}
 
-	for (var i = 0; i<4; i++){
-		var digit = new Digit(this, 10+(i*18),-18,'red', 4-i);
+	for (var i = 0; i<3; i++){
+		var digit = new Digit(this, 10+(i*18),-18,'red', 3-i);
 		digit.animation.play('0');
 		this.digitGroup.addChild(digit);
 	}
 	for (var i = 0; i<3; i++){
-		var bomb = new Digit(this, 10+((4+i)*18),-18,'red', i+7);
+		var bomb = new Digit(this, 10+((3+i)*18),-18,'red', i+7);
 		bomb.animation.play('bomb');
 		this.bombIconGroup.addChild(bomb);
 	}
 	if(this.numPlayers == 2){
-		for (var i = 0; i<4; i++){
-			var digit = new Digit(this, 920+(i*18),-18,'blue', 4-i);
+		for (var i = 0; i<3; i++){
+			var digit = new Digit(this, 938+(i*18),-18,'blue', 3-i);
 			digit.animation.play('0');
 			this.digitGroup.addChild(digit);
 		}	
 		for (var i = 0; i<3; i++){
-			var bomb = new Digit(this, 920-(18*(i+1)),-18,'blue', i+7);
+			var bomb = new Digit(this, 938-(18*(i+1)),-18,'blue', i+7);
 			bomb.animation.play('bomb');
 			this.bombIconGroup.addChild(bomb);
 		}
@@ -581,18 +588,16 @@ gameState.createLevel = function(){
 	}	
 	
 	this.iconsNotDuringCutscene();
-
 	this.addChild(this.betweenScreenGroup);
+	this.addChild(this.bigDigitGroup);
+
 	this.addChild(this.digitGroup);
 	this.addChild(this.bombIconGroup);
 	this.addChild(this.timerDigitGroup);
 	this.timerDigitGroup.x = 920;
-
 	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
 		this.addChild(this.ghoulKillCountGroup[i]);
 	}
-	console.log(this.ghoulKillCountGroup);
-	this.addChild(this.bigDigitGroup);
 
 	this.addChild(this.menuArrow);
 	this.addChild(this.menuBackground);
@@ -626,38 +631,40 @@ gameState.createLevel = function(){
 gameState.addGhoulKill = function(bandit){
 	switch(bandit){
 		case 'red':
-			var ghoulsKilled = this.banditGroup.members[0].totalGhoulKills();
-			var dots = this.ghoulKillCountGroup[0].members.length - 1; 
-			var dotsToAdd = ghoulsKilled - dots;
-			for (var i = 0; i < dotsToAdd; i++){
-				var dot = new Digit(this, 136+18+18*dots+18*i, -18, 'ghoul',1);
-				dot.animation.play('dot');
-				this.ghoulKillCountGroup[0].addChild(dot);
-			}
+			var index = 0;
 			break;
 		case 'blue':
-			var ghoulsKilled = this.banditGroup.members[1].totalGhoulKills();
-			var dots = this.ghoulKillCountGroup[1].members.length - 1; 
-			var dotsToAdd = ghoulsKilled - dots;
-			for (var i = 0; i < dotsToAdd; i++){
-				var dot = new Digit(this, 848-18-18*dots-18*i, -18, 'ghoul',1);
-				dot.animation.play('dot');
-				this.ghoulKillCountGroup[1].addChild(dot);
-			}			
+			var index = 1;
 			break;
 	}		
+	var ghoulsKilled = this.banditGroup.members[index].totalGhoulKills();
+	var tensKilled = Math.floor(ghoulsKilled/10);
+	var onesKilled = ghoulsKilled % 10; 
+	for(var i = 0; i < tensKilled; i++){
+		this.ghoulKillCountGroup[index].members[i].animation.play('skull');
+		this.ghoulKillCountGroup[index].members[i].visible = true;
+	}
+	for(var i = tensKilled; i < 17; i++){
+		if(i < tensKilled + onesKilled){
+			this.ghoulKillCountGroup[index].members[i].animation.play('dot');
+			this.ghoulKillCountGroup[index].members[i].visible = true;
+		}else{
+			this.ghoulKillCountGroup[index].members[i].visible = false;
+		}
+	}	
 }
 
 gameState.removeGhoulDots = function(){
 	for(var i = 0; i < this.banditGroup.members.length; i++){
 		var dots = this.ghoulKillCountGroup[i].members;
 		for (var j = 0; j<dots.length; j++){
-			if(dots[j].animation.currentAnimation.name == 'dot'){
-				dots[j].destroy();
+			if(dots[j].animation.currentAnimation.name != 'skull'){
+				dots[j].visible = false;
 			}
 		}
 	}
 }
+
 
 gameState.updateTimer = function(){
 	this.gameTimeSeconds++;
@@ -1529,7 +1536,8 @@ gameState.update = function(){
 			this.isGameOver();
 
 			if(this.debugKey.isDown){
-				console.log(this.game.gamepads.gamepads[0].button0)
+				console.log(this.game.fullscreen);
+				this.game.fullscreen.launchFullscreen();
 			}
 		
 			if(this.mouse.isDown){
@@ -1597,7 +1605,8 @@ gameState.buttonOnDownOnce = function(button){
 			this.banditGroup.members[0].goBomb = true;
 			break;
 		case "XBOX_Y":
-			this.banditGroup.members[0].goBomb = true;
+			console.log('trying to launch full screen');
+			this.game.fullscreen.launchFullscreen();
 			break;
 		case "XBOX_DPAD_LEFT":
 			this.banditGroup.members[0].goLeft = true;
