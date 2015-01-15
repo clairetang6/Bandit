@@ -996,95 +996,195 @@ var LevelSelectionIcon = function(state, x, y, number){
 
 	switch(this.number){
 		case 10:
-			this.animation.add('off',[0],0.1,false);
-			this.animation.add('on',[1],0.1,false);
-			this.animation.add('hover',[2],0.1,false);
+			this.animation.add('off', [0], 0.1, false);
+			this.animation.add('on1', [1], 0.1, false);
+			this.animation.add('hover1', [2], 0.1, false);
+			this.animation.add('on2', [3], 0.1, false);
+			this.animation.add('hover2', [4], 0.1, false);
+			this.animation.add('on3', [5], 0.1, false);
+			this.animation.add('hover3', [6], 0.1, false);
 			break;
 		case 11:
-			this.animation.add('off',[3],0.1,false);
-			this.animation.add('on',[4],0.1,false);
-			this.animation.add('hover',[5],0.1,false);
+			this.animation.add('off', [7], 0.1, false);
+			this.animation.add('on1', [8], 0.1, false);
+			this.animation.add('hover1', [9], 0.1, false);
+			this.animation.add('on2', [10], 0.1, false);
+			this.animation.add('hover2', [11], 0.1, false);
+			this.animation.add('on3', [12], 0.1, false);
+			this.animation.add('hover3', [13], 0.1, false);
 			break;		
 		case 12:
-			this.animation.add('off',[6],0.1,false);
-			this.animation.add('on',[7],0.1,false);
-			this.animation.add('hover',[8],0.1,false);
+			this.animation.add('off', [14], 0.1, false);
+			this.animation.add('on1', [15], 0.1, false);
+			this.animation.add('hover1', [16], 0.1, false);
+			this.animation.add('on2', [17], 0.1, false);
+			this.animation.add('hover2', [18], 0.1, false);
+			this.animation.add('on3', [19], 0.1, false);
+			this.animation.add('hover3', [20], 0.1, false);
 			break;		
 		case 13:
-			this.animation.add('off',[9],0.1,false);
-			this.animation.add('on',[10],0.1,false);
-			this.animation.add('hover',[11],0.1,false);
+			this.animation.add('off',[21],0.1,false);
+			this.animation.add('on1',[22],0.1,false);
+			this.animation.add('hover1',[23],0.1 ,false);
+			this.animation.add('on2', [24], 0.1, false);
+			this.animation.add('hover2', [25], 0.1, false);
+			this.animation.add('on3', [26], 0.1, false);
+			this.animation.add('hover3', [27], 0.1, false);
 			break;		
 		case 14:
-			this.animation.add('off',[12],0.1,false);
-			this.animation.add('on',[13],0.1,false);
-			this.animation.add('hover',[14],0.1,false);
+			this.animation.add('off',[28],0.1,false);
+			this.animation.add('on1',[29],0.1,false);
+			this.animation.add('hover1',[30],0.1 ,false);
+			this.animation.add('on2', [31], 0.1, false);
+			this.animation.add('hover2', [32], 0.1, false);
+			this.animation.add('on3', [33], 0.1, false);
+			this.animation.add('hover3', [34], 0.1, false);
 			break;		
 		case 15:
-			this.animation.add('off',[15],0.1,false);
-			this.animation.add('on',[16],0.1,false);
-			this.animation.add('hover',[17],0.1,false);
+			this.animation.add('off',[35],0.1,false);
+			this.animation.add('on1',[36],0.1,false);
+			this.animation.add('hover1',[37],0.1 ,false);
+			this.animation.add('on2', [38], 0.1, false);
+			this.animation.add('hover2', [39], 0.1, false);
+			this.animation.add('on3', [40], 0.1, false);
+			this.animation.add('hover3', [41], 0.1, false);
 			break;		
 		case 16:
-			this.animation.add('off',[18],0.1,false);
-			this.animation.add('on',[19],0.1,false);
-			this.animation.add('hover',[20],0.1,false);
+			this.animation.add('off',[42],0.1,false);
+			this.animation.add('on1',[43],0.1,false);
+			this.animation.add('hover1',[44],0.1 ,false);
+			this.animation.add('on2', [45], 0.1, false);
+			this.animation.add('hover2', [46], 0.1, false);
+			this.animation.add('on3', [47], 0.1, false);
+			this.animation.add('hover3', [48], 0.1, false);
 			break;
+		case 17:
+			this.animation.add('off',[49],0.1,false);
+			this.animation.add('on1',[50],0.1,false);
+			this.animation.add('hover1',[51],0.1 ,false);
+			this.animation.add('on2', [52], 0.1, false);
+			this.animation.add('hover2', [53], 0.1, false);
+			this.animation.add('on3', [54], 0.1, false);
+			this.animation.add('hover3', [55], 0.1, false);
+			break;		
+		case 18:
+			this.animation.add('off',[56],0.1,false);
+			this.animation.add('on1',[57],0.1,false);
+			this.animation.add('hover1',[58],0.1 ,false);
+			this.animation.add('on2', [59], 0.1, false);
+			this.animation.add('hover2', [60], 0.1, false);
+			this.animation.add('on3', [61], 0.1, false);
+			this.animation.add('hover3', [62], 0.1, false);
+			break;		
+		case 19:
+			this.animation.add('off',[63],0.1,false);
+			this.animation.add('on1',[64],0.1,false);
+			this.animation.add('hover1',[65],0.1 ,false);
+			this.animation.add('on2', [66], 0.1, false);
+			this.animation.add('hover2', [67], 0.1, false);
+			this.animation.add('on3', [68], 0.1, false);
+			this.animation.add('hover3', [69], 0.1, false);
+			break;			
 		case 1:
-			this.animation.add('off',[21],0.1,false);
-			this.animation.add('on',[22],0.1,false);
-			this.animation.add('hover',[23],0.1,false);
+			this.animation.add('off',[70],0.1,false);
+			this.animation.add('on1',[71],0.1,false);
+			this.animation.add('hover1',[72],0.1 ,false);
+			this.animation.add('on2', [73], 0.1, false);
+			this.animation.add('hover2', [74], 0.1, false);
+			this.animation.add('on3', [75], 0.1, false);
+			this.animation.add('hover3', [76], 0.1, false);
 			break;
+		case 20:
+			this.animation.add('off',[77],0.1,false);
+			this.animation.add('on1',[78],0.1,false);
+			this.animation.add('hover1',[79],0.1 ,false);
+			this.animation.add('on2', [80], 0.1, false);
+			this.animation.add('hover2', [81], 0.1, false);
+			this.animation.add('on3', [82], 0.1, false);
+			this.animation.add('hover3', [83], 0.1, false);
+			break;				
 		case 2:
-			this.animation.add('off',[24],0.1,false);
-			this.animation.add('on',[25],0.1,false);
-			this.animation.add('hover',[26],0.1,false);
+			this.animation.add('off',[84],0.1,false);
+			this.animation.add('on1',[85],0.1,false);
+			this.animation.add('hover1',[86],0.1 ,false);
+			this.animation.add('on2', [87], 0.1, false);
+			this.animation.add('hover2', [88], 0.1, false);
+			this.animation.add('on3', [89], 0.1, false);
+			this.animation.add('hover3', [90], 0.1, false);
 			break;
 		case 3:
-			this.animation.add('off',[27],0.1,false);
-			this.animation.add('on',[28],0.1,false);
-			this.animation.add('hover',[29],0.1,false);
+			this.animation.add('off',[91],0.1,false);
+			this.animation.add('on1',[92],0.1,false);
+			this.animation.add('hover1',[93],0.1 ,false);
+			this.animation.add('on2', [94], 0.1, false);
+			this.animation.add('hover2', [95], 0.1, false);
+			this.animation.add('on3', [96], 0.1, false);
+			this.animation.add('hover3', [97], 0.1, false);
 			break;
 		case 4:
-			this.animation.add('off',[30],0.1,false);
-			this.animation.add('on',[31],0.1,false);
-			this.animation.add('hover',[32],0.1,false);
+			this.animation.add('off',[98],0.1,false);
+			this.animation.add('on1',[99],0.1,false);
+			this.animation.add('hover1',[100],0.1 ,false);
+			this.animation.add('on2', [101], 0.1, false);
+			this.animation.add('hover2', [102], 0.1, false);
+			this.animation.add('on3', [103], 0.1, false);
+			this.animation.add('hover3', [104], 0.1, false);
 			break;
 		case 5:
-			this.animation.add('off',[33],0.1,false);
-			this.animation.add('on',[34],0.1,false);
-			this.animation.add('hover',[35],0.1,false);
+			this.animation.add('off',[105],0.1,false);
+			this.animation.add('on1',[106],0.1,false);
+			this.animation.add('hover1',[107],0.1 ,false);
+			this.animation.add('on2', [108], 0.1, false);
+			this.animation.add('hover2', [109], 0.1, false);
+			this.animation.add('on3', [110], 0.1, false);
+			this.animation.add('hover3', [111], 0.1, false);
 			break;
 		case 6:
-			this.animation.add('off',[36],0.1,false);
-			this.animation.add('on',[37],0.1,false);
-			this.animation.add('hover',[38],0.1,false);
+			this.animation.add('off',[112],0.1,false);
+			this.animation.add('on1',[113],0.1,false);
+			this.animation.add('hover1',[114],0.1 ,false);
+			this.animation.add('on2', [115], 0.1, false);
+			this.animation.add('hover2', [116], 0.1, false);
+			this.animation.add('on3', [117], 0.1, false);
+			this.animation.add('hover3', [118], 0.1, false);
 			break;
 		case 7:
-			this.animation.add('off',[39],0.1,false);
-			this.animation.add('on',[40],0.1,false);
-			this.animation.add('hover',[41],0.1,false);
+			this.animation.add('off',[119],0.1,false);
+			this.animation.add('on1',[120],0.1,false);
+			this.animation.add('hover1',[121],0.1 ,false);
+			this.animation.add('on2', [122], 0.1, false);
+			this.animation.add('hover2', [123], 0.1, false);
+			this.animation.add('on3', [124], 0.1, false);
+			this.animation.add('hover3', [125], 0.1, false);
 			break;
 		case 8:
-			this.animation.add('off',[42],0.1,false);
-			this.animation.add('on',[43],0.1,false);
-			this.animation.add('hover',[44],0.1,false);
+			this.animation.add('off',[126],0.1,false);
+			this.animation.add('on1',[127],0.1,false);
+			this.animation.add('hover1',[128],0.1 ,false);
+			this.animation.add('on2', [129], 0.1, false);
+			this.animation.add('hover2', [130], 0.1, false);
+			this.animation.add('on3', [131], 0.1, false);
+			this.animation.add('hover3', [132], 0.1, false);
 			break;
 		case 9:
-			this.animation.add('off',[45],0.1,false);
-			this.animation.add('on',[46],0.1,false);
-			this.animation.add('hover',[47],0.1,false);
+			this.animation.add('off',[133],0.1,false);
+			this.animation.add('on1',[134],0.1,false);
+			this.animation.add('hover1',[135],0.1 ,false);
+			this.animation.add('on2', [136], 0.1, false);
+			this.animation.add('hover2', [137], 0.1, false);
+			this.animation.add('on3', [138], 0.1, false);
+			this.animation.add('hover3', [139], 0.1, false);
 			break;
 	}
 }
 Kiwi.extend(LevelSelectionIcon, Kiwi.GameObjects.Sprite);
 
 LevelSelectionIcon.prototype.playHover = function(){
-	this.animation.play('hover');
+	this.animation.play('hover1');
 }
 
 LevelSelectionIcon.prototype.playOn = function(){
-	this.animation.play('on');
+	this.animation.play('on1');
 }
 
 LevelSelectionIcon.prototype.playDown = function(){

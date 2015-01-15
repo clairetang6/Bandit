@@ -23,7 +23,7 @@ gameState.preload = function(){
 		this.addJSON('level_tilemap'+i,'level'+i+'.json');		
 	}
 	this.addSpriteSheet('digits','digits.png',18*this.MULTIPLIER,18*this.MULTIPLIER);	
-	this.addSpriteSheet('level_selection','level_selection_spritesheet.png',131,131);
+	this.addSpriteSheet('level_selection','level_selection_spritesheet.png',132,132);
 	this.addSpriteSheet('betweenScreen','between_screen_spritesheet.png',75,75);
 
 	this.addImage('levelSelectionBackground','level_select_1.png',0,0);
@@ -59,15 +59,15 @@ gameState.create = function(){
 
 	this.levelSelectionScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['levelSelectionBackground'],0,-18*this.MULTIPLIER);
 	this.levelSelectionGroup = new Kiwi.Group(this);
-	for (var i = 1; i<=16; i++){
-		var row = Math.floor((i-1)/4.0);
-		var col = i%4; 
+	for (var i = 1; i<=20; i++){
+		var row = Math.floor((i-1)/5.0);
+		var col = i%5; 
 		if(col == 0){
-			col = 4;
+			col = 5;
 		}
-		var icon = new LevelSelectionIcon(this, 0+175*col, 55+150*row, i);
+		var icon = new LevelSelectionIcon(this, 165*col-60, 55+150*row, i);
 		if(this.game.levelsUnlocked[i-1]==1){
-			icon.animation.play('on');
+			icon.animation.play('on1');
 			icon.addHovering();
 			icon.addClicking();
 		}else{
