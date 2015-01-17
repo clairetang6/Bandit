@@ -122,7 +122,7 @@ Bandit.prototype.moveUp = function(){
 			}			
 			var pixelNum = this.state.getPixelNumberForGridPosition(gridPosition,'north');
 			if(this.y>6+pixelNum){
-				this.y-=3;
+				this.y -= Math.round(3 * this.state.game.time.rate);
 				if(this.animation.currentAnimation.name!='climb'){
 					this.animation.play('climb');
 				}				
@@ -137,7 +137,7 @@ Bandit.prototype.moveUp = function(){
 				this.x = ladderPixelNum + 10 - this.bps/2;
 			}				
 			if(this.y>3){
-				this.y-=3;
+				this.y -= Math.round(3 * this.state.game.time.rate);
 			}
 			if(this.animation.currentAnimation.name != 'climb'){
 				this.animation.play('climb');
@@ -160,7 +160,7 @@ Bandit.prototype.moveDown = function(southGridPosition){
 				}else if (this.x + this.bps/2 > ladderPixelNum + 10){
 					this.x = ladderPixelNum + 10 - this.bps/2;
 				}				
-				this.y+=3;
+				this.y += Math.round(3 * this.state.game.time.rate);
 			}else{
 				if(this.y+this.bps<pixelNum-5){
 					if(this.x + this.bps/2 < ladderPixelNum -10){
@@ -168,7 +168,7 @@ Bandit.prototype.moveDown = function(southGridPosition){
 					}else if (this.x + this.bps/2 > ladderPixelNum + 10){
 						this.x = ladderPixelNum + 10 - this.bps/2;
 					}	
-					this.y+=3;
+					this.y += Math.round(3 * this.state.game.time.rate);
 					if(this.animation.currentAnimation.name!='climb'){
 						this.animation.play('climb');
 					}				
@@ -185,7 +185,7 @@ Bandit.prototype.moveDown = function(southGridPosition){
 				}else if (this.x + this.bps/2 > ladderPixelNum + 10){
 					this.x = ladderPixelNum + 10 - this.bps/2;
 				}				
-				this.y+=5;
+				this.y += Math.round(5 * this.state.game.time.rate);
 			}else{
 				this.y = this.bps*this.state.GRID_ROWS;
 			}
@@ -232,7 +232,7 @@ Bandit.prototype.update = function(){
 				if(this.state.onBlockType(this.state.rightBlockedBlocks, southGridPosition)){
 					var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition,'east');
 					if(this.x+this.bps<pixelNum-6){
-						this.x +=5;
+						this.x += Math.round(5 * this.state.game.time.rate);
 					}else{
 						this.x = pixelNum-this.bps+1;
 						this.animation.play('idle'+this.facing);
@@ -240,7 +240,7 @@ Bandit.prototype.update = function(){
 				}
 				else{
 					if(!this.state.onBlockType(this.state.groundBlocks, southGridPosition)){
-						this.x+=5;
+						this.x += Math.round(5 * this.state.game.time.rate);
 						if(this.animation.currentAnimation.name != 'moveright')
 							this.animation.play('moveright');
 					}
@@ -251,14 +251,14 @@ Bandit.prototype.update = function(){
 				if(this.state.onBlockType(this.state.leftBlockedBlocks, southGridPosition)){
 					var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition,'west');
 					if(this.x>pixelNum+6){
-						this.x-=5;
+						this.x -= Math.round(5 * this.state.game.time.rate);
 					}else{
 						this.x = pixelNum;
 						this.animation.play('idle'+this.facing);
 					}
 				}else{
 					if(!this.state.onBlockType(this.state.groundBlocks, southGridPosition)){
-						this.x-=5;
+						this.x -= Math.round(5 * this.state.game.time.rate);
 						if(this.animation.currentAnimation.name != 'moveleft')
 							this.animation.play('moveleft');
 					}

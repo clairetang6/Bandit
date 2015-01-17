@@ -399,25 +399,25 @@ Ghoul.prototype.update = function(){
 
 		switch(this.facing){
 			case 'left':
-				this.x -= 1;
+				this.x -= Math.round(1 * this.state.game.time.rate);
 				if(this.animation.currentAnimation.name != 'idleleft'){
 					this.animation.play('idleleft');
 				}
 				break;
 			case 'right':
-				this.x += 1;
+				this.x += Math.round(1 * this.state.game.time.rate);
 				if(this.animation.currentAnimation.name != 'idleright'){
 					this.animation.play('idleright');
 				}
 				break;
 			case 'up':
-				this.y -= 1;
+				this.y -= Math.round(1 * this.state.game.time.rate);
 				if(this.animation.currentAnimation.name != 'climb'){
 					this.animation.play('climb');
 				}
 				break;
 			case 'down':
-				this.y += 1;
+				this.y += Math.round(1 * this.state.game.time.rate);
 				if(this.animation.currentAnimation.name != 'climb'){
 					this.animation.play('climb');
 				}
@@ -657,6 +657,7 @@ Ghoul.prototype.teleport = function(){
 	if(typeof this != 'undefined'){
 		this.facing = 'teleport';
 		this.animation.play('disappear');
+		this.box.hitbox = new Kiwi.Geom.Rectangle(0,0,0,0);		
 
 		do{
 			this.nextRow = this.state.random.integerInRange(0,this.state.GRID_ROWS);
@@ -669,7 +670,6 @@ Ghoul.prototype.teleport = function(){
 
 Ghoul.prototype.showOrb = function(){
 	if(typeof this != 'undefined'){
-		this.box.hitbox = new Kiwi.Geom.Rectangle(0,0,0,0);
 		this.animation.play('orb');
 		var pixels = this.state.getPixelPositionFromRowCol(this.nextRow, this.nextCol);
 		this.x = pixels[0];
