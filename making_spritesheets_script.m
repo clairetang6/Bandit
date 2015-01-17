@@ -626,4 +626,31 @@ alpha_new(401:450,251:300,:) = alpha;
 img_new(401:450,301:350,:) = img;
 alpha_new(401:450,301:350,:) = alpha;
 
+names = {'grass_11.png','grass_12.png','grass_13.png','grass_14.png','grass_15.png','grass_16.png','grass_17.png','grass_18.png','grass_20.png','grass_21.png','grass_22.png','grass_22a.png','grass_22b.png','grass_22c.png','grass_22d.png','grass_23.png','grass_24.png','grass_24a.png','grass_24b.png','grass_24d.png','grass_24e.png','grass_25.png','grass_25a.png','grass_25b.png','grass_25c.png','grass_25d.png','grass_26.png','grass_26a.png','grass_26b.png','grass_27.png','grass_27a.png','grass_27b.png','grass_27c.png','grass_27d.png','grass_27e.png','grass_28.png','grass_28c.png','grass_29.png','grass_29a.png','grass_29b.png','grass_29c.png','grass_37.png','grass_6a.png','grass_6b.png','grass_6c.png','grass_7.png','grass_8.png'};
+for i = 1:18
+    [img, map, alpha] = imread(names{i});
+    img_new(951:1000,i*50-49:i*50,:) = img;
+    alpha_new(951:1000,i*50-49:i*50) = alpha;
+    img_new(1001:1050,i*50-49:i*50,:) = fliplr(img);
+    alpha_new(1001:1050,i*50-49:i*50) = fliplr(alpha);
+end
+
+for j = 19:36
+    i= j-18;
+    [img, map, alpha] = imread(names{j});
+    img_new(1051:1100,i*50-49:i*50,:) = img;
+    alpha_new(1051:1100,i*50-49:i*50) = alpha;
+    img_new(1101:1150,i*50-49:i*50,:) = fliplr(img);
+    alpha_new(1101:1150,i*50-49:i*50) = fliplr(alpha);
+end
+
+for j = 37:47
+    i = j-36;
+    [img, map, alpha] = imread(names{j});
+    img_new(1151:1200,i*50-49:i*50,:) = img;
+    alpha_new(1151:1200,i*50-49:i*50) = alpha;
+    img_new(1201:1250,i*50-49:i*50,:) = fliplr(img);
+    alpha_new(1201:1250,i*50-49:i*50) = fliplr(alpha);
+end    
+
 imwrite(uint8(img_new), 'bandit_spritesheet.png','Alpha',alpha_new);
