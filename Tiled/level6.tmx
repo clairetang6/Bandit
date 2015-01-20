@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="50" tileheight="50">
  <tileset firstgid="1" name="bandit_spritesheet" tilewidth="50" tileheight="50">
-  <image source="../bandit_spritesheet.png" width="900" height="900"/>
+  <image source="../bandit_spritesheet.png" width="900" height="1250"/>
  </tileset>
  <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJytUckNACAMYiT2n863BmmpNunHQDkkAGIfijc3hOaoGxSb4G83UkyST3mZYB3Xee9qVRovmic28Zl0n3RWafxYQOvf+q6yOd+/cile5a/z/xN/kyxOdwGPAxvB
+   eJydk8ENwCAMAzOS95+g787QQdontRwTE8kSoDgcEFBVqH9ArLlAaY+qAaEkv6uR5iTnUyyT3PvTtegxXsc+5eLxia/zc27Cmdy96onkDk7UvROfl/freB2j4+48jm/a/zu+yfvv+BSX22PyL3n+AiFOJ2k=
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAd8KeS+Eg1j1r20Mo8cvSRI0esHn8CaokxD10dPcxDFyPFPEJsepqHTx05aRObeQAt2A3k
+   eJxjYKAd8KeS+Eg1j1r20Mo8cvSRI0esHn8Cakm1h17mYVNHrHmE2IPRPGIBNvMAoDcPIA==
   </data>
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYEAAXwbSQDiJ6kfBwACngXbAKBjRgNRyBV0PMhsAx+UBzg==
+   eJxjYEAAXwbSQDgWMTtGCCYkhg/A1JOihxoA2U5S7KfErfTwpxMd7aIWwOdO9PRBTz8NpTCkFKD7lVy/k1quoOtBZgMA7hoIsg==
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
@@ -25,12 +25,12 @@
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJydkl0KwCAMg3u33f9Oe5CBSH4+VyhoJWlaM7Pi2XJELeUYjOKYgkncCuv4Up30bbr/7KRh03yk1+3fOZzDq/ekU83jeNyO6Cxkj6eGVqc+bp6nWomP3N2dqT7FQXFnX+IVFUnXly9teC8d
+   eJydklEKwDAIQ3O3nWn370cZDMmLtoLQahOjVtr2/FwmllyAcRwCzDvgdljiS3GnleqT7puZdNjU36QW1SAOwqX3NZ90un6Ih2ZEWk52VY1yaW+TWdzoJR6aL93pPNXnOE7+UO3D9dVZ0vX5AjjDLz4=
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALagDAy9PjhkQMAKBgApQ==
+   eJxjYBgFICDKyMDAhQW7MdLW3hkkmL8CqHYXIyq7hsbuGyjQhsNfuOJpMAFC6chugN1LbPoGpTEYhvF3IYntIsIfYWS4zw+PHACUcgx8
   </data>
  </layer>
  <layer name="bomb" width="20" height="15">
