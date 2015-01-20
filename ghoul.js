@@ -399,25 +399,25 @@ Ghoul.prototype.update = function(){
 
 		switch(this.facing){
 			case 'left':
-				this.x -= Math.round(1 * this.state.game.time.rate);
+				this.x -= 1;
 				if(this.animation.currentAnimation.name != 'idleleft'){
 					this.animation.play('idleleft');
 				}
 				break;
 			case 'right':
-				this.x += Math.round(1 * this.state.game.time.rate);
+				this.x += 1;
 				if(this.animation.currentAnimation.name != 'idleright'){
 					this.animation.play('idleright');
 				}
 				break;
 			case 'up':
-				this.y -= Math.round(1 * this.state.game.time.rate);
+				this.y -= 1;
 				if(this.animation.currentAnimation.name != 'climb'){
 					this.animation.play('climb');
 				}
 				break;
 			case 'down':
-				this.y += Math.round(1 * this.state.game.time.rate);
+				this.y += 1;
 				if(this.animation.currentAnimation.name != 'climb'){
 					this.animation.play('climb');
 				}

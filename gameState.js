@@ -399,6 +399,7 @@ gameState.createLevel = function(){
 				var diamond = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],diamondPixels[0], diamondPixels[1]);
 				diamond.animation.add('shine',[88],0.1,false);
 				diamond.animation.play('shine');
+				diamond.box.hitbox = new Kiwi.Geom.Rectangle(coinHitboxX,coinHitboxY,this.bps - 2*coinHitboxX,this.bps-2*coinHitboxY);			
 				this.coinGroup.addChild(diamond);
 			}
 		}
@@ -1536,8 +1537,7 @@ gameState.update = function(){
 			this.isGameOver();
 
 			if(this.debugKey.isDown){
-				console.log(this.game.fullscreen);
-				this.game.fullscreen.launchFullscreen();
+				console.log(this.game.renderer);
 			}
 		
 			if(this.mouse.isDown){
