@@ -3,34 +3,37 @@
  <tileset firstgid="1" name="bandit_spritesheet" tilewidth="50" tileheight="50">
   <image source="../bandit_spritesheet.png" width="900" height="1250"/>
  </tileset>
+ <tileset firstgid="451" name="bandit_spritesheet" tilewidth="50" tileheight="50">
+  <image source="../bandit_spritesheet.png" width="900" height="1250"/>
+ </tileset>
  <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYCAOqBEhjw8TowZdPQOaXgYG7OaRYja1ALXNJCeMqI2JtR/dzej6sIkRI4crTImxl1hzyQkTagJapsPBiBnQaGxxy4Amjk8MAFLXGYk=
+   eJxjYCAOqBEhD8OLmVBpNTQ116H0EiaIGhhejaaeAU0vshm42IQwtQC1zSTFHzOB4fQQiQ0KuyU4wpGUMHnBSJp6dDYMg8zBZRY29YTiiRh7iTWXVExtQKt0CMpTjxgg6QKEiU0H6PqIjQtSwg9bfmXAIkeMGAAvayqu
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAu8Mcjhk2Onub5DzHzyAmvwWQeMfLEmkesHLKZ6Gx0Gt1MXGqoaR4uPdjSDCnuQ8fEuB+b+eS6EVc+oLZ5AHwpHGU=
+   eJxjYKAu8Mcjhk2Onub5DzHzyAkvUswTZKKteYTcT4p/iZVDNhOdjU6jm4lLDTXNw6UHW5ohxX3omBj3YzOfXDfiygfUNg8A3O0ciw==
   </data>
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjAL6AD8K9QMAGDAATw==
+   eJxjYBicoIORgYGZeaBdMQoGCsDiHjkNoKcHQvxRMPiAH4nqJzCi8gGmsgGN
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxzZ4AAdyCuZ8AE7ljEQGA5DnFqAmzuoQZYTIIcIT46yMAihs0f0Qy4w3YoAEYktvAA2E/vsMMW74TSAiF5GAClD1z+gaUdmHwGmvhIAwBthQtH
+   eJxjYICAaCCuZ8AE7ljEQGA5DnFqAmzuoQZYTIIcIT46yMAihs0foPDGFbZDATAisYUHzBX0A9jinVBaICQPA6D0gSstwNIOTD4DTXykAQDx7wrN
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJzVUkEOwDAI8m+8wv9/ZOmhCWGYurU7jMRDMRC0IiLwogaSagJxh+o6YM30T9Njvut5Ip/qThb77+AvfpC388eCczt0f9rtdfI98eNb/upuqrwuY5W32oFybkaFzst+abgqO2suC5Ep9A==
+   eJzVUkEKwCAMK8LetAf0Ff7/I8NDMXQJis7DAkWNJMZSNzNfqIYKFXB7I+tmcJeuCf9YWY4ZqAwr+bLuy0L/HfzFz9OZ+fuAYz3E/VW4JudRvrt+OMun5kblZRlVXtUD1h/F4R3+F/0q4dhbiKZ5AOqkKOw=
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALagEokjEsMxg7DIlYKpcOhNAApOwdI
+   eJxTYWRgUEHCvMwMJIEUEtWjg6dMCIwMmCk0d7CAJ0yo4YsLUwJgYYctHGkBQHEDix9kNrF6KVGLbC+55g4GgCsdYMt/MVAxJSqnG2SgTEWzkEElEsYlBmOD4hCbGAiHQ/kAAS8RIg==
   </data>
  </layer>
  <layer name="bomb" width="20" height="15" opacity="0.97">

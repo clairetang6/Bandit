@@ -5,32 +5,32 @@
  </tileset>
  <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYIAAdShmQKKJBeh6qYlx2YMuhsvttHQPMfbjA9R2G7HuxeYGXG6nR3h6EbATmzg+vbRMf4TcRUiO1vFLyF3E6KFl+BHjbnxqAR9BG9o=
+   eJxjYIAAdShmQKKJBeh6ScWXgPgEED/BIofLHnQxXG6n1H587iHGfnyAnLAi1e3Y7MTmBlxuRxeD2UdseJEanrjcgS6OSw2u8CAljpHVkuouQnK0zB/EuIsYPcS4hZz8Qqy78akFAF2kLtk=
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAvCCBTbiDNI8cccswbSmGDrp8U84gJE3LNI6SPGHNpaR4hfeTaTS3zyPUPuXaSah4A58kMMQ==
+   eJxjYKAvCCBTbiDMC8AiRol5+MSwiWNzC6V2U8s8fG4lx25S9OPTS0gfMebS0jxC+si1m1rmkesfcu0k1TwAt/YNIQ==
   </data>
  </layer>
  <layer name="Back" width="20" height="15" opacity="0.98">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjILBAZwIyAMADPAAQw==
+   eJxjYBjcwJERgQcDGGzuIQSo4d7B6l9kdw1WN9IaYAsDUsKCHukZm/m47CQkDgCGEwhB
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYMAOopHYXkSwBwLgs5/WbgOZn4FHHlnOC4keqDDD5l5Swo8e7sZlB7o4tnCnR3yDAK58gS7mRYRaagFkszNw2EVIDa3Dj5EKZggDMQD9Zwsa
+   eJxjYMAOopHYXkjsehziAwHw2U9rt4HMz8AjjywHc0s9w8CFGTb3khJ+9HA3yI5oHOLIAFe408ONuPIFuhi6X7D5i1oA2R0ZDPjdhUsNrcOOkQpmCAMxAP3JC6Y=
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJydUlsKwDAM8m49RXf/g+yrbAzjY0KhJKZayQaw8eDcV3EOLnisssd0Jn01k2J6L9VmHJeb0k56aoZpptkp/ne28afyZJqsPnGcj8Tn5K/1m+TttB3X7Vfj9Y/H5A/JnikP79oNRoIj8g==
+   eJydUlsKACAM2t06Rfe/SF9RhPPRIIhN02Szqmad2vcRnJfLaoQzpNPpM45b3XuuNsKo3Ji2M2McpOlmx/AvN/HH8kSaqN9hlA/HZ+cv9evkrbQVVu1X4vXHo/MHZ8+Yh7u3AEIeI/E=
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALagTAsYn5IGAQqgdgXjxnhUBoAbjQCXg==
+   eJxjYMANIhgxxUSBYiJI2A2LGmqCNizmI9s/lAB62NEDiFDRzmk0cDOutERsGqNHmM4gwdyBiGN8AF/8Y8tbtABhWMT8kDAITAW6xZcBgdFBOJQGAEViCTo=
   </data>
  </layer>
  <layer name="bomb" width="20" height="15">

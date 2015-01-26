@@ -5,32 +5,32 @@
  </tileset>
  <layer name="Blocks" width="20" height="15" opacity="0.99">
   <data encoding="base64" compression="zlib">
-   eJy1klEKACAIQz1T9z9cH9GPbPJGFERi29Rh1TlLvDcukXO4ZW7XUbqES/CK0+s6vMrTOumcJeIJn87bNX96O3EdjvBTjPKX1KT9U29eZiQcsuupV4TnNKiu+k92fAMPySIv
+   eJyNU0EOgDAIwy/5/y9sN9/gfX7ALYbYkJZBQiTdaCmZZl+c5Ou1EUzdW/UAXPEwXkzkiLGwZxUH72U9UVfdZ7jX18w+s828i74yn0bq7L7PgPqZ38hZ2RPqDKKz0/L5uvEdoYbCK/NlbwtnyN5zxNWOM/24p4pH1aMC9Zr9/0fW7zres/Oi/LFzxlHlZedKk83wAsf+OZo=
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAuCKCSGpg6XGoDcLCJNQ9dDyHzcIkNhHnYALXNw6WWUHyQopYYcXzmEbKTXPOIVY9PLTHmEQKk+peQGeSYR0q6RjcPW/4lNZ+gmwcAQhMVkQ==
+   eJytk0EOADAEBD3R/1/Tk4sYbMqpkeloKLPb8CMmOGIdzltfvjP5KKf6iFd8Vf7aRznlHTS/n9pTL5U5kq/jiZvcXQ0K8il/v2M3PmVPsq/qgbp32fcAGC0YYQ==
   </data>
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYCAMwohQAwJORKojB9DS7FEwCkYB7YAvlCYmD+NSAxMHAOpxAe4=
+   eJxzYiAMwohQAwJOeOTsGSGYWPWkmE1LEInmZjVGCCYWwPyM7ndaA3qEFyxO6e03UgF6HJKrZjAAbSzu7KSC22fT0P/VULOJSZO41MDEATYDB1E=
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAviIbSGRTqJwZ4kamPEgDzlxcOPq2AFxoNAsT4ORqHXmIAzHxC+vDZQawZxABi0hQl/iXHjcTahxxX5LjPCwcbGyA372XgYCPbSSjNMZJpNwgIAzEAjewNQw==
+   eJxjYKAviIbSGRTqJwZ4kamPEgDzlxcOPq2AFxoNAsT4uZ6BfLfVY7ETF8DmPhCIxiFOjjuISVPIYUKqneS4MZoBt9/R1aHbQ4p9XjjY2AC5eS8DBxvZTkJpjpFMu0FAGIgBJkwNGw==
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJytUlsOwDAI4m6eYve/yD62j4WgQlaTpi+EYi0AhScumvHe1QeT4NDc8+hiwhfhEj2l23EnGnym9infhJ9yHb+bptLe+FPspv/Hw4kau73KeJXretz8ODVWntx/4Le5Om7vK35ed5gb48AqfA==
+   eJytkl0KwCAMg3O3nmIH8f572AYjpGlkE8S/z8bYLgCFqx004j6rF+O4RRzovOtdc3wRt6OndJ/3u3iTBu+p9W48x7u7id9JU2lP8VVeHDvpf/Hwxx+ntcq8upt6nPwk+VCe0jzw21KdtPZVfJ53zAnE3irP
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALagSosYqVEqMEmDgBdMAHk
+   eJzTYmRg0AFiEFBDo3EBbOpAZvjh0afDSFgNIWDPCMHEAC1GhJ06SH6kFGgzQjCxgNr2E2MPKWFMizAiBWhRwW5S3E9OOFESPsSGL7b0is19pKS9wQC2M6Dm2W1Y5LGxsakB6QUAarMO4Q==
   </data>
  </layer>
  <layer name="Bombs" width="20" height="15">

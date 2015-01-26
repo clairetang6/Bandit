@@ -3,39 +3,39 @@
  <tileset firstgid="1" name="bandit_spritesheet" tilewidth="50" tileheight="50">
   <image source="../bandit_spritesheet.png" width="900" height="1250"/>
  </tileset>
- <layer name="Blocks" width="20" height="15" opacity="0.97">
+ <layer name="Blocks" width="20" height="15" opacity="0.99">
   <data encoding="base64" compression="zlib">
-   eJxjYCAe6CNhSoE+kZgU86hpL7FuoKYfaGUeteylRrwPFCAn3oeCf8n111DFAAjvF98=
+   eJxjYCAO6KJhXGqIBcSYh6zuGhDfh+ILQHweygbRL7CYdx+HOLq5uNyDzV241FATUwNQ20xc4QSLE+T40IXysYU9OX7GZTc2scEaH7QAukg0OobFC644AMmTEkfo9pIij8vd2NTjkkemAf3XK2I=
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIKhAQAEsAAB
+   eJxjYBi8IACKSdVDTfMI2YXNPErsGOzmUQtQ2w0BONik2I3LjMFsHj5zieUj04PdPACOug6x
   </data>
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIKhAQAEsAAB
+   eJxjYKAeCAfixYxUNHAQAMdh5h9yAS3DgVyzR+NmaABqxhMABpcCRg==
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIKhAQAEsAAB
+   eJxjYEAFiwnw0cESLGIZWMS8CJgzChBgMQ42IfWE1EYjsUHxkcGAGi8ZONSOZEBKXGCTx6UHXx4B0ejhn4FFTJiAewYLYKSiWQAQLQv9
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIKhAQAEsAAB
+   eJxjYKAucCYTR0IxDMD4zjRw30gzj5qYmu5CZ+OyD5e92MzAp54cN1HbPGrHBT53EstHdxstzMOWfkD8UjQxdD46AAA1aRog
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIKhAQAEsAAB
+   eJxjYKA+kGdkYFAkgMkBCoyobBgmRj0ycCTRflLVD0ZATJx4EfAnLcNhJMYJCKDHC3ocEJIf7CAMSoPiKxxI+wFxJ5ofQGK+SHwQezYWNSAAALLtCdY=
   </data>
  </layer>
- <layer name="bombs" width="20" height="15">
+ <layer name="Bombs" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIKhAQAEsAAB
+   eJxjYBgY4IqGaW0PAxJthQXjchuyGnT30tLd1ALUcCM9/IkeB4TkCakf7mAopD1sADkPogMrBlR/wfjINAA5qAlK
   </data>
  </layer>
 </map>

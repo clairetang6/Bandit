@@ -5,17 +5,17 @@
  </tileset>
  <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJylU8kNADAIYiX3X65f06JgNfFTRfAoAAReY285FkVONM7iCu9q6vgdfazO1KoeN674MudEJ+Po9uRqZPueaNn0UWE3s1a597xc3I1XGFdfl6uw7l/5vYfpflmdAy3iHOg=
+   eJylU8kNwDAI80rsP0DemaGLNJ9IiDoGUkv+hMscAQDDF+zN2+zgY4LMnsVXNXmfuTgWHxITbUpHF7HHUy1FpZ3V8zU7Olnvak/ZXlnuiq4sXxZbmddNHxsD+l7ivLKaTNsGu5NJ/Cq9VdDZpZ91pPpLf/bL8rwIjS4R
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAtCCDAJ0UvsebhsoMU8wLwqKHUbkrDYCDNI8WuwWgeOfbh0zvQ5hEygxjzCKnHJk9sHFDbPACDcg4R
+   eJxjYKAtCCDAJ0UvsebhsoMU8wLwqKHUbkrDYCDNI8WuwWgeOfbh00sL86iZR4gxi5B6bPLExgG1zQMA3DIOYQ==
   </data>
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgeIGygHTAKRsEoIBrUArEvEpsByq9Fo33R9AEAzpMDzA==
+   eJxjYICA6QwIgMwmBpCqHh3YMSIwKXLIIIxCN+ACtVCaUj9SAojxPwjgcuNAuh0dEBuf5KpH1kMvUEWCXTsYyI8P5LCgZRhSI/wImQHKV9OR2AxQfi0ajR5WAGtWEfM=
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
@@ -25,17 +25,17 @@
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJyrY4AAZzSMTQxZjgGPPnR5dLX49GNTT4yb0NVgA/jcR8hcYjCxdhMKJ3RxQvFAqh9w2YHNPELuxGd2JIn+IEYtufpwuZ+QfnxqcZlHSA5XmibGPFqEH648h0selztx2Q8CUWS4D5tbAKBxLOc=
+   eJy9krsNADEIQ9ntpsgg2f+KdBbPWCkSiSb+YBCrzvuk9G8LVkanuHKdvuNTJtJ2OQrw1JdK9zL1Jo7TuVlvZqAend+U03mvMBflSXXuZhw36eu45DdhdNOJ38v9EU45qf9tvs7jB/5vLVI=
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIKhAQAEsAAB
+   eJxjYECAWgbsIIoRhwQRegkBGaDZXEgYHeCToyYg5A5cgB7us2OEYGLV1WLRQ278UBOgh7EnkWGG7C9CgBzz6Q12APF2KCZHHzobG0APa3RMz7CZDsS+aGKwuPTFwa6F8v3QzAEAmc0Q0g==
   </data>
  </layer>
  <layer name="bomb" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgcGUYBaMAkg5G0wLpwGqgHYAEBpNbkAEsbZHrPpg+AG3RAkI=
+   eJxjYGBgcGUYBaMAkg5G0wLpwGqgHYAEBpNbsAFy3QfTBwBIFQG4
   </data>
  </layer>
 </map>

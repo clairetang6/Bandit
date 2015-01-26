@@ -15,12 +15,12 @@
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYEAAXwbSQDgWMTtGCCYkhg/A1JOihxoA2U5S7KfErfTwpxMd7aIWwOdO9PRBTz8NpTCkFKD7lVy/k1quoOtBZgMA7hoIsg==
+   eJxjYEAAXwbSQDgWMTtGCCYkhg/A1JOihxoA2U5S7KfErfTwpxMd7aIWwOdO9PRBTz8NpTAcLIDUcgVdDzIbAGZGB7Y=
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYMAP6pHYXkAcTUA9slp8fFL0DlaQgUWM2PAZSEBKPDKQqJYUIEyielzpYrClF2Ldg65uINIOIbdiS+P4xNEBIwluIQYAADP7Bnc=
+   eJxjYMAPvNDY0QTUY9OHjU+K3sEKMrCIERs+AwlIiUcGEtWSAoRJVI8rXQy29EKse9DVDUTaIeRWbGkcnzg6YCTBLcQAAEIcBkI=
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
@@ -30,7 +30,7 @@
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFICDKyMDAhQW7MdLW3hkkmL8CqHYXIyq7hsbuGyjQhsNfuOJpMAFC6chugN1LbPoGpTEYhvF3IYntIsIfYWS4zw+PHACUcgx8
+   eJxjYCANbGUkUcMQAaJAf3FhwW409u8MCs2vGQbx0YDFD204/IUrngYTIJSO7PC4t50OfiE2fYPcaceIm08MCIPqm0qCPj8cbukHYgAtDAin
   </data>
  </layer>
  <layer name="bomb" width="20" height="15">

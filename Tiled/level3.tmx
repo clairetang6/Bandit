@@ -4,11 +4,14 @@
   <image source="../../../Documents/LodeRunner/bandit_spritesheet.png" width="900" height="500"/>
  </tileset>
  <tileset firstgid="181" name="t2" tilewidth="50" tileheight="50">
-  <image source="../bandit_spritesheet.png" width="900" height="900"/>
+  <image source="../bandit_spritesheet.png" width="900" height="1250"/>
+ </tileset>
+ <tileset firstgid="631" name="bandit_spritesheet" tilewidth="50" tileheight="50">
+  <image source="../bandit_spritesheet.png" width="900" height="1250"/>
  </tileset>
  <layer name="Blocks" width="20" height="15" opacity="0.97">
   <data encoding="base64" compression="zlib">
-   eJxjYCAdGBLAlAB0c7CZ38rIwDCdkbA7iMXkuo+QXkrdgo1PS78RA6gV5pS4n57+RbeXHnqJ9U8EA/HhR+94ozR/4AIAT0weLQ==
+   eJxjYCAdGBLAlAB0c7CZ38rIwFCNhKczEnYTrdxLjF/Q3YvPzej6sZk3kH4jFP70iJuBiEuYvfTQS4p/CIU5upnUjh9K0h85+gBQKiZO
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
@@ -18,7 +21,7 @@
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJyLYBgF1AIRA+2AUYACKImP0bikDohAo0Egk5E0vchsAE+jAys=
+   eJyLYKA+yGYkrMaLEZUejOATIyZGl0cGETjMAYUHNjwYADY/gnAOI2oc5SC5d7D6BR3gig9a68UHcKV3cvIBTA8p8UHvuItAo0Egk0g7I7CwAU4TGr4=
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
@@ -28,17 +31,17 @@
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKA+cIZiZDY+MXR5GIhEUk+MnaS4D5c4qZiQeaQAWphHC0ysP4gRHy7mYQsbXOahxzO+MMamBt0cXG4iRh2xgBpmkAJKGbD7AQCDKxhd
+   eJxjYKA+cIZiZDaxGBlEIplBjJ2kuA8b0GQkz724zCPFTcjqqWkeLTCx/iBGfLiYhy1scJlHShjjS3P43EasOmIBNcwgBZQyYPcDACxgGVA=
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBhcYDoSHgWjYBSMAhiIAGIATAUCHg==
+   eJxjYKAN4GFkYMgG4gtAfAkL/ssIUQMCIHU5QJwLxNMZEHggAC73wtz8CQmTAi4yomJ6AXzhj08O5j8eJP9mI7l7IPwymAEo/WYRERb4wjwbi35CeQcGcMVHDhZz6Rl3MPuRaXL1RQDFAfpFPr4=
   </data>
  </layer>
  <layer name="bombs" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAdsCJSDBm4IuFRMAqGK7BCo4lRi4s/mAG6P0nxNzZ1AIvWA04=
+   eJxjYKAdsCJDnSsSHmqAWP+OAvoASuJjMMflYHYbOrAiQBOrHwYASjUDTg==
   </data>
  </layer>
 </map>

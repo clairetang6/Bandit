@@ -5,32 +5,32 @@
  </tileset>
  <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYMAEqgRoXOphbEowNnPw2YHNLcTYga4Xmzwu88m1j5QwwEZjsxsboGZ84IofQnYS405auI9Uu7HxyYkzbHpIAfjCD1mcXLeQoh6XXkLuJzVeyElrADkjGk8=
+   eJylk+EKwCAIhN3D7P2fbdX/xmCC3O7SmCBWlvdJZfa1M4lqv49X3pI8q7PSYCyZqx5QT9XHeROR1Zshb4fmY5Fpq15YXzvunMioDDUrnJ5TWoOsoV9v7IKxyhzn6s6QpcNaPLPSzVgqb3T3Dz09DNEHe2PVf7PD9me/2w3ClCiG
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKA+8MfBxsbHJYYsTk/zsImTYh4uQIw7aWUeMYBcOyk1jxQziTF3oMwjNu4oMY/SOCInfdDTPGLUAgAxCQ4z
+   eJxjYKA+8MfBxsbHJYYsTk/zsImTYh4uQIw7aWUeMYBcOyk1jxQziTF3oMwjNu4oMY+StIpNjpbmEWM2IYBNLQDFKQ8g
   </data>
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYMAPnAjIj4JRMApGATGA3LIEWR8ARn8Axw==
+   eJxjYMAPnAjIj4JRMAqwA3tG7DQ2NbSym9pmwjC5+pFpYvU4IdkNADcIA8U=
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYIAALyCOZiAekKqeHiCDRPVeJKqF+ZdUe6gJYG6OxiKGDGjtRi8kGl+4oLvXC42mFUA3H5mPLd3Syj3YwgmbHAxkYJEfLADkfmzhSmo5wEim/cJADACUbQu9
+   eJxjYIAALyCOZiAekKqeHqCeRPVeJKqF+TeDRHuoCWBujsYihgxo7UYvJBpfuKC71wuNphVANx+Zjy3d0so92MIJn50ZBOQHEoDcjy1cSS0HGMm0XxiIAZcxC4o=
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJyVkwsKACAIQ71bp/D+F4mgIMacU4g+LPcqWxGxoJ3I27M50+M4yJjN/zWVGz1epNArH/RDXcXE9lV+LB/jqfgS+sq7ew8nHC3zUjXQcU4ZGSd7U9Q5zF3NOFyYR515cn+Tu1I16fxFtcfh73JNaxI9NpJ/JRM=
+   eJyVkwsKwCAMQ3s3T+FBdv8hbCDhGdPA8ENs3lw3qmrIszS/kdbk13nBnNb7nqutGb+m8bucB87tvhOT7rk8qkc8xLc0ZTxl375HosRLWa4HbpxdRuKkHlFfwnzrmYRL67h37txf566cN/kX3ZmEP2FLRRkvf0klyw==
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBjaIHygHTAKRsEoIAmUkqA2DE0PAH/DAZg=
+   eJzLYWQAgxgoTQjkI6nLJVIPKSCPRDPDybBDmBETE6t2oMEyLG7QoqMb0e1CthPdfvQ0hU0vLQAud8GwHx3jcTsQ70CjGdDY2MBAuhkXQPcHMk0M2A2l8fkbHYQh6QHZAwBXFxR6
   </data>
  </layer>
  <layer name="bomb" width="20" height="15">

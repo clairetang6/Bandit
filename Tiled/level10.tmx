@@ -5,17 +5,17 @@
  </tileset>
  <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJytkzEOACAIA/kR//+dgwshlhbhEhfEeBAwu7hxUI6HO3/Etw7yqbwY2XfbG3lUbqxulMd6NumvkqvWr3gpTLyQZ3fO2Nvs0PV7/cF27IftXa3mL8eYT+QAf0QdkA==
+   eJydk1EKwDAIQ72R9z/UTrB9jNJ9SDBLbKCUqsgzbSO2MrRYTZZcQvz+9oecawzjuBjPH5cS8iL3KSvzxGFTc7M65dmktjK6te78jGt5e5H+nSZc6t5C9Oi4Maf+x8S3zr+uj+OBI8Wx/MM/fPr+MKZ4ql5V3SsV
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAu8CeRjU+M1uYh8wmZRywgxS2DxTxK9FPbPErNJMc8fPIjyTx/EswjJo5oYR4AyIYNlQ==
+   eJxjYKAu8CeRjU+M1uYh8wmZRywgxS2UmkeOufj0EGMervCjlnn49FHbPGLkB8I8SsOYXPf5k2AesXFBbfMAMXYPIA==
   </data>
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJyLYBhaIGKgHTACwHAJ48Hgj9qBdsAgANjCoBYLG0RHYFEPEwcBALTXBXw=
+   eJyrZcANavHIESNPCxCBR86eEYIJieNSR2sAs7cWiU+Me2Dy5LqZ1HjCF8bIANn9pIJuEvxMrt+J9Qc+u4kBPXjUYQv7aWg0OQCkt5qE8MNmHzXcQQyoxWIHshgyHcGAGWbIagEfohWK
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
@@ -25,17 +25,17 @@
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJydUtsJADEIy25uccN09vs4+iPm4QUKRZM0UgtA4UOZwzgXj+h1fcdU6/U0T9p3/D/oum22E+rTfNObCffypjyMyzxZDrUL6X85HQh30jEfNscme+Ktsqm96jNsdl55YLi7Gps15bneC4A8LU8=
+   eJydkgEKwDAIA/2br+hD/P8YYzBCjGaBQrHRnq0ZERmPclid59URZ5iPYjGM3/ta8GzPJ/8fYZ7Ldpb5W0Z25+Stj4/xMC5Vr+NQs7D9L5VXwNyJzWr3bi6DU1uxqbnCHpyZVzWC7FXMZWe+qdcLecItVw==
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALagDAy9ITjkQMAKRQArg==
+   eJxjYEAAVUYGBk08GJcaGFiIxKY3QHeTDyN28YEE9owQjAwi0GhsYDsQ7wDinVB6G1RsIAF6OiAVgMJhBx59uNKgDxF29VIYz7B4Qo8ragJ88U0pwJZHYeGGnt5o6Q4QCAPiWjSxVizh2oPkvnAGBBsZzAOqAQB8NxQS
   </data>
  </layer>
  <layer name="bomb" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAcuELxKBgF9AZWA+0AhsHhhpECACjZAP8=
+   eJxjYKAcuEIxMrDCwR4Fo4CaYDCkrcHghpECAB4fAXM=
   </data>
  </layer>
 </map>

@@ -5,22 +5,22 @@
  </tileset>
  <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJytkssNADAIQl3H/RfstTF9+KkmXEQU0pqZ+YVuRa0DfrjNov2TXuyrO9VcNJNpKjum/lT+DU3nP9BMvEl5ict024ieKu9L2g2ftEf5oJkO/8qqtAdSKhrA
+   eJytUlsKwCAM63W8/2nczjG/Z0EhK6lGWCEffaRvM7MCOJXILQmm7+m4O66OJvL+FKyL+VnNzOYz1JEL7Rb0FTLJYnYcJUeM8Tl8hjp0v0sjPNTn/coBZ7cHxbaLiTXZvJlfvQcD/gLuYtqrff+N9a/0wOLVHSvI8qz6yGJO/GzWFfcFTsIutQ==
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAt8MfCxiaGzh4I8wjpo4d56GKUmOePRy0x5tFaHb3MocQ8fHpINY9QfFDbPFLNx5afyDWP1HxIrHkAm6kM9w==
+   eJxjYKAt8MfCxiaGzh4I8wjpo4d56GKUmOePRy02fYTUEmMWKeYRaw45bqCWefjkSXULofigxDxi0j2hfIJMk5vWseknNd3gkwMAjGEQDQ==
   </data>
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALagggCcr5E6gUAPLgBVg==
+   eJxjYBjcwJERgqlhBqXmjIJRMBjB9kFiBj4QQUDOl0i9AGHBBA4=
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYEAFGUjsaCD2grLRaXS1tATY7IaxsbkBmzp0NiEQTYJaSsMBZhcx7iPHP+h6SPEbvnDGBZDNp1caQbYbPY3iSrNeSHLI+tD10AugpwNi44oaYUzIDGLsIKSGkUi3IANhND4A93oPNg==
+   eJxjYEAFGUjsaCCuh7K90Gh0tbQE2OyGsbG5AZs6dDYhEE2CWkrDAWYXMe5DVlOPUxVuPV4MpPkNXzjjAsjm0yuNINuNnkZxpVkvJDlkfeh66AXQ0wGxcUWNMCZkBjF2EFLDSKRbkIEwGh8AhewPoA==
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
@@ -30,7 +30,7 @@
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJwLY6AeCKeiWaNgFIyC4Q/8SFQPACSZAPw=
+   eJwLY8ANmBkZGFjRsD8jRG4zI6b6cDxmkQvQ7cUH5mJRg+6HoQzQ44IYPyGHHzOVwkGBETsbBtoGOJwdGVExMsAVfrjSOSUAFDbYwoeaYDuNzdqOhPHpw6dmPp4w8ENiY8u/MLARKgcAY/kN/Q==
   </data>
  </layer>
  <layer name="bomb" width="20" height="15">
