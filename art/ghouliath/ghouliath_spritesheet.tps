@@ -4,9 +4,9 @@
         <key>fileFormatVersion</key>
         <int>3</int>
         <key>texturePackerVersion</key>
-        <string>3.3.4</string>
+        <string>3.6.0</string>
         <key>fileName</key>
-        <string>/Users/Claire/Dropbox/Bandit/ghouliath_spritesheet.tps</string>
+        <string>/Users/claire/Dropbox/Bandit/art/ghouliath/ghouliath_spritesheet.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -28,7 +28,7 @@
             </struct>
         </array>
         <key>allowRotation</key>
-        <false/>
+        <true/>
         <key>premultiplyAlpha</key>
         <false/>
         <key>shapeDebug</key>
@@ -36,11 +36,25 @@
         <key>dpi</key>
         <uint>72</uint>
         <key>dataFormat</key>
-        <string>json-array</string>
+        <string>cocos2d</string>
         <key>textureFileName</key>
-        <filename>ghouliath_spritesheet.png</filename>
+        <filename>../../ghouliath_spritesheet.png</filename>
         <key>flipPVR</key>
         <false/>
+        <key>pvrCompressionQuality</key>
+        <enum type="SettingsBase::PvrCompressionQuality">PVR_QUALITY_NORMAL</enum>
+        <key>mipMapMinSize</key>
+        <uint>32768</uint>
+        <key>etc1CompressionQuality</key>
+        <enum type="SettingsBase::Etc1CompressionQuality">ETC1_QUALITY_LOW_PERCEPTUAL</enum>
+        <key>dxtCompressionMode</key>
+        <enum type="SettingsBase::DxtCompressionMode">DXT_PERCEPTUAL</enum>
+        <key>jxrColorFormat</key>
+        <enum type="SettingsBase::JpegXrColorMode">JXR_YUV444</enum>
+        <key>jxrTrimFlexBits</key>
+        <uint>0</uint>
+        <key>jxrCompressionLevel</key>
+        <uint>0</uint>
         <key>ditherType</key>
         <enum type="SettingsBase::DitherType">NearestNeighbour</enum>
         <key>backgroundColor</key>
@@ -72,9 +86,9 @@
         <key>maxTextureSize</key>
         <QSize>
             <key>width</key>
-            <int>2048</int>
+            <int>1024</int>
             <key>height</key>
-            <int>2048</int>
+            <int>1024</int>
         </QSize>
         <key>fixedTextureSize</key>
         <QSize>
@@ -96,7 +110,7 @@
             <key>forceSquared</key>
             <false/>
             <key>forceWordAligned</key>
-            <false/>
+            <true/>
             <key>maxRects</key>
             <struct type="AlgorithmMaxRectsSettings">
                 <key>heuristic</key>
@@ -131,7 +145,17 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>ghouliath_spritesheet.json</filename>
+                <filename>ghouliath_spritesheet.plist</filename>
+            </struct>
+            <key>header</key>
+            <struct type="DataFile">
+                <key>name</key>
+                <filename></filename>
+            </struct>
+            <key>plaintext</key>
+            <struct type="DataFile">
+                <key>name</key>
+                <filename>ghouliath_spritesheet</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -149,8 +173,10 @@
         <true/>
         <key>trimSpriteNames</key>
         <false/>
+        <key>prependSmartFolderName</key>
+        <false/>
         <key>cleanTransparentPixels</key>
-        <true/>
+        <false/>
         <key>globalSpriteSettings</key>
         <struct type="SpriteSettings">
             <key>scale</key>
@@ -172,23 +198,26 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>../../Documents/LodeRunner/ghouliath_right_1.png</filename>
-            <filename>../../Documents/LodeRunner/ghouliath_right_2.png</filename>
-            <filename>../../Documents/LodeRunner/ghouliath_right_3.png</filename>
-            <filename>../../Documents/LodeRunner/ghouliath_right_4.png</filename>
-            <filename>../../Documents/LodeRunner/ghouliath_right_5.png</filename>
-            <filename>../../Documents/LodeRunner/ghouliath_right_6.png</filename>
-            <filename>../../Documents/LodeRunner/ghouliath_right_7.png</filename>
-            <filename>../../Documents/LodeRunner/ghouliath_right_8.png</filename>
-            <filename>../../Documents/LodeRunner/ghouliath_right_9.png</filename>
-            <filename>../../Documents/LodeRunner/ghouliath_right_10.png</filename>
-            <filename>../../Documents/LodeRunner/ghouliath_right_climb1.png</filename>
-            <filename>../../Documents/LodeRunner/ghouliath_right_climb2.png</filename>
-            <filename>../../Documents/LodeRunner/ghouliath_right_dead_1.png</filename>
-            <filename>../../Documents/LodeRunner/ghouliath_right_dead_2.png</filename>
-            <filename>../../Documents/LodeRunner/ghouliath_right_dead_3.png</filename>
-            <filename>../../Documents/LodeRunner/ghouliath_right_climb3.png</filename>
-            <filename>../../Documents/LodeRunner/turbo_king_1.png</filename>
+            <filename>ghouliath_right_1.png</filename>
+            <filename>ghouliath_right_2.png</filename>
+            <filename>ghouliath_right_3.png</filename>
+            <filename>ghouliath_right_4.png</filename>
+            <filename>ghouliath_right_5.png</filename>
+            <filename>ghouliath_right_6.png</filename>
+            <filename>ghouliath_right_7.png</filename>
+            <filename>ghouliath_right_8.png</filename>
+            <filename>ghouliath_right_9.png</filename>
+            <filename>ghouliath_right_10.png</filename>
+            <filename>ghouliath_right_climb1.png</filename>
+            <filename>ghouliath_right_climb2.png</filename>
+            <filename>ghouliath_right_climb3.png</filename>
+            <filename>ghouliath_right_dead_1.png</filename>
+            <filename>ghouliath_right_dead_2.png</filename>
+            <filename>ghouliath_right_dead_3.png</filename>
+            <filename>turbo_king_1.png</filename>
+            <filename>turbo_king_dead.png</filename>
+            <filename>turbo_king_fire.png</filename>
+            <filename>turbo_king_laugh.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
