@@ -1,13 +1,3 @@
-var TurboKingGhoul = function(state, x, y, facing){
-	Kiwi.GameObjects.Sprite.call(this, state, state.textures['ghouliath'], x, y, false);
-	this.facing = facing;
-	this.state = state;
-
-	this.animation.add('idleleft',[16],0.2,false);
-	this.animation.play('idleleft');
-}
-Kiwi.extend(TurboKingGhoul, Kiwi.GameObjects.Sprite);
-
 var Ghouliath = function(state, x, y, facing){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['ghouliath'], x, y, false);
 	this.facing = facing;
@@ -122,7 +112,23 @@ Ghouliath.prototype.update = function(){
 				}
 			}
 			if(this.moveUp>50){
-				this.y -= 2;
+				if(this.moveUp == 51 || this.moveUp == 53){
+					this.y -= 5;
+					if(this.facing == "right"){
+						this.x += 2;
+					}else if(this.facing == "left"){
+						this.x -= 2;
+					}
+				}else if(this.moveUp > 53 && this.moveUp < 67){
+					this.y -= 1;
+					if(this.facing == "right"){
+						this.x += 0.5;
+					}else if(this.facing == "left"){
+						this.x -= 0.5;
+					}				
+				}else{
+					this.y -= 2;
+				}
 			}
 			this.moveUp += 2; 
 			this.movingUp = true;
@@ -161,16 +167,16 @@ Ghouliath.prototype.checkForHiddenBlock = function(){
 		}
 	}
 	if(hiddenBlock1){
-		if(!hiddenBlock1._isPaused){		
-			hiddenBlock1.timer.pause();
-			this.hiddenBlocksPaused.push(hiddenBlock1);
-		}
+		//if(!hiddenBlock1._isPaused){		
+		//	hiddenBlock1.timer.pause();
+		//	this.hiddenBlocksPaused.push(hiddenBlock1);
+		//}
 	}
 	if(hiddenBlock2){
-		if(!hiddenBlock2._isPaused){
-			hiddenBlock2.timer.pause();
-			this.hiddenBlocksPaused.push(hiddenBlock2);
-		}
+		//if(!hiddenBlock2._isPaused){
+		//	hiddenBlock2.timer.pause();
+		//	this.hiddenBlocksPaused.push(hiddenBlock2);
+		//}
 	}
 	if(!this.state.onBlockType(this.state.originalGroundBlocks, checkForHiddenBlockPosition1)){
 		check1 = true;
@@ -253,7 +259,10 @@ Ghouliath.prototype.addToOccupiedBy = function(){
 }
 
 Ghouliath.prototype.destroy = function(immediate){
-	this.resumeBlocksTimer.stop();
+	this.resumeHiddenBlocks();
+	if(this.state.soundsOn){
+		this.state.bombSound.play();	
+	}	
 	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
 }
 
@@ -827,6 +836,12 @@ BlackGhoul.prototype.checkDirectionAndSetFacing = function(){
 
 var KingGhoul = function(state, x, y, facing){
 	Ghoul.call(this, state, x, y, facing, 'king');
+	this.setupActions();
+
+}
+Kiwi.extend(KingGhoul, Kiwi.GameObjects.Sprite);
+
+KingGhoul.prototype.setupActions = function(){
 	this.isAlive = true;
 
 	this.laughTimer = this.state.game.time.clock.createTimer('laughTimer',0.5,0,false);
@@ -845,10 +860,8 @@ var KingGhoul = function(state, x, y, facing){
 	this.banditInRange = [this.gridPosition[0], this.gridPosition[1]-3];
 
 	this.bandits = this.state.banditGroup.members;
-	this.banditDeathCount = 0;
-
+	this.banditDeathCount = 0;	
 }
-Kiwi.extend(KingGhoul, Kiwi.GameObjects.Sprite);
 
 KingGhoul.prototype.explode = function(){
 	this.isInHole = false;
@@ -913,3 +926,76 @@ KingGhoul.prototype.laugh = function(){
 	}	
 }
 
+var TurboKingGhoul = function(state, x, y, facing){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['ghouliath'], x, y, false);
+	KingGhoul.prototype.setupActions.call(this);
+	this.banditInRange = [this.gridPosition[0]+1, this.gridPosition[1]-3];
+	this.facing = facing;
+	this.state = state;
+	this.climbingOut = false;
+	console.log(this.banditInRange);
+
+	this.animation.add('idleleft',[16],0.2,false);
+	this.animation.add('dieleft',[16,17],0.1,true);
+	this.animation.add('laugh',[16,19],0.1,true);
+	this.animation.add('shoot',[16,18,18,16],0.1,false);
+	this.animation.add('explode',[15],0.1,false);
+	this.animation.play('idleleft');
+}
+Kiwi.extend(TurboKingGhoul, KingGhoul);
+
+TurboKingGhoul.prototype.update = function(){
+	Kiwi.GameObjects.Sprite.prototype.update.call(this);
+
+	if(this.isAlive){
+		if(this.isInHole){
+			Ghoul.prototype.playDieAnimation.call(this);
+			this.isAlive = false;
+			this.explodeTimer.start();
+		}else if(this.shouldFall){
+			this.gravity();
+		}else{
+			Ghouliath.prototype.checkForHiddenBlock.call(this);
+		}
+
+		for(var i = 0; i<this.bandits.length; i++){
+			var banditGridPosition = this.state.getGridPosition(this.bandits[i].x, this.bandits[i].y, 'middle');
+			if(banditGridPosition[0] == this.banditInRange[0] && banditGridPosition[1] == this.banditInRange[1]){
+				if(this.bandits[i].isAlive){
+					if(this.animation.currentAnimation.name != 'shoot' && this.animation.currentAnimation.name != 'laugh'){
+						this.animation.play('shoot');
+						this.state.shotgunSound.play('start');
+					}
+					if(this.banditDeathCount > 7){
+						this.bandits[i].isAlive = false;
+						this.banditDeathCount = 0;
+					}else{
+						if(this.banditDeathCount == 0){
+							this.laughTimer.start();
+						}
+						this.banditDeathCount ++;
+					}
+				}
+			}			
+		}
+	}
+
+}
+
+TurboKingGhoul.prototype.gravity = function(){
+	this.fallen = true;
+	var southGridPosition1 = this.state.getGridPosition(this.x, this.y + this.state.bps, 'south');
+	var southGridPosition2 = this.state.getGridPosition(this.x + this.state.bps, this.y + this.state.bps, 'south');
+	if(this.state.onBlockType(this.state.topGroundBlocks, southGridPosition1) || this.state.onBlockType(this.state.topGroundBlocks, southGridPosition2)){
+		var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition1, 'south');
+		if(this.y + this.state.bps * 2 < pixelNum - 10){
+			this.y += 10;
+		}else{
+			this.y = pixelNum-(2*this.state.bps)+1;
+			this.shouldFall = false;
+			this.isInHole = true;
+		}
+	}else{
+		this.y+= 10;
+	}
+}

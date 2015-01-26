@@ -11,7 +11,7 @@ gameState.preload = function(){
 	this.addSpriteSheet('sprites','bandit_spritesheet.png',this.bps,this.bps);
 	this.addSpriteSheet('ghouliath','ghouliath_spritesheet.png',this.bps*2, this.bps*2);
 	this.currentLevel = 1; 
-	this.numberOfLevels = 17;
+	this.numberOfLevels = 21;
 
 	for (var i = 1; i<=this.numberOfLevels; i++){
 		this.addImage('level'+i,'level'+i+'_screen.png',true);
@@ -280,11 +280,12 @@ gameState.create = function(){
 	}
 
 	//Gamepad experimenting
+	/*
 	console.log('NUMBER OF GAMEPADS: ' + this.game.gamepads.gamepads.length);
 	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce, this);
 	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp, this);
 	this.game.gamepads.gamepads[0].buttonIsDown.add(this.buttonIsDown, this)
-	
+	*/
 	this.game.input.keyboard.onKeyDown.add(this.onKeyDownCallback, this);
 	this.debugKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.I);
 
@@ -411,7 +412,7 @@ gameState.createLevel = function(){
 		}
 	}
 
-	//bombs
+	//bombs and cracks
 	var bombsLayerArray = blockArrays[6];
 
 	var bombHitboxX = Math.round(this.bps*this.BOMB_HITBOX_X_PERCENTAGE);
@@ -435,6 +436,27 @@ gameState.createLevel = function(){
 			}
 		}
 	}
+
+	/*
+	//breaking blocks
+	this.breakingBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
+	this.breakingBlocks[8][14] = 1;
+	this.breakingBlocks[8][15] = 1;
+	this.breakingBlocks[8][16] = 1;
+	this.breakingBlocks[8][17] = 1;
+	var pixels = this.getPixelPositionFromRowCol(8, 14);
+	var breakingBlock = new BreakingBlock(this, pixels[0], pixels[1]);
+	this.cracksGroup.addChild(breakingBlock);
+	var pixels = this.getPixelPositionFromRowCol(8, 15);
+	var breakingBlock = new BreakingBlock(this, pixels[0], pixels[1]);
+	this.cracksGroup.addChild(breakingBlock);
+	var pixels = this.getPixelPositionFromRowCol(8, 16);
+	var breakingBlock = new BreakingBlock(this, pixels[0], pixels[1]);
+	this.cracksGroup.addChild(breakingBlock);
+	var pixels = this.getPixelPositionFromRowCol(8, 17);
+	var breakingBlock = new BreakingBlock(this, pixels[0], pixels[1]);
+	this.cracksGroup.addChild(breakingBlock);	
+	*/
 
 	//ghouls
 	var ghoulsLayerArray = blockArrays[3];
@@ -1475,21 +1497,31 @@ gameState.blastBlock = function(blastedBlockPosition, banditColor){
 	}
 	
 	if(!alreadyExists && wasAGroundBlock){
-		var pixels = this.getPixelPositionFromRowCol(blastedBlockPosition[0],blastedBlockPosition[1]);
-		var hiddenBlock = new HiddenBlock(this, pixels[0],pixels[1]);
-		hiddenBlock.animation.add('hide',[this.getArrayIndexFromRowCol(blastedBlockPosition[0],blastedBlockPosition[1])],0.1,false);
-		hiddenBlock.animation.play('hide');
+		var hiddenBlock = this.addHiddenBlock(blastedBlockPosition);
 		hiddenBlock.blastedBy = banditColor;
-		this.hiddenBlockGroup.addChild(hiddenBlock);
-		this.removeFromGroundBlocks(blastedBlockPosition);
-		this.updateTopGroundBlocks();
-		this.updateBlockedBlocks();
+		this.updateBlocksAfterAddingHiddenBlock(hiddenBlock);
+
 		if(this.soundsOn){
 			if(this.random.frac() <= 0.05){
 				this.voicesSound.play('sixFeetUnder',true);
 			}
 		}
 	}
+}
+
+gameState.addHiddenBlock = function(blockPosition){
+	var pixels = this.getPixelPositionFromRowCol(blockPosition[0],blockPosition[1]);
+	var hiddenBlock = new HiddenBlock(this, pixels[0],pixels[1]);
+	hiddenBlock.animation.add('hide',[this.getArrayIndexFromRowCol(blockPosition[0],blockPosition[1])],0.1,false);
+	hiddenBlock.animation.play('hide');
+	this.hiddenBlockGroup.addChild(hiddenBlock);
+	return hiddenBlock
+}
+
+gameState.updateBlocksAfterAddingHiddenBlock = function(hiddenBlock){
+	this.removeFromGroundBlocks([hiddenBlock.row, hiddenBlock.col]);
+	this.updateTopGroundBlocks();
+	this.updateBlockedBlocks();	
 }
 
 gameState.addToBlocks = function(row, col, blocks){
@@ -1537,7 +1569,7 @@ gameState.update = function(){
 			this.isGameOver();
 
 			if(this.debugKey.isDown){
-				console.log(this.game.renderer);
+				console.log(this.getGridPosition(this.red.x, this.red.y, 'west'))
 			}
 		
 			if(this.mouse.isDown){

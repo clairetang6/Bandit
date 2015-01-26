@@ -73,7 +73,7 @@ var Bandit = function(state, x, y, color){
 Kiwi.extend(Bandit, Kiwi.GameObjects.Sprite);
 
 Bandit.prototype.totalGhoulKills = function(){
-	return this.grayGhoulsKilled + this.blueGhoulsKilled + this.redGhoulsKilled + this.blackGhoulsKilled;
+	return this.grayGhoulsKilled + this.blueGhoulsKilled + this.redGhoulsKilled + this.blackGhoulsKilled + this.ghouliathsKilled;
 }
 
 Bandit.prototype.deathCount = function(){
@@ -202,7 +202,7 @@ Bandit.prototype.moveDown = function(southGridPosition){
 Bandit.prototype.update = function(){
 	Kiwi.GameObjects.Sprite.prototype.update.call(this);
 	if(this.state.showingLevelScreen == false){
-		this.state.checkController();
+		//this.state.checkController();
 		if(!this.isDeadAndOnGround){
 			var southGridPosition = this.state.getGridPosition(this.x, this.y, 'south');
 		 	if(this.isAlive){
@@ -367,6 +367,8 @@ var HiddenBlock = function(state, x, y){
 	this.row = this.gridPosition[0];
 	this.col = this.gridPosition[1];
 	this.state = state;
+	this.isBreaking = false;
+
 	if(this.state.currentLevel >=16){
 		this.hiddenBlockTime = 8;
 	}else{
@@ -401,11 +403,8 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 				this.state.addGhoulKill(banditToAddGhoulKillTo.color);
 			}
 		}else if(ghoul.objType() == 'Ghouliath'){
-			if(ghoul!='undefined'){
+			if(ghoul.exists == true){
 				ghoul.animation.play('explode');
-				if(this.state.soundsOn){
-					this.state.bombSound.play();	
-				}	
 				ghoul.explodeTimer.start();
 				banditToAddGhoulKillTo.ghouliathsKilled++;
 				this.state.addGhoulKill(banditToAddGhoulKillTo.color);
@@ -551,10 +550,36 @@ Heart.prototype.showSelf = function(){
 var Cracks = function(state, x, y){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
 	this.state = state;
-	this.animation.add('cracks',[114],.1,false);
+	this.animation.add('cracks',[114],0.1,false);
 	this.animation.play('cracks');
 }
 Kiwi.extend(Cracks, Kiwi.GameObjects.Sprite);
+
+var BreakingBlock = function(state, x, y){
+	Cracks.call(this, state, x, y);
+	this.animation.add('moreCracks',[233],0.1,false);
+	this.gridPosition = state.getGridPosition(x,y);
+	this.row = this.gridPosition[0];
+	this.col = this.gridPosition[1];
+
+	this.breakingTimer = this.state.game.time.clock.createTimer('breakingBlockTimer', 0.5, 0, false);
+	this.breakingTimerEvent = this.breakingTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.breakingBlockTimer, this);
+}
+Kiwi.extend(BreakingBlock, Cracks);
+
+BreakingBlock.prototype.update = function(){
+	var redGridPosition = this.state.getGridPosition(this.state.red.x, this.state.red.y, 'middle');
+	if(redGridPosition[0] + 1 == this.row && redGridPosition[1] == this.col){
+		this.animation.play('moreCracks');
+		this.breakingTimer.start();
+	}
+}
+
+BreakingBlock.prototype.breakingBlockTimer = function(){
+	var hiddenBlock = this.state.addHiddenBlock([this.row, this.col])
+	this.state.updateBlocksAfterAddingHiddenBlock(hiddenBlock);
+	this.animation.play('cracks');
+}
 
 var StageCoach = function(state, x, y){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['stagecoach'], x, y, false);
