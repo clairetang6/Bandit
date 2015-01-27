@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="50" tileheight="50">
  <tileset firstgid="1" name="bandit_spritesheet" tilewidth="50" tileheight="50">
-  <image source="../../../Documents/LodeRunner/bandit_spritesheet.png" width="900" height="500"/>
+  <image source="../bandit_spritesheet.png" width="900" height="1250"/>
  </tileset>
- <tileset firstgid="181" name="t2" tilewidth="50" tileheight="50">
-  <image source="../bandit_spritesheet.png" width="900" height="900"/>
- </tileset>
- <layer name="Blocks" width="20" height="15" opacity="0.97">
+ <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYMAEykiYVkCZSDxQ9mLD7YwMDLVQPJORNn5A10MN87CZj27eQMUHtQFy3LSTEVdDzb+EACXpnVaYEvcDAO6ZFNY=
+   eJxjYEAAZSyYEoDPPGSxy0BsyMjAcBJKGwDxUyrYj89NIDtB9hgi2YXuHphbYO46iSSOrgcfJsd96HxKzMNmPrp56H5H9vdTBvLsHgiAK26R4xTmP2LicagDYtMoPTEl7gcAsJQeqQ==
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBhYEEimHLnmYZMnVmw4m0eMWZS4ZTCYR45dw808UswmFdDDPAApaQ2c
+   eJxjYBhYEEimHLnmocvjUk+M3cPJPGLMwqZ/KJlHTlgOR/OIlScV0MM8ADJFDZw=
   </data>
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjAL6Aicc/ExG7PIwAAAw3wEx
+   eJxjYCAOOBGpjpbAnhGBccmNgqEPCKW1HXRxxeAD26H0YMiLlACQP0B+2AFl74DyQeytSHxsAAAMHQk+
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
@@ -28,12 +25,12 @@
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYCAMnEnAxABnHGxK7CXGLfjE8dlNyH3EmkcIkOs+csKBVOCMRtPaPHLjG5/7yHE7vc0jN02Tkx/JiTdqmEco3vC5HwDzMRzL
+   eJxjYCAMnEnAxABnHGxK7CXGDdjkcaknxi8DbR454UFsHGGzD5t+aphHbYzLfeTEDb3NIzVtU5IfyY07Ss3D5kZc4YAOANVWHQ4=
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2DggdNAO2AUDAkAAJMAAEM=
+   eJxjYCANSDAyMAjgwO6MJBpGgZ0gu/YQcA+93DdQYCDigtqAlPhD9tsOoN7tSBjGH+oA2V87GDD9tgNKY5NH17uDYXACe0ZUjEseGwAAv5wX2w==
   </data>
  </layer>
  <layer name="bombs" width="20" height="15">

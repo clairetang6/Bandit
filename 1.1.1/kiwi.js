@@ -6869,6 +6869,10 @@ var Kiwi;
                     return (t !== -1) ? this.tilemap.tileTypes[this._data[t]] : null;
                 };
 
+                TileMapLayer.prototype.getTileFromIndex = function (t){
+                    return (t !== -1) ? this.tilemap.tileTypes[this._data[t]] : null;
+                }
+
                 /**
                 * Returns the indexes of every tile of a type you pass.
                 * @method getIndexsByType

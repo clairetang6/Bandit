@@ -455,6 +455,16 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 
 HiddenBlock.prototype.destroy = function(immediate){
 	this.timer.removeTimerEvent(this.timerEvent);
+	if(this.tileTypeAboveFront){
+		var index = this.state.getArrayIndexForTilemapFromRowCol(this.row - 1, this.col);
+		this.state.tilemap.layers[5].setTileByIndex(index, this.tileTypeAboveFront);
+		this.state.tilemap.layers[5].dirty = true;
+	}
+	if(this.tileTypeAboveBack){
+		var index = this.state.getArrayIndexForTilemapFromRowCol(this.row - 1, this.col);
+		this.state.tilemap.layers[2].setTileByIndex(index, this.tileTypeAboveBack);
+		this.state.tilemap.layers[2].dirty = true;
+	}	
 	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
 }
 

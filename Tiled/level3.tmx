@@ -1,47 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="50" tileheight="50">
  <tileset firstgid="1" name="bandit_spritesheet" tilewidth="50" tileheight="50">
-  <image source="../../../Documents/LodeRunner/bandit_spritesheet.png" width="900" height="500"/>
- </tileset>
- <tileset firstgid="181" name="t2" tilewidth="50" tileheight="50">
   <image source="../bandit_spritesheet.png" width="900" height="1250"/>
  </tileset>
- <tileset firstgid="631" name="bandit_spritesheet" tilewidth="50" tileheight="50">
-  <image source="../bandit_spritesheet.png" width="900" height="1250"/>
- </tileset>
- <layer name="Blocks" width="20" height="15" opacity="0.97">
+ <layer name="Blocks" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYCAdGBLAlAB0c7CZ38rIwFCNhKczEnYTrdxLjF/Q3YvPzej6sZk3kH4jFP70iJuBiEuYvfTQS4p/CIU5upnUjh9K0h85+gBQKiZO
+   eJxjYCAdGBLAlAB0c7CZfxGIjyPhx0S4iVbuJcYv6O7F52Z0/djMG0i/EQp/esTNQMQlzF566CXFP4TCHN1MascPJemPHH0AOEwvYw==
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBj8IJBKauhtHilmIKsfzOZREnbYxEfNo8w8YswgpG8o5S8AwpYLFA==
+   eJxjYBj8IJBKauhtHilmIKtHpweTeZSEHTbxoWQeqfGMTS+1zcMFyFVLiRp6mAcALqIM+g==
   </data>
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJyLYKA+yGYkrMaLEZUejOATIyZGl0cGETjMAYUHNjwYADY/gnAOI2oc5SC5d7D6BR3gig9a68UHcKV3cvIBTA8p8UHvuItAo0Egk0g7I7CwAU4TGr4=
+   eJybxkB9sJ0INdOQaJh6YvTRE9gxYmJ0eWQQgcOc7TgwPQAue7ZBaWx+BGGQPljcTEMzZ6D8QirAFR+01osPTCNRnBizSIkPescbzI3I4bmVBL3bkdggDAA05SDM
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFxAKvgXYAlcBw8cdIBLSIO2cam8cIpYWpYDYAZ74BeQ==
+   eJxjYBgFxAKvgXYAlQA5/hgufh/qYCjGAyOUFqaCWQDd9gE9
   </data>
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKA+cIZiZDaxGBlEIplBjJ2kuA8b0GQkz724zCPFTcjqqWkeLTCx/iBGfLiYhy1scJlHShjjS3P43EasOmIBNcwgBZQyYPcDACxgGVA=
+   eJxjYKA+cIZiZDY+jK4HBiKR5IixkxT3YQOlRLoXm9spdROyemqaRwtMrD+IER8u5mELG1zmkRLGlMYBMerplb9IAbC8CDMPhgEtPRne
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAN4GFkYMgG4gtAfAkL/ssIUQMCIHU5QJwLxNMZEHggAC73wtz8CQmTAi4yomJ6AXzhj08O5j8eJP9mI7l7IPwymAEo/WYRERb4wjwbi35CeQcGcMVHDhZz6Rl3MPuRaXL1RQDFAfpFPr4=
+   eJzbzkAbEAHE24FYhpGBQQ4L9mSEqIGBHUC8i0ZuIQXgci/MzXZImBQgy4iK6QXwhT8+OZj/QHEE8+92HP4ZBZCw2UaEOnxhvh2LemLyDgjgio/tDJjmIqvFZic1wXY0vAcqvoMIfSA1EVAaFr4AiZgaiw==
   </data>
  </layer>
  <layer name="bombs" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYKAdsCJDnSsSHmqAWP+OAvoASuJjMMflYHYbOrAiQBOrHwYASjUDTg==
+   eJxjYKAdsCJDnSsSHmqAWP+OAvoASuJjNC6pA6wI0MTqhwEAER0DFA==
   </data>
  </layer>
 </map>

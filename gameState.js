@@ -555,7 +555,7 @@ gameState.createLevel = function(){
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'+this.currentLevel],-this.bps,-this.bps);
 	this.background.name = 'background';
 
-	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this,'level_tilemap'+this.currentLevel, this.textures.sprites);
+	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this,this.game.levelData[this.currentLevel-1], this.textures.sprites);
 	
 	
 	this.groundBlocks = this.getGroundBlocks(blockArrays[0],width);
@@ -584,6 +584,7 @@ gameState.createLevel = function(){
 
 	this.addChild(this.background);
 	
+	console.log(this.tilemap)
 	
 	this.addChild(this.tilemap.layers[0]);
 	this.addChild(this.cracksGroup);	
@@ -1484,6 +1485,10 @@ gameState.getArrayIndexFromRowCol = function(row, col){
 	return (row)*this.GRID_COLS + col + (this.GRID_COLS+1) + (row+1);
 }
 
+gameState.getArrayIndexForTilemapFromRowCol = function(row, col){
+	return (row)*this.GRID_COLS + col;
+}
+
 gameState.blastBlock = function(blastedBlockPosition, banditColor){
 	var hiddenBlocks = this.hiddenBlockGroup.members;
 	var alreadyExists = false;
@@ -1499,6 +1504,20 @@ gameState.blastBlock = function(blastedBlockPosition, banditColor){
 		var hiddenBlock = this.addHiddenBlock(blastedBlockPosition);
 		hiddenBlock.blastedBy = banditColor;
 		this.updateBlocksAfterAddingHiddenBlock(hiddenBlock);
+
+		if(hiddenBlock.row > 1){
+			if(this.groundBlocks[hiddenBlock.row - 1][hiddenBlock.col] == 0){
+				var index = this.getArrayIndexForTilemapFromRowCol(hiddenBlock.row - 1, hiddenBlock.col);
+				var tileTypeAbove = this.tilemap.layers[5].getTileFromIndex(index)
+				hiddenBlock.tileTypeAboveFront = (tileTypeAbove.index);
+				this.tilemap.layers[5].setTileByIndex(index, 0);
+				this.tilemap.layers[5].dirty = true;
+				var tileTypeAbove = this.tilemap.layers[2].getTileFromIndex(index)
+				hiddenBlock.tileTypeAboveBack = (tileTypeAbove.index);		
+				this.tilemap.layers[2].setTileByIndex(index, 0);
+				this.tilemap.layers[2].dirty = true;	
+			}
+		}
 
 		if(this.soundsOn){
 			if(this.random.frac() <= 0.05){

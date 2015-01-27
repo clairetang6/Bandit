@@ -15,7 +15,7 @@
  </layer>
  <layer name="Back" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJyrYcAOihhxSBAJ7BkhmBz1pOqlBkggwT5Kw4YegN5hWINGo4ujA1q5j1hz8cU3zAxy3QczG5sdMHOR5Upw2EOPdAZySzzUTalI+Q9Gx+FxQxxUXxGJYQVKE75IGFcaQVYPAwDIUA+2
+   eJyrYcAOihhxSBAJ7BkhmBz1pOolFcDMR7YnAYsYujoYpjRs6AFoHYbooAaNRhdHB7RyH7HmJuBRg54OSAUJjKg0NrOR5Upw2EOPdIbs11SkdI8sR0hvEYlhBUoTvkgYVxpBVg8DAFD7Epg=
   </data>
  </layer>
  <layer name="Cast" width="20" height="15">
@@ -30,7 +30,7 @@
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYEAFCYwMGAAkBhMvwyKPDoqIUDOQANk/MJoTSEsTwIGMmObQ0o3Eugub+0BxQIt4QPdzGJH6kN2SwEg79yHbAQKpOMIRPS6xuZMWoBBofhKOPAajk+mYf7D5t5SRtmkbGyBkXzhUDQBq3BBC
+   eJxjYEAFCYwMGAAkBhMvwyKPDoqIUDOQANk/MJoTSEsTwIGMmObQ0o3Eugub+0BxQIt4QPdzGJH6kN2SwEg79yHbAQKpOMIRPS6xuZMWoBBofhKOPAajk+mYf0D+LWCEuAsGSqH5oxAqhwsg68OnjhhAKC+FQ9UAABYjE1w=
   </data>
  </layer>
  <layer name="bomb" width="20" height="15">
