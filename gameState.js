@@ -563,7 +563,7 @@ gameState.createLevel = function(){
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'+this.currentLevel],-this.bps,-this.bps);
 	this.background.name = 'background';
 
-	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this,this.game.levelData[this.currentLevel-1], this.textures.sprites);
+	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this,'level_tilemap'+this.currentLevel, this.textures.sprites);
 	
 	
 	this.groundBlocks = this.getGroundBlocks(blockArrays[0],width);
