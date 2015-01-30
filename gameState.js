@@ -25,6 +25,9 @@ gameState.preload = function(){
 	this.addSpriteSheet('level_selection','level_selection_spritesheet.png',132,132);
 	this.addSpriteSheet('betweenScreen','between_screen_spritesheet.png',75,75);
 
+	this.addImage('tutorial1', 'sign_1.png');
+	this.addImage('tutorial2', 'sign_2.png');
+	this.addImage('tutorial3', 'sign_3.png');
 	this.addImage('levelSelectionBackground','level_select_1.png',0,0);
 	this.addImage('menuBackground','menu_up_bandit.png',250,0);
 	this.addImage('menuArrow','menu_arrow.png',469,0);
@@ -84,7 +87,6 @@ gameState.create = function(){
 	this.mouse = this.game.input.mouse;
 	this.mouse.onUp.add(this.mouseClicked, this);
 
-	
 	this.menuBackground = new Kiwi.GameObjects.StaticImage(this, this.textures['menuBackground'],250,-800);
 	this.menuTween = this.game.tweens.create(this.menuBackground);	
 	this.menuArrow = new Kiwi.GameObjects.Sprite(this, this.textures['menuArrow'], 450, -18*this.MULTIPLIER);
@@ -552,6 +554,11 @@ gameState.createLevel = function(){
 	}
 
 
+	if(this.currentLevel <= 3){
+		this.tutorialSign = new Kiwi.GameObjects.StaticImage(this, this.textures['tutorial' + this.currentLevel],125*this.MULTIPLIER, this.GRID_ROWS * this.bps);
+		this.tutorialSignTween = this.game.tweens.create(this.tutorialSign);
+	}
+
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'+this.currentLevel],-this.bps,-this.bps);
 	this.background.name = 'background';
 
@@ -583,9 +590,7 @@ gameState.createLevel = function(){
 	this.removeBackgroundImages();
 
 	this.addChild(this.background);
-	
-	console.log(this.tilemap)
-	
+		
 	this.addChild(this.tilemap.layers[0]);
 	this.addChild(this.cracksGroup);	
 	this.addChild(this.hiddenBlockGroup);	
@@ -625,6 +630,10 @@ gameState.createLevel = function(){
 	this.addChild(this.menuArrow);
 	this.addChild(this.menuBackground);
 	this.addChild(this.menuGroup);
+
+	if(this.currentLevel <= 3){
+		this.addChild(this.tutorialSign);
+	}
 
 	this.rideOutPlayed = false;
 	if(this.soundsOn){
@@ -1560,16 +1569,25 @@ gameState.mouseClicked = function(){
 			if(this.mouse.x > 450 && this.mouse.x < 600){
 				if(this.mouse.y > 620 && this.mouse.y < 680){
 					this.closeMenu();
-					this.resumeAllTimers();
 				}
 			}
 		}
 	}
 }
 
+gameState.openTutorial = function(){
+	this.tutorialSignTween.to({y: 125}, 600, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+	this.pauseGame();
+}
+
+gameState.closeTutorial = function(){
+	this.tutorialSignTween.to({y: this.GRID_ROWS * this.bps}, 600, Kiwi.Animations.Tweens.Easing.Linear.Out, true);
+	this.resumeGame();
+}
+
 gameState.closeMenu = function(){
 	this.menuGroup.active = false;
-	this.isPaused = false;
+	this.resumeGame();
 	this.menuArrowTween.to({alpha: 1}, 1000, Kiwi.Animations.Tweens.Easing.Linear.Out,true);
 	this.menuTween.to({y: -800}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
 	this.menuGroupTween.to({y: -800}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);		
@@ -1617,8 +1635,7 @@ gameState.update = function(){
 			if(this.mouse.x > 400 && this.mouse.x < 700 && this.mouse.y < 25 * this.MULTIPLIER){
 				if(this.isPaused == false){
 					this.menuGroup.active = true;
-					this.isPaused = true;
-					this.pauseAllTimers();
+					this.pauseGame();
 					this.menuArrow.alpha = 0;
 					this.menuTween.to({y: -this.STAGE_Y_OFFSET}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
 					this.menuGroupTween.to({y: -this.STAGE_Y_OFFSET}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
@@ -1629,8 +1646,17 @@ gameState.update = function(){
 	}	
 }
 
+gameState.pauseGame = function(){
+	this.isPaused = true;
+	this.pauseAllTimers();
+}
+
+gameState.resumeGame = function(){
+	this.isPaused = false;
+	this.resumeAllTimers();
+}
+
 gameState.pauseAllTimers = function(){
-	console.log('number of timers ' + this.game.time.clock.timers.length);
 	for (var i = 0; i < this.game.time.clock.timers.length; i++){
 		this.game.time.clock.timers[i].pause();
 	}
