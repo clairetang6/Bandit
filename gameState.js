@@ -20,6 +20,7 @@ gameState.preload = function(){
 	for (var i = 1; i<=this.numberOfLevels; i++){
 		this.addImage('background'+i,'canvas'+i+'.png',true);
 		this.addSpriteSheet('backgroundSpriteSheet'+i,'canvas'+i+'.png',this.bps,this.bps);
+		this.addJSON('level_tilemap'+i,'level'+i+'.json');		
 	}
 	this.addSpriteSheet('digits','digits.png',18*this.MULTIPLIER,18*this.MULTIPLIER);	
 	this.addSpriteSheet('level_selection','level_selection_spritesheet.png',132,132);
@@ -376,7 +377,7 @@ gameState.showLevelScreen = function(){
 
 gameState.createLevel = function(){
 
-	var blockArrays = this.parseBlocks(this.currentLevel);
+	var blockArrays = this.parseBlocks('level_tilemap'+this.currentLevel);
 	this.permBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
 
 	//coins
@@ -1118,8 +1119,8 @@ gameState.getFirstLadderBlocks = function(ladderBlocks){
 }
 
 
-gameState.parseBlocks = function(currentLevel){
-	var json = this.game.levelData[currentLevel-1];
+gameState.parseBlocks = function(level_tilemap){
+	var json = JSON.parse(this.game.fileStore.getFile(level_tilemap).data);
 	var groundLayerArray = json.layers[0].data;
 	var ladderLayerArray = json.layers[1].data;
 	var backObjectsLayerArray = json.layers[2].data;
