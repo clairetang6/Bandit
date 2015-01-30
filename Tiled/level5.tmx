@@ -30,7 +30,7 @@
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYEAACUYGBgEs2J0RtxpkuYEExLh9qILdA+0AILBnhGB0MI8K4YvNbGzxSSguwyl0AynuG4xgOxTvgPJ3QPnb0OgdSGyYOEhsN5L8dhq5kZI4AgEA7SgUCA==
+   eJxjYEAACUYGBgEs2J0RtxpkuYEExLh9qILtA+0AILBnhGB0MI8K4YvNbGzxSSguwyl0AynuG4xgOxTvgPJ3QPnb0OgdSGyYOEhsN5I8rdIcJXEEAgDg+BQE
   </data>
  </layer>
  <layer name="bombs" width="20" height="15">
