@@ -14,7 +14,7 @@ titleState.preload = function(){
 	this.addAudio('banditDeathSound','sounds/death_1.wav');
 	this.addAudio('diamondSound','sounds/diamond_1.wav');
 	this.addAudio('shotgunSound','sounds/shotgun.wav');
-	this.addAudio('voicesSound','voices/bandit_voices.wav');
+	this.addAudio('voicesSound','sounds/bandit_voices.wav');
 	this.addAudio('musicSound','sounds/level1.mp3');
 
 	this.addSpriteSheet('menu','menu_sprite.png',500,50);

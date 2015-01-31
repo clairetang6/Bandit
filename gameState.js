@@ -282,12 +282,11 @@ gameState.create = function(){
 	}
 
 	//Gamepad experimenting
-	/*
 	console.log('NUMBER OF GAMEPADS: ' + this.game.gamepads.gamepads.length);
 	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce, this);
 	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp, this);
 	this.game.gamepads.gamepads[0].buttonIsDown.add(this.buttonIsDown, this)
-	*/
+	
 	this.game.input.keyboard.onKeyDown.add(this.onKeyDownCallback, this);
 	this.debugKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.I);
 
@@ -347,7 +346,6 @@ gameState.create = function(){
 	this.gameTimerEvent = this.gameTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.updateTimer, this);
 	this.gameTimer.start();
 	this.gameTimer.pause();
-
 
 	if(this.currentLevel == 1){
 		this.showLevelSelectionScreen();
@@ -1606,10 +1604,11 @@ gameState.update = function(){
 			this.isGameOver();
 
 			if(this.debugKey.isDown){
-				console.log(this.getGridPosition(this.red.x, this.red.y, 'west'))
+				this.game.fullscreen.launchFullscreen()
 			}
 		
 			if(this.mouse.isDown){
+				this.game.fullscreen.launchFullscreen()
 				if(this.gameIsOver){
 					if(this.mouse.isDown){
 						this.levelOver(true);
