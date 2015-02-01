@@ -202,7 +202,7 @@ Bandit.prototype.moveDown = function(southGridPosition){
 Bandit.prototype.update = function(){
 	Kiwi.GameObjects.Sprite.prototype.update.call(this);
 	if(this.state.showingLevelScreen == false){
-		this.state.checkController();
+		this.state.checkController(this);
 		if(!this.isDeadAndOnGround){
 			var southGridPosition = this.state.getGridPosition(this.x, this.y, 'south');
 		 	if(this.isAlive){
