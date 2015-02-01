@@ -17715,6 +17715,35 @@ var Kiwi;
                 }
                 return false;
             };
+
+            Keyboard.prototype.anyKeyJustReleased = function(duration){
+                if (duration === void 0) { duration = this.justReleasedRate; }
+                var result = false;
+                for (var i = 0; i < this._keys.length; i++){
+                    if(this._keys[i]){
+                        if(this._keys[i].justReleased(duration)){
+                            result = true;
+                            break;
+                        }
+                    }
+                }
+                return result;
+               
+            }
+            Keyboard.prototype.anyKeyJustPressed = function(duration){
+                if (duration === void 0) { duration = this.justPressedRate;}
+                var result = false;
+                for (var i = 0; i < this._keys.length; i++){
+                    if(this._keys[i]){
+                        if(this._keys[i].justPressed(duration)){
+                            result = true;
+                            break;
+                        }
+                    }
+                }
+                return result;
+               
+            }            
             /**
             * Returns a boolean indicating whether a key (that you pass via its keycode) is down or not.
             * @method isDown

@@ -29,6 +29,7 @@ gameState.preload = function(){
 	this.addImage('tutorial1', 'sign_1.png');
 	this.addImage('tutorial2', 'sign_2.png');
 	this.addImage('tutorial3', 'sign_3.png');
+	this.addImage('pressup', 'push_up.png');
 	this.addImage('levelSelectionBackground','level_select_1.png',0,0);
 	this.addImage('menuBackground','menu_up_bandit.png',250,0);
 	this.addImage('menuArrow','menu_arrow.png',469,0);
@@ -347,6 +348,9 @@ gameState.create = function(){
 	this.gameTimer.start();
 	this.gameTimer.pause();
 
+	this.pressUpSignLocations = [[550, 650], [550, 650], [200, 650]];
+	this.signGridPositions = [[14, 12], [14, 12], [14, 5]];
+
 	if(this.currentLevel == 1){
 		this.showLevelSelectionScreen();
 	}else{
@@ -555,7 +559,11 @@ gameState.createLevel = function(){
 
 	if(this.currentLevel <= 3){
 		this.tutorialSign = new Kiwi.GameObjects.StaticImage(this, this.textures['tutorial' + this.currentLevel],125*this.MULTIPLIER, this.GRID_ROWS * this.bps);
-		this.tutorialSignTween = this.game.tweens.create(this.tutorialSign);
+		this.tutorialSignTween = this.game.tweens.create(this.tutorialSign);	
+		var pressUpSignLocation = this.pressUpSignLocations[this.currentLevel - 1];
+		this.pressUpSign = new Kiwi.GameObjects.StaticImage(this, this.textures['pressup'], pressUpSignLocation[0], pressUpSignLocation[1])
+		this.pressUpSign.alpha = 0;
+		this.pressUpSignTween = this.game.tweens.create(this.pressUpSign);
 	}
 
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'+this.currentLevel],-this.bps,-this.bps);
@@ -631,6 +639,7 @@ gameState.createLevel = function(){
 	this.addChild(this.menuGroup);
 
 	if(this.currentLevel <= 3){
+		this.addChild(this.pressUpSign);		
 		this.addChild(this.tutorialSign);
 	}
 
@@ -657,6 +666,8 @@ gameState.createLevel = function(){
 
 	this.showingLevelScreen = false;
 	this.showingLevelSelectionScreen = false;
+	this.showingTutorial = false;
+	this.showingPressUp = false;
 }
 
 gameState.addGhoulKill = function(bandit){
@@ -1574,12 +1585,32 @@ gameState.mouseClicked = function(){
 	}
 }
 
+gameState.showPressUp = function(){
+	this.pressUpSignTween.onComplete(function(){
+		this.showingPressUp = true;
+	}, this);	
+	this.pressUpSignTween.to({alpha: 1}, 250, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+}
+
+gameState.hidePressUp = function(){
+	this.pressUpSignTween.onComplete(function(){
+		this.showingPressUp = false;
+	}, this);		
+	this.pressUpSignTween.to({alpha: 0}, 1000, Kiwi.Animations.Tweens.Easing.Linear.Out, true);	
+}
+
 gameState.openTutorial = function(){
+	this.tutorialSignTween.onComplete(function(){
+		this.showingTutorial = true;
+	}, this);		
 	this.tutorialSignTween.to({y: 125}, 600, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
 	this.pauseGame();
 }
 
 gameState.closeTutorial = function(){
+	this.tutorialSignTween.onComplete(function(){
+		this.showingTutorial = false;
+	}, this);	
 	this.tutorialSignTween.to({y: this.GRID_ROWS * this.bps}, 600, Kiwi.Animations.Tweens.Easing.Linear.Out, true);
 	this.resumeGame();
 }
@@ -1590,6 +1621,31 @@ gameState.closeMenu = function(){
 	this.menuArrowTween.to({alpha: 1}, 1000, Kiwi.Animations.Tweens.Easing.Linear.Out,true);
 	this.menuTween.to({y: -800}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
 	this.menuGroupTween.to({y: -800}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);		
+}
+
+gameState.checkIfOnSign = function(banditGridPosition){
+	if(this.currentLevel <= 3){
+		var signGridPosition = this.signGridPositions[this.currentLevel - 1];
+		if(banditGridPosition[0] == signGridPosition[0] && banditGridPosition[1] == signGridPosition[1]){
+			return true;
+		}else{
+			return false;
+		}
+	}else{
+		return false;
+	}
+}
+
+gameState.checkPressUp = function(){
+	var bandits = this.banditGroup.members;
+	var signGridPosition = this.signGridPositions[0];
+	for (var i = 0; i < bandits.length; i++){
+		banditGridPosition = this.getGridPosition(bandits[i].x, bandits[i].y, 'middle');
+		if(banditGridPosition[0] == signGridPosition[0] && banditGridPosition[1] == signGridPosition[1]){
+			return true;
+		}
+	}
+	return false;
 }
 
 gameState.update = function(){
@@ -1603,8 +1659,18 @@ gameState.update = function(){
 			this.isLevelOver();
 			this.isGameOver();
 
+			if(this.currentLevel == 1){
+				if(this.checkPressUp()){
+					this.showPressUp();
+				}else{
+					if(this.showingPressUp == true){
+						this.hidePressUp();
+					}
+				}
+			}
+
 			if(this.debugKey.isDown){
-				this.game.fullscreen.launchFullscreen()
+				console.log(this.getGridPosition(this.red.x, this.red.y, 'middle'))
 			}
 		
 			if(this.mouse.isDown){
@@ -1625,6 +1691,12 @@ gameState.update = function(){
 					this.game.input.mouse.reset();
 				}		
 			}
+		}
+	}else if(this.showingTutorial){
+		if(this.mouse.justReleased()){
+			this.closeTutorial();
+		}else if(this.game.input.keyboard.anyKeyJustPressed()){
+			this.closeTutorial();
 		}
 	}else{
 		//menu is down
