@@ -121,17 +121,17 @@ gameState.create = function(){
 	this.DEATH_YPOS = 195;
 	this.TIME_YPOS = 290;		
 	if(this.numPlayers == 1){
-		this.BETWEEN_SCREEN_XPOS = 300;
+		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'time', 300, this.TIME_YPOS));
+		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'death', 300, this.DEATH_YPOS));
+		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'money', 300, this.MONEY_YPOS));		
 	}else{
-		this.BETWEEN_SCREEN_XPOS = 100;
-		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'time'));
-		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'death'));
-		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'money'));
-		this.BETWEEN_SCREEN_XPOS = 550;
+		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'time', 100, this.TIME_YPOS));
+		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'death', 100, this.DEATH_YPOS));
+		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'money', 100, this.MONEY_YPOS));	
+		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'time', 550, this.TIME_YPOS));
+		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'death', 550, this.DEATH_YPOS));
+		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'money', 550, this.MONEY_YPOS));	
 	}
-	this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'time'));
-	this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'death'));
-	this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'money'));
 
 	this.bigDigitGroup = new Kiwi.Group(this);
 		
@@ -174,7 +174,22 @@ gameState.create = function(){
 			}	
 		}
 	}
-	
+
+	this.bonusGroup = new Kiwi.Group(this);
+	this.bonusTweens = [];
+
+	if(this.numPlayers == 1){
+		var bonusRed = new BetweenScreenIcon(this, 'bonus', 378, this.MONEY_YPOS + 8);
+		this.bonusGroup.addChild(bonusRed);
+		this.bonusTweens.push(this.game.tweens.create(bonusRed));
+	}else{
+		var bonusRed = new BetweenScreenIcon(this, 'bonus', 178, this.MONEY_YPOS + 8);
+		var bonusBlue = new BetweenScreenIcon(this, 'bonus', 628, this.MONEY_YPOS + 8);
+		this.bonusGroup.addChild(bonusRed);
+		this.bonusGroup.addChild(bonusBlue);
+		this.bonusTweens.push(this.game.tweens.create(bonusRed));
+		this.bonusTweens.push(this.game.tweens.create(bonusBlue));
+	}
 
 	this.digitGroup = new Kiwi.Group(this);
 	this.timerDigitGroup = new Kiwi.Group(this);
@@ -292,7 +307,7 @@ gameState.create = function(){
 		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUp1, this);
 		this.game.gamepads.gamepads[1].buttonIsDown.add(this.buttonIsDown1, this)
 	}
-	
+
 	this.game.input.keyboard.onKeyDown.add(this.onKeyDownCallback, this);
 	this.debugKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.I);
 
@@ -628,6 +643,7 @@ gameState.createLevel = function(){
 	}	
 	
 	this.iconsNotDuringCutscene();
+	this.betweenScreenGroup.addChild(this.bonusGroup);
 	this.addChild(this.betweenScreenGroup);
 	this.addChild(this.bigDigitGroup);
 
@@ -1275,6 +1291,7 @@ gameState.showCutScene = function(){
 		members[i].totalCoinsCollected = totalPoints[i];		
 	}
 
+	this.addBonusIcons();
 	
 	this.updateBigCoinCounter();
 
@@ -1288,6 +1305,22 @@ gameState.showCutScene = function(){
 
 	//this.showLevelScreen();
 
+}
+
+gameState.addBonusIcons = function(){
+	for(var i = 0; i < this.bonusGroup.members.length; i++){
+		var bonus = this.bonusGroup.members[i];
+		bonus.alpha = 0; 
+		bonus.scaleX = 3;
+		bonus.scaleY = 3;
+		if(this.banditGroup.members[i].numberOfHearts == 1){
+			bonus.visible = false;
+		}else{
+			bonus.animation.play('bonus' + this.banditGroup.members[i].numberOfHearts);
+			bonus.visible = true;
+			this.bonusTweens[i].to({alpha: 0.8, scaleX: 1, scaleY: 1}, 500, Kiwi.Animations.Tweens.Easing.Sinusoidal.Out, true);
+		}
+	}
 }
 
 gameState.addPointCounters = function(){

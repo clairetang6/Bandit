@@ -4,9 +4,9 @@
         <key>fileFormatVersion</key>
         <int>3</int>
         <key>texturePackerVersion</key>
-        <string>3.3.4</string>
+        <string>3.6.0</string>
         <key>fileName</key>
-        <string>/Users/Claire/Dropbox/Bandit/between_screen.tps</string>
+        <string>/Users/claire/Dropbox/Bandit/art/between_screen/between_screen.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -28,7 +28,7 @@
             </struct>
         </array>
         <key>allowRotation</key>
-        <true/>
+        <false/>
         <key>premultiplyAlpha</key>
         <false/>
         <key>shapeDebug</key>
@@ -36,11 +36,25 @@
         <key>dpi</key>
         <uint>72</uint>
         <key>dataFormat</key>
-        <string>json-array</string>
+        <string>cocos2d</string>
         <key>textureFileName</key>
         <filename>between_screen_spritesheet.png</filename>
         <key>flipPVR</key>
         <false/>
+        <key>pvrCompressionQuality</key>
+        <enum type="SettingsBase::PvrCompressionQuality">PVR_QUALITY_NORMAL</enum>
+        <key>mipMapMinSize</key>
+        <uint>32768</uint>
+        <key>etc1CompressionQuality</key>
+        <enum type="SettingsBase::Etc1CompressionQuality">ETC1_QUALITY_LOW_PERCEPTUAL</enum>
+        <key>dxtCompressionMode</key>
+        <enum type="SettingsBase::DxtCompressionMode">DXT_PERCEPTUAL</enum>
+        <key>jxrColorFormat</key>
+        <enum type="SettingsBase::JpegXrColorMode">JXR_YUV444</enum>
+        <key>jxrTrimFlexBits</key>
+        <uint>0</uint>
+        <key>jxrCompressionLevel</key>
+        <uint>0</uint>
         <key>ditherType</key>
         <enum type="SettingsBase::DitherType">NearestNeighbour</enum>
         <key>backgroundColor</key>
@@ -96,7 +110,7 @@
             <key>forceSquared</key>
             <false/>
             <key>forceWordAligned</key>
-            <false/>
+            <true/>
             <key>maxRects</key>
             <struct type="AlgorithmMaxRectsSettings">
                 <key>heuristic</key>
@@ -131,7 +145,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>between_screen_spritesheet.json</filename>
+                <filename>between_screen_spritesheet.plist</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -149,8 +163,10 @@
         <true/>
         <key>trimSpriteNames</key>
         <false/>
+        <key>prependSmartFolderName</key>
+        <false/>
         <key>cleanTransparentPixels</key>
-        <true/>
+        <false/>
         <key>globalSpriteSettings</key>
         <struct type="SpriteSettings">
             <key>scale</key>
@@ -172,9 +188,11 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>art/death_count.png</filename>
-            <filename>art/money_count.png</filename>
-            <filename>art/time_count.png</filename>
+            <filename>bonus_2.png</filename>
+            <filename>bonus_3.png</filename>
+            <filename>death_count.png</filename>
+            <filename>money_count.png</filename>
+            <filename>time_count.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

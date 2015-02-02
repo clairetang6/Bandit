@@ -828,28 +828,23 @@ var BigDigit = function(state, x, y, color, index){
 }
 Kiwi.extend(BigDigit, Kiwi.GameObjects.Sprite);
 
-var BetweenScreenIcon = function(state, type){
-	switch(type){
-		case 'money':
-			var yPos = 100;
-			break;
-		case 'death':
-			var yPos = 195;
-			break;
-		case 'time':
-			var yPos = 290;
-			break;
-	}
-	Kiwi.GameObjects.Sprite.call(this, state, state.textures['betweenScreen'], state.BETWEEN_SCREEN_XPOS, yPos, false);
+var BetweenScreenIcon = function(state, type, x, y){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['betweenScreen'], x, y, false);
 
 	this.state = state;
 	this.type = type;
 
-	this.animation.add('money',[1],0.1,false);
-	this.animation.add('death',[0],0.1,false);
-	this.animation.add('time',[2],0.1,false);
+	this.animation.add('money',[3],0.1,false);
+	this.animation.add('death',[2],0.1,false);
+	this.animation.add('time',[4],0.1,false);
+	this.animation.add('bonus2',[0],0.1,false);
+	this.animation.add('bonus3',[1],0.1, false);
 
-	this.animation.play(type);
+	if(this.type == 'bonus'){
+		this.animation.play('bonus2');		
+	}else{
+		this.animation.play(type);
+	}
 }
 Kiwi.extend(BetweenScreenIcon, Kiwi.GameObjects.Sprite);
 
