@@ -312,6 +312,7 @@ gameState.create = function(){
 	this.debugKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.I);
 
 	this.coinGroup = new Kiwi.Group(this);
+	this.potionGroup = new Kiwi.Group(this);
 	this.bombGroup = new Kiwi.Group(this);
 	this.ghoulGroup = new Kiwi.Group(this);
 	this.hiddenBlockGroup = new Kiwi.Group(this);
@@ -411,28 +412,26 @@ gameState.createLevel = function(){
 	var coinHitboxY = Math.round(this.bps*this.COIN_HITBOX_Y_PERCENTAGE);
 
 	for(var i = 0; i<coinsLayerArray.length;i++){
-		if(coinsLayerArray[i]==67){
+		if(coinsLayerArray[i] == 67){
 			var coinPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 			var coin = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],coinPixels[0],coinPixels[1]);
 			coin.animation.add('spin',[66,67,68,69],0.1,true);
 			coin.animation.play('spin');
 			coin.box.hitbox = new Kiwi.Geom.Rectangle(coinHitboxX,coinHitboxY,this.bps - 2*coinHitboxX,this.bps-2*coinHitboxY);			
 			this.coinGroup.addChild(coin);
-		}else{
-			if(coinsLayerArray[i]!=0){
+		}else if(coinsLayerArray[i] == 89){
 				var diamondPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 				var diamond = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],diamondPixels[0], diamondPixels[1]);
 				diamond.animation.add('shine',[88],0.1,false);
 				diamond.animation.play('shine');
 				diamond.box.hitbox = new Kiwi.Geom.Rectangle(coinHitboxX,coinHitboxY,this.bps - 2*coinHitboxX,this.bps-2*coinHitboxY);			
 				this.coinGroup.addChild(diamond);
-			}
 		}
-		//hack for adding potions here. 
-		if(blockArrays[2][i] == 117){
+		else if(coinsLayerArray[i] == 117){
 			var potionPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 			var potion = new Potion(this, potionPixels[0], potionPixels[1], 'whiskey');
-			this.coinGroup.addChild(potion);
+			potion.box.hitbox = new Kiwi.Geom.Rectangle(coinHitboxX,coinHitboxY,this.bps - 2*coinHitboxX,this.bps-2*coinHitboxY);			
+			this.potionGroup.addChild(potion);
 		}
 	}
 
@@ -625,6 +624,7 @@ gameState.createLevel = function(){
 	this.addChild(this.tilemap.layers[2]);
 
 	this.addChild(this.coinGroup);
+	this.addChild(this.potionGroup);
 	this.addChild(this.ghoulGroup);
 	this.addChild(this.banditGroup);
 	
@@ -768,6 +768,13 @@ gameState.updateBlockedBlocks = function(){
 	this.getBlockedBlocks(this.groundBlocks,'right',this.rightBlockedBlocks);
 }
 
+gameState.checkCollisions = function(){
+	this.checkCoinCollision();
+	this.checkPotionCollision();
+	this.checkGhoulCollision();
+	this.checkBombCollision();
+}
+
 gameState.checkBombCollision = function(){
 	var bombs = this.bombGroup.members;
 	var bandits = this.banditGroup.members; 
@@ -793,6 +800,26 @@ gameState.checkBombCollision = function(){
 	}
 }
 
+gameState.checkPotionCollision = function(){
+	var potions = this.potionGroup.members;
+	var bandits = this.banditGroup.members;
+
+	for (var i = 0; i <potions.length; i++){
+		for (var j = 0; j<bandits.length; j++){	
+			var potionBox = potions[i].box.hitbox;
+			if(bandits[j].box.bounds.intersects(potionBox)){
+				if(potions[i].type == 'whiskey'){
+					if(bandits[j].numberOfHearts < 3){
+						bandits[j].numberOfHearts ++;
+						this.showHearts(bandits[j].color);
+						potions[i].destroy();
+					}
+				}
+			}
+		}
+	}			
+}
+
 gameState.checkCoinCollision = function(){
 	var coins = this.coinGroup.members;
 	var bandits = this.banditGroup.members;
@@ -801,36 +828,26 @@ gameState.checkCoinCollision = function(){
 		for (var j = 0; j<bandits.length; j++){
 			var coinBox = coins[i].box.hitbox;
 			if(bandits[j].box.bounds.intersects(coinBox)){
-				if(coins[i].objType()=='Potion'){
-					if(coins[i].type == 'whiskey'){
-						if(bandits[j].numberOfHearts < 3){
-							bandits[j].numberOfHearts ++;
-							this.showHearts(bandits[j].color);
-							coins[i].destroy();
-						}
+				if(coins[i].animation.currentAnimation.name == 'shine'){
+					bandits[j].coinsCollected += 10;
+					if(this.soundsOn){
+						this.diamondSound.play('start',true);
 					}
 				}else{
-					if(coins[i].animation.currentAnimation.name == 'shine'){
-						bandits[j].coinsCollected += 10;
-						if(this.soundsOn){
-							this.diamondSound.play('start',true);
-						}
-					}else{
-						bandits[j].coinsCollected ++;
-						if(this.soundsOn){
-							this.coinSound.play('start',true);
-							if(bandits[j].coinsCollected == 40){
-								this.voicesSound.play('money2',true);
-							}else if(bandits[j].coinsCollected == 80){
-								this.voicesSound.play('money1',true);
-							}else if(bandits[j].coinsCollected == 120){
-								this.voicesSound.play('yeehaw',true);
-							}
+					bandits[j].coinsCollected ++;
+					if(this.soundsOn){
+						this.coinSound.play('start',true);
+						if(bandits[j].coinsCollected == 40){
+							this.voicesSound.play('money2',true);
+						}else if(bandits[j].coinsCollected == 80){
+							this.voicesSound.play('money1',true);
+						}else if(bandits[j].coinsCollected == 120){
+							this.voicesSound.play('yeehaw',true);
 						}
 					}
-					this.updateCoinCounter(bandits[j]);
-					coins[i].destroy();
 				}
+				this.updateCoinCounter(bandits[j]);
+				coins[i].destroy();
 			}
 		}
 	}
@@ -1459,6 +1476,7 @@ gameState.moveBanditsOffscreen = function(){
 gameState.destroyEverything = function(removeBackground){
 	this.destroyAllMembersOfGroup('ghoul');
 	this.destroyAllMembersOfGroup('coin');
+	this.destroyAllMembersOfGroup('potion');
 	this.destroyAllMembersOfGroup('bomb');
 	this.destroyAllMembersOfGroup('hiddenBlock');
 	this.destroyAllMembersOfGroup('cracks');
@@ -1500,6 +1518,9 @@ gameState.destroyAllMembersOfGroup = function(group){
 			break;
 		case 'cracks':
 			var members = this.cracksGroup.members;	
+			break;
+		case 'potion':
+			var members = this.potionGroup.members;
 			break;
 	}
 	for (var i =0; i<members.length; i++){
@@ -1691,9 +1712,7 @@ gameState.update = function(){
 		Kiwi.State.prototype.update.call(this);
 
 		if(this.showingLevelScreen == false && this.showingLevelSelectionScreen == false){
-			this.checkCoinCollision();
-			this.checkGhoulCollision();
-			this.checkBombCollision();
+			this.checkCollisions();
 			this.isLevelOver();
 			this.isGameOver();
 
