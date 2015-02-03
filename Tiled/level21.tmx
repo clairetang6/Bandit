@@ -5,7 +5,7 @@
  </tileset>
  <layer name="Blocks" width="20" height="15" opacity="0.99">
   <data encoding="base64" compression="zlib">
-   eJxjYCAO6KJhXGqIBcSYh6zuGhDfh+ILQHweygbRL7CYdx+HOLq5uNyDzV241FATUwNQ20xc4QSLE+T40IXysYU9OX7GZTc2scEaH7QAukg0OobFC644AMmTEkfo9pIij8vd2NTjkkemAf3XK2I=
+   eJxjYCAO6KJhXGqIBcSYh6zuGhDfh+ILQHweygbRL7CYdx+HOLq5uNyDzV241FATUwNQ20xc4QSLE+T40IXysYU9OX7GZTc2scEaH7QAukg0OobFC644AMmTEkfIdpIqj8vd2PTgkkemASauK7w=
   </data>
  </layer>
  <layer name="Ladders" width="20" height="15">

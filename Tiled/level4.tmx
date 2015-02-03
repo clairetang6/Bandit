@@ -25,17 +25,17 @@
  </layer>
  <layer name="Coins" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJwrZUCASCjtTAaG6XdGMg+ZjQvgU+PMQBvz0M0l1zxs6pBpfPYRI0+K/bjcQ23zSEkP2MxAV4PLXfjMwKeGnLRLrl/widPCbcS6gRiALy7INQ+dTWkYwEApkl4Ak2ghzg==
+   eJwrZUCASCjtTAaG6XdGMg+ZjQvgU+PMQBvz0M0l1zxs6pBpfPYRI0+K/bjcQ23zSEkP2MxAV4PLXfjMwKeGnLSLz03EuAObOC63YTOf3DAlNy6R7SbkZlLMQ2dTGj8wUIqkFwDoKiB/
   </data>
  </layer>
  <layer name="Front" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYMAEWowMDFIkYD9GVP21WMwEAW1GTIwuXs2IQzMVQRUN7SAUdqCwITYckQG2cMOnhp4Am5+xAVL8SwnwRcJ+ONyHzS0g9bC0iysNUwqQzSfWXaQCbPkMV5qgtX9BoB1H+YCPxpZHG4FiAKkkFWY=
+   eJxjYMAEWowMDFIkYD9GiL5aBlQaHWgzYmJ08WpGHJqpCKpoaAehsAOFDaFwxAawhRs+NfQE2PyMDZDiX0qALxL2w+E+bG4BqSeUhikFyOYT6y5SAbZ8hitN0Nq/INCOZje6ndhobHm0ESgGAM4WFeM=
   </data>
  </layer>
  <layer name="bombs" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYEAFrgzkAWR9VmSaMVwALv+7otHE6huMgNh0MpT8NJIBLeOJXLOtsLABGMADKg==
+   eJxjYEAFrgzkAWR9VmSaMVwALv+7QuVwhfFQCjdi08lQ8hM9wGALDys0mpZ2UKIPxgYARa8D2A==
   </data>
  </layer>
 </map>

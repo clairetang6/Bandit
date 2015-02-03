@@ -2,7 +2,7 @@ var titleState = new Kiwi.State('titleState');
 
 titleState.preload = function(){
 	Kiwi.State.prototype.preload.call(this);
-	this.addImage('title','title_1.png');
+	this.addImage('title','bandit_title_1.png');
 	this.addImage('lose','gameover.png');
 	this.addImage('win','bandit_win.png');
 	this.addImage('controls','controls_1.png');
