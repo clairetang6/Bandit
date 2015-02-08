@@ -227,7 +227,6 @@ Bandit.prototype.update = function(){
 			else if(this.upKey.isDown || this.goUp){
 				this.moveUp();
 				if(this.state.currentLevel <= 3){
-					console.log(southGridPosition)
 					if(this.state.checkIfOnSign(southGridPosition) && this.state.showingTutorial == false){
 						this.state.openTutorial();
 					}
