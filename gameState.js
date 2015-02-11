@@ -363,6 +363,7 @@ gameState.showLevelSelectionScreen = function(){
 
 gameState.showLevelScreen = function(){
 	this.showingLevelScreen = true;
+	this.horseGroup.visible = false;
 	this.levelScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['level'+this.currentLevel],0,-18*this.MULTIPLIER);
 	this.addChild(this.levelScreen);
 
@@ -604,6 +605,7 @@ gameState.createLevel = function(){
 	
 	this.addChild(this.horseGroup);
 	this.horseGroup.active = false;
+	this.horseGroup.visible = false;
 
 	//this.addChild(this.ghouliath);
 
@@ -1431,6 +1433,7 @@ gameState.iconsNotDuringCutscene = function(){
 
 gameState.showStageCoachAndHorses = function(){
 	this.horseGroup.active = true;
+	this.horseGroup.visible = true;
 	this.redHorse.x = -1200;
 	if(this.numPlayers == 2){
 		this.blueHorse.x = -1000;
