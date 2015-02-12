@@ -4,7 +4,7 @@ var Bandit = function(state, x, y, color){
 	this.color = color; 
 	this.bombsCollected = 0;
 	this.bombs = [];
-	this.bombClock = this.state.game.time.addClock(color+'BombClock',100);
+	this.bombClock = this.state.game.time.addClock(color+'BombClock', 250);
 	this.bombClock.start();
 	this.bombIconGroup = this.state.bombIconGroup;
 	this.isAlive = true;
@@ -297,6 +297,7 @@ Bandit.prototype.update = function(){
 
 Bandit.prototype.tryPlacingBomb = function(southGridPosition){
 	if(this.state.onBlockType(this.state.topGroundBlocks, southGridPosition)){
+		console.log(this.bombClock.elapsed());
 		if(this.bombClock.elapsed() > 5){
 			this.placeBomb();
 		}
@@ -329,6 +330,7 @@ Bandit.prototype.gravity = function(southGridPosition){
 Bandit.prototype.placeBomb = function(){
 	if(this.bombsCollected > 0){
 		this.bombClock.start();
+		console.log('start' + this.bombClock.elapsed());
 		bomb = this.bombs.pop();
 		bomb.x = this.state.getPixelNumberForGridPosition(this.state.getGridPosition(this.x, this.y,'middle'),'west');
 		bomb.y = this.state.getPixelNumberForGridPosition(this.state.getGridPosition(this.x, this.y,'middle'),'north');	

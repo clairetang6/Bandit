@@ -28119,6 +28119,7 @@ var Kiwi;
             */
             Clock.prototype.start = function () {
                 this._timeLastStarted = this.master.elapsed();
+                this._elapsed = 0;
                 this._totalPaused = 0;
                 if (!this._timeFirstStarted) {
                     this._timeFirstStarted = this._timeLastStarted;
