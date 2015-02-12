@@ -6,7 +6,11 @@ module.exports = function(grunt){
 		concat: {
 			dist: {
 				src: [ 
-					'1.1.1/kiwi.js',
+					'1.2.0/kiwi.js',
+					'plugins/fullscreen-1.0.0.js',
+					'plugins/gamepad-plugin-1.0.0.js',
+					'kiwipreloader.js',
+					'loadingState.js',
 					'astar.js',
 					'ghoul.js',
 					'bandit.js',
@@ -14,14 +18,14 @@ module.exports = function(grunt){
 					'gameState.js',
 					'game.js'
 				],
-				dest: 'bandit-0.8.2.js'
+				dest: 'bandit-0.8.3.js'
 			}
 		},
 
 		uglify: {
 			build: {
-				src: 'bandit-0.8.2.js',
-				dest: 'bandit-0.8.2.min.js'
+				src: 'bandit-0.8.3.js',
+				dest: 'bandit-0.8.3.min.js'
 			}
 		},
 
