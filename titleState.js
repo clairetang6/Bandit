@@ -35,15 +35,78 @@ titleState.create = function(){
 	this.backButton.visible = false;
 	this.addChild(this.backButton);
 
+	if(this.game.gamepads){
+		this.game.gamepads.gamepadConnected.add(this.gamepadConnected, this);
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce, this);
+	}
+	this.selectedMenuIconIndex = 0;
+	this.selectedMenuIcon = this.buttonGroup.members[this.selectedMenuIconIndex];
+	
 }
 
 titleState.start_game = function(){
-	this.game.states.switchState('gameState');
+	this.game.states.switchState('levelSelectionState');
 }
 
 titleState.update = function(){
 	Kiwi.State.prototype.update.call(this);
 	//console.log(this.clock.elapsedSinceLastPaused());
 
+}
+
+titleState.gamepadConnected = function(){
+	console.log('gamepad started');
+	this.selectedMenuIcon.playHover();
+}
+
+titleState.changeSelectedMenuIcon = function(index){
+	this.selectedMenuIcon.playOff();
+	this.selectedMenuIconIndex = index;
+	this.selectedMenuIcon = this.buttonGroup.members[this.selectedMenuIconIndex];
+	this.selectedMenuIcon.playHover();
+}
+
+titleState.getIncreasedIndex = function(){
+	var index = this.selectedMenuIconIndex + 1;
+	if(index >= this.buttonGroup.members.length){
+		index = 0;
+	}
+	return index;
+}
+
+titleState.getDecreasedIndex = function(){
+	var index = this.selectedMenuIconIndex - 1;
+	if(index < 0){
+		index = this.buttonGroup.members.length - 1;
+	}
+	return index;
+}
+
+titleState.buttonOnDownOnce = function(button){
+	switch( button.name ){
+		case "XBOX_A":
+			this.selectedMenuIcon.mouseClicked();
+			break;
+		case "XBOX_B":
+			break;
+		case "XBOX_X":
+			break;
+		case "XBOX_Y":
+
+			break;
+		case "XBOX_DPAD_LEFT":
+
+			break;
+		case "XBOX_DPAD_RIGHT":
+
+			break;
+		case "XBOX_DPAD_UP":
+			this.changeSelectedMenuIcon(this.getDecreasedIndex());
+			break;
+		case "XBOX_DPAD_DOWN":
+			this.changeSelectedMenuIcon(this.getIncreasedIndex());
+			break;
+		default:		
+	}
 }
 

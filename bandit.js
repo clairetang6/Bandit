@@ -958,11 +958,11 @@ MenuIcon.prototype.mouseClicked = function(){
 			break;
 		case '1player':
 			this.state.game.numPlayers = 1;
-			this.state.game.states.switchState('gameState');
+			this.state.game.states.switchState('levelSelectionState');
 			break;
 		case '2player':
 			this.state.game.numPlayers = 2;
-			this.state.game.states.switchState('gameState');
+			this.state.game.states.switchState('levelSelectionState');
 			break;
 		case 'controls':
 			this.state.controlsScreen.y = 0;
@@ -1246,10 +1246,7 @@ LevelSelectionIcon.prototype.startLevel = function(){
 		this.y -= 2; 
 		this.isDown = false;
 	}
-	this.state.currentLevel = this.number;
-	this.showingLevelSelectionScreen = false;
-	this.state.levelSelectionGroup.active = false;
-	this.state.showLevelScreen();
+	this.state.startGame(this.number);
 }
 
 

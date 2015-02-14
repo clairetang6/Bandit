@@ -7,9 +7,8 @@ gameState.preload = function(){
 	this.bps = this.BLOCK_PIXEL_SIZE; 
 	this.MULTIPLIER = 1; 
 	this.numPlayers = this.game.numPlayers;
-	this.currentLevel = 1; 
+	this.currentLevel = this.game.currentLevel; 
 	this.numberOfLevels = 21;	
-	this.addImage('levelSelectionBackground','level_select_1.png',0,0);
 
 }
 
@@ -19,9 +18,6 @@ gameState.create = function(){
 	this.isPaused = false;
 	this.soundsOn = true;
 	this.musicOn = true;
-
-	this.STAGE_WIDTH = 1024;
-	this.STAGE_HEIGHT = 768;
 
 	this.STAGE_Y_OFFSET = 32 * this.MULTIPLIER;
 	this.STAGE_X_OFFSET = 38 * this.MULTIPLIER;
@@ -33,29 +29,6 @@ gameState.create = function(){
 	this.GRID_COLS = 20;	
 
 	myGame.stage.color = '000000';
-	myGame.stage.resize(this.STAGE_WIDTH, this.STAGE_HEIGHT);
-
-	this.levelSelectionScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['levelSelectionBackground'],0,-18*this.MULTIPLIER);
-	this.levelSelectionGroup = new Kiwi.Group(this);
-	for (var i = 1; i<=20; i++){
-		var row = Math.floor((i-1)/5.0);
-		var col = i%5; 
-		if(col == 0){
-			col = 5;
-		}
-		var icon = new LevelSelectionIcon(this, 165*col-60, 55+150*row, i);
-		if(this.game.levelsUnlocked[i-1]==1){
-			icon.animation.play('on1');
-			icon.addHovering();
-			icon.addClicking();
-		}else{
-			icon.animation.play('off');
-		}
-		this.levelSelectionGroup.addChild(icon);
-	}
-
-	this.backButton = new MenuIcon(this, 30, 665, 'backLevelSelection');
-	this.levelSelectionGroup.addChild(this.backButton);
 
 	this.winScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['win'],-18*this.MULTIPLIER,-18*this.MULTIPLIER);
 	this.loseScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['lose'],-18*this.MULTIPLIER,-18*this.MULTIPLIER);
@@ -346,19 +319,10 @@ gameState.create = function(){
 	this.pressUpSignLocations = [[550, 650], [550, 650], [200, 650]];
 	this.signGridPositions = [[14, 12], [14, 12], [14, 5]];
 
-	if(this.currentLevel == 1){
-		this.showLevelSelectionScreen();
-	}else{
-		this.showLevelScreen();
-	}
-	
-}
 
-gameState.showLevelSelectionScreen = function(){
-	this.showingLevelSelectionScreen = true;
-	this.levelSelectionGroup.active = true;
-	this.addChild(this.levelSelectionScreen);
-	this.addChild(this.levelSelectionGroup);
+	this.showLevelScreen();
+	
+	
 }
 
 gameState.showLevelScreen = function(){
@@ -662,7 +626,6 @@ gameState.createLevel = function(){
 	this.gameTimer.resume();
 
 	this.showingLevelScreen = false;
-	this.showingLevelSelectionScreen = false;
 	this.showingTutorial = false;
 	this.showingPressUp = false;
 }
@@ -1263,10 +1226,8 @@ gameState.levelOver = function(showCutScene){
 }
 
 gameState.updateLevelSelectionScreen = function(levelUnlocked){
-	if(levelUnlocked<=16){
+	if(levelUnlocked <= 20){
 		this.game.levelsUnlocked[levelUnlocked-1] = 1;
-		this.levelSelectionGroup.members[levelUnlocked-1].addHovering();
-		this.levelSelectionGroup.members[levelUnlocked-1].addClicking();
 	}
 }
 
@@ -1685,7 +1646,7 @@ gameState.update = function(){
 	if(this.isPaused == false){
 		Kiwi.State.prototype.update.call(this);
 
-		if(this.showingLevelScreen == false && this.showingLevelSelectionScreen == false){
+		if(this.showingLevelScreen == false){
 			this.checkCollisions();
 			this.isLevelOver();
 			this.isGameOver();
@@ -1733,7 +1694,7 @@ gameState.update = function(){
 		//menu is down
 		Kiwi.Group.prototype.update.call(this.menuGroup);
 	}
-	if(this.showingLevelScreen == false && this.showingLevelSelectionScreen == false){
+	if(this.showingLevelScreen == false){
 		if(this.mouse.isDown){
 			if(this.mouse.x > 400 && this.mouse.x < 700 && this.mouse.y < 25 * this.MULTIPLIER){
 				if(this.isPaused == false){
