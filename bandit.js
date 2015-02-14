@@ -122,7 +122,7 @@ Bandit.prototype.moveUp = function(){
 			}			
 			var pixelNum = this.state.getPixelNumberForGridPosition(gridPosition,'north');
 			if(this.y>6+pixelNum){
-				this.y -= Math.round(3 * this.state.game.time.rate);
+				this.y -= 3;
 				if(this.animation.currentAnimation.name!='climb'){
 					this.animation.play('climb');
 				}				
