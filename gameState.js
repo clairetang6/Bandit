@@ -329,12 +329,20 @@ gameState.showLevelScreen = function(){
 	this.showingLevelScreen = true;
 	this.horseGroup.visible = false;
 	this.levelScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['level'+this.currentLevel],0,-18*this.MULTIPLIER);
+	this.levelScreen.alpha = 0;
+	this.levelScreen.name = 'levelScreen';
 	this.addChild(this.levelScreen);
 
-	this.createLevelTimer = this.game.time.clock.createTimer('createLevelTimer',0.5,0,false);
-	this.createLevelTimerEvent = this.createLevelTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.createLevel,this);
-	
-	this.createLevelTimer.start();	
+	this.levelScreenTweenIn = this.game.tweens.create(this.levelScreen, this);
+	this.levelScreenTweenOut = this.game.tweens.create(this.levelScreen, this);
+	this.levelScreenTweenIn.to({ alpha: 1 }, 200, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+	this.levelScreenTweenOut.to({ alpha: 0 }, 800, Kiwi.Animations.Tweens.Easing.Cubic.In);
+
+	this.levelScreenTweenIn.onComplete(this.onLevelScreenInComplete, this);
+	this.levelScreenTweenOut.onComplete(this.createLevel, this);
+
+	this.levelScreenTweenIn.chain(this.levelScreenTweenOut);
+	this.levelScreenTweenIn.start();
 }
 
 gameState.createLevel = function(){
@@ -526,6 +534,12 @@ gameState.createLevel = function(){
 
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'+this.currentLevel],-this.bps,-this.bps);
 	this.background.name = 'background';
+	this.background2 = new Kiwi.GameObjects.StaticImage(this, this.textures['background'+this.currentLevel],-this.bps,-this.bps);
+	this.background2.alpha = 0;
+	
+	this.background2Tween = this.game.tweens.create(this.background2);
+	this.background2Tween.onComplete(this.showCutScene, this);
+	this.background2Tween.to({ alpha: 1 }, 1000, Kiwi.Animations.Tweens.Easing.Sinusoidal.Out);
 
 	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this,'level_tilemap'+this.currentLevel, this.textures.sprites);
 	
@@ -566,7 +580,7 @@ gameState.createLevel = function(){
 	this.addChild(this.potionGroup);
 	this.addChild(this.ghoulGroup);
 	this.addChild(this.banditGroup);
-	
+
 	this.addChild(this.horseGroup);
 	this.horseGroup.active = false;
 	this.horseGroup.visible = false;
@@ -594,6 +608,8 @@ gameState.createLevel = function(){
 	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
 		this.addChild(this.ghoulKillCountGroup[i]);
 	}
+
+	this.addChild(this.background2);
 
 	this.addChild(this.menuArrow);
 	this.addChild(this.menuBackground);
@@ -1215,9 +1231,9 @@ gameState.levelOver = function(showCutScene){
 			this.addChild(this.winScreen);
 		}else{
 			this.updateLevelSelectionScreen(this.currentLevel);
-			this.destroyEverything(false);
 			if(showCutScene){
-				this.showCutScene();
+				this.showingLevelScreen = true;	
+				this.background2Tween.start();
 			}else{
 				this.showLevelScreen();
 			}
@@ -1232,7 +1248,7 @@ gameState.updateLevelSelectionScreen = function(levelUnlocked){
 }
 
 gameState.showCutScene = function(){
-	this.showingLevelScreen = true;
+	this.destroyEverything(false);
 
 	var members = this.banditGroup.members;
 	for(var i = 0; i<members.length; i++){
@@ -1370,6 +1386,18 @@ gameState.stepBigCoinCounter = function(bandit, bigCoinCounterStep){
 	}
 }
 
+gameState.onLevelScreenInComplete = function(){
+	var members = this.members;
+	for(var i = 0; i<members.length; i++){
+		if(members[i].objType()!='Group' && members[i].name!='menu'){
+			 if(members[i].name!='levelScreen'){
+				members[i].destroy();
+			}
+		}
+	}
+	this.iconsDuringLevelScreen();
+}
+
 gameState.iconsDuringCutScene = function(){
 	this.bigDigitGroup.visible = true;
 	this.betweenScreenGroup.visible = true;
@@ -1379,6 +1407,11 @@ gameState.iconsDuringCutScene = function(){
 	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
 		this.ghoulKillCountGroup[i].visible = false;
 	}
+}
+
+gameState.iconsDuringLevelScreen = function(){
+	this.bigDigitGroup.visible = false;
+	this.betweenScreenGroup.visible = false;
 }
 
 gameState.iconsNotDuringCutscene = function(){
@@ -1423,6 +1456,7 @@ gameState.destroyEverything = function(removeBackground){
 }
 
 gameState.removeBackgroundImages = function(leaveBackground){
+	leaveBackground = typeof leaveBackground !== 'undefined' ? leaveBackground : false;
 	var members = this.members;
 	for(var i = 0; i<members.length; i++){
 		if(members[i].objType()!='Group' && members[i].name!='menu'){
@@ -1609,9 +1643,11 @@ gameState.closeTutorial = function(){
 	this.resumeGame();
 }
 
-gameState.closeMenu = function(){
+gameState.closeMenu = function(param){
 	this.menuGroup.active = false;
-	this.resumeGame();
+	if(param != 'noresume'){
+		this.resumeGame();
+	}
 	this.menuArrowTween.to({alpha: 1}, 1000, Kiwi.Animations.Tweens.Easing.Linear.Out,true);
 	this.menuTween.to({y: -800}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
 	this.menuGroupTween.to({y: -800}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);		

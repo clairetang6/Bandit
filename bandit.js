@@ -942,11 +942,13 @@ MenuIcon.prototype.mouseClicked = function(){
 			break;
 		case 'restart':
 			this.state.currentLevel--;
-			this.state.closeMenu();
+			this.state.closeMenu('noresume');
 			if(this.state.musicOn){
 				this.state.musicSound.stop();
-			}		
-			this.state.levelOver(false);
+			}
+			this.timer = this.state.game.time.clock.createTimer('restartLevelTimer',0.9,0,false);
+			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.restartLevel, this);
+			this.timer.start();
 			break;
 		case 'home':
 			this.state.destroyEverything(true);
@@ -982,6 +984,13 @@ MenuIcon.prototype.mouseClicked = function(){
 			this.game.states.switchState('titleState');
 			break;
 	}
+}
+
+MenuIcon.prototype.restartLevel = function(){
+	this.state.destroyEverything(false);
+	this.state.moveBanditsOffscreen();
+	this.state.levelOver(false);
+	this.state.resumeGame();
 }
 
 MenuIcon.prototype.playHover = function(){
