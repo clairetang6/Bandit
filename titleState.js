@@ -44,7 +44,10 @@ titleState.create = function(){
 	
 }
 
-titleState.start_game = function(){
+titleState.startGame = function(){
+	if(this.game.gamepads){
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
+	}
 	this.game.states.switchState('levelSelectionState');
 }
 

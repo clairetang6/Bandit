@@ -960,11 +960,11 @@ MenuIcon.prototype.mouseClicked = function(){
 			break;
 		case '1player':
 			this.state.game.numPlayers = 1;
-			this.state.game.states.switchState('levelSelectionState');
+			this.state.startGame();
 			break;
 		case '2player':
 			this.state.game.numPlayers = 2;
-			this.state.game.states.switchState('levelSelectionState');
+			this.state.startGame();
 			break;
 		case 'controls':
 			this.state.controlsScreen.y = 0;
@@ -1256,6 +1256,10 @@ LevelSelectionIcon.prototype.startLevel = function(){
 		this.isDown = false;
 	}
 	this.state.startGame(this.number);
+}
+
+LevelSelectionIcon.prototype.objType = function(){
+	return "LevelSelectionIcon";
 }
 
 

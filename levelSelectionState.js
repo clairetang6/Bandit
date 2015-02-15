@@ -18,7 +18,14 @@ levelSelectionState.create = function(){
 	
 	this.mouse = this.game.input.mouse;
 
-	this.levelSelectionScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['levelSelectionBackground'],0,-18*this.MULTIPLIER);
+	this.map = [
+		[1, 2, 3, 4, 5],
+		[6, 7, 8, 9, 10],
+		[11, 12, 13, 14, 15],
+		[16, 17, 18, 19, 20]
+		];
+
+	this.levelSelectionScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['levelSelectionBackground'],12 * this.MULTIPLIER, 0);
 	this.levelSelectionGroup = new Kiwi.Group(this);
 	for (var i = 1; i<=20; i++){
 		var row = Math.floor((i-1)/5.0);
@@ -44,9 +51,101 @@ levelSelectionState.create = function(){
 	this.addChild(this.levelSelectionScreen);
 	this.addChild(this.levelSelectionGroup);	
 
+	this.selectedIconRow = 0;
+	this.selectedIconCol = 0;
+	this.selectedIcon = this.levelSelectionGroup.members[this.map[this.selectedIconRow][this.selectedIconCol]-1];
+	console.log(this.selectedIcon.number);
+	
+	if(this.game.gamepads){
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce, this);
+	}
 }
 
 levelSelectionState.startGame = function(levelSelected){
 	this.game.currentLevel = levelSelected;
+	if(this.game.gamepads){
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
+	}
 	this.game.states.switchState('gameState');
+}
+
+levelSelectionState.changeSelectedIcon = function(row, col){
+	if(this.selectedIcon.objType() == "LevelSelectionIcon"){
+		this.selectedIcon.playOn();
+	}else{
+		console.log(this.selectedIcon);
+		this.selectedIcon.playOff();
+	}
+	this.selectedIconRow = row;
+	this.selectedIconCol = col;
+	if(row < 4){
+		this.selectedIcon = this.levelSelectionGroup.members[this.map[this.selectedIconRow][this.selectedIconCol]-1];
+	}else{
+		this.selectedIcon = this.backButton;
+	}
+	this.selectedIcon.playHover();
+}
+
+levelSelectionState.getIncreasedRow = function(){
+	var row = this.selectedIconRow + 1;
+	if(row > 4){
+		row = 0;
+	}
+	return row;
+}
+
+levelSelectionState.getDecreasedRow = function(){
+	var row = this.selectedIconRow - 1;
+	if(row < 0){
+		row = 4;
+	}
+	return row;
+}
+
+levelSelectionState.getIncreasedCol = function(){
+	var col = this.selectedIconCol + 1;
+	if(col > 4){
+		col = 0;
+	}
+	return col;
+}
+
+levelSelectionState.getDecreasedCol = function(){
+	var col = this.selectedIconCol - 1;
+	if(col < 0){
+		col = 4;
+	}
+	return col;
+}
+
+levelSelectionState.buttonOnDownOnce = function(button){
+	switch( button.name ){
+		case "XBOX_A":
+			if(this.selectedIcon.objType() == 'LevelSelectionIcon'){
+				this.selectedIcon.startLevel();
+			}else{
+				this.selectedIcon.mouseClicked();
+			}
+			break;
+		case "XBOX_B":
+			break;
+		case "XBOX_X":
+			break;
+		case "XBOX_Y":
+
+			break;
+		case "XBOX_DPAD_LEFT":
+			this.changeSelectedIcon(this.selectedIconRow, this.getDecreasedCol());
+			break;
+		case "XBOX_DPAD_RIGHT":
+			this.changeSelectedIcon(this.selectedIconRow, this.getIncreasedCol());
+			break;
+		case "XBOX_DPAD_UP":
+			this.changeSelectedIcon(this.getDecreasedRow(), this.selectedIconCol);
+			break;
+		case "XBOX_DPAD_DOWN":
+			this.changeSelectedIcon(this.getIncreasedRow(), this.selectedIconCol);
+			break;
+		default:		
+	}
 }

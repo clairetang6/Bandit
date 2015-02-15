@@ -335,8 +335,8 @@ gameState.showLevelScreen = function(){
 
 	this.levelScreenTweenIn = this.game.tweens.create(this.levelScreen, this);
 	this.levelScreenTweenOut = this.game.tweens.create(this.levelScreen, this);
-	this.levelScreenTweenIn.to({ alpha: 1 }, 200, Kiwi.Animations.Tweens.Easing.Cubic.Out);
-	this.levelScreenTweenOut.to({ alpha: 0 }, 800, Kiwi.Animations.Tweens.Easing.Cubic.In);
+	this.levelScreenTweenIn.to({ alpha: 1 }, 800, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+	this.levelScreenTweenOut.to({ alpha: 0 }, 1000, Kiwi.Animations.Tweens.Easing.Cubic.In);
 
 	this.levelScreenTweenIn.onComplete(this.onLevelScreenInComplete, this);
 	this.levelScreenTweenOut.onComplete(this.createLevel, this);
