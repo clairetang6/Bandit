@@ -283,6 +283,13 @@ gameState.create = function(){
 	this.diamondSound = new Kiwi.Sound.Audio(this.game, 'diamondSound', 0.1, false);
 	this.diamondSound.addMarker('start',0,1,false);
 
+	this.ghoulTeleportOutSound = new Kiwi.Sound.Audio(this.game, 'ghoulTeleportOutSound', 0.2, false);
+	this.ghoulTeleportOutSound.addMarker('start', 0, 1, false);
+	this.ghoulTeleportInSound = new Kiwi.Sound.Audio(this.game, 'ghoulTeleportInSound', 0.2, false);
+	this.ghoulTeleportInSound.addMarker('start', 0, 1, false);
+	this.ghoulDeathSound = new Kiwi.Sound.Audio(this.game, 'ghoulDeathSound', 0.2, false);
+	this.ghoulDeathSound.addMarker('start', 0, 1, false);
+
 	this.voicesSound = new Kiwi.Sound.Audio(this.game, 'voicesSound', 0.3, false);
 	this.voicesSound.addMarker('bombPickup',0,1.3845,false);
 	this.voicesSound.addMarker('bombPlace',1.3845,3.1347,false);

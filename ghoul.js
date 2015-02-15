@@ -462,6 +462,9 @@ Ghoul.prototype.inHole = function(){
 Ghoul.prototype.playDieAnimation = function(){
 	if(this.animation.currentAnimation.name != 'die' + this.facing){
 		this.animation.play('die' + this.facing);
+		if(this.state.soundsOn){
+			this.state.ghoulDeathSound.play('start', true);
+		}
 	}
 }
 
@@ -666,6 +669,9 @@ Ghoul.prototype.teleport = function(){
 	if(typeof this != 'undefined'){
 		this.facing = 'teleport';
 		this.animation.play('disappear');
+		if(this.state.soundsOn){
+			this.state.ghoulTeleportOutSound.play('start', true);
+		}
 		this.box.hitbox = new Kiwi.Geom.Rectangle(0,0,0,0);		
 
 		do{
@@ -682,8 +688,11 @@ Ghoul.prototype.showOrb = function(){
 		this.animation.play('orb');
 		var pixels = this.state.getPixelPositionFromRowCol(this.nextRow, this.nextCol);
 		this.x = pixels[0];
-		this.y = pixels[1];		
-		this.orbTimer2.start();
+		this.y = pixels[1];
+		if(this.state.soundsOn){
+			this.state.ghoulTeleportInSound.play('start', true);
+		}				
+		this.orbTimer2.start();	
 	}
 }
 
