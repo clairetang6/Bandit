@@ -326,6 +326,28 @@ gameState.create = function(){
 	this.pressUpSignLocations = [[550, 650], [550, 650], [200, 650]];
 	this.signGridPositions = [[14, 12], [14, 12], [14, 5]];
 
+	this.pointThresholds = [
+		[100, 400, 800], //  1
+		[100, 400, 800], 
+		[100, 400, 800], 
+		[100, 400, 800], 
+		[100, 400, 800], 
+		[100, 400, 800], //  6
+		[100, 400, 800], 
+		[100, 400, 800], 
+		[100, 400, 800], 
+		[100, 400, 800], 
+		[100, 400, 800], //  11
+		[100, 400, 800], 
+		[100, 400, 800], 
+		[100, 400, 800], 
+		[100, 400, 800], 
+		[100, 400, 800], //  16
+		[100, 400, 800], 
+		[100, 400, 800], 
+		[100, 400, 800], 
+		[100, 400, 800], 										
+	];
 
 	this.showLevelScreen();
 	
@@ -1237,7 +1259,7 @@ gameState.levelOver = function(showCutScene){
 		}else if(this.currentLevel > this.numberOfLevels){
 			this.addChild(this.winScreen);
 		}else{
-			this.updateLevelSelectionScreen(this.currentLevel);
+			this.unlockLevel(this.currentLevel);
 			if(showCutScene){
 				this.showingLevelScreen = true;	
 				this.background2Tween.start();
@@ -1248,9 +1270,18 @@ gameState.levelOver = function(showCutScene){
 	}
 }
 
-gameState.updateLevelSelectionScreen = function(levelUnlocked){
-	if(levelUnlocked <= 20){
-		this.game.levelsUnlocked[levelUnlocked-1] = 1;
+gameState.unlockLevel = function(level){
+	if(level <= 20){
+		this.game.levelsData[level-1].unlocked = true;
+		this.game.saveManager.localStorage.edit('levelsData', this.game.levelsData, true );
+	}
+}
+
+gameState.setStarsForPreviousLevel = function(stars){
+	console.log('setting stars');
+	if(this.currentLevel <= 21){
+		this.game.levelsData[this.currentLevel-2].stars = stars;
+		this.game.saveManager.localStorage.edit('levelsData', this.game.levelsData, true );
 	}
 }
 
@@ -1266,6 +1297,22 @@ gameState.showCutScene = function(){
 	var totalPoints = this.addPointCounters();	
 	for(var i =0; i<members.length; i++){
 		members[i].totalCoinsCollected = totalPoints[i];		
+	}
+
+	if(this.numPlayers == 1){
+		var previousLevelPoints = totalPoints[0]
+	}else{
+		var previousLevelPoints = totalPoints[0] + totalPoints[1];
+	}
+		
+	if(previousLevelPoints > this.pointThresholds[this.currentLevel-2][2]){
+		this.setStarsForPreviousLevel(3);
+	}else if(previousLevelPoints > this.pointThresholds[this.currentLevel-2][1]){
+		this.setStarsForPreviousLevel(2);
+	}else if(previousLevelPoints > this.pointThresholds[this.currentLevel-2][0]){
+		this.setStarsForPreviousLevel(1);
+	}else{
+		this.setStarsForPreviousLevel(0);
 	}
 
 	this.addBonusIcons();

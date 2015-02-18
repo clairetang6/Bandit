@@ -1226,11 +1226,19 @@ var LevelSelectionIcon = function(state, x, y, number){
 Kiwi.extend(LevelSelectionIcon, Kiwi.GameObjects.Sprite);
 
 LevelSelectionIcon.prototype.playHover = function(){
-	this.animation.play('hover1');
+	var stars = this.state.game.levelsData[this.number-1].stars;
+	if(stars == 0){
+		stars = 1;
+	}
+	this.animation.play('hover' + stars);
 }
 
 LevelSelectionIcon.prototype.playOn = function(){
-	this.animation.play('on1');
+	var stars = this.state.game.levelsData[this.number-1].stars;
+	if(stars == 0){
+		stars = 1;
+	}
+	this.animation.play('on' + stars);
 }
 
 LevelSelectionIcon.prototype.playDown = function(){

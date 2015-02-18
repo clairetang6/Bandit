@@ -18,6 +18,23 @@ levelSelectionState.create = function(){
 	
 	this.mouse = this.game.input.mouse;
 
+	if(this.game.saveManager.localStorage.exists('levelsData')){
+		this.game.levelsData = this.game.saveManager.localStorage.getData('levelsData');
+	}else{
+		var levelsData = [];
+		for(var i = 0; i <= 21; i++){
+			var levelData = {
+				unlocked: false,
+				highScore: 0, 
+				stars: 0
+			}
+			levelsData.push(levelData);
+		}
+		levelsData[0].unlocked = true;
+		this.game.saveManager.localStorage.add('levelsData', levelsData, true);
+		this.game.levelsData = levelsData; 
+	}
+
 	this.map = [
 		[1, 2, 3, 4, 5],
 		[6, 7, 8, 9, 10],
@@ -33,9 +50,13 @@ levelSelectionState.create = function(){
 		if(col == 0){
 			col = 5;
 		}
-		var icon = new LevelSelectionIcon(this, 165*col-60, 55+150*row, i);
-		if(this.game.levelsUnlocked[i-1]==1){
-			icon.animation.play('on1');
+		var icon = new LevelSelectionIcon(this, 165*col-60, 55+150*row, i);		
+		if(this.game.levelsData[i-1].unlocked){
+			var stars = this.game.levelsData[i-1].stars;
+			if(stars == 0){
+				stars = 1;
+			}		
+			icon.animation.play('on' + stars);
 			icon.addHovering();
 			icon.addClicking();
 		}else{
@@ -59,6 +80,7 @@ levelSelectionState.create = function(){
 	if(this.game.gamepads){
 		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce, this);
 	}
+
 }
 
 levelSelectionState.startGame = function(levelSelected){
