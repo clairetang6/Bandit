@@ -52,10 +52,7 @@ levelSelectionState.create = function(){
 		}
 		var icon = new LevelSelectionIcon(this, 165*col-60, 55+150*row, i);		
 		if(this.game.levelsData[i-1].unlocked){
-			var stars = this.game.levelsData[i-1].stars;
-			if(stars == 0){
-				stars = 1;
-			}		
+			var stars = this.game.levelsData[i-1].stars;		
 			icon.animation.play('on' + stars);
 			icon.addHovering();
 			icon.addClicking();

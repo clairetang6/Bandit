@@ -28,7 +28,7 @@
             </struct>
         </array>
         <key>allowRotation</key>
-        <false/>
+        <true/>
         <key>premultiplyAlpha</key>
         <false/>
         <key>shapeDebug</key>
@@ -36,7 +36,7 @@
         <key>dpi</key>
         <uint>72</uint>
         <key>dataFormat</key>
-        <string>plain</string>
+        <string>cocos2d</string>
         <key>textureFileName</key>
         <filename>../../../level_selection_spritesheet.png</filename>
         <key>flipPVR</key>
@@ -74,7 +74,7 @@
         <key>jpgQuality</key>
         <uint>80</uint>
         <key>pngOptimizationLevel</key>
-        <uint>1</uint>
+        <uint>0</uint>
         <key>webpQualityLevel</key>
         <uint>101</uint>
         <key>textureSubPath</key>
@@ -110,7 +110,7 @@
             <key>forceSquared</key>
             <false/>
             <key>forceWordAligned</key>
-            <false/>
+            <true/>
             <key>maxRects</key>
             <struct type="AlgorithmMaxRectsSettings">
                 <key>heuristic</key>
@@ -142,6 +142,11 @@
         </struct>
         <key>dataFileNames</key>
         <map type="GFileNameMap">
+            <key>data</key>
+            <struct type="DataFile">
+                <key>name</key>
+                <filename>../../../../../../users/claire/dropbox/bandit/art/level_selection_icons/tp.plist</filename>
+            </struct>
             <key>header</key>
             <struct type="DataFile">
                 <key>name</key>
@@ -333,6 +338,46 @@
             <filename>pngs/level20_complete2.png</filename>
             <filename>pngs/level20_complete3_hover.png</filename>
             <filename>pngs/level20_complete3.png</filename>
+            <filename>pngs/level3_blank_hover.png</filename>
+            <filename>pngs/level3_blank.png</filename>
+            <filename>pngs/level4_blank_hover.png</filename>
+            <filename>pngs/level4_blank.png</filename>
+            <filename>pngs/level5_blank_hover.png</filename>
+            <filename>pngs/level5_blank.png</filename>
+            <filename>pngs/level6_blank_hover.png</filename>
+            <filename>pngs/level6_blank.png</filename>
+            <filename>pngs/level7_blank_hover.png</filename>
+            <filename>pngs/level7_blank.png</filename>
+            <filename>pngs/level8_blank_hover.png</filename>
+            <filename>pngs/level8_blank.png</filename>
+            <filename>pngs/level9_blank_hover.png</filename>
+            <filename>pngs/level9_blank.png</filename>
+            <filename>pngs/level10_blank_hover.png</filename>
+            <filename>pngs/level10_blank.png</filename>
+            <filename>pngs/level11_blank_hover.png</filename>
+            <filename>pngs/level11_blank.png</filename>
+            <filename>pngs/level12_blank_hover.png</filename>
+            <filename>pngs/level12_blank.png</filename>
+            <filename>pngs/level13_blank_hover.png</filename>
+            <filename>pngs/level13_blank.png</filename>
+            <filename>pngs/level14_blank_hover.png</filename>
+            <filename>pngs/level14_blank.png</filename>
+            <filename>pngs/level15_blank_hover.png</filename>
+            <filename>pngs/level15_blank.png</filename>
+            <filename>pngs/level16_blank_hover.png</filename>
+            <filename>pngs/level16_blank.png</filename>
+            <filename>pngs/level17_blank_hover.png</filename>
+            <filename>pngs/level17_blank.png</filename>
+            <filename>pngs/level18_blank_hover.png</filename>
+            <filename>pngs/level18_blank.png</filename>
+            <filename>pngs/level19_blank_hover.png</filename>
+            <filename>pngs/level19_blank.png</filename>
+            <filename>pngs/level20_blank_hover.png</filename>
+            <filename>pngs/level20_blank.png</filename>
+            <filename>pngs/level1_blank_hover.png</filename>
+            <filename>pngs/level1_blank.png</filename>
+            <filename>pngs/level2_blank_hover.png</filename>
+            <filename>pngs/level2_blank.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
