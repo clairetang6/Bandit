@@ -358,14 +358,14 @@ gameState.showLevelScreen = function(){
 	this.showingLevelScreen = true;
 	this.horseGroup.visible = false;
 	this.levelScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['level'+this.currentLevel],0,-18*this.MULTIPLIER);
-	this.levelScreen.alpha = 0;
+	this.levelScreen.x = -1024;
 	this.levelScreen.name = 'levelScreen';
 	this.addChild(this.levelScreen);
 
 	this.levelScreenTweenIn = this.game.tweens.create(this.levelScreen, this);
 	this.levelScreenTweenOut = this.game.tweens.create(this.levelScreen, this);
-	this.levelScreenTweenIn.to({ alpha: 1 }, 800, Kiwi.Animations.Tweens.Easing.Cubic.Out);
-	this.levelScreenTweenOut.to({ alpha: 0 }, 1000, Kiwi.Animations.Tweens.Easing.Cubic.In);
+	this.levelScreenTweenIn.to({ x: 0 }, 700, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+	this.levelScreenTweenOut.to({ x: 1124 }, 700, Kiwi.Animations.Tweens.Easing.Cubic.In);
 
 	this.levelScreenTweenIn.onComplete(this.onLevelScreenInComplete, this);
 	this.levelScreenTweenOut.onComplete(this.createLevel, this);
