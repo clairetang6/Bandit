@@ -20,7 +20,7 @@ loadingState.preload = function(){
 	this.addAudio('ghoulTeleportOutSound','sounds/ghoul_teleport.wav');
 	this.addAudio('ghoulTeleportInSound','sounds/ghoul_teleport_in.wav');
 	this.addAudio('ghoulDeathSound', 'sounds/ghoul_death.wav');
-	
+
 	this.addSpriteSheet('menu','menu_sprite.png',500,50);	
 	this.BLOCK_PIXEL_SIZE = 50; 
 	this.bps = this.BLOCK_PIXEL_SIZE; 
@@ -42,7 +42,8 @@ loadingState.preload = function(){
 	this.addSpriteSheet('digits','digits.png',18*this.MULTIPLIER,18*this.MULTIPLIER);	
 	this.addSpriteSheet('level_selection','level_selection_spritesheet.png',132,132);
 	this.addSpriteSheet('betweenScreen','between_screen_spritesheet.png',75,75);
-
+	this.addSpriteSheet('icons', 'icon_spritesheet.png', 100, 100);
+	
 	this.addImage('tutorial1', 'sign_1.png');
 	this.addImage('tutorial2', 'sign_2.png');
 	this.addImage('tutorial3', 'sign_3.png');

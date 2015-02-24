@@ -80,6 +80,21 @@ gameState.create = function(){
 		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'money', 550, this.MONEY_YPOS));	
 	}
 
+	this.iconGroup = new Kiwi.Group(this);
+	this.iconTweens = [];
+
+	var playIcon = new Icon(this, 700, 600, 'play');
+	playIcon.alpha = 0;
+	this.iconGroup.addChild(playIcon);
+	this.iconTweens.push(this.game.tweens.create(playIcon));
+	var restartIcon = new Icon(this, 450, 600, 'restart');
+	this.iconGroup.addChild(restartIcon);
+	this.iconTweens.push(this.game.tweens.create(restartIcon));
+	var homeIcon = new Icon(this, 200, 600, 'home');
+	this.iconGroup.addChild(homeIcon);
+	this.iconTweens.push(this.game.tweens.create(homeIcon));
+
+
 	this.bigDigitGroup = new Kiwi.Group(this);
 		
 	if(this.numPlayers == 1){
@@ -357,6 +372,8 @@ gameState.create = function(){
 gameState.showLevelScreen = function(){
 	this.showingLevelScreen = true;
 	this.horseGroup.visible = false;
+	this.iconGroup.active = false;
+
 	this.levelScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['level'+this.currentLevel],0,-18*this.MULTIPLIER);
 	this.levelScreen.x = -1024;
 	this.levelScreen.name = 'levelScreen';
@@ -638,11 +655,13 @@ gameState.createLevel = function(){
 		this.addChild(this.ghoulKillCountGroup[i]);
 	}
 
-	this.addChild(this.background2);
 
 	this.addChild(this.menuArrow);
 	this.addChild(this.menuBackground);
 	this.addChild(this.menuGroup);
+	this.addChild(this.background2);
+
+	this.addChild(this.iconGroup);
 
 	if(this.currentLevel <= 3){
 		this.addChild(this.pressUpSign);		
@@ -1322,13 +1341,22 @@ gameState.showCutScene = function(){
 	this.moveBanditsOffscreen();
 	this.showStageCoachAndHorses();
 
-	this.showingLevelScreenTimer = this.game.time.clock.createTimer('showingLevelScreenTimer',10,0,false);
-	this.showingLevelScreenTimerEvent = this.showingLevelScreenTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.showLevelScreen,this);
+	this.showIconsTimer = this.game.time.clock.createTimer('showIconsTimer',10,0,false);
+	this.showIconsTimerEvent = this.showIconsTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.addIcons,this);
 	
-	this.showingLevelScreenTimer.start();	
+	this.showIconsTimer.start();	
+}
 
-	//this.showLevelScreen();
-
+gameState.addIcons = function(){
+	this.iconGroup.active = true;
+	this.iconGroup.visible = true;
+	for(var i = 0; i < this.iconGroup.members.length; i++){
+		var icon = this.iconGroup.members[i];
+		icon.alpha = 0;
+		icon.scaleX = 3;
+		icon.scaleY = 3;
+		this.iconTweens[i].to({alpha: 1, scaleX: 1, scaleY: 1}, 500, Kiwi.Animations.Tweens.Easing.Sinusoidal.Out, true);
+	}
 }
 
 gameState.addBonusIcons = function(){
@@ -1453,6 +1481,7 @@ gameState.onLevelScreenInComplete = function(){
 }
 
 gameState.iconsDuringCutScene = function(){
+	this.menuArrow.visible = false;
 	this.bigDigitGroup.visible = true;
 	this.betweenScreenGroup.visible = true;
 	this.digitGroup.visible = false;
@@ -1466,14 +1495,18 @@ gameState.iconsDuringCutScene = function(){
 gameState.iconsDuringLevelScreen = function(){
 	this.bigDigitGroup.visible = false;
 	this.betweenScreenGroup.visible = false;
+	this.iconGroup.visible = false;
 }
 
 gameState.iconsNotDuringCutscene = function(){
+	this.menuArrow.visible = true;
 	this.digitGroup.visible = true;
 	this.timerDigitGroup.visible = true;
 	this.bombIconGroup.visible = true;
 	this.bigDigitGroup.visible = false;
 	this.betweenScreenGroup.visible = false;	
+	this.iconGroup.visible = false;
+	this.iconGroup.active = false;
 	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
 		this.ghoulKillCountGroup[i].visible = true;
 	}	

@@ -849,6 +849,70 @@ var BetweenScreenIcon = function(state, type, x, y){
 }
 Kiwi.extend(BetweenScreenIcon, Kiwi.GameObjects.Sprite);
 
+var Icon = function(state, x, y, type){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['icons'], x, y, true);
+
+	this.state = state;
+	this.type = type;
+	this.isDown = false;
+
+	switch(type){
+		case 'play':
+			this.animation.add('on', [6], 0.1, false);
+			this.animation.add('hover', [7], 0.1, false);
+		 	break;
+		case 'restart':
+			this.animation.add('on', [8], 0.1, false);
+			this.animation.add('hover', [9], 0.1, false);
+			break;
+		case 'home':
+			this.animation.add('on', [0], 0.1, false);
+			this.animation.add('hover', [1], 0.1, false);
+			break;
+	}
+
+	this.animation.play('on');
+
+	this.input.onEntered.add(MenuIcon.prototype.playHover, this);
+	this.input.onLeft.add(MenuIcon.prototype.playOff, this);
+	this.input.onUp.add(Icon.prototype.mouseClicked, this);
+	this.input.onDown.add(MenuIcon.prototype.playDown, this);	
+}
+Kiwi.extend(Icon, Kiwi.GameObjects.Sprite);
+
+Icon.prototype.mouseClicked = function(){
+	if(this.isDown == true){
+		this.y -= 2;
+		this.isDown = false;
+	}
+	switch(this.type){
+		case 'play':
+			this.state.showLevelScreen();
+			break;
+		case 'restart':
+			this.state.currentLevel-=2;
+			if(this.state.musicOn){
+				this.state.musicSound.stop();
+			}
+			this.restartLevel();
+			break;
+		case 'home':
+			this.state.destroyEverything(true);
+			this.state.gameTimer.removeTimerEvent(this.state.gameTimerEvent);
+			if(this.state.musicOn){
+				this.state.musicSound.stop();
+			}
+			this.state.game.states.switchState('titleState');
+			break;			
+	}
+}
+
+Icon.prototype.restartLevel = function(){
+	this.state.destroyEverything(false);
+	this.state.levelOver(false);
+	this.state.resumeGame();
+}
+
 var MenuIcon = function(state, x, y, type){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['menu'], x, y, true);
 
