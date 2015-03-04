@@ -231,7 +231,7 @@ gameState.create = function(){
 	this.BOMB_HITBOX_Y_PERCENTAGE = 0.33;	
 
 	this.horseGroup = new Kiwi.Group(this);
-	this.redHorse = new Horse(this, this.bps*(this.GRID_COLS+2), 570);
+	this.redHorse = new Horse(this, this.bps*(this.GRID_COLS+2), 580);
 	this.redHorse.animation.play('redrun');
 	this.blueHorse = new Horse(this, this.bps*(this.GRID_COLS+2), 610);
 	this.blueHorse.animation.play('bluerun');
@@ -305,6 +305,14 @@ gameState.create = function(){
 	this.ghoulDeathSound = new Kiwi.Sound.Audio(this.game, 'ghoulDeathSound', 0.2, false);
 	this.ghoulDeathSound.addMarker('start', 0, 1, false);
 
+	this.wagonSound = new Kiwi.Sound.Audio(this.game, 'wagonSound', 0.2, false);
+	this.wagonSound.addMarker('start', 1, 15, false);
+
+	this.horseGallopSound = new Kiwi.Sound.Audio(this.game, 'horseGallopSound', 1, false);
+	this.horseGallopSound.addMarker('start', 0, 8, false);
+	this.horseGallopSound2 = new Kiwi.Sound.Audio(this.game, 'horseGallopSound', 1, false);
+	this.horseGallopSound2.addMarker('start', 0, 8, false);
+
 	this.voicesSound = new Kiwi.Sound.Audio(this.game, 'voicesSound', 0.3, false);
 	this.voicesSound.addMarker('bombPickup',0,1.3845,false);
 	this.voicesSound.addMarker('bombPlace',1.3845,3.1347,false);
@@ -330,6 +338,7 @@ gameState.create = function(){
 	this.voicesSound.addMarker('yeehaw',40.5682, 42.6057, false);
 
 	this.musicSound = new Kiwi.Sound.Audio(this.game, 'musicSound', 0.2, true);
+	this.musicSound2 = new Kiwi.Sound.Audio(this.game, 'musicSound2', 0.2, true);
 
 	this.beginningLevelVoices = ['critters','dontTread','killAllThemGhouls','westBest'];
 
@@ -763,6 +772,10 @@ gameState.onKeyDownCallback = function(keyCode){
 				this.gunSound.play('start',true);
 			}		
 		}
+	}
+
+	if(keyCode == Kiwi.Input.Keycodes.T){
+		this.launchFullscreen();
 	}
 }
 
@@ -1307,6 +1320,11 @@ gameState.setStarsForPreviousLevel = function(stars){
 gameState.showCutScene = function(){
 	this.destroyEverything(false);
 
+	if(this.musicOn){
+		this.musicSound.stop();
+		this.musicSound2.play();
+	}
+
 	var members = this.banditGroup.members;
 	for(var i = 0; i<members.length; i++){
 		members[i].totalCoinsCollected += members[i].coinsCollected;
@@ -1520,6 +1538,20 @@ gameState.showStageCoachAndHorses = function(){
 		this.blueHorse.x = -1000;
 	}
 	this.stageCoach.x = -500;
+	if(this.soundsOn){
+		this.wagonSound.play('start', true);
+		this.horseGallopSound.play('start', true);
+		if(this.numPlayers == 2){
+			this.horseGallopTimer = this.game.time.clock.createTimer('horseGallopTimer',1,0,false);
+			this.horseGallopTimerEvent = this.horseGallopTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.playHorseGallopSound2, this);
+			this.horseGallopTimer.start();
+		}
+
+	}
+}
+
+gameState.playHorseGallopSound2 = function(){
+	this.horseGallopSound2.play('start', true);
 }
 
 gameState.moveBanditsOffscreen = function(){
@@ -1789,7 +1821,6 @@ gameState.update = function(){
 			}
 		
 			if(this.mouse.isDown){
-				this.game.fullscreen.launchFullscreen()
 				if(this.gameIsOver){
 					if(this.mouse.isDown){
 						this.levelOver(true);
@@ -1831,6 +1862,10 @@ gameState.update = function(){
 			}
 		}
 	}	
+}
+
+gameState.launchFullscreen = function(){
+	this.game.fullscreen.launchFullscreen()
 }
 
 gameState.pauseGame = function(){

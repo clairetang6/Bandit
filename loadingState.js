@@ -17,9 +17,13 @@ loadingState.preload = function(){
 	this.addAudio('shotgunSound','sounds/shotgun.wav');
 	this.addAudio('voicesSound','sounds/bandit_voices.wav');
 	this.addAudio('musicSound','sounds/level1.ogg');
+	this.addAudio('musicSound2', 'sounds/level_4.ogg');
+
 	this.addAudio('ghoulTeleportOutSound','sounds/ghoul_teleport.wav');
 	this.addAudio('ghoulTeleportInSound','sounds/ghoul_teleport_in.wav');
 	this.addAudio('ghoulDeathSound', 'sounds/ghoul_death.wav');
+	this.addAudio('wagonSound', 'sounds/wagon_fade.wav');
+	this.addAudio('horseGallopSound', 'sounds/horse_gallop.wav');
 
 	this.addSpriteSheet('menu','menu_sprite.png',500,50);	
 	this.BLOCK_PIXEL_SIZE = 50; 

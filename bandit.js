@@ -601,29 +601,29 @@ BreakingBlock.prototype.breakingBlockTimer = function(){
 var StageCoach = function(state, x, y){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['stagecoach'], x, y, false);
 	this.state = state;
-	this.animation.add('move',[0,1,2,3,4,5,6,7],0.1,true);
+	this.animation.add('move',[0,1,2,3,4,5,6,7],0.07,true);
 }
 Kiwi.extend(StageCoach, Kiwi.GameObjects.Sprite);
 
 StageCoach.prototype.update = function(){
 	Kiwi.GameObjects.Sprite.prototype.update.call(this);
 	if(this.x < this.state.bps * (this.state.GRID_COLS +2)){
-		this.x += 4 * this.state.game.time.rate;
+		this.x += 6 * this.state.game.time.rate;
 	}
 }
 
 var Horse = function(state, x, y){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['horses'], x, y, false);
 	this.state = state;
-	this.animation.add('bluerun',[0,1,2,3,4,5,6,7],0.1,true);
-	this.animation.add('redrun',[8,9,10,11,12,13,14,15],0.1,true);
+	this.animation.add('bluerun',[0,1,2,3,4,5,6,7],0.07,true);
+	this.animation.add('redrun',[8,9,10,11,12,13,14,15],0.07,true);
 }
 Kiwi.extend(Horse, Kiwi.GameObjects.Sprite);
 
 Horse.prototype.update = function(){
 	Kiwi.GameObjects.Sprite.prototype.update.call(this);
 	if(this.x < this.state.bps * (this.state.GRID_COLS +2)){
-		this.x += 4 * this.state.game.time.rate;
+		this.x += 6 * this.state.game.time.rate;
 	}
 }
 
