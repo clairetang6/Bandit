@@ -495,6 +495,7 @@ var Kiwi;
                 this.pluginManager.update();
                 this._frame++;
                 if (this.states.current !== null) {
+                    this.states.preRender();
                     this.cameras.render();
                     this.states.postRender();
                 }
@@ -2262,6 +2263,14 @@ var Kiwi;
             if (this.current !== null) {
                 if (this.current.config.isReady === true) {
                     this.current.postRender();
+                }
+            }
+        };
+
+        StateManager.prototype.preRender = function () {
+            if (this.current !== null) {
+                if (this.current.config.isReady === true) {
+                    this.current.preRender();
                 }
             }
         };
@@ -4358,6 +4367,10 @@ var Kiwi;
         * @public
         */
         State.prototype.postRender = function () {
+        };
+
+        State.prototype.preRender = function() {
+
         };
         /**
         * Called just before this State is going to be Shut Down and another one is going to be switched too.

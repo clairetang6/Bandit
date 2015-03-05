@@ -60,3 +60,8 @@ loadingState.preload = function(){
 
 
 }
+
+
+loadingState.postRender = function(){
+	KiwiLoadingScreen.prototype.postRender.call(this);
+}
