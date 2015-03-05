@@ -15,20 +15,46 @@ titleState.create = function(){
 	myGame.stage.resize(this.STAGE_WIDTH, this.STAGE_HEIGHT);
 
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['title'],0,0);
-	this.controlsScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['controls'],0,-1000);
+	this.controlsScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['controls'],1100,0);
 
 	this.buttonGroup = new Kiwi.Group(this);
 
-	this.playerButton1 = new MenuIcon(this, 270, 475, '1player');
-	this.playerButton2 = new MenuIcon(this, 270, 550, '2player');
-	this.controlsButton = new MenuIcon(this, 270, 625, 'controls');
+	this.playerButton1 = new MenuIcon(this, 270, 1475, '1player');
+	this.playerButton2 = new MenuIcon(this, 270, 1550, '2player');
+	this.controlsButton = new MenuIcon(this, 270, 1625, 'controls');
 
+	this.background.alpha = 0;
 	this.addChild(this.background);
 	this.addChild(this.controlsScreen);
+
+	this.controlsTween = this.game.tweens.create(this.controlsScreen);
+	
+	this.backgroundTween = this.game.tweens.create(this.background);
+	this.backgroundTween.onComplete(this.finishAddingToSreen, this);
+	this.backgroundTween.to({alpha: 1}, 500, Kiwi.Animations.Tweens.Easing.Linear.None);
+	this.backgroundTween._onCompleteCalled = false;
+	this.backgroundTween.start();
+	
+}
+
+titleState.finishAddingToSreen = function(){
 	this.buttonGroup.addChild(this.playerButton1);
 	this.buttonGroup.addChild(this.playerButton2);
 	this.buttonGroup.addChild(this.controlsButton);
 	this.addChild(this.buttonGroup);
+
+	this.button1 = this.game.tweens.create(this.playerButton1);
+	this.button1.to({y: 475}, 500, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+	this.button2 = this.game.tweens.create(this.playerButton2);
+	this.button2.to({y: 550}, 500, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+	this.button3 = this.game.tweens.create(this.controlsButton);
+	this.button3.to({y: 625}, 500, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+
+	this.button1.chain(this.button2);
+	this.button2.chain(this.button3);
+
+	this.button1.start();
+
 	this.mouse = this.game.input.mouse;
 
 	this.backButton = new MenuIcon(this, 50, 675, 'backControls');
@@ -41,7 +67,43 @@ titleState.create = function(){
 	}
 	this.selectedMenuIconIndex = 0;
 	this.selectedMenuIcon = this.buttonGroup.members[this.selectedMenuIconIndex];
-	
+
+	this.backgroundTween.onComplete(null, null);
+}
+
+titleState.showControls = function(){
+	this.controlsTween.to({x: 0}, 500, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+	this.controlsTween.onComplete(this.finishShowingControls, this);
+	this.controlsTween._onCompleteCalled = false;
+	this.backgroundTween.to({x: -1100, alpha: 1}, 500, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+	this.buttonGroup.visible = false;
+	this.buttonGroup.active = false;	
+	this.controlsTween.start();
+	this.backgroundTween.start();
+}
+
+titleState.finishShowingControls = function(){
+	this.backButton.visible = true;
+	this.backButton.active = true;
+	this.controlsTween.onComplete(null, null);
+}
+
+titleState.hideControls = function(){
+	this.controlsTween.to({x: 1100}, 500, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+	this.controlsTween.onComplete(this.finishHidingControls, this);
+	this.controlsTween._onCompleteCalled = false;
+	this.backgroundTween.to({x: 0, alpha: 1}, 500, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+	this.backButton.visible = false;
+	this.backButton.active = false;
+	this.controlsTween.start();
+	this.backgroundTween.start();
+}
+
+titleState.finishHidingControls = function(){
+	this.buttonGroup.visible = true;
+	this.buttonGroup.active = true;
+	this.controlsTween.onComplete(null, null);
+	console.log(this.background);
 }
 
 titleState.startGame = function(){

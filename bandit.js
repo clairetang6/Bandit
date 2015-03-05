@@ -1031,18 +1031,10 @@ MenuIcon.prototype.mouseClicked = function(){
 			this.state.startGame();
 			break;
 		case 'controls':
-			this.state.controlsScreen.y = 0;
-			this.state.buttonGroup.visible = false;
-			this.state.buttonGroup.active = false;
-			this.state.backButton.visible = true;
-			this.state.backButton.active = true;
+			this.state.showControls();
 			break;
 		case 'backControls':
-			this.state.controlsScreen.y = -1000;
-			this.state.buttonGroup.visible = true;
-			this.state.buttonGroup.active = true;
-			this.state.backButton.visible = false;
-			this.state.backButton.active = false;
+			this.state.hideControls();
 			break;
 		case 'backLevelSelection':
 			this.game.states.switchState('titleState');
