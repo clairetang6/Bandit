@@ -58,6 +58,8 @@ loadingState.preload = function(){
 	this.addSpriteSheet('horses','bandit_horse.png',200,200);
 	this.addSpriteSheet('stagecoach','stagecoach.png',500,250);
 
+	this.addImage('curtain', 'redside.png');
+
 
 }
 

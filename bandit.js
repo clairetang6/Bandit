@@ -771,11 +771,12 @@ Digit.prototype.increaseByOne = function(){
 	}
 }
 
-var BigDigit = function(state, x, y, color, index){
+var BigDigit = function(state, x, y, color, index, type){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
 	this.color = color;
 	this.state = state;
-	this.index = index; 
+	this.index = index;
+	this.type = type; 
 	this.originalx = x;
 	this.originaly = y;
 
@@ -1322,12 +1323,12 @@ var LevelSelectionIcon = function(state, x, y, number){
 Kiwi.extend(LevelSelectionIcon, Kiwi.GameObjects.Sprite);
 
 LevelSelectionIcon.prototype.playHover = function(){
-	var stars = this.state.game.levelsData[this.number-1].stars;
+	var stars = this.state.game.levelsData[this.number-1][this.state.game.numPlayers-1].stars;
 	this.animation.play('hover' + stars);
 }
 
 LevelSelectionIcon.prototype.playOn = function(){
-	var stars = this.state.game.levelsData[this.number-1].stars;
+	var stars = this.state.game.levelsData[this.number-1][this.state.game.numPlayers-1].stars;
 	this.animation.play('on' + stars);
 }
 
