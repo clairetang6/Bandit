@@ -11,6 +11,7 @@ module.exports = function(grunt){
 					'plugins/gamepad-plugin-1.0.0.js',
 					'kiwipreloader.js',
 					'loadingState.js',
+					'levelSelectionState.js',
 					'astar.js',
 					'ghoul.js',
 					'bandit.js',
@@ -18,14 +19,14 @@ module.exports = function(grunt){
 					'gameState.js',
 					'game.js'
 				],
-				dest: 'bandit-0.8.3.js'
+				dest: 'bandit-0.8.4.js'
 			}
 		},
 
 		uglify: {
 			build: {
-				src: 'bandit-0.8.3.js',
-				dest: 'bandit-0.8.3.min.js'
+				src: 'bandit-0.8.4.js',
+				dest: 'bandit-0.8.4.min.js'
 			}
 		},
 
@@ -43,7 +44,7 @@ module.exports = function(grunt){
 
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-imagemin');
+	//grunt.loadNpmTasks('grunt-contrib-imagemin');
 
 	grunt.registerTask('default', ['concat','uglify']);
 	//grunt.registerTask('default', ['concat','uglify','imagemin']);
