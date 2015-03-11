@@ -71,6 +71,7 @@ gameState.create = function(){
 	this.menuGroupTween = this.game.tweens.create(this.menuGroup);
 
 	this.betweenScreenGroup = new Kiwi.Group(this);
+
 	this.BETWEEN_SCREEN_SPACING = 80; 
 	this.MONEY_YPOS = 124;
 	this.DEATH_YPOS = this.MONEY_YPOS + this.BETWEEN_SCREEN_SPACING + 4;
@@ -87,6 +88,8 @@ gameState.create = function(){
 		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'death', 560, this.DEATH_YPOS));
 		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'money', 560, this.MONEY_YPOS));	
 	}
+
+	this.alphaBox = new Kiwi.GameObjects.StaticImage(this, this.textures['alphaBox'], 250, this.MONEY_YPOS-60);
 
 	this.iconGroup = new Kiwi.Group(this);
 	this.iconTweens = [];
@@ -263,6 +266,7 @@ gameState.create = function(){
 	this.stageCoach.animation.play('move');
 	this.horseGroup.addChild(this.stageCoach);
 
+	this.horseGroup.addChild(this.alphaBox);
 
 	this.banditGroup = new Kiwi.Group(this);
 
@@ -331,6 +335,10 @@ gameState.create = function(){
 	this.horseGallopSound.addMarker('start', 0, 8, false);
 	this.horseGallopSound2 = new Kiwi.Sound.Audio(this.game, 'horseGallopSound', 1, false);
 	this.horseGallopSound2.addMarker('start', 0, 8, false);
+
+	this.flipSound = new Kiwi.Sound.Audio(this.game, 'flipSound', 0.3, true);
+	this.dingSound = new Kiwi.Sound.Audio(this.game, 'dingSound', 0.1, false);
+	this.dingSound.addMarker('start', 0, 0.8, false);
 
 	this.voicesSound = new Kiwi.Sound.Audio(this.game, 'voicesSound', 0.3, false);
 	this.voicesSound.addMarker('bombPickup',0,1.3845,false);
@@ -1533,6 +1541,9 @@ gameState.updateBigCoinCounter = function(){
 	this.bigCoinTimer = this.game.time.clock.createTimer('bigCoin',0.1,6,false);
 	this.bigCoinTimerEvent = this.bigCoinTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.tickBigCoinCounter, this);
 	this.bigCoinTimer.start();
+	if(this.soundsOn){
+		this.flipSound.play();
+	}
 }
 
 gameState.tickBigCoinCounter = function(){
@@ -1551,6 +1562,11 @@ gameState.stepBigCoinCounter = function(bandit, bigCoinCounterStep){
 			if(bigDigits[i].index == bigCoinCounterStep && bigDigits[i].type == 'level'){
 				bigDigits[i].animation.play(value.toString());
 			}
+		}
+	}
+	if(this.soundsOn){
+		if(this.bigCoinCounterStep <= 4){
+			this.dingSound.play('start', true);
 		}
 	}
 }
@@ -1585,6 +1601,14 @@ gameState.stepBigCoinCounterTotal = function(bandit, banditIndex, bigCoinCounter
 			if(bigDigits[i].index == bigCoinCounterStep && bigDigits[i].type == 'total'){
 				bigDigits[i].animation.play(value.toString());
 			}
+		}
+	}
+	if(this.soundsOn){
+		if(this.bigCoinCounterStepTotal <= 5){
+			this.dingSound.play('start', true);
+		}
+		if(this.bigCoinCounterStepTotal == 1){
+			this.flipSound.stop();
 		}
 	}
 }

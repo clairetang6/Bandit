@@ -113,7 +113,6 @@ KiwiLoadingScreen.prototype.preload = function() {
 KiwiLoadingScreen.prototype.loadProgress = function (percent, bytesLoaded, file) {
 
 	this.percentLoaded = percent;
-	console.log(this.percentLoaded);
 
 
 	if(this.currentSplashState == 3) {
@@ -331,14 +330,12 @@ KiwiLoadingScreen.prototype.updatedAlpha = function(obj, val) {
 KiwiLoadingScreen.prototype.loadUpdate = function(){
 	Kiwi.State.prototype.loadUpdate.call(this);
 	if(this.banditBanner){
-		console.log(this.banditBanner.atlas.glTextureWrapper);
 	}
 
 }
 
 
 KiwiLoadingScreen.prototype.postRender = function() {
-	console.log('post')
 }
 
 KiwiLoadingScreen.prototype.preRender = function() {

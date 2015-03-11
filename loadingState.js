@@ -24,6 +24,8 @@ loadingState.preload = function(){
 	this.addAudio('ghoulDeathSound', 'sounds/ghoul_death.wav');
 	this.addAudio('wagonSound', 'sounds/wagon_fade.wav');
 	this.addAudio('horseGallopSound', 'sounds/horse_gallop.wav');
+	this.addAudio('flipSound', 'sounds/flip.wav');
+	this.addAudio('dingSound', 'sounds/ding.wav');
 
 	this.addSpriteSheet('menu','menu_sprite.png',500,50);	
 	this.BLOCK_PIXEL_SIZE = 50; 
@@ -59,6 +61,7 @@ loadingState.preload = function(){
 	this.addSpriteSheet('stagecoach','stagecoach.png',500,250);
 
 	this.addImage('curtain', 'redside.png');
+	this.addImage('alphaBox', 'betweenscreen_alpha.png');
 
 
 }
