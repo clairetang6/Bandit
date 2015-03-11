@@ -888,30 +888,22 @@ Icon.prototype.mouseClicked = function(){
 	}
 	switch(this.type){
 		case 'play':
-			this.state.showLevelScreen();
+			this.state.tweenOutCurtains(this.state.showLevelScreen);
 			break;
 		case 'restart':
 			this.state.currentLevel-=2;
 			if(this.state.musicOn){
 				this.state.musicSound.stop();
 			}
-			this.restartLevel();
+			this.state.tweenOutCurtains(this.state.restartLevel);
 			break;
 		case 'home':
-			this.state.destroyEverything(true);
-			this.state.gameTimer.removeTimerEvent(this.state.gameTimerEvent);
 			if(this.state.musicOn){
 				this.state.musicSound.stop();
 			}
-			this.state.game.states.switchState('titleState');
+			this.state.tweenOutCurtains(this.state.switchToTitleStateFromBetweenScreen);
 			break;			
 	}
-}
-
-Icon.prototype.restartLevel = function(){
-	this.state.destroyEverything(false);
-	this.state.levelOver(false);
-	this.state.resumeGame();
 }
 
 var MenuIcon = function(state, x, y, type){

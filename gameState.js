@@ -35,9 +35,11 @@ gameState.create = function(){
 
 	this.curtainLeftX = -1 * this.STAGE_X_OFFSET/2;
 	this.curtainRightX = 1000 - (50 - this.STAGE_X_OFFSET/2);
-	this.curtainRight = new Kiwi.GameObjects.StaticImage(this, this.textures['curtain'], this.curtainRightX, -18);
+	this.curtainRight = new Kiwi.GameObjects.StaticImage(this, this.textures['curtain'], 1100, -18);
 	this.curtainRight.scaleX = -1;
-	this.curtainLeft = new Kiwi.GameObjects.StaticImage(this, this.textures['curtain'], this.curtainLeftX, -18);
+	this.curtainLeft = new Kiwi.GameObjects.StaticImage(this, this.textures['curtain'], -100, -18);
+	this.curtainLeftTween = this.game.tweens.create(this.curtainLeft);
+	this.curtainRightTween = this.game.tweens.create(this.curtainRight);
 
 	this.mouse = this.game.input.mouse;
 	this.mouse.onUp.add(this.mouseClicked, this);
@@ -1434,6 +1436,7 @@ gameState.showCutScene = function(){
 	this.updateBigCoinCounterTotalTimer.start();
 
 	this.moveBanditsOffscreen();
+	this.tweenInCurtains();
 	this.showStageCoachAndHorses();
 
 
@@ -1441,6 +1444,30 @@ gameState.showCutScene = function(){
 	this.showIconsTimerEvent = this.showIconsTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.addIcons,this);
 	
 	this.showIconsTimer.start();	
+}
+
+gameState.tweenInCurtains = function(){
+	this.curtainRightTween.onComplete(null, null);
+	this.curtainLeftTween.to({x: this.curtainLeftX}, 250, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	
+	this.curtainRightTween.to({x: this.curtainRightX}, 250, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+}
+
+gameState.tweenOutCurtains = function(onCompleteCallback){
+	this.curtainRightTween.onComplete(onCompleteCallback, this);
+	this.curtainLeftTween.to({x: -100}, 250, Kiwi.Animations.Tweens.Easing.Cubic.In, true);	
+	this.curtainRightTween.to({x: 1100}, 250, Kiwi.Animations.Tweens.Easing.Cubic.In, true);	
+}
+
+gameState.restartLevel = function(){
+	this.destroyEverything(false);
+	this.levelOver(false);
+	this.resumeGame();
+}
+
+gameState.switchToTitleStateFromBetweenScreen = function(){
+	this.destroyEverything(true);
+	this.gameTimer.removeTimerEvent(this.gameTimerEvent);
+	this.game.states.switchState('titleState');
 }
 
 gameState.addIcons = function(){
