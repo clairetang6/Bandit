@@ -1883,7 +1883,11 @@ gameState.mouseClicked = function(){
 				}
 			}
 		}
-	}
+	}else if(this.showingLevelScreen == false){
+		if(this.mouse.x > 400 && this.mouse.x < 700 && this.mouse.y < 25 * this.MULTIPLIER){
+			this.openMenu();
+		}
+	}		
 }
 
 gameState.showPressUp = function(){
@@ -1914,6 +1918,16 @@ gameState.closeTutorial = function(){
 	}, this);	
 	this.tutorialSignTween.to({y: this.GRID_ROWS * this.bps}, 600, Kiwi.Animations.Tweens.Easing.Linear.Out, true);
 	this.resumeGame();
+}
+
+gameState.openMenu = function(){
+	if(this.isPaused == false){
+		this.menuGroup.active = true;
+		this.pauseGame();
+		this.menuArrow.alpha = 0;
+		this.menuTween.to({y: -this.STAGE_Y_OFFSET}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+		this.menuGroupTween.to({y: -this.STAGE_Y_OFFSET}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+	}
 }
 
 gameState.closeMenu = function(param){
@@ -2002,20 +2016,6 @@ gameState.update = function(){
 		//menu is down
 		Kiwi.Group.prototype.update.call(this.menuGroup);
 	}
-	if(this.showingLevelScreen == false){
-		if(this.mouse.isDown){
-			if(this.mouse.x > 400 && this.mouse.x < 700 && this.mouse.y < 25 * this.MULTIPLIER){
-				if(this.isPaused == false){
-					this.menuGroup.active = true;
-					this.pauseGame();
-					this.menuArrow.alpha = 0;
-					this.menuTween.to({y: -this.STAGE_Y_OFFSET}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
-					this.menuGroupTween.to({y: -this.STAGE_Y_OFFSET}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
-				}
-				this.game.input.mouse.reset();
-			}
-		}
-	}	
 }
 
 gameState.launchFullscreen = function(){
@@ -2121,6 +2121,13 @@ gameState.buttonOnUp0 = function( button ){
 		case "XBOX_Y":
 			this.red.goBomb = false;
 			break;
+		case "XBOX_START":
+			if(this.isPaused){
+				this.closeMenu();
+			}else{
+				this.openMenu();
+			}
+			break;			
 		case "XBOX_DPAD_LEFT":
 			this.red.goLeft = false;
 			this.red.goRight = false;
@@ -2219,6 +2226,13 @@ gameState.buttonOnUp1 = function( button ){
 		case "XBOX_Y":
 			this.blue.goBomb = false;
 			break;
+		case "XBOX_START":
+			if(this.isPaused){
+				this.closeMenu();
+			}else{
+				this.openMenu();
+			}
+			break;			
 		case "XBOX_DPAD_LEFT":
 			this.blue.goLeft = false;
 			this.blue.goRight = false;
