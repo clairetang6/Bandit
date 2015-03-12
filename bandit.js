@@ -1037,6 +1037,7 @@ MenuIcon.prototype.mouseClicked = function(){
 
 MenuIcon.prototype.restartLevel = function(){
 	this.state.destroyEverything(false);
+	this.state.iconsDuringCutScene();
 	this.state.moveBanditsOffscreen();
 	this.state.levelOver(false);
 	this.state.resumeGame();
