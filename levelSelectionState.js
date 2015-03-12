@@ -17,28 +17,12 @@ levelSelectionState.create = function(){
 	myGame.stage.color = '000000';
 	
 	this.mouse = this.game.input.mouse;
+	this.game.input.keyboard.onKeyDown.add(this.onPress, this);
 
 	if(this.game.saveManager.localStorage.exists('levelsData')){
 		this.game.levelsData = this.game.saveManager.localStorage.getData('levelsData');
 	}else{
-		var levelsData = [];
-		for(var i = 0; i <= 21; i++){
-			var levelData = [{
-				unlocked: false,
-				highScore: 0, 
-				stars: 0
-			},{
-				unlocked: false,
-				highScore1: 0,
-				highScore2: 0,
-				stars: 0
-			}];
-			levelsData.push(levelData);
-		}
-		levelsData[0][0].unlocked = true;
-		levelsData[0][1].unlocked = true;
-		this.game.saveManager.localStorage.add('levelsData', levelsData, true);
-		this.game.levelsData = levelsData; 
+		this.createLevelsData();
 	}
 
 	this.map = [
@@ -75,15 +59,81 @@ levelSelectionState.create = function(){
 	this.addChild(this.levelSelectionScreen);
 	this.addChild(this.levelSelectionGroup);	
 
-	this.selectedIconRow = 0;
-	this.selectedIconCol = 0;
+	var rowcol = this.getRowColOfHighestUnlockedLevel();
+	this.availableIcons = [];
+	//availableIcons goes from level 1 to highest level unlocked PLUS 1 for the back button. 
+	for(var i = 0; i <= this.map[rowcol[0]][rowcol[1]]; i++){
+		this.availableIcons.push(i);
+	}
+
+	this.selectedIconRow = rowcol[0];
+	this.selectedIconCol = rowcol[1];
 	this.selectedIcon = this.levelSelectionGroup.members[this.map[this.selectedIconRow][this.selectedIconCol]-1];
-	console.log(this.selectedIcon.number);
+
+	//index into the members array, which is 1 less than the level number. 
+	this.availableIconsIndex = this.map[this.selectedIconRow][this.selectedIconCol] - 1;
 	
 	if(this.game.gamepads){
 		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce, this);
 	}
 
+}
+
+levelSelectionState.onPress = function(keyCode){
+	if(keyCode == Kiwi.Input.Keycodes.LEFT){
+		this.tryDirection('left');
+	}else if(keyCode == Kiwi.Input.Keycodes.RIGHT){
+		this.tryDirection('right');
+	}else if(keyCode == Kiwi.Input.Keycodes.UP){
+		this.tryDirection('up');
+	}else if(keyCode == Kiwi.Input.Keycodes.DOWN){
+		this.tryDirection('down');
+	}else if(keyCode == Kiwi.Input.Keycodes.TAB){
+		this.changeSelectedIconByTab();
+	}
+}
+
+levelSelectionState.createLevelsData = function(){
+	var levelsData = [];
+	for(var i = 0; i <= 21; i++){
+		var levelData = [{
+			unlocked: false,
+			highScore: 0, 
+			stars: 0
+		},{
+			unlocked: false,
+			highScore1: 0,
+			highScore2: 0,
+			stars: 0
+		}];
+		levelsData.push(levelData);
+	}
+	levelsData[0][0].unlocked = true;
+	levelsData[0][1].unlocked = true;
+	this.game.saveManager.localStorage.add('levelsData', levelsData, true);
+	this.game.levelsData = levelsData; 	
+}
+
+levelSelectionState.getRowColOfHighestUnlockedLevel = function(){
+	var highestUnlockedLevel = 0;
+	for (var i = 1; i <= 20; i++){
+		if(this.game.levelsData[i-1][this.game.numPlayers-1].unlocked == true){
+			highestUnlockedLevel = i;
+		}else{
+			return highestUnlockedLevel;
+		}
+	}
+	var row = 0;
+	var col = 0;
+	for (var i = 0; i < this.map.length; i++){
+		for (var j = 0; j < this.map[0].length; j++){
+			if(this.map[i][j] == highestUnlockedLevel){
+				row = i;
+				col = j;
+			}
+		}
+	}
+	return [row, col];
 }
 
 levelSelectionState.startGame = function(levelSelected){
@@ -92,6 +142,41 @@ levelSelectionState.startGame = function(levelSelected){
 		this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
 	}
 	this.game.states.switchState('gameState');
+}
+
+levelSelectionState.changeSelectedIconByTab = function(){
+	if(this.selectedIcon.objType() == "LevelSelectionIcon"){
+		this.selectedIcon.playOn();
+	}else{
+		this.selectedIcon.playOff();
+	}	
+
+	if(this.availableIconsIndex == this.availableIcons.length){
+		this.availableIconsIndex = 0;
+	}else{
+		this.availableIconsIndex++;
+	}
+
+	if(this.availableIconsIndex == this.availableIcons.length){
+		this.selectedIcon = this.backButton;
+		this.selectedIconRow = 4;
+		this.selectedIconCol = 0;
+	}else{
+		this.selectedIcon = this.levelSelectionGroup.members[this.availableIconsIndex];
+		var row = 0;
+		var col = 0;
+		for (var i = 0; i < this.map.length; i++){
+			for (var j = 0; j < this.map[0].length; j++){
+				if(this.map[i][j] == this.availableIconsIndex + 1){
+					row = i;
+					col = j;
+				}
+			}
+		}
+		this.selectedIconRow = row;
+		this.selectedIconCol = col;
+	}
+	this.selectedIcon.playHover();
 }
 
 levelSelectionState.changeSelectedIcon = function(row, col){
@@ -105,8 +190,10 @@ levelSelectionState.changeSelectedIcon = function(row, col){
 	this.selectedIconCol = col;
 	if(row < 4){
 		this.selectedIcon = this.levelSelectionGroup.members[this.map[this.selectedIconRow][this.selectedIconCol]-1];
+		this.availableIconsIndex = this.map[this.selectedIconRow][this.selectedIconCol] - 1;
 	}else{
 		this.selectedIcon = this.backButton;
+		this.availableIconsIndex = this.availableIcons.length - 1;
 	}
 	this.selectedIcon.playHover();
 }
@@ -143,6 +230,56 @@ levelSelectionState.getDecreasedCol = function(){
 	return col;
 }
 
+levelSelectionState.tryDirection = function(direction){
+	switch(direction){
+		case 'left':
+			var tryRow = this.selectedIconRow;
+			var tryCol = this.getDecreasedCol();
+			if(tryRow < 4){
+				if(this.game.levelsData[this.map[tryRow][tryCol]-1][this.game.numPlayers-1].unlocked){
+					this.changeSelectedIcon(tryRow, tryCol);
+				}					
+			}else{
+				this.changeSelectedIcon(tryRow, 0);
+			}
+	
+			break;
+		case 'right':
+			var tryRow = this.selectedIconRow;
+			var tryCol = this.getIncreasedCol();
+			if(tryRow < 4){
+				if(this.game.levelsData[this.map[tryRow][tryCol]-1][this.game.numPlayers-1].unlocked){
+					this.changeSelectedIcon(tryRow, tryCol);
+				}					
+			}else{
+				this.changeSelectedIcon(tryRow, 0);
+			}	
+			break;
+		case 'up':
+			var tryRow = this.getDecreasedRow();
+			var tryCol = this.selectedIconCol;
+			if(tryRow < 4){
+				if(this.game.levelsData[this.map[tryRow][tryCol]-1][this.game.numPlayers-1].unlocked){
+					this.changeSelectedIcon(tryRow, tryCol);
+				}					
+			}else{
+				this.changeSelectedIcon(tryRow, 0);
+			}		
+			break;
+		case 'down':
+			var tryRow = this.getIncreasedRow();
+			var tryCol = this.selectedIconCol;
+			if(tryRow < 4){
+				if(this.game.levelsData[this.map[tryRow][tryCol]-1][this.game.numPlayers-1].unlocked){
+					this.changeSelectedIcon(tryRow, tryCol);
+				}					
+			}else{
+				this.changeSelectedIcon(tryRow, 0);
+			}		
+			break;						
+	}
+}
+
 levelSelectionState.buttonOnDownOnce = function(button){
 	switch( button.name ){
 		case "XBOX_A":
@@ -159,17 +296,24 @@ levelSelectionState.buttonOnDownOnce = function(button){
 		case "XBOX_Y":
 
 			break;
+		case "XBOX_START":
+			if(this.selectedIcon.objType() == 'LevelSelectionIcon'){
+				this.selectedIcon.startLevel();
+			}else{
+				this.selectedIcon.mouseClicked();
+			}
+			break;			
 		case "XBOX_DPAD_LEFT":
-			this.changeSelectedIcon(this.selectedIconRow, this.getDecreasedCol());
+			this.tryDirection('left');
 			break;
 		case "XBOX_DPAD_RIGHT":
-			this.changeSelectedIcon(this.selectedIconRow, this.getIncreasedCol());
+			this.tryDirection('right');
 			break;
 		case "XBOX_DPAD_UP":
-			this.changeSelectedIcon(this.getDecreasedRow(), this.selectedIconCol);
+			this.tryDirection('up');
 			break;
 		case "XBOX_DPAD_DOWN":
-			this.changeSelectedIcon(this.getIncreasedRow(), this.selectedIconCol);
+			this.tryDirection('down');
 			break;
 		default:		
 	}
