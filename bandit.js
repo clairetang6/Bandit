@@ -888,9 +888,11 @@ Icon.prototype.mouseClicked = function(){
 	}
 	switch(this.type){
 		case 'play':
+			this.state.stopCutScene();
 			this.state.tweenOutCurtains(this.state.showLevelScreen);
 			break;
 		case 'restart':
+			this.state.stopCutScene();
 			this.state.currentLevel-=2;
 			if(this.state.musicOn){
 				this.state.musicSound.stop();
@@ -898,12 +900,21 @@ Icon.prototype.mouseClicked = function(){
 			this.state.tweenOutCurtains(this.state.restartLevel);
 			break;
 		case 'home':
+			this.state.stopCutScene();
 			if(this.state.musicOn){
 				this.state.musicSound.stop();
 			}
 			this.state.tweenOutCurtains(this.state.switchToTitleStateFromBetweenScreen);
 			break;			
 	}
+}
+
+Icon.prototype.playHover = function(){
+	MenuIcon.prototype.playHover.call(this);
+}
+
+Icon.prototype.playOff = function(){
+	MenuIcon.prototype.playOff.call(this);
 }
 
 var MenuIcon = function(state, x, y, type){
@@ -1008,6 +1019,9 @@ MenuIcon.prototype.mouseClicked = function(){
 			this.timer.start();
 			break;
 		case 'home':
+			if(this.state.game.gamepads){
+				this.state.removeAllGamepadSignals();
+			}
 			this.state.destroyEverything(true);
 			this.state.gameTimer.removeTimerEvent(this.state.gameTimerEvent);
 			if(this.state.musicOn){
