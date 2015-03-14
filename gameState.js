@@ -69,6 +69,10 @@ gameState.create = function(){
 	this.menuGroup.addChild(this.menuRestart);
 	this.menuGroup.addChild(this.menuHome);
 
+	this.availableMenuIcons = [0,1,2,3];
+	this.availableMenuIconsIndex = 0;
+	this.selectedIcon = null;
+
 	this.menuGroup.y = -800;
 	this.menuGroupTween = this.game.tweens.create(this.menuGroup);
 
@@ -285,14 +289,8 @@ gameState.create = function(){
 	}
 
 	//Gamepad experimenting
-	console.log('NUMBER OF GAMEPADS: ' + this.game.gamepads.gamepads.length);
-	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce0, this);
-	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp0, this);
-	this.game.gamepads.gamepads[0].buttonIsDown.add(this.buttonIsDown0, this)
-	if(this.numPlayers == 2){
-		this.game.gamepads.gamepads[1].buttonOnDownOnce.add(this.buttonOnDownOnce1, this);
-		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUp1, this);
-		this.game.gamepads.gamepads[1].buttonIsDown.add(this.buttonIsDown1, this)
+	if(this.game.gamepads){
+		this.addGamepadSignalsGame();
 	}
 
 	this.game.input.keyboard.onKeyDown.add(this.onKeyDownCallback, this);
@@ -1927,6 +1925,9 @@ gameState.openMenu = function(){
 		this.menuArrow.alpha = 0;
 		this.menuTween.to({y: -this.STAGE_Y_OFFSET}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
 		this.menuGroupTween.to({y: -this.STAGE_Y_OFFSET}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+		if(this.game.gamepads){
+			this.addGamepadSignalsMenu();
+		}	
 	}
 }
 
@@ -1937,7 +1938,10 @@ gameState.closeMenu = function(param){
 	}
 	this.menuArrowTween.to({alpha: 1}, 1000, Kiwi.Animations.Tweens.Easing.Linear.Out,true);
 	this.menuTween.to({y: -800}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
-	this.menuGroupTween.to({y: -800}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);		
+	this.menuGroupTween.to({y: -800}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	
+	if(this.game.gamepads){
+		this.addGamepadSignalsGame();
+	}			
 }
 
 gameState.checkIfOnSign = function(banditGridPosition){
@@ -2044,6 +2048,36 @@ gameState.resumeAllTimers = function(){
 	}	
 }
 
+gameState.addGamepadSignalsGame = function(){
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce0, this);
+	this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
+	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp0, this);
+	this.game.gamepads.gamepads[0].buttonIsDown.removeAll();
+	this.game.gamepads.gamepads[0].buttonIsDown.add(this.buttonIsDown0, this)
+	if(this.numPlayers == 2){
+		this.game.gamepads.gamepads[1].buttonOnDownOnce.removeAll();
+		this.game.gamepads.gamepads[1].buttonOnDownOnce.add(this.buttonOnDownOnce1, this);
+		this.game.gamepads.gamepads[1].buttonOnUp.removeAll();	
+		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUp1, this);
+		this.game.gamepads.gamepads[1].buttonIsDown.removeAll();	
+		this.game.gamepads.gamepads[1].buttonIsDown.add(this.buttonIsDown1, this)
+	}	
+}
+
+gameState.addGamepadSignalsMenu = function(){
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
+	this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
+	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringMenu, this);
+	this.game.gamepads.gamepads[0].buttonIsDown.removeAll();
+	if(this.numPlayers == 2){
+		this.game.gamepads.gamepads[1].buttonOnDownOnce.removeAll();
+		this.game.gamepads.gamepads[1].buttonOnUp.removeAll();	
+		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringMenu, this);
+		this.game.gamepads.gamepads[1].buttonIsDown.removeAll();	
+	}
+}
+
 gameState.buttonOnDownOnce0 = function(button){
 	switch ( button.name ) {
 		case "XBOX_A":
@@ -2106,6 +2140,60 @@ gameState.buttonIsDown0 = function(button){
 	}
 }
 
+gameState.forwardMenuIcon = function(){
+	this.menuGroup.members[this.availableMenuIconsIndex].playOff();
+	if(this.availableMenuIconsIndex == this.availableMenuIcons.length - 1){
+		this.availableMenuIconsIndex = 0;
+	}else{
+		this.availableMenuIconsIndex++;
+	}
+	this.selectedIcon = this.menuGroup.members[this.availableMenuIconsIndex];
+	this.menuGroup.members[this.availableMenuIconsIndex].playHover();
+}
+
+gameState.backwardMenuIcon = function(){
+	this.menuGroup.members[this.availableMenuIconsIndex].playOff();
+	if(this.availableMenuIconsIndex == 0){
+		this.availableMenuIconsIndex = this.availableMenuIcons.length - 1;
+	}else{
+		this.availableMenuIconsIndex--;
+	}
+	this.selectedIcon = this.menuGroup.members[this.availableMenuIconsIndex];
+	this.menuGroup.members[this.availableMenuIconsIndex].playHover();	
+}
+
+gameState.buttonOnUpDuringMenu = function (button){
+	switch(button.name){
+		case "XBOX_A":
+			if(this.selectedIcon){
+				this.selectedIcon.mouseClicked();
+			}
+			break;
+		case "XBOX_B":
+			this.closeMenu();
+			break;
+		case "XBOX_X":
+			break;
+		case "XBOX_Y":
+			break;
+		case "XBOX_START":
+			this.closeMenu();
+			break;			
+		case "XBOX_DPAD_LEFT":
+			break;
+		case "XBOX_DPAD_RIGHT":
+			break;
+		case "XBOX_DPAD_UP":
+			this.backwardMenuIcon();
+			break;
+		case "XBOX_DPAD_DOWN":
+			this.forwardMenuIcon();
+			break;
+		default:
+			// Code
+	}
+}
+
 gameState.buttonOnUp0 = function( button ){
 	// console.log("UP:  ", button.name);
 	switch ( button.name ) {
@@ -2122,11 +2210,10 @@ gameState.buttonOnUp0 = function( button ){
 			this.red.goBomb = false;
 			break;
 		case "XBOX_START":
-			if(this.isPaused){
-				this.closeMenu();
-			}else{
-				this.openMenu();
-			}
+			this.openMenu();
+			this.availableMenuIconsIndex = 0;
+			this.selectedIcon = this.menuGroup.members[this.availableMenuIconsIndex];
+			this.menuGroup.members[this.availableMenuIconsIndex].playHover();
 			break;			
 		case "XBOX_DPAD_LEFT":
 			this.red.goLeft = false;
