@@ -69,6 +69,19 @@
                 <key>sourceSize</key>
                 <string>{75,75}</string>
             </dict>
+            <key>zstar_1.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{375,0},{75,75}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{75,75}}</string>
+                <key>sourceSize</key>
+                <string>{75,75}</string>
+            </dict>
         </dict>
         <key>metadata</key>
         <dict>
@@ -77,9 +90,9 @@
             <key>realTextureFileName</key>
             <string>between_screen_spritesheet.png</string>
             <key>size</key>
-            <string>{375,75}</string>
+            <string>{450,75}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:878561e1be34221020890dc2d2ba4f67:bf80d6616493e475d8f74c9b6450edda:5e8ddcc7dd80b0f33d96fae7df40bb1f$</string>
+            <string>$TexturePacker:SmartUpdate:af1743c331e9de3cd61c43be59b2faf2:80325468fdd9221672420dab81944a39:5e8ddcc7dd80b0f33d96fae7df40bb1f$</string>
             <key>textureFileName</key>
             <string>between_screen_spritesheet.png</string>
         </dict>

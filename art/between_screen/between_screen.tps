@@ -193,6 +193,7 @@
             <filename>death_count.png</filename>
             <filename>money_count.png</filename>
             <filename>time_count.png</filename>
+            <filename>zstar_1.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

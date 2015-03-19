@@ -26,6 +26,8 @@ loadingState.preload = function(){
 	this.addAudio('horseGallopSound', 'sounds/horse_gallop.wav');
 	this.addAudio('flipSound', 'sounds/flip.wav');
 	this.addAudio('dingSound', 'sounds/ding.wav');
+	this.addAudio('starSound', 'sounds/star.wav');
+	this.addAudio('starDingSound', 'sounds/pickup_star.wav');
 
 	this.addSpriteSheet('menu','menu_sprite.png',500,50);	
 	this.BLOCK_PIXEL_SIZE = 50; 

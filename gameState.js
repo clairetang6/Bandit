@@ -275,7 +275,20 @@ gameState.create = function(){
 	this.stageCoach.animation.play('move');
 	this.horseGroup.addChild(this.stageCoach);
 
-	this.horseGroup.addChild(this.alphaBox);
+	var starXPositions = [360, 463, 565];
+	this.stars = [];
+	this.starTweens = [];
+	this.starTweens2 = [];
+	for(var i = 0; i < starXPositions.length; i++){
+		var star = new BetweenScreenIcon(this, 'star', starXPositions[i], 20);
+		this.starTweens.push(this.game.tweens.create(star));
+		this.starTweens2.push(this.game.tweens.create(star));
+		this.stars.push(star);
+		this.horseGroup.addChild(star);
+	}
+
+
+	//this.horseGroup.addChild(this.alphaBox);
 
 	this.banditGroup = new Kiwi.Group(this);
 
@@ -337,6 +350,10 @@ gameState.create = function(){
 	this.flipSound = new Kiwi.Sound.Audio(this.game, 'flipSound', 0.3, true);
 	this.dingSound = new Kiwi.Sound.Audio(this.game, 'dingSound', 0.1, false);
 	this.dingSound.addMarker('start', 0, 0.8, false);
+	this.starSound = new Kiwi.Sound.Audio(this.game, 'starSound', 0.2, false);
+	this.starSound.addMarker('start', 0, 1, false);
+	this.starDingSound = new Kiwi.Sound.Audio(this.game, 'starDingSound', 0.1, false);
+	this.starDingSound.addMarker('start', 0, 1, false);
 
 	this.voicesSound = new Kiwi.Sound.Audio(this.game, 'voicesSound', 0.3, false);
 	this.voicesSound.addMarker('bombPickup',0,1.3845,false);
@@ -807,6 +824,9 @@ gameState.onKeyDownCallback = function(keyCode){
 
 	if(keyCode == Kiwi.Input.Keycodes.T){
 		this.launchFullscreen();
+	}
+	if(keyCode == Kiwi.Input.Keycodes.U){
+		this.showStars();
 	}
 }
 
@@ -1418,10 +1438,13 @@ gameState.showCutScene = function(){
 		
 	if(previousLevelPoints > this.pointThresholds[this.currentLevel-2][2]){
 		this.setStarsForPreviousLevel(3);
+		this.showStars(3);
 	}else if(previousLevelPoints > this.pointThresholds[this.currentLevel-2][1]){
 		this.setStarsForPreviousLevel(2);
+		this.showStars(2);
 	}else if(previousLevelPoints > this.pointThresholds[this.currentLevel-2][0]){
 		this.setStarsForPreviousLevel(1);
+		this.showStars(1);
 	}else{
 		this.setStarsForPreviousLevel(0);
 	}
@@ -1439,16 +1462,49 @@ gameState.showCutScene = function(){
 		this.removeAllGamepadSignals();
 		this.addGamepadSignalsBetweenScreen();
 	}
-	
+
 	this.moveBanditsOffscreen();
 	this.tweenInCurtains();
 	this.showStageCoachAndHorses();
+
 
 
 	this.showIconsTimer = this.game.time.clock.createTimer('showIconsTimer',7,0,false);
 	this.showIconsTimerEvent = this.showIconsTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.addIcons,this);
 	
 	this.showIconsTimer.start();	
+}
+
+gameState.showStars = function(numStars){
+	this.stars[0].visible = false;
+	this.stars[1].visible = false;
+	this.stars[2].visible = false;
+
+	console.log('showing stars ' + numStars)
+	this.showStarsIndex = 0;
+	this.showStarsTimer = this.game.time.clock.createTimer('showStarsTimer', 0.5, numStars, false);
+	this.showStarsTimerEvent = this.showStarsTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.tickStars, this);
+	this.showStarsTimer.start();
+}
+
+gameState.tickStars = function(){
+	this.stars[this.showStarsIndex].visible = true;
+	this.stars[this.showStarsIndex].scaleX = 0;
+	this.stars[this.showStarsIndex].scaleY = 0;
+	this.stars[this.showStarsIndex].rotation = -1 * Math.PI;
+	this.starTweens[this.showStarsIndex].to({scaleX: 2, scaleY: 2, rotation: 0}, 300, Kiwi.Animations.Tweens.Easing.Cubic.Out, false);
+	this.starTweens2[this.showStarsIndex].to({scaleX: 1, scaleY: 1}, 500, Kiwi.Animations.Tweens.Easing.Bounce.Out, false);
+	this.starTweens[this.showStarsIndex].chain(this.starTweens2[this.showStarsIndex]);
+	this.starTweens[this.showStarsIndex].onComplete(function(){
+		if(this.soundsOn){
+			this.starDingSound.play('start', true);
+		}
+	}, this);
+	this.starTweens[this.showStarsIndex].start();
+	this.showStarsIndex++;
+	if(this.soundsOn){
+		this.starSound.play('start', true);
+	}	
 }
 
 gameState.tweenInCurtains = function(){
@@ -2013,7 +2069,8 @@ gameState.update = function(){
 			}
 
 			if(this.debugKey.isDown){
-				console.log(this.getGridPosition(this.red.x, this.red.y, 'middle'))
+				console.log('pressed');
+				this.showStars();
 			}
 		
 			if(this.mouse.isDown){

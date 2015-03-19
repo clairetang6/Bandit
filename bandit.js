@@ -841,6 +841,7 @@ var BetweenScreenIcon = function(state, type, x, y){
 	this.animation.add('time',[4],0.1,false);
 	this.animation.add('bonus2',[0],0.1,false);
 	this.animation.add('bonus3',[1],0.1, false);
+	this.animation.add('star',[5],0.1,false);
 
 	if(this.type == 'bonus'){
 		this.animation.play('bonus2');		
@@ -849,6 +850,19 @@ var BetweenScreenIcon = function(state, type, x, y){
 	}
 }
 Kiwi.extend(BetweenScreenIcon, Kiwi.GameObjects.Sprite);
+
+var BetweenScreenStar = function(state, x, y){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['betweenScreen'], x, y, false);
+
+	this.state = state;
+	this.active = true;
+	this.turnDirection = 1; 
+
+	this.animation.add('star', [5], 0.1, false);
+	this.animation.play('star');
+}
+Kiwi.extend(BetweenScreenStar, Kiwi.GameObjects.Sprite);
+
 
 var Icon = function(state, x, y, type){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['icons'], x, y, true);
