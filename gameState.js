@@ -275,12 +275,12 @@ gameState.create = function(){
 	this.stageCoach.animation.play('move');
 	this.horseGroup.addChild(this.stageCoach);
 
-	var starXPositions = [360, 463, 565];
+	var starXPositions = [317, 450, 582];
 	this.stars = [];
 	this.starTweens = [];
 	this.starTweens2 = [];
 	for(var i = 0; i < starXPositions.length; i++){
-		var star = new BetweenScreenIcon(this, 'star', starXPositions[i], 20);
+		var star = new BetweenScreenStar(this, starXPositions[i], 5);
 		this.starTweens.push(this.game.tweens.create(star));
 		this.starTweens2.push(this.game.tweens.create(star));
 		this.stars.push(star);
@@ -350,9 +350,9 @@ gameState.create = function(){
 	this.flipSound = new Kiwi.Sound.Audio(this.game, 'flipSound', 0.3, true);
 	this.dingSound = new Kiwi.Sound.Audio(this.game, 'dingSound', 0.1, false);
 	this.dingSound.addMarker('start', 0, 0.8, false);
-	this.starSound = new Kiwi.Sound.Audio(this.game, 'starSound', 0.2, false);
+	this.starSound = new Kiwi.Sound.Audio(this.game, 'starSound', 0.3, false);
 	this.starSound.addMarker('start', 0, 1, false);
-	this.starDingSound = new Kiwi.Sound.Audio(this.game, 'starDingSound', 0.1, false);
+	this.starDingSound = new Kiwi.Sound.Audio(this.game, 'starDingSound', 0.2, false);
 	this.starDingSound.addMarker('start', 0, 1, false);
 
 	this.whiskeySound = new Kiwi.Sound.Audio(this.game, 'whiskeySound', 0.3, false);
@@ -1535,8 +1535,8 @@ gameState.tickStars = function(){
 	this.stars[this.showStarsIndex].scaleX = 0;
 	this.stars[this.showStarsIndex].scaleY = 0;
 	this.stars[this.showStarsIndex].rotation = -1 * Math.PI;
-	this.starTweens[this.showStarsIndex].to({scaleX: 2, scaleY: 2, rotation: 0}, 300, Kiwi.Animations.Tweens.Easing.Cubic.Out, false);
-	this.starTweens2[this.showStarsIndex].to({scaleX: 1, scaleY: 1}, 500, Kiwi.Animations.Tweens.Easing.Bounce.Out, false);
+	this.starTweens[this.showStarsIndex].to({scaleX: 2.5, scaleY: 2.5, rotation: 0}, 300, Kiwi.Animations.Tweens.Easing.Cubic.Out, false);
+	this.starTweens2[this.showStarsIndex].to({scaleX: 1.0, scaleY: 1.0}, 500, Kiwi.Animations.Tweens.Easing.Bounce.Out, false);
 	this.starTweens[this.showStarsIndex].chain(this.starTweens2[this.showStarsIndex]);
 	this.starTweens[this.showStarsIndex].onComplete(function(){
 		if(this.soundsOn){
@@ -1582,7 +1582,11 @@ gameState.addIcons = function(){
 		icon.alpha = 0;
 		icon.scaleX = 3;
 		icon.scaleY = 3;
-		this.iconTweens[i].to({alpha: 1, scaleX: 1, scaleY: 1}, 500, Kiwi.Animations.Tweens.Easing.Sinusoidal.Out, true);
+		if(icon.type == 'play'){
+			this.iconTweens[i].to({alpha: 1, scaleX: 1, scaleY: 1}, 500, Kiwi.Animations.Tweens.Easing.Sinusoidal.Out, true);
+		}else{
+			this.iconTweens[i].to({alpha: 0.3, scaleX: 1, scaleY: 1}, 500, Kiwi.Animations.Tweens.Easing.Sinusoidal.Out, true);
+		}
 	}
 }
 

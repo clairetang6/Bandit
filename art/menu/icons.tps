@@ -188,20 +188,17 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>home_hover.png</filename>
-            <filename>home.png</filename>
-            <filename>music_off_hover.png</filename>
-            <filename>music_off.png</filename>
-            <filename>music_on_hover.png</filename>
-            <filename>music_on.png</filename>
-            <filename>play_hover.png</filename>
-            <filename>play.png</filename>
-            <filename>restart_hover.png</filename>
-            <filename>restart.png</filename>
             <filename>sound_off_hover.png</filename>
             <filename>sound_off.png</filename>
             <filename>sound_on_hover.png</filename>
             <filename>sound_on.png</filename>
+            <filename>star_1.png</filename>
+            <filename>home_1.png</filename>
+            <filename>home_1_hover.png</filename>
+            <filename>play_1_hover.png</filename>
+            <filename>play_1.png</filename>
+            <filename>restart_1_hover.png</filename>
+            <filename>restart_1.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

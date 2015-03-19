@@ -199,6 +199,11 @@ Bandit.prototype.moveDown = function(southGridPosition){
 	return false;
 }
 
+Bandit.prototype.blastBlock = function(){
+	var blastedBlockPosition = this.state.getBlastedBlockPosition(this.state.getGridPosition(this.x, this.y, 'middle'), this.facing);
+	this.state.blastBlock(blastedBlockPosition, this.color);
+}
+
 Bandit.prototype.update = function(){
 	Kiwi.GameObjects.Sprite.prototype.update.call(this);
 	if(this.state.showingLevelScreen == false){
@@ -218,11 +223,8 @@ Bandit.prototype.update = function(){
 		}
 		if(this.isAlive){
 		 	if(this.fireKey.isDown || this.goFire){
+		 		console.log('goFiring ' + this.color + ' ' + this.fireKey.isDown);
 				this.animation.play('fire' + this.facing);
-				if(this.canShoot){
-					var blastedBlockPosition = this.state.getBlastedBlockPosition(southGridPosition, this.facing, this.state.groundBlocks);
-					this.state.blastBlock(blastedBlockPosition, this.color);
-				}
 			}
 			else if(this.upKey.isDown || this.goUp){
 				this.moveUp();
@@ -852,13 +854,11 @@ var BetweenScreenIcon = function(state, type, x, y){
 Kiwi.extend(BetweenScreenIcon, Kiwi.GameObjects.Sprite);
 
 var BetweenScreenStar = function(state, x, y){
-	Kiwi.GameObjects.Sprite.call(this, state, state.textures['betweenScreen'], x, y, false);
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['icons'], x, y, false);
 
-	this.state = state;
-	this.active = true;
-	this.turnDirection = 1; 
+	this.state = state; 
 
-	this.animation.add('star', [5], 0.1, false);
+	this.animation.add('star', [10], 0.1, false);
 	this.animation.play('star');
 }
 Kiwi.extend(BetweenScreenStar, Kiwi.GameObjects.Sprite);
@@ -873,12 +873,12 @@ var Icon = function(state, x, y, type){
 
 	switch(type){
 		case 'play':
-			this.animation.add('on', [6], 0.1, false);
-			this.animation.add('hover', [7], 0.1, false);
+			this.animation.add('on', [2], 0.1, false);
+			this.animation.add('hover', [3], 0.1, false);
 		 	break;
 		case 'restart':
-			this.animation.add('on', [8], 0.1, false);
-			this.animation.add('hover', [9], 0.1, false);
+			this.animation.add('on', [4], 0.1, false);
+			this.animation.add('hover', [5], 0.1, false);
 			break;
 		case 'home':
 			this.animation.add('on', [0], 0.1, false);
@@ -887,9 +887,10 @@ var Icon = function(state, x, y, type){
 	}
 
 	this.animation.play('on');
+	this.alpha = 0.3;
 
-	this.input.onEntered.add(MenuIcon.prototype.playHover, this);
-	this.input.onLeft.add(MenuIcon.prototype.playOff, this);
+	this.input.onEntered.add(Icon.prototype.playHover, this);
+	this.input.onLeft.add(Icon.prototype.playOff, this);
 	this.input.onUp.add(Icon.prototype.mouseClicked, this);
 	this.input.onDown.add(MenuIcon.prototype.playDown, this);	
 }
@@ -925,10 +926,15 @@ Icon.prototype.mouseClicked = function(){
 
 Icon.prototype.playHover = function(){
 	MenuIcon.prototype.playHover.call(this);
+	this.alpha = 1;
+	if(this.type != 'play'){
+		this.state.playIcon.playOff();
+	}
 }
 
 Icon.prototype.playOff = function(){
 	MenuIcon.prototype.playOff.call(this);
+	this.alpha = 0.3;
 }
 
 var MenuIcon = function(state, x, y, type){
