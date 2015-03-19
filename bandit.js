@@ -1051,22 +1051,36 @@ MenuIcon.prototype.mouseClicked = function(){
 			break;
 		case '1player':
 			this.state.game.numPlayers = 1;
-			this.state.startGame();
+			this.timer = this.state.game.time.clock.createTimer('1playerTimer', 0.2, 0, false);
+			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.state.startGame, this.state);
+			this.timer.start();
 			break;
 		case '2player':
 			this.state.game.numPlayers = 2;
-			this.state.startGame();
+			this.timer = this.state.game.time.clock.createTimer('2playerTimer', 0.2, 0, false);
+			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.state.startGame, this.state);
+			this.timer.start();
 			break;
 		case 'controls':
-			this.state.showControls();
+			this.timer = this.state.game.time.clock.createTimer('controlsTimer', 0.2, 0, false);
+			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.state.showControls, this.state);
+			this.timer.start();
 			break;
 		case 'backControls':
-			this.state.hideControls();
+			this.timer = this.state.game.time.clock.createTimer('backControlsTimer', 0.2, 0, false);
+			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.state.hideControls, this.state);
+			this.timer.start();
 			break;
 		case 'backLevelSelection':
-			this.game.states.switchState('titleState');
+			this.timer = this.state.game.time.clock.createTimer('backLevelSelectionTimer', 0.2, 0, false);
+			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.switchToTitleState, this);
+			this.timer.start();		
 			break;
 	}
+}
+
+MenuIcon.prototype.switchToTitleState = function(){
+	this.game.states.switchState('titleState');
 }
 
 MenuIcon.prototype.restartLevel = function(){
@@ -1371,8 +1385,18 @@ LevelSelectionIcon.prototype.addHovering = function(){
 }
 
 LevelSelectionIcon.prototype.addClicking = function(){
-	this.input.onUp.add(LevelSelectionIcon.prototype.startLevel, this);
+	this.input.onUp.add(LevelSelectionIcon.prototype.startStartLevelTimer, this);
 	this.input.onDown.add(LevelSelectionIcon.prototype.playDown, this);
+}
+
+LevelSelectionIcon.prototype.startStartLevelTimer = function(){
+	if(this.isDown == true){
+		this.y -= 2;
+		this.isDown = false;
+	}			
+	this.timer = this.state.game.time.clock.createTimer('iconTimer', 0.2, 0, false);
+	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.startLevel, this);
+	this.timer.start();
 }
 
 LevelSelectionIcon.prototype.startLevel = function(){
