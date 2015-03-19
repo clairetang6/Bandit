@@ -364,10 +364,10 @@ KiwiLoadingScreen.prototype.completed = function() {
 
 }	
 
-/*
+
 KiwiLoadingScreen.prototype.shutDown = function() {
 	this.game.tweens.removeAll();
 	delete this.loadingTween;
 	delete this.rydaireTween;
 	delete this.gamesTween;
-}*/
+}

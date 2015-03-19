@@ -61,6 +61,7 @@ levelSelectionState.create = function(){
 
 	var rowcol = this.getRowColOfHighestUnlockedLevel();
 	this.availableIcons = [];
+
 	//availableIcons goes from level 1 to highest level unlocked PLUS 1 for the back button. 
 	for(var i = 0; i <= this.map[rowcol[0]][rowcol[1]]; i++){
 		this.availableIcons.push(i);
@@ -120,7 +121,7 @@ levelSelectionState.getRowColOfHighestUnlockedLevel = function(){
 		if(this.game.levelsData[i-1][this.game.numPlayers-1].unlocked == true){
 			highestUnlockedLevel = i;
 		}else{
-			return highestUnlockedLevel;
+			break;
 		}
 	}
 	var row = 0;
@@ -183,7 +184,6 @@ levelSelectionState.changeSelectedIcon = function(row, col){
 	if(this.selectedIcon.objType() == "LevelSelectionIcon"){
 		this.selectedIcon.playOn();
 	}else{
-		console.log(this.selectedIcon);
 		this.selectedIcon.playOff();
 	}
 	this.selectedIconRow = row;
@@ -261,6 +261,8 @@ levelSelectionState.tryDirection = function(direction){
 			if(tryRow < 4){
 				if(this.game.levelsData[this.map[tryRow][tryCol]-1][this.game.numPlayers-1].unlocked){
 					this.changeSelectedIcon(tryRow, tryCol);
+				}else{
+					this.changeSelectedIcon(0, 0);
 				}					
 			}else{
 				this.changeSelectedIcon(tryRow, 0);
@@ -272,6 +274,8 @@ levelSelectionState.tryDirection = function(direction){
 			if(tryRow < 4){
 				if(this.game.levelsData[this.map[tryRow][tryCol]-1][this.game.numPlayers-1].unlocked){
 					this.changeSelectedIcon(tryRow, tryCol);
+				}else{
+					this.changeSelectedIcon(4, 0);
 				}					
 			}else{
 				this.changeSelectedIcon(tryRow, 0);
@@ -317,4 +321,9 @@ levelSelectionState.buttonOnDownOnce = function(button){
 			break;
 		default:		
 	}
+}
+
+levelSelectionState.shutDown = function(){
+	this.game.input.keyboard.onKeyDown.removeAll();
+
 }
