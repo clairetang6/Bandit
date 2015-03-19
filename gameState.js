@@ -355,6 +355,9 @@ gameState.create = function(){
 	this.starDingSound = new Kiwi.Sound.Audio(this.game, 'starDingSound', 0.1, false);
 	this.starDingSound.addMarker('start', 0, 1, false);
 
+	this.whiskeySound = new Kiwi.Sound.Audio(this.game, 'whiskeySound', 0.3, false);
+
+
 	this.voicesSound = new Kiwi.Sound.Audio(this.game, 'voicesSound', 0.3, false);
 	this.voicesSound.addMarker('bombPickup',0,1.3845,false);
 	this.voicesSound.addMarker('bombPlace',1.3845,3.1347,false);
@@ -877,6 +880,9 @@ gameState.checkPotionCollision = function(){
 			if(bandits[j].box.bounds.intersects(potionBox)){
 				if(potions[i].type == 'whiskey'){
 					if(bandits[j].numberOfHearts < 3){
+						if(this.soundsOn){
+							this.whiskeySound.play();
+						}
 						bandits[j].numberOfHearts ++;
 						this.showHearts(bandits[j].color);
 						potions[i].destroy();

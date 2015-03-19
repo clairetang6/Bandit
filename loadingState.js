@@ -28,6 +28,7 @@ loadingState.preload = function(){
 	this.addAudio('dingSound', 'sounds/ding.wav');
 	this.addAudio('starSound', 'sounds/star.wav');
 	this.addAudio('starDingSound', 'sounds/pickup_star.wav');
+	this.addAudio('whiskeySound', 'sounds/whiskey.wav');
 
 	this.addSpriteSheet('menu','menu_sprite.png',500,50);	
 	this.BLOCK_PIXEL_SIZE = 50; 
