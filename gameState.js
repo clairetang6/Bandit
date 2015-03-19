@@ -396,11 +396,34 @@ gameState.create = function(){
 	this.signGridPositions = [[14, 12], [14, 12], [14, 5]];
 
 	this.pointThresholds = [
+	[
 		[100, 400, 790], //  1
 		[100, 400, 765], 
 		[100, 400, 750], 
 		[100, 400, 780], 
 		[100, 400, 920], 
+		[100, 400, 800], //  6
+		[100, 400, 800], 
+		[100, 400, 800], 
+		[100, 400, 800], 
+		[100, 400, 800], 
+		[100, 400, 800], //  11
+		[100, 400, 1000], 
+		[100, 400, 800], 
+		[100, 400, 800], 
+		[100, 400, 800], 
+		[100, 400, 800], //  16
+		[100, 400, 800], 
+		[100, 400, 800], 
+		[100, 400, 800], 
+		[100, 400, 800], 										
+	],
+	[		
+		[100, 400, 790], //  1
+		[100, 400, 765], 
+		[100, 400, 750], 
+		[100, 400, 780], 
+		[100, 400, 1200], 
 		[100, 400, 800], //  6
 		[100, 400, 800], 
 		[100, 400, 800], 
@@ -415,8 +438,13 @@ gameState.create = function(){
 		[100, 400, 800], 
 		[100, 400, 800], 
 		[100, 400, 800], 
-		[100, 400, 800], 										
+		[100, 400, 800], 	
+	]
 	];
+
+	this.timePointsFactor = [60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 
+							160, 170, 180, 200, 220, 240, 260, 280, 290, 300,
+							300];
 
 	this.showLevelScreen();
 	
@@ -823,6 +851,15 @@ gameState.onKeyDownCallback = function(keyCode){
 				this.gunSound.play('start',true);
 			}		
 		}
+	}
+
+	if(this.numPlayers == 2){
+		if(keyCode == this.blue.fireKey.keyCode){
+			this.blue.blastBlock();
+		}
+	}
+	if(keyCode == this.red.fireKey.keyCode){
+		this.red.blastBlock();
 	}
 
 	if(keyCode == Kiwi.Input.Keycodes.T){
@@ -1314,7 +1351,7 @@ gameState.getPixelNumberForGridPosition = function(gridPosition, cardinal){
 	}
 }
 
-gameState.getBlastedBlockPosition = function(gridPosition, facing, groundBlocks){
+gameState.getBlastedBlockPosition = function(gridPosition, facing){
 	var firedPosition = [21, 21];
 	switch(facing){
 		case 'left':
@@ -1442,13 +1479,13 @@ gameState.showCutScene = function(){
 		this.setHighScoreTwoPlayer(totalPoints[0], totalPoints[1]);
 	}
 		
-	if(previousLevelPoints > this.pointThresholds[this.currentLevel-2][2]){
+	if(previousLevelPoints > this.pointThresholds[this.numPlayers-1][this.currentLevel-2][2]){
 		this.setStarsForPreviousLevel(3);
 		this.showStars(3);
-	}else if(previousLevelPoints > this.pointThresholds[this.currentLevel-2][1]){
+	}else if(previousLevelPoints > this.pointThresholds[this.numPlayers-1][this.currentLevel-2][1]){
 		this.setStarsForPreviousLevel(2);
 		this.showStars(2);
-	}else if(previousLevelPoints > this.pointThresholds[this.currentLevel-2][0]){
+	}else if(previousLevelPoints > this.pointThresholds[this.numPlayers-1][this.currentLevel-2][0]){
 		this.setStarsForPreviousLevel(1);
 		this.showStars(1);
 	}else{
@@ -1567,7 +1604,8 @@ gameState.addBonusIcons = function(){
 
 gameState.addPointCounters = function(){
 	totalPoints = [];
-	var timePoints = Math.round(600.0/Math.exp(this.gameTimeSeconds/120));
+	var factor = this.timePointsFactor[this.currentLevel - 2];
+	var timePoints = Math.round(600.0/Math.exp(this.gameTimeSeconds/factor));
 
 	if(this.numPlayers == 1){
 		var addWhat = 1;
@@ -2075,7 +2113,6 @@ gameState.update = function(){
 			}
 
 			if(this.debugKey.isDown){
-				console.log('pressed');
 				this.showStars();
 			}
 		
@@ -2177,6 +2214,7 @@ gameState.buttonOnDownOnce0 = function(button){
 			this.red.goFire = true;
 			this.gunSound.play('start',true);
 			console.log('gun' + this.red.color);
+			this.red.blastBlock();
 			break;
 		case "XBOX_B":
 			this.red.goBomb = true;
@@ -2387,6 +2425,7 @@ gameState.buttonOnDownOnce1 = function(button){
 		case "XBOX_A":
 			this.blue.goFire = true;
 			this.gunSound.play('start',true);
+			this.blue.blastBlock();
 			console.log('blue gune')
 			break;
 		case "XBOX_B":
