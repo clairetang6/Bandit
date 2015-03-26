@@ -855,11 +855,15 @@ gameState.onKeyDownCallback = function(keyCode){
 
 	if(this.numPlayers == 2){
 		if(keyCode == this.blue.fireKey.keyCode){
-			this.blue.blastBlock();
+			if(this.blue.isAlive){
+				this.blue.blastBlock();
+			}
 		}
 	}
 	if(keyCode == this.red.fireKey.keyCode){
-		this.red.blastBlock();
+		if(this.red.isAlive){
+			this.red.blastBlock();
+		}
 	}
 
 	if(keyCode == Kiwi.Input.Keycodes.T){
@@ -2215,10 +2219,12 @@ gameState.addGamepadSignalsBetweenScreen = function(){
 gameState.buttonOnDownOnce0 = function(button){
 	switch ( button.name ) {
 		case "XBOX_A":
-			this.red.goFire = true;
-			this.gunSound.play('start',true);
-			console.log('gun' + this.red.color);
-			this.red.blastBlock();
+			if(this.red.isAlive){
+				this.red.goFire = true;
+				this.gunSound.play('start',true);
+				console.log('gun' + this.red.color);
+				this.red.blastBlock();
+			}
 			break;
 		case "XBOX_B":
 			this.red.goBomb = true;
@@ -2227,8 +2233,7 @@ gameState.buttonOnDownOnce0 = function(button){
 			this.red.goBomb = true;
 			break;
 		case "XBOX_Y":
-			console.log('trying to launch full screen');
-			this.game.fullscreen.launchFullscreen();
+
 			break;
 		case "XBOX_DPAD_LEFT":
 			this.red.goLeft = true;
@@ -2427,10 +2432,12 @@ gameState.buttonOnUp0 = function( button ){
 gameState.buttonOnDownOnce1 = function(button){
 	switch ( button.name ) {
 		case "XBOX_A":
-			this.blue.goFire = true;
-			this.gunSound.play('start',true);
-			this.blue.blastBlock();
-			console.log('blue gune')
+			if(this.blue.isAlive){
+				this.blue.goFire = true;
+				this.gunSound.play('start',true);
+				this.blue.blastBlock();
+				console.log('blue gune')
+			}
 			break;
 		case "XBOX_B":
 			this.blue.goBomb = true;
