@@ -378,7 +378,7 @@ var HiddenBlock = function(state, x, y){
 	this.state = state;
 	this.isBreaking = false;
 
-	if(this.state.currentLevel >=16){
+	if(this.state.currentLevel >=20){
 		this.hiddenBlockTime = 8;
 	}else{
 		this.hiddenBlockTime = 5;
