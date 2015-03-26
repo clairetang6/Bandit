@@ -362,6 +362,9 @@ Ghoul.prototype.update = function(){
 	}else if(this.facing == 'right'){
 		var gridPosition = this.state.getGridPosition(this.x, this.y, 'west');
   	  	var topGridPosition = this.state.getGridPosition(this.x, this.y+15, 'north');
+	}else{
+		var gridPosition = this.state.getGridPosition(this.x, this.y, 'center');
+		var topGridPosition = this.state.getGridPosition(this.x, this.y+15, 'north');
 	}
 
 	//If the ghoul is in a hole, play the die animation, otherwise
@@ -733,6 +736,7 @@ BlueGhoul.prototype.objType = function(){
 
 var BlackGhoul = function(state, x, y, facing){
 	Ghoul.call(this, state, x, y, facing, 'black');
+	this.originalFindPathCount = 4 + this.state.random.integerInRange(1,20);
 	this.findPathCount = 4;
 	this.path = [];
 	this.nextNode = undefined;
@@ -805,7 +809,7 @@ BlackGhoul.prototype.checkDirectionAndSetFacing = function(){
 	if(this.shouldCheckDirection){
 	var gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
 
-		if(this.findPathCount == 4){
+		if(this.findPathCount == this.originalFindPathCount){
 			this.findPathCount = 0;
 			this.path = this.findPathToBandit();
 		}else{
