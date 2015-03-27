@@ -260,7 +260,7 @@ Ghouliath.prototype.addToOccupiedBy = function(){
 
 Ghouliath.prototype.destroy = function(immediate){
 	this.resumeHiddenBlocks();
-	if(this.state.soundsOn){
+	if(this.state.soundOptions.soundsOn){
 		this.state.bombSound.play();	
 	}	
 	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
@@ -465,7 +465,7 @@ Ghoul.prototype.inHole = function(){
 Ghoul.prototype.playDieAnimation = function(){
 	if(this.animation.currentAnimation.name != 'die' + this.facing){
 		this.animation.play('die' + this.facing);
-		if(this.state.soundsOn){
+		if(this.state.soundOptions.soundsOn){
 			this.state.ghoulDeathSound.play('start', true);
 		}
 	}
@@ -672,7 +672,7 @@ Ghoul.prototype.teleport = function(){
 	if(typeof this != 'undefined'){
 		this.facing = 'teleport';
 		this.animation.play('disappear');
-		if(this.state.soundsOn){
+		if(this.state.soundOptions.soundsOn){
 			this.state.ghoulTeleportOutSound.play('start', true);
 		}
 		this.box.hitbox = new Kiwi.Geom.Rectangle(0,0,0,0);		
@@ -692,7 +692,7 @@ Ghoul.prototype.showOrb = function(){
 		var pixels = this.state.getPixelPositionFromRowCol(this.nextRow, this.nextCol);
 		this.x = pixels[0];
 		this.y = pixels[1];
-		if(this.state.soundsOn){
+		if(this.state.soundOptions.soundsOn){
 			this.state.ghoulTeleportInSound.play('start', true);
 		}				
 		this.orbTimer2.start();	

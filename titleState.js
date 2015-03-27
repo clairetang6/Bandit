@@ -28,7 +28,44 @@ titleState.create = function(){
 	this.addChild(this.controlsScreen);
 
 	this.controlsTween = this.game.tweens.create(this.controlsScreen);
+	this.random = new Kiwi.Utils.RandomDataGenerator();
 	
+	this.game.clickOn1Sound = new Kiwi.Sound.Audio(this.game, 'clickOn1Sound', 0.8, false);
+	this.game.clickOff1Sound = new Kiwi.Sound.Audio(this.game, 'clickOff1Sound', 0.8, false);
+	this.game.clickOn2Sound = new Kiwi.Sound.Audio(this.game, 'clickOn2Sound', 0.8, false);
+	this.game.clickOff2Sound = new Kiwi.Sound.Audio(this.game, 'clickOff2Sound', 0.8, false);
+	this.game.clickOn3Sound = new Kiwi.Sound.Audio(this.game, 'clickOn3Sound', 0.8, false);
+	this.game.clickOff3Sound = new Kiwi.Sound.Audio(this.game, 'clickOff3Sound', 0.8, false);
+
+	this.game.playClickOnSound = function(number){
+		switch(number){
+			case 0: 
+				this.clickOn1Sound.play();
+				break;
+			case 1:
+				this.clickOn2Sound.play();
+				break;
+			case 2:
+				this.clickOn3Sound.play();
+				break;
+		}
+	}
+
+	this.game.playClickOffSound = function(number){
+		switch(number){
+			case 0: 
+				this.clickOff1Sound.play();
+				break;
+			case 1:
+				this.clickOff2Sound.play();
+				break;
+			case 2:
+				this.clickOff3Sound.play();
+				break;
+		}	
+	}
+
+
 	this.backgroundTween = this.game.tweens.create(this.background);
 	this.backgroundTween.onComplete(this.finishAddingToSreen, this);
 	this.backgroundTween.to({alpha: 1}, 500, Kiwi.Animations.Tweens.Easing.Linear.None);
@@ -36,6 +73,7 @@ titleState.create = function(){
 	this.backgroundTween.start();
 	
 }
+
 
 titleState.finishAddingToSreen = function(){
 	this.buttonGroup.addChild(this.playerButton1);

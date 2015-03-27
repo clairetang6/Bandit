@@ -341,7 +341,7 @@ Bandit.prototype.placeBomb = function(){
 		bomb.colPlaced = bombGridPosition[1]; 
 		bomb.startTimer();
 		bomb.placedBy = this.color;
-		if(this.state.soundsOn){
+		if(this.state.soundOptions.soundsOn){
 			if(this.state.random.integerInRange(0,2)==0){
 				this.state.voicesSound.play('bombPlace',true);
 			}else{
@@ -430,7 +430,7 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 			ghoul.destroy(false);
 		}
 	}
-	if(this.state.soundsOn){
+	if(this.state.soundOptions.soundsOn){
 		if(numberOfGhouls>1){
 			if(numberOfGhouls>3){
 				this.state.voicesSound.play('hotDamnSon',true);
@@ -444,7 +444,7 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 		}
 	}
 	this.destroy();
-	if(this.state.soundsOn){
+	if(this.state.soundOptions.soundsOn){
 		this.state.blockReappearSound.play('start',true);
 	}
 
@@ -656,7 +656,7 @@ Bomb.prototype.explode = function(){
 	this.state.blastBlock([this.rowPlaced, this.colPlaced+2],this.placedBy);
 	var bandits = this.state.banditGroup.members;
 	var ghouls = this.state.ghoulGroup.members;
-	if(this.state.soundsOn){
+	if(this.state.soundOptions.soundsOn){
 		this.state.bombSound.play();	
 	}
 	for(var i = 0; i < bandits.length; i++){
@@ -900,6 +900,9 @@ Icon.prototype.mouseClicked = function(){
 	if(this.isDown == true){
 		this.y -= 2;
 		this.isDown = false;
+		if(this.state.game.soundOptions.soundsOn){
+			this.state.game.playClickOffSound(this.state.random.integerInRange(0,3));
+		}		
 	}
 	switch(this.type){
 		case 'play':
@@ -909,14 +912,14 @@ Icon.prototype.mouseClicked = function(){
 		case 'restart':
 			this.state.stopCutScene();
 			this.state.currentLevel-=2;
-			if(this.state.musicOn){
+			if(this.state.soundOptions.musicOn){
 				this.state.musicSound.stop();
 			}
 			this.state.tweenOutCurtains(this.state.restartLevel);
 			break;
 		case 'home':
 			this.state.stopCutScene();
-			if(this.state.musicOn){
+			if(this.state.soundOptions.musicOn){
 				this.state.musicSound.stop();
 			}
 			this.state.tweenOutCurtains(this.state.switchToTitleStateFromBetweenScreen);
@@ -999,6 +1002,10 @@ MenuIcon.prototype.playDown = function(){
 	if(this.isDown == false){
 		this.y += 2; 
 		this.isDown = true;
+		if(this.state.game.soundOptions.soundsOn){
+			console.log('playing sound');
+			this.state.game.playClickOnSound(this.state.random.integerInRange(0,3));
+		}
 	}
 }
 
@@ -1006,24 +1013,27 @@ MenuIcon.prototype.mouseClicked = function(){
 	if(this.isDown == true){
 		this.y -= 2;
 		this.isDown = false;
+		if(this.state.game.soundOptions.soundsOn){
+			this.state.game.playClickOffSound(this.state.random.integerInRange(0,3));	
+		}	
 	}
 	switch(this.type){
 		case 'sound':
-			if(this.state.soundsOn == true){
-				this.state.soundsOn = false;
+			if(this.state.soundOptions.soundsOn == true){
+				this.state.soundOptions.soundsOn = false;
 				this.animation.play('hoveroff');
 			}else{
-				this.state.soundsOn = true;
+				this.state.soundOptions.soundsOn = true;
 				this.animation.play('hoveron');
 			}
 			break;
 		case 'music':
-			if(this.state.musicOn == true){
-				this.state.musicOn = false;
+			if(this.state.soundOptions.musicOn == true){
+				this.state.soundOptions.musicOn = false;
 				this.state.musicSound.pause();
 				this.animation.play('hoveroff');
 			}else{
-				this.state.musicOn = true;
+				this.state.soundOptions.musicOn = true;
 				this.state.musicSound.resume();
 				this.animation.play('hoveron');
 			}
@@ -1031,7 +1041,7 @@ MenuIcon.prototype.mouseClicked = function(){
 		case 'restart':
 			this.state.currentLevel--;
 			this.state.closeMenu('noresume');
-			if(this.state.musicOn){
+			if(this.state.soundOptions.musicOn){
 				this.state.musicSound.stop();
 			}
 			this.timer = this.state.game.time.clock.createTimer('restartLevelTimer',0.9,0,false);
@@ -1044,7 +1054,7 @@ MenuIcon.prototype.mouseClicked = function(){
 			}
 			this.state.destroyEverything(true);
 			this.state.gameTimer.removeTimerEvent(this.state.gameTimerEvent);
-			if(this.state.musicOn){
+			if(this.state.soundOptions.musicOn){
 				this.state.musicSound.stop();
 			}
 			this.state.game.states.switchState('titleState');
@@ -1092,13 +1102,13 @@ MenuIcon.prototype.restartLevel = function(){
 
 MenuIcon.prototype.playHover = function(){
 	if(this.type == 'sound'){
-		if(this.state.soundsOn){
+		if(this.state.soundOptions.soundsOn){
 			this.animation.play('hoveron');
 		}else{
 			this.animation.play('hoveroff');
 		}
 	}else if (this.type == 'music'){
-		if(this.state.musicOn){
+		if(this.state.soundOptions.musicOn){
 			this.animation.play('hoveron');
 		}else{
 			this.animation.play('hoveroff');
@@ -1114,13 +1124,13 @@ MenuIcon.prototype.playOff = function(){
 		this.isDown = false;
 	}	
 	if(this.type == 'sound'){
-		if(this.state.soundsOn){
+		if(this.state.soundOptions.soundsOn){
 			this.animation.play('on');
 		}else{
 			this.animation.play('off');
 		}
 	}else if(this.type == 'music'){
-		if(this.state.musicOn){
+		if(this.state.soundOptions.musicOn){
 			this.animation.play('on');
 		}else{
 			this.animation.play('off');
@@ -1376,6 +1386,9 @@ LevelSelectionIcon.prototype.playDown = function(){
 	if(this.isDown == false){
 		this.y += 2;
 		this.isDown = true;
+		if(this.state.game.soundOptions.soundsOn){
+			this.state.game.playClickOnSound(this.state.random.integerInRange(0,3));
+		}
 	}
 }
 
@@ -1393,6 +1406,9 @@ LevelSelectionIcon.prototype.startStartLevelTimer = function(){
 	if(this.isDown == true){
 		this.y -= 2;
 		this.isDown = false;
+		if(this.state.game.soundOptions.soundsOn){
+			this.state.game.playClickOffSound(this.state.random.integerInRange(0,3));
+		}		
 	}			
 	this.timer = this.state.game.time.clock.createTimer('iconTimer', 0.2, 0, false);
 	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.startLevel, this);
@@ -1400,10 +1416,6 @@ LevelSelectionIcon.prototype.startStartLevelTimer = function(){
 }
 
 LevelSelectionIcon.prototype.startLevel = function(){
-	if(this.isDown == true){
-		this.y -= 2; 
-		this.isDown = false;
-	}
 	this.state.startGame(this.number);
 }
 

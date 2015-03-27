@@ -16,8 +16,7 @@ gameState.create = function(){
 	Kiwi.State.prototype.create.call(this);
 
 	this.isPaused = false;
-	this.soundsOn = true;
-	this.musicOn = true;
+	this.soundOptions = this.game.soundOptions;
 
 	this.STAGE_Y_OFFSET = 32 * this.MULTIPLIER;
 	this.STAGE_X_OFFSET = 38 * this.MULTIPLIER;
@@ -356,8 +355,7 @@ gameState.create = function(){
 	this.starDingSound.addMarker('start', 0, 1, false);
 
 	this.whiskeySound = new Kiwi.Sound.Audio(this.game, 'whiskeySound', 0.3, false);
-
-
+	
 	this.voicesSound = new Kiwi.Sound.Audio(this.game, 'voicesSound', 0.3, false);
 	this.voicesSound.addMarker('bombPickup',0,1.3845,false);
 	this.voicesSound.addMarker('bombPlace',1.3845,3.1347,false);
@@ -757,7 +755,7 @@ gameState.createLevel = function(){
 	}
 
 	this.rideOutPlayed = false;
-	if(this.soundsOn){
+	if(this.soundOptions.soundsOn){
 		var toPlay = this.beginningLevelVoices[this.random.integerInRange(0,this.beginningLevelVoices.length)];
 		this.voicesSound.play(toPlay,true);
 	}	
@@ -765,7 +763,7 @@ gameState.createLevel = function(){
 	this.timer = this.game.time.clock.createTimer('levelOver',2,0,false);
 	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.levelOver,this);
 
-	if(this.musicOn){
+	if(this.soundOptions.musicOn){
 		this.musicSound.play();
 	}
 	
@@ -841,7 +839,7 @@ gameState.updateTimer = function(){
 }
 
 gameState.onKeyDownCallback = function(keyCode){
-	if(this.soundsOn){
+	if(this.soundOptions.soundsOn){
 		if(this.numPlayers == 2){
 			if(keyCode == this.red.fireKey.keyCode || keyCode == this.blue.fireKey.keyCode){
 				this.gunSound.play('start',true);
@@ -901,7 +899,7 @@ gameState.checkBombCollision = function(){
 
 						bombs[i].hide();
 						this.updateBombCounter(bandits[j]);
-						if(this.soundsOn){
+						if(this.soundOptions.soundsOn){
 							this.voicesSound.play('bombPickup',true);
 						}
 					}
@@ -921,7 +919,7 @@ gameState.checkPotionCollision = function(){
 			if(bandits[j].box.bounds.intersects(potionBox)){
 				if(potions[i].type == 'whiskey'){
 					if(bandits[j].numberOfHearts < 3){
-						if(this.soundsOn){
+						if(this.soundOptions.soundsOn){
 							this.whiskeySound.play();
 						}
 						bandits[j].numberOfHearts ++;
@@ -944,12 +942,12 @@ gameState.checkCoinCollision = function(){
 			if(bandits[j].box.bounds.intersects(coinBox)){
 				if(coins[i].animation.currentAnimation.name == 'shine'){
 					bandits[j].coinsCollected += 10;
-					if(this.soundsOn){
+					if(this.soundOptions.soundsOn){
 						this.diamondSound.play('start',true);
 					}
 				}else{
 					bandits[j].coinsCollected ++;
-					if(this.soundsOn){
+					if(this.soundOptions.soundsOn){
 						this.coinSound.play('start',true);
 						if(bandits[j].coinsCollected == 40){
 							this.voicesSound.play('money2',true);
@@ -1042,7 +1040,7 @@ gameState.checkGhoulCollision = function(){
 			var ghoulBox = ghouls[i].box.hitbox;
 			if(bandits[j].box.hitbox.intersects(ghoulBox)){
 				if(bandits[j].isAlive){
-					if(this.soundsOn){
+					if(this.soundOptions.soundsOn){
 						this.banditDeathSound.play('start',false);
 					}
 					bandits[j].isAlive = false;
@@ -1460,7 +1458,7 @@ gameState.getTotalScores = function(){
 gameState.showCutScene = function(){
 	this.destroyEverything(false);
 
-	if(this.musicOn){
+	if(this.soundOptions.musicOn){
 		this.musicSound.stop();
 	}
 
@@ -1543,13 +1541,13 @@ gameState.tickStars = function(){
 	this.starTweens2[this.showStarsIndex].to({scaleX: 1.0, scaleY: 1.0}, 500, Kiwi.Animations.Tweens.Easing.Bounce.Out, false);
 	this.starTweens[this.showStarsIndex].chain(this.starTweens2[this.showStarsIndex]);
 	this.starTweens[this.showStarsIndex].onComplete(function(){
-		if(this.soundsOn){
+		if(this.soundOptions.soundsOn){
 			this.starDingSound.play('start', true);
 		}
 	}, this);
 	this.starTweens[this.showStarsIndex].start();
 	this.showStarsIndex++;
-	if(this.soundsOn){
+	if(this.soundOptions.soundsOn){
 		this.starSound.play('start', true);
 	}	
 }
@@ -1681,7 +1679,7 @@ gameState.updateBigCoinCounter = function(){
 	this.bigCoinTimer = this.game.time.clock.createTimer('bigCoin',0.1,6,false);
 	this.bigCoinTimerEvent = this.bigCoinTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.tickBigCoinCounter, this);
 	this.bigCoinTimer.start();
-	if(this.soundsOn){
+	if(this.soundOptions.soundsOn){
 		this.flipSound.play();
 	}
 }
@@ -1704,7 +1702,7 @@ gameState.stepBigCoinCounter = function(bandit, bigCoinCounterStep){
 			}
 		}
 	}
-	if(this.soundsOn){
+	if(this.soundOptions.soundsOn){
 		if(this.bigCoinCounterStep <= 4){
 			this.dingSound.play('start', true);
 		}
@@ -1743,7 +1741,7 @@ gameState.stepBigCoinCounterTotal = function(bandit, banditIndex, bigCoinCounter
 			}
 		}
 	}
-	if(this.soundsOn){
+	if(this.soundOptions.soundsOn){
 		if(this.bigCoinCounterStepTotal <= 5){
 			this.dingSound.play('start', true);
 		}
@@ -1805,7 +1803,7 @@ gameState.showStageCoachAndHorses = function(){
 		this.blueHorse.x = -1000;
 	}
 	this.stageCoach.x = -500;
-	if(this.soundsOn){
+	if(this.soundOptions.soundsOn){
 		this.wagonSound.play('start', true);
 		this.horseGallopSound.play('start', true);
 		if(this.numPlayers == 2){
@@ -1901,7 +1899,7 @@ gameState.destroyAllMembersOfGroup = function(group){
 
 gameState.isLevelOver = function(){
 	if(this.coinGroup.members.length==0){
-		if(this.soundsOn){	
+		if(this.soundOptions.soundsOn){	
 			if(this.rideOutPlayed == false){
 				this.voicesSound.play('rideOut',false);
 				this.rideOutPlayed = true;
@@ -1922,7 +1920,7 @@ gameState.isGameOver = function(){
 		}
 	}
 	if(this.gameIsOver){
-		if(this.musicOn){
+		if(this.soundOptions.musicOn){
 			this.musicSound.stop();
 		}
 		this.addChild(this.loseScreen);
@@ -1967,7 +1965,7 @@ gameState.blastBlock = function(blastedBlockPosition, banditColor){
 			}
 		}
 
-		if(this.soundsOn){
+		if(this.soundOptions.soundsOn){
 			if(this.random.frac() <= 0.05){
 				this.voicesSound.play('sixFeetUnder',true);
 			}
@@ -2003,19 +2001,21 @@ gameState.onGunShotCallback = function(){
 }
 
 gameState.mouseClicked = function(){
-	if(this.isPaused == true){
-		if(this.mouse.x > 250 && this.mouse.x < 750){
-			if(this.mouse.x > 450 && this.mouse.x < 600){
-				if(this.mouse.y > 620 && this.mouse.y < 680){
-					this.closeMenu();
+	if(this.game.states.current.name == "gameState"){
+		if(this.isPaused == true){
+			if(this.mouse.x > 250 && this.mouse.x < 750){
+				if(this.mouse.x > 450 && this.mouse.x < 600){
+					if(this.mouse.y > 620 && this.mouse.y < 680){
+						this.closeMenu();
+					}
 				}
 			}
-		}
-	}else if(this.showingLevelScreen == false){
-		if(this.mouse.x > 400 && this.mouse.x < 700 && this.mouse.y < 25 * this.MULTIPLIER){
-			this.openMenu();
-		}
-	}		
+		}else if(this.showingLevelScreen == false){
+			if(this.mouse.x > 400 && this.mouse.x < 700 && this.mouse.y < 25 * this.MULTIPLIER){
+				this.openMenu();
+			}
+		}	
+	}	
 }
 
 gameState.showPressUp = function(){
@@ -2121,7 +2121,7 @@ gameState.update = function(){
 			}
 
 			if(this.debugKey.isDown){
-				this.showStars();
+				this.game.playClickOnSound(1);
 			}
 		
 			if(this.mouse.isDown){

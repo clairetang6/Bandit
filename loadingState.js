@@ -29,6 +29,12 @@ loadingState.preload = function(){
 	this.addAudio('starSound', 'sounds/star.wav');
 	this.addAudio('starDingSound', 'sounds/pickup_star.wav');
 	this.addAudio('whiskeySound', 'sounds/whiskey.wav');
+	this.addAudio('clickOn1Sound', 'sounds/clickon1.wav');
+	this.addAudio('clickOff1Sound', 'sounds/clickoff1.wav');
+	this.addAudio('clickOn2Sound', 'sounds/clickon2.wav');
+	this.addAudio('clickOff2Sound', 'sounds/clickoff2.wav');
+	this.addAudio('clickOn3Sound', 'sounds/clickon3.wav');
+	this.addAudio('clickOff3Sound', 'sounds/clickoff3.wav');
 
 	this.addSpriteSheet('menu','menu_sprite.png',500,50);	
 	this.BLOCK_PIXEL_SIZE = 50; 
