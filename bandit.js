@@ -342,6 +342,7 @@ Bandit.prototype.placeBomb = function(){
 		bomb.animation.play('idleground');
 		bomb.startTimer();
 		bomb.placedBy = this.color;
+		bomb.placedByBandit = this;
 		if(this.state.soundOptions.soundsOn){
 			if(this.state.random.integerInRange(0,2)==0){
 				this.state.voicesSound.play('bombPlace',true);
@@ -647,7 +648,7 @@ var Bomb = function(state, x, y){
 	this.animation.play('idle');
 
 	this.animation.getAnimation('explode').onComplete.add(function(){console.log(this);this.explode();}, this);
-	console.log(this.animation.getAnimation('explode').onComplete)
+
 	this.timerAnimation = this.state.game.time.clock.createTimer('bombAnimation',1,0,false);
 	this.timerAnimationEvent = this.timerAnimation.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.explodeAnimation, this);
 
@@ -677,6 +678,16 @@ Bomb.prototype.explode = function(){
 			ghouls[i].animation.play('diestatic'+ghouls[i].facing);
 			ghouls[i].facing = 'none';
 			ghouls[i].singleBlockDeath('fast');	
+			if(ghouls[i].objType() == 'Ghoul'){
+				this.placedByBandit.grayGhoulsKilled++;
+			}else if(ghouls[i].objType() == 'BlueGhoul'){
+				this.placedByBandit.blueGhoulsKilled++;
+			}else if(ghouls[i].objType() == 'RedGhoul'){
+				this.placedByBandit.redGhoulsKilled++;
+			}else if(ghouls[i].objType() == 'BlackGhoul'){
+				this.placedByBandit.blackGhoulsKilled++;
+			}
+			this.state.addGhoulKill(this.placedByBandit.color);						
 		}
 	}	
 	this.destroy();
