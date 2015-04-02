@@ -12,4 +12,5 @@ myGame.states.addState(loadingState);
 myGame.states.addState(titleState);
 myGame.states.addState(levelSelectionState);
 myGame.states.addState(gameState);
+myGame.states.addState(creditsState);
 myGame.states.switchState('loadingState');

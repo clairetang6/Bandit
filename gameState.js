@@ -2121,7 +2121,7 @@ gameState.update = function(){
 			}
 
 			if(this.debugKey.isDown){
-				this.game.playClickOnSound(1);
+				this.game.states.switchState('creditsState');
 			}
 		
 			if(this.mouse.isDown){

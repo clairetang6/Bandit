@@ -624,8 +624,10 @@ Kiwi.extend(Horse, Kiwi.GameObjects.Sprite);
 
 Horse.prototype.update = function(){
 	Kiwi.GameObjects.Sprite.prototype.update.call(this);
-	if(this.x < this.state.bps * (this.state.GRID_COLS +2)){
-		this.x += 6 * this.state.game.time.rate;
+	if(this.state.name == 'gameState'){
+		if(this.x < this.state.bps * (this.state.GRID_COLS +2)){
+			this.x += 6 * this.state.game.time.rate;
+		}
 	}
 }
 
