@@ -522,9 +522,6 @@ gameState.createLevel = function(){
 		if(bombsLayerArray[i] == 58){
 			var bombPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 			var bomb = new Bomb(this, bombPixels[0], bombPixels[1]);
-			bomb.animation.add('idle',[57],0.1,false);
-			bomb.animation.add('explode',[64,63,62,58],0.3,false);
-			bomb.animation.play('idle');
 			bomb.box.hitbox = new Kiwi.Geom.Rectangle(bombHitboxX, bombHitboxY, this.bps-2*bombHitboxX, this.bps-2*bombHitboxY);
 			this.bombGroup.addChild(bomb);
 		}else{

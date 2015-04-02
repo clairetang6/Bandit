@@ -339,6 +339,7 @@ Bandit.prototype.placeBomb = function(){
 		var bombGridPosition = this.state.getGridPosition(bomb.x,bomb.y);
 		bomb.rowPlaced = bombGridPosition[0];
 		bomb.colPlaced = bombGridPosition[1]; 
+		bomb.animation.play('idleground');
 		bomb.startTimer();
 		bomb.placedBy = this.color;
 		if(this.state.soundOptions.soundsOn){
@@ -640,11 +641,14 @@ var Bomb = function(state, x, y){
 
 	this.timerStarted = false; 
 
+	this.animation.add('idle',[57],0.1,false);
+	this.animation.add('idleground',[60],0.1,false);
+	this.animation.add('explode',[61,341,64,340,63,339,62,338,58,59],0.12,false);
+	this.animation.play('idle');
 
-	this.timer = this.state.game.time.clock.createTimer('bombTimer',3,0,false);
-	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.explode, this);
-
-	this.timerAnimation = this.state.game.time.clock.createTimer('bombAnimation',2,0,false);
+	this.animation.getAnimation('explode').onComplete.add(function(){console.log(this);this.explode();}, this);
+	console.log(this.animation.getAnimation('explode').onComplete)
+	this.timerAnimation = this.state.game.time.clock.createTimer('bombAnimation',1,0,false);
 	this.timerAnimationEvent = this.timerAnimation.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.explodeAnimation, this);
 
 }
@@ -684,12 +688,10 @@ Bomb.prototype.explodeAnimation = function(){
 
 Bomb.prototype.startTimer = function(){
 	this.timerStarted = true;
-	this.timer.start();
 	this.timerAnimation.start();
 }
 
 Bomb.prototype.destroy = function(immediate){
-	this.timer.removeTimerEvent(this.timerEvent);
 	this.timerAnimation.removeTimerEvent(this.timerAnimationEvent);
 	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
 }

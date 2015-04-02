@@ -17219,6 +17219,9 @@ var Kiwi;
                             } else {
                                 //Execute the stop on the parent to allow the isPlaying boolean to remain consistent
                                 this._parent.stop();
+                                if(this._onComplete != null){
+                                    this._onComplete.dispatch();
+                                }
                             }
                         }
                     }
