@@ -95,9 +95,13 @@ levelSelectionState.onPress = function(keyCode){
 	}else if(keyCode == Kiwi.Input.Keycodes.TAB){
 		this.changeSelectedIconByTab();
 	}else if(keyCode == Kiwi.Input.Keycodes.ENTER || keyCode == Kiwi.Input.Keycodes.SPACEBAR){
-		this.startGame(this.selectedIcon.number);
+		if(this.selectedIcon.number){
+			this.startGame(this.selectedIcon.number);
+		}else{
+			this.selectedIcon.mouseClicked();
+		}
 	}else if(keyCode == Kiwi.Input.Keycodes.I){
-		console.log(this.selectedIcon.number + ' row:' + this.selectedIconRow + ' col:' + this.selectedIconCol);
+		console.log(this.selectedIcon.type + ' row:' + this.selectedIconRow + ' col:' + this.selectedIconCol);
 
 	}
 }
