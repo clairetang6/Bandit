@@ -19,9 +19,9 @@ titleState.create = function(){
 
 	this.buttonGroup = new Kiwi.Group(this);
 
-	this.playerButton1 = new MenuIcon(this, 270, 1475, '1player');
-	this.playerButton2 = new MenuIcon(this, 270, 1550, '2player');
-	this.controlsButton = new MenuIcon(this, 270, 1625, 'controls');
+	this.playerButton1 = new TitleIcon(this, 270, 1475, '1player');
+	this.playerButton2 = new TitleIcon(this, 270, 1550, '2player');
+	this.controlsButton = new TitleIcon(this, 270, 1625, 'controls');
 
 	this.background.alpha = 0;
 	this.addChild(this.background);
@@ -95,7 +95,7 @@ titleState.finishAddingToSreen = function(){
 
 	this.mouse = this.game.input.mouse;
 
-	this.backButton = new MenuIcon(this, 50, 675, 'backControls');
+	this.backButton = new TitleIcon(this, 50, 675, 'backControls');
 	this.backButton.visible = false;
 	this.addChild(this.backButton);
 
@@ -105,6 +105,7 @@ titleState.finishAddingToSreen = function(){
 	}
 	this.selectedMenuIconIndex = 0;
 	this.selectedMenuIcon = this.buttonGroup.members[this.selectedMenuIconIndex];
+	this.selectedMenuIcon.playHover();
 
 	this.backgroundTween.onComplete(null, null);
 }
@@ -163,10 +164,25 @@ titleState.gamepadConnected = function(){
 }
 
 titleState.changeSelectedMenuIcon = function(index){
-	this.selectedMenuIcon.playOff();
 	this.selectedMenuIconIndex = index;
 	this.selectedMenuIcon = this.buttonGroup.members[this.selectedMenuIconIndex];
-	this.selectedMenuIcon.playHover();
+	this.selectedMenuIcon.animation.play('hover');
+}
+
+titleState.changeSelectedMenuIconByType = function(type){
+	switch(type){
+		case '1player':
+			var index = 0;
+			break;
+		case '2player':
+			var index = 1;
+			break;
+		case 'controls':
+			var index = 2;
+			break;
+	}
+	this.selectedMenuIconIndex = index;
+	this.selectedMenuIcon = this.buttonGroup.members[this.selectedMenuIconIndex];
 }
 
 titleState.getIncreasedIndex = function(){
