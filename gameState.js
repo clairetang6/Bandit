@@ -1573,6 +1573,12 @@ gameState.switchToTitleStateFromBetweenScreen = function(){
 	this.game.states.switchState('titleState');
 }
 
+gameState.switchToState = function(stateName){
+	this.destroyEverything(true);
+	this.gameTimer.removeTimerEvent(this.gameTimerEvent);
+	this.game.states.switchState(stateName);
+}
+
 gameState.addIcons = function(){
 	this.iconGroup.active = true;
 	this.iconGroup.visible = true;
@@ -2118,7 +2124,7 @@ gameState.update = function(){
 			}
 
 			if(this.debugKey.isDown){
-				this.game.states.switchState('creditsState');
+				this.switchToState('creditsState');
 			}
 		
 			if(this.mouse.isDown){
@@ -2613,3 +2619,6 @@ gameState.checkController = function(bandit){
 	}
 }
 
+gameState.shutDown = function(){
+	this.game.input.keyboard.onKeyDown.removeAll();
+}
