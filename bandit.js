@@ -1005,6 +1005,7 @@ var MenuIcon = function(state, x, y, type){
 			break;						
 	}
 	this.animation.play('on');
+	this.alpha = 0.5; 
 
 	this.input.onEntered.add(MenuIcon.prototype.playHover, this);
 	this.input.onLeft.add(MenuIcon.prototype.playOff, this);
@@ -1116,6 +1117,7 @@ MenuIcon.prototype.restartLevel = function(){
 }
 
 MenuIcon.prototype.playHover = function(){
+	this.alpha = 1; 
 	if(this.type == 'sound'){
 		if(this.state.soundOptions.soundsOn){
 			this.animation.play('hoveron');
@@ -1138,6 +1140,7 @@ MenuIcon.prototype.playHover = function(){
 }
 
 MenuIcon.prototype.playOff = function(){
+	this.alpha = 0.5;
 	if(this.isDown == true){
 		this.y -= 2;
 		this.isDown = false;
