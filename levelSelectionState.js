@@ -72,6 +72,7 @@ levelSelectionState.create = function(){
 	this.selectedIconRow = rowcol[0];
 	this.selectedIconCol = rowcol[1];
 	this.selectedIcon = this.levelSelectionGroup.members[this.map[this.selectedIconRow][this.selectedIconCol]-1];
+	this.selectedIcon.playHover();
 
 	//index into the members array, which is 1 less than the level number. 
 	this.availableIconsIndex = this.map[this.selectedIconRow][this.selectedIconCol] - 1;
@@ -93,6 +94,11 @@ levelSelectionState.onPress = function(keyCode){
 		this.tryDirection('down');
 	}else if(keyCode == Kiwi.Input.Keycodes.TAB){
 		this.changeSelectedIconByTab();
+	}else if(keyCode == Kiwi.Input.Keycodes.ENTER || keyCode == Kiwi.Input.Keycodes.SPACEBAR){
+		this.startGame(this.selectedIcon.number);
+	}else if(keyCode == Kiwi.Input.Keycodes.I){
+		console.log(this.selectedIcon.number + ' row:' + this.selectedIconRow + ' col:' + this.selectedIconCol);
+
 	}
 }
 
@@ -160,17 +166,23 @@ levelSelectionState.changeSelectedIconByTab = function(){
 		this.availableIconsIndex++;
 	}
 
-	if(this.availableIconsIndex == this.availableIcons.length){
+	this.changeSelectedIconByLevel(this.availableIconsIndex + 1);
+	this.selectedIcon.playHover();	
+}
+
+levelSelectionState.changeSelectedIconByLevel = function(level){
+	var index = level - 1; 
+	if(index == this.availableIcons.length){
 		this.selectedIcon = this.backButton;
 		this.selectedIconRow = 4;
 		this.selectedIconCol = 0;
 	}else{
-		this.selectedIcon = this.levelSelectionGroup.members[this.availableIconsIndex];
+		this.selectedIcon = this.levelSelectionGroup.members[index];
 		var row = 0;
 		var col = 0;
 		for (var i = 0; i < this.map.length; i++){
 			for (var j = 0; j < this.map[0].length; j++){
-				if(this.map[i][j] == this.availableIconsIndex + 1){
+				if(this.map[i][j] == index + 1){
 					row = i;
 					col = j;
 				}
@@ -179,7 +191,6 @@ levelSelectionState.changeSelectedIconByTab = function(){
 		this.selectedIconRow = row;
 		this.selectedIconCol = col;
 	}
-	this.selectedIcon.playHover();
 }
 
 levelSelectionState.changeSelectedIcon = function(row, col){

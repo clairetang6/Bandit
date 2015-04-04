@@ -1128,6 +1128,10 @@ MenuIcon.prototype.playHover = function(){
 		}else{
 			this.animation.play('hoveroff');
 		}
+	}else if (this.type == 'backLevelSelection'){
+		LevelSelectionIcon.prototype.removeAllHovers.call(this);
+		this.state.changeSelectedIconByLevel(this.state.availableIcons.length + 1); //so that selected icon is the back button
+		this.animation.play('hover');
 	}else{
 		this.animation.play('hover');
 	}
@@ -1388,6 +1392,8 @@ var LevelSelectionIcon = function(state, x, y, number){
 Kiwi.extend(LevelSelectionIcon, Kiwi.GameObjects.Sprite);
 
 LevelSelectionIcon.prototype.playHover = function(){
+	this.removeAllHovers();
+	this.state.changeSelectedIconByLevel(this.number);
 	var stars = this.state.game.levelsData[this.number-1][this.state.game.numPlayers-1].stars;
 	this.animation.play('hover' + stars);
 }
@@ -1403,6 +1409,19 @@ LevelSelectionIcon.prototype.playDown = function(){
 		this.isDown = true;
 		if(this.state.game.soundOptions.soundsOn){
 			this.state.game.playClickOnSound(this.state.random.integerInRange(0,3));
+		}
+	}
+}
+
+LevelSelectionIcon.prototype.removeAllHovers = function(){
+	var icons = this.state.levelSelectionGroup.members;
+	for(var i = 0; i < icons.length; i++){
+		if(icons[i].animation.currentAnimation.name.substring(0,5) == 'hover'){
+			if(icons[i].type && icons[i].type.substring(0,4) == 'back'){
+				icons[i].playOff();
+			}else{
+				icons[i].playOn();
+			}
 		}
 	}
 }
