@@ -338,5 +338,4 @@ levelSelectionState.buttonOnDownOnce = function(button){
 
 levelSelectionState.shutDown = function(){
 	this.game.input.keyboard.onKeyDown.removeAll();
-
 }

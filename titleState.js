@@ -104,10 +104,10 @@ titleState.finishAddingToSreen = function(){
 		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce, this);
 	}
 	this.selectedMenuIconIndex = 0;
-	this.selectedMenuIcon = this.buttonGroup.members[this.selectedMenuIconIndex];
-	this.selectedMenuIcon.playHover();
+	this.changeSelectedMenuIcon(this.selectedMenuIconIndex);
 
 	this.backgroundTween.onComplete(null, null);
+	this.game.input.keyboard.onKeyDown.add(this.onPressTitle, this);
 }
 
 titleState.showControls = function(){
@@ -119,12 +119,15 @@ titleState.showControls = function(){
 	this.buttonGroup.active = false;	
 	this.controlsTween.start();
 	this.backgroundTween.start();
+	this.game.input.keyboard.onKeyDown.removeAll();	
 }
 
 titleState.finishShowingControls = function(){
 	this.backButton.visible = true;
 	this.backButton.active = true;
 	this.controlsTween.onComplete(null, null);
+	this.changeSelectedMenuIcon('back');
+	this.game.input.keyboard.onKeyDown.add(this.onPressControls, this);
 }
 
 titleState.hideControls = function(){
@@ -136,13 +139,15 @@ titleState.hideControls = function(){
 	this.backButton.active = false;
 	this.controlsTween.start();
 	this.backgroundTween.start();
+	this.game.input.keyboard.onKeyDown.removeAll();	
 }
 
 titleState.finishHidingControls = function(){
 	this.buttonGroup.visible = true;
 	this.buttonGroup.active = true;
 	this.controlsTween.onComplete(null, null);
-	console.log(this.background);
+	this.changeSelectedMenuIcon(0);
+	this.game.input.keyboard.onKeyDown.add(this.onPressTitle, this);
 }
 
 titleState.startGame = function(){
@@ -164,9 +169,20 @@ titleState.gamepadConnected = function(){
 }
 
 titleState.changeSelectedMenuIcon = function(index){
-	this.selectedMenuIconIndex = index;
-	this.selectedMenuIcon = this.buttonGroup.members[this.selectedMenuIconIndex];
-	this.selectedMenuIcon.animation.play('hover');
+	if(this.selectedMenuIcon){
+		this.selectedMenuIcon.playOff();
+	}
+	if(index == 'back'){
+		this.selectedMenuIconIndex = -1;
+		this.selectedMenuIcon = this.backButton;
+		this.selectedMenuIcon.alpha = 1;
+		this.selectedMenuIcon.animation.play('hover');
+	}else{
+		this.selectedMenuIconIndex = index;
+		this.selectedMenuIcon = this.buttonGroup.members[this.selectedMenuIconIndex];
+		this.selectedMenuIcon.alpha = 1;
+		this.selectedMenuIcon.animation.play('hover');
+	}
 }
 
 titleState.changeSelectedMenuIconByType = function(type){
@@ -180,9 +196,17 @@ titleState.changeSelectedMenuIconByType = function(type){
 		case 'controls':
 			var index = 2;
 			break;
+		case 'backControls':
+			var index = 'back';
+			break;
 	}
-	this.selectedMenuIconIndex = index;
-	this.selectedMenuIcon = this.buttonGroup.members[this.selectedMenuIconIndex];
+	if(index == 'back'){
+		this.selectedMenuIconIndex - 1;
+		this.selectedMenuIcon = this.backButton;
+	}else{
+		this.selectedMenuIconIndex = index;
+		this.selectedMenuIcon = this.buttonGroup.members[this.selectedMenuIconIndex];
+	}
 }
 
 titleState.getIncreasedIndex = function(){
@@ -229,3 +253,35 @@ titleState.buttonOnDownOnce = function(button){
 	}
 }
 
+titleState.onPressTitle = function(keyCode){
+	if(keyCode == Kiwi.Input.Keycodes.LEFT){
+		this.changeSelectedMenuIcon(this.getDecreasedIndex());
+	}else if(keyCode == Kiwi.Input.Keycodes.RIGHT){
+		this.changeSelectedMenuIcon(this.getIncreasedIndex());
+	}else if(keyCode == Kiwi.Input.Keycodes.UP){
+		this.changeSelectedMenuIcon(this.getDecreasedIndex());
+	}else if(keyCode == Kiwi.Input.Keycodes.DOWN){
+		this.changeSelectedMenuIcon(this.getIncreasedIndex());
+	}else if(keyCode == Kiwi.Input.Keycodes.TAB){
+		this.changeSelectedMenuIcon(this.getIncreasedIndex());
+	}else if(keyCode == Kiwi.Input.Keycodes.ENTER || keyCode == Kiwi.Input.Keycodes.SPACEBAR){
+		this.selectedMenuIcon.mouseClicked();
+	}else if(keyCode == Kiwi.Input.Keycodes.I){
+
+	}
+}
+
+titleState.onPressControls = function(keyCode){
+	if(keyCode == Kiwi.Input.Keycodes.LEFT || keyCode == Kiwi.Input.Keycodes.RIGHT || keyCode == Kiwi.Input.Keycodes.UP || keyCode == Kiwi.Input.Keycodes.DOWN){
+		this.selectedMenuIcon.animation.play('hover');
+		this.selectedMenuIcon.alpha = 1;
+	}else if(keyCode == Kiwi.Input.Keycodes.ENTER || keyCode == Kiwi.Input.Keycodes.SPACEBAR){
+		this.selectedMenuIcon.mouseClicked();
+	}else if(keyCode == Kiwi.Input.Keycodes.I){
+		console.log(this.selectedMenuIcon);
+	}
+}
+
+titleState.shutDown = function(){
+	this.game.input.keyboard.onKeyDown.removeAll();
+}

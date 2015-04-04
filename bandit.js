@@ -1173,7 +1173,7 @@ var TitleIcon = function(state, x, y, type){
 	this.animation.play('on');
 	this.alpha = 0.5;
 
-	this.input.onEntered.add(MenuIcon.prototype.playHover, this);
+	this.input.onEntered.add(TitleIcon.prototype.playHover, this);
 	this.input.onLeft.add(MenuIcon.prototype.playOff, this);
 	this.input.onUp.add(MenuIcon.prototype.mouseClicked, this);
 	this.input.onDown.add(MenuIcon.prototype.playDown, this);	
@@ -1182,14 +1182,16 @@ Kiwi.extend(TitleIcon, Kiwi.GameObjects.Sprite);
 Kiwi.extend(TitleIcon, MenuIcon);
 
 TitleIcon.prototype.playHover = function(){
+	this.removeAllHovers();
 	this.state.changeSelectedMenuIconByType(this.type);
+	this.alpha = 1;
 	this.animation.play('hover');
 }
 
 TitleIcon.prototype.removeAllHovers = function(){
 	var icons = this.state.buttonGroup.members;
 	for(var i = 0; i < icons.length; i++){
-		if(icons[i].animation.currentAnimation.name.substring(0,5) == 'hover'){
+		if(icons[i].animation.currentAnimation.name == 'hover'){
 			icons[i].playOff();
 		}
 	}	
