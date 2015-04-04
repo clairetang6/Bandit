@@ -390,7 +390,7 @@ gameState.create = function(){
 	this.gameTimer.start();
 	this.gameTimer.pause();
 
-	this.pressUpSignLocations = [[550, 650], [550, 650], [200, 650]];
+	this.pressUpSignLocations = [[515, 650], [515, 650], [165, 650]];
 	this.signGridPositions = [[14, 12], [14, 12], [14, 5]];
 
 	this.pointThresholds = [
@@ -2094,7 +2094,7 @@ gameState.checkIfOnSign = function(banditGridPosition){
 
 gameState.checkPressUp = function(){
 	var bandits = this.banditGroup.members;
-	var signGridPosition = this.signGridPositions[0];
+	var signGridPosition = this.signGridPositions[this.currentLevel - 1];
 	for (var i = 0; i < bandits.length; i++){
 		banditGridPosition = this.getGridPosition(bandits[i].x, bandits[i].y, 'middle');
 		if(banditGridPosition[0] == signGridPosition[0] && banditGridPosition[1] == signGridPosition[1]){
@@ -2113,7 +2113,7 @@ gameState.update = function(){
 			this.isLevelOver();
 			this.isGameOver();
 
-			if(this.currentLevel == 1){
+			if(this.currentLevel <= 3){
 				if(this.checkPressUp()){
 					this.showPressUp();
 				}else{
