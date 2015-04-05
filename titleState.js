@@ -103,6 +103,7 @@ titleState.finishAddingToSreen = function(){
 		this.game.gamepads.gamepadConnected.add(this.gamepadConnected, this);
 		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce, this);
 		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce, this);
+		this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp, this);
 	}
 
 	this.debounce = 0;
@@ -231,6 +232,34 @@ titleState.getDecreasedIndex = function(){
 titleState.buttonOnDownOnce = function(button){
 	switch( button.name ){
 		case "XBOX_A":
+			this.selectedMenuIcon.playDown();
+			break;
+		case "XBOX_B":
+			break;
+		case "XBOX_X":
+			break;
+		case "XBOX_Y":
+
+			break;
+		case "XBOX_DPAD_LEFT":
+
+			break;
+		case "XBOX_DPAD_RIGHT":
+
+			break;
+		case "XBOX_DPAD_UP":
+			this.changeSelectedMenuIcon(this.getDecreasedIndex());
+			break;
+		case "XBOX_DPAD_DOWN":
+			this.changeSelectedMenuIcon(this.getIncreasedIndex());
+			break;
+		default:		
+	}
+}
+
+titleState.buttonOnUp = function(button){
+	switch( button.name ){
+		case "XBOX_A":
 			this.selectedMenuIcon.mouseClicked();
 			break;
 		case "XBOX_B":
@@ -357,5 +386,6 @@ titleState.removeAllGamepadSignals = function(){
 
 titleState.shutDown = function(){
 	this.removeAllGamepadSignals();
+	this.selectedMenuIcon = null;
 	this.game.input.keyboard.onKeyDown.removeAll();
 }
