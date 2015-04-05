@@ -102,7 +102,11 @@ titleState.finishAddingToSreen = function(){
 	if(this.game.gamepads){
 		this.game.gamepads.gamepadConnected.add(this.gamepadConnected, this);
 		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce, this);
+		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce, this);
 	}
+
+	this.debounce = 0;
+
 	this.selectedMenuIconIndex = 0;
 	this.changeSelectedMenuIcon(this.selectedMenuIconIndex);
 
@@ -159,8 +163,7 @@ titleState.startGame = function(){
 
 titleState.update = function(){
 	Kiwi.State.prototype.update.call(this);
-	//console.log(this.clock.elapsedSinceLastPaused());
-
+	this.checkController();
 }
 
 titleState.gamepadConnected = function(){
@@ -253,6 +256,69 @@ titleState.buttonOnDownOnce = function(button){
 	}
 }
 
+titleState.thumbstickOnDownOnce = function(stick){
+	console.log(stick.name + ' ' + stick.value);
+	switch ( stick.name ) {
+		case "XBOX_LEFT_HORZ":
+			break;
+		case "XBOX_LEFT_VERT":
+			if(stick.value < 0){
+				this.changeSelectedMenuIcon(this.getDecreasedIndex());
+				this.debounce = 0;
+			}else if (stick.value > 0){
+				this.changeSelectedMenuIcon(this.getIncreasedIndex());
+				this.debounce = 0;
+			}
+			break;
+		case "XBOX_RIGHT_HORZ":
+
+			break;
+		case "XBOX_RIGHT_VERT":
+
+			break;
+		default:
+			// Code
+	}	
+}
+
+titleState.checkController = function(){
+	var leftright = this.game.gamepads.gamepads[0].axis0;
+	var updown = this.game.gamepads.gamepads[0].axis1;
+
+	if(leftright.value < -0.5){
+		if(Math.abs(updown.value) < 0.5){
+			if(this.checkDebounce()){
+				this.changeSelectedMenuIcon(this.getDecreasedIndex());
+			}
+		}
+	}else if(leftright.value > 0.5){
+		if(Math.abs(updown.value) < 0.5){
+			if(this.checkDebounce()){
+				this.changeSelectedMenuIcon(this.getIncreasedIndex());
+			}
+		}
+	}else if(updown.value < -0.5){
+		if(this.checkDebounce()){
+			this.changeSelectedMenuIcon(this.getDecreasedIndex());
+		}
+	}else if(updown.value > 0.5){
+		if(this.checkDebounce()){
+			this.changeSelectedMenuIcon(this.getIncreasedIndex());
+		}
+	}
+
+}
+
+titleState.checkDebounce = function(){
+	if(this.debounce == 15){
+		this.debounce = 0;
+		return true;
+	}else{
+		this.debounce++;
+		return false;
+	}
+}
+
 titleState.onPressTitle = function(keyCode){
 	if(keyCode == Kiwi.Input.Keycodes.LEFT){
 		this.changeSelectedMenuIcon(this.getDecreasedIndex());
@@ -282,6 +348,14 @@ titleState.onPressControls = function(keyCode){
 	}
 }
 
+titleState.removeAllGamepadSignals = function(){
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
+	this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
+	this.game.gamepads.gamepads[0].buttonIsDown.removeAll();
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.removeAll();
+}
+
 titleState.shutDown = function(){
+	this.removeAllGamepadSignals();
 	this.game.input.keyboard.onKeyDown.removeAll();
 }
