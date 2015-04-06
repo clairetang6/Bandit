@@ -303,6 +303,21 @@ gameState.create = function(){
 		this.blueHeartsGroup = new Kiwi.Group(this);	
 	}
 
+	for(var i =1; i<=3; i++){
+		var redHeart = new Heart(this, 'red', i);
+		redHeart.animation.add('blink',[84,17],.2,true);
+		redHeart.animation.play('blink');
+		this.redHeartsGroup.addChild(redHeart);
+		
+		if(this.numPlayers == 2){
+			var blueHeart = new Heart(this, 'blue', i);
+			blueHeart.animation.add('blink',[56,17],.2,true);
+			blueHeart.animation.play('blink');
+			this.blueHeartsGroup.addChild(blueHeart);
+		}
+	}
+
+
 	this.game.input.keyboard.onKeyDown.add(this.onKeyDownCallback, this);
 	this.debugKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.I);
 
@@ -625,29 +640,28 @@ gameState.createLevel = function(){
 	this.red.resetPropertiesAtBeginningOfLevel();
 	this.updateCoinCounter(this.red);
 	this.updateBombCounter(this.red);
+	for(var i = 0; i < this.redHeartsGroup.members.length; i++){
+		this.redHeartsGroup.members[i].banditX = this.red.startingPixelLocations[0];
+		this.redHeartsGroup.members[i].banditY = this.red.startingPixelLocations[1];
+		this.redHeartsGroup.members[i].shouldBeGone = false;
+		this.redHeartsGroup.members[i].timerStarted = false;		
+		this.redHeartsGroup.members[i].showSelf();
+	}
 		
 	if(this.numPlayers==2){
 		this.blue.resetPropertiesAtBeginningOfLevel();
 		this.updateCoinCounter(this.blue);
 		this.updateBombCounter(this.blue);
+		for(var i = 0; i < this.blueHeartsGroup.members.length; i++){
+			this.blueHeartsGroup.members[i].banditX = this.blue.startingPixelLocations[0];
+			this.blueHeartsGroup.members[i].banditY = this.blue.startingPixelLocations[1];	
+			this.blueHeartsGroup.members[i].shouldBeGone = false;
+			this.blueHeartsGroup.members[i].timerStarted = false;		
+			this.blueHeartsGroup.members[i].showSelf();
+		}	
 	}
 
 	this.removeGhoulDots();
-	
-
-	for(var i =1; i<=3; i++){
-		var redHeart = new Heart(this, this.red.startingPixelLocations[0], this.red.startingPixelLocations[1], 'red', i);
-		redHeart.animation.add('blink',[84,17],.2,true);
-		redHeart.animation.play('blink');
-		this.redHeartsGroup.addChild(redHeart);
-		
-		if(this.numPlayers == 2){
-			var blueHeart = new Heart(this, this.blue.startingPixelLocations[0], this.blue.startingPixelLocations[1], 'blue', i);
-			blueHeart.animation.add('blink',[56,17],.2,true);
-			blueHeart.animation.play('blink');
-			this.blueHeartsGroup.addChild(blueHeart);
-		}
-	}
 
 
 	if(this.currentLevel <= 3){
@@ -772,6 +786,8 @@ gameState.createLevel = function(){
 	}
 	this.gameTimer.resume();
 
+	this.resumeGame();
+
 	this.showingLevelScreen = false;
 	this.showingTutorial = false;
 	this.showingPressUp = false;
@@ -860,7 +876,30 @@ gameState.onKeyDownCallback = function(keyCode){
 		this.launchFullscreen();
 	}
 	if(keyCode == Kiwi.Input.Keycodes.U){
-		this.showStars();
+		this.logAllTimers();
+	}
+	if(keyCode == Kiwi.Input.Keycodes.P){
+		if(!this.isPaused){
+			this.openMenu();
+			this.availableMenuIconsIndex = 0;
+			this.selectedIcon = this.menuGroup.members[this.availableMenuIconsIndex];
+			this.menuGroup.members[this.availableMenuIconsIndex].playHover();
+		}else{
+			this.selectedIcon.playOff();
+			this.closeMenu();
+		}
+	}
+
+	if(this.isPaused){
+		if(keyCode == Kiwi.Input.Keycodes.UP || keyCode == Kiwi.Input.Keycodes.W){
+			this.backwardMenuIcon();
+		}else if(keyCode == Kiwi.Input.Keycodes.DOWN || keyCode == Kiwi.Input.Keycodes.S){
+			this.forwardMenuIcon();
+		}else if(keyCode == Kiwi.Input.Keycodes.SPACE_BAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+			if(this.selectedIcon){
+				this.selectedIcon.mouseClicked();
+			}
+		}		
 	}
 }
 
@@ -1559,7 +1598,6 @@ gameState.tweenOutCurtains = function(onCompleteCallback){
 gameState.restartLevel = function(){
 	this.destroyEverything(false);
 	this.levelOver(false);
-	this.resumeGame();
 }
 
 gameState.switchToTitleStateFromBetweenScreen = function(){
@@ -1771,6 +1809,10 @@ gameState.iconsDuringCutScene = function(){
 	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
 		this.ghoulKillCountGroup[i].visible = false;
 	}
+	this.redHeartsGroup.visible = false;
+	if(this.numPlayers == 2){
+		this.blueHeartsGroup.visible = false;
+	}	
 }
 
 gameState.iconsDuringLevelScreen = function(){
@@ -1790,7 +1832,11 @@ gameState.iconsNotDuringCutscene = function(){
 	this.iconGroup.active = false;
 	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
 		this.ghoulKillCountGroup[i].visible = true;
-	}	
+	}
+	this.redHeartsGroup.visible = true;
+	if(this.numPlayers == 2){
+		this.blueHeartsGroup.visible = true;
+	}			
 }
 
 gameState.showStageCoachAndHorses = function(){
@@ -2115,7 +2161,7 @@ gameState.update = function(){
 			}
 
 			if(this.debugKey.isDown){
-				this.switchToState('creditsState');
+				//this.switchToState('creditsState');
 			}
 		
 			if(this.mouse.isDown){
@@ -2172,6 +2218,12 @@ gameState.resumeAllTimers = function(){
 	for (var i = 0; i < this.game.time.clock.timers.length; i++){
 		this.game.time.clock.timers[i].resume();
 	}	
+}
+
+gameState.logAllTimers = function(){
+	for (var i = 0; i < this.game.time.clock.timers.length; i++){
+		console.log(this.game.time.clock.timers[i].name);
+	}		
 }
 
 gameState.removeAllGamepadSignals = function(){

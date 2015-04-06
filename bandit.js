@@ -479,29 +479,15 @@ HiddenBlock.prototype.destroy = function(immediate){
 	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
 }
 
-var Heart = function(state, banditX, banditY, bandit, number){
-	this.banditX = banditX;
-	this.banditY = banditY;
-	var y = banditY - 35;
-	var x = null;
-	switch(number){
-		case 1: 
-			x = banditX - 15;
-			break;
-	    case 2:
-	    	x = banditX;
-	    	break;
-	    case 3:
-	    	x = banditX + 15;
-	    	break; 
-	}
-	
-	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
+var Heart = function(state, bandit, number){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], 2000, 0, false);
 	this.state = state;
 	this.bandit = bandit;
 	this.number = number;
 	this.timerStarted = false;
 	this.shouldBeGone = false;
+	this.banditX = 2000;
+	this.banditY = 2000;
 
 	this.timer = this.state.game.time.clock.createTimer('heartTimer',3,0,false);
 	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.disappear, this);
@@ -1043,6 +1029,7 @@ MenuIcon.prototype.mouseClicked = function(){
 			if(this.state.soundOptions.musicOn){
 				this.state.musicSound.stop();
 			}
+			this.playOff();
 			this.timer = this.state.game.time.clock.createTimer('restartLevelTimer',0.9,0,false);
 			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.restartLevel, this);
 			this.timer.start();
@@ -1056,6 +1043,7 @@ MenuIcon.prototype.mouseClicked = function(){
 			if(this.state.soundOptions.musicOn){
 				this.state.musicSound.stop();
 			}
+			this.playOff();	
 			this.state.game.states.switchState('titleState');
 			break;
 		case '1player':
