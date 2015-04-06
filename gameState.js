@@ -836,27 +836,22 @@ gameState.updateTimer = function(){
 }
 
 gameState.onKeyDownCallback = function(keyCode){
-	if(this.soundOptions.soundsOn){
-		if(this.numPlayers == 2){
-			if(keyCode == this.red.fireKey.keyCode || keyCode == this.blue.fireKey.keyCode){
-				this.gunSound.play('start',true);
-			}
-		}else{
-			if(keyCode == this.red.fireKey.keyCode){
-				this.gunSound.play('start',true);
-			}		
-		}
-	}
-
 	if(this.numPlayers == 2){
 		if(keyCode == this.blue.fireKey.keyCode){
 			if(this.blue.isAlive){
+				if(this.soundOptions.soundsOn){
+					this.gunSound.play('start', true);
+				}
 				this.blue.blastBlock();
 			}
 		}
 	}
+
 	if(keyCode == this.red.fireKey.keyCode){
 		if(this.red.isAlive){
+			if(this.soundOptions.soundsOn){
+				this.gunSound.play('start', true);
+			}
 			this.red.blastBlock();
 		}
 	}
@@ -1997,10 +1992,6 @@ gameState.addToBlocks = function(row, col, blocks){
 
 gameState.removeFromGroundBlocks = function(blastedBlockPosition){
 	this.groundBlocks[blastedBlockPosition[0]][blastedBlockPosition[1]] = 0;
-}
-
-gameState.onGunShotCallback = function(){
-	this.gunSound.play('start',true);
 }
 
 gameState.mouseClicked = function(){
