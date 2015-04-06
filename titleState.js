@@ -276,10 +276,8 @@ titleState.buttonOnUp = function(button){
 
 			break;
 		case "XBOX_DPAD_UP":
-			this.changeSelectedMenuIcon(this.getDecreasedIndex());
 			break;
 		case "XBOX_DPAD_DOWN":
-			this.changeSelectedMenuIcon(this.getIncreasedIndex());
 			break;
 		default:		
 	}
