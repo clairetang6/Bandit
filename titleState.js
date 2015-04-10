@@ -376,6 +376,7 @@ titleState.onPressControls = function(keyCode){
 }
 
 titleState.removeAllGamepadSignals = function(){
+	this.game.gamepads.gamepadConnected.removeAll();
 	this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
 	this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
 	this.game.gamepads.gamepads[0].buttonIsDown.removeAll();
