@@ -850,7 +850,7 @@ gameState.updateTimer = function(){
 gameState.onKeyDownCallback = function(keyCode){
 	if(this.numPlayers == 2){
 		if(keyCode == this.blue.fireKey.keyCode){
-			if(this.blue.isAlive){
+			if(!this.isPaused && !this.showingLevelScreen && this.blue.isAlive){
 				if(this.soundOptions.soundsOn){
 					this.gunSound.play('start', true);
 				}
@@ -860,7 +860,7 @@ gameState.onKeyDownCallback = function(keyCode){
 	}
 
 	if(keyCode == this.red.fireKey.keyCode){
-		if(this.red.isAlive){
+		if(!this.isPaused && !this.showingLevelScreen && this.red.isAlive){
 			if(this.soundOptions.soundsOn){
 				this.gunSound.play('start', true);
 			}
@@ -891,7 +891,7 @@ gameState.onKeyDownCallback = function(keyCode){
 			this.backwardMenuIcon();
 		}else if(keyCode == Kiwi.Input.Keycodes.DOWN || keyCode == Kiwi.Input.Keycodes.S){
 			this.forwardMenuIcon();
-		}else if(keyCode == Kiwi.Input.Keycodes.SPACE_BAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+		}else if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
 			if(this.selectedIcon){
 				this.selectedIcon.mouseClicked();
 			}
@@ -2269,7 +2269,7 @@ gameState.addGamepadSignalsBetweenScreen = function(){
 gameState.buttonOnDownOnce0 = function(button){
 	switch ( button.name ) {
 		case "XBOX_A":
-			if(this.red.isAlive){
+			if(!this.isPaused && !this.showingLevelScreen && this.red.isAlive){
 				this.red.goFire = true;
 				this.gunSound.play('start',true);
 				console.log('gun' + this.red.color);
