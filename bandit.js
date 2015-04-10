@@ -489,13 +489,29 @@ var Heart = function(state, bandit, number){
 	this.banditX = 2000;
 	this.banditY = 2000;
 
+	switch(this.bandit){
+		case 'red':
+			this.animation.add('heart', [84], 0.1, false);
+			this.animation.add('blink', [84, 17], 0.2, true);
+			this.animation.play('heart');
+			break;
+		case 'blue':
+			this.animation.add('heart', [56], 0.2, false);			
+			this.animation.add('blink', [56, 17], 0.2, true);
+			this.animation.play('heart');
+	}
+
 	this.timer = this.state.game.time.clock.createTimer('heartTimer',3,0,false);
 	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.disappear, this);
+}
+Kiwi.extend(Heart, Kiwi.GameObjects.Sprite);
 
-	Heart.prototype.update = function(){
+Heart.prototype.update = function(){
+	Kiwi.GameObjects.Sprite.prototype.update.call(this);
+	if(!this.state.showingLevelScreen){
 		if(!this.shouldBeGone){
-			if(this.animation.currentAnimation.name != 'blink'){
-				this.animation.play('blink');
+			if(this.animation.currentAnimation.name != 'heart'){
+				this.animation.play('heart');
 			}
 			switch(this.bandit){
 				case 'red':
@@ -515,12 +531,10 @@ var Heart = function(state, bandit, number){
 					}
 					break;			
 			}		
-
 			this.showSelf();
 		}
 	}
 }
-Kiwi.extend(Heart, Kiwi.GameObjects.Sprite);
 
 Heart.prototype.disappear = function(){
 	this.x = 2000;

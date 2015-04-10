@@ -305,14 +305,10 @@ gameState.create = function(){
 
 	for(var i =1; i<=3; i++){
 		var redHeart = new Heart(this, 'red', i);
-		redHeart.animation.add('blink',[84,17],.2,true);
-		redHeart.animation.play('blink');
 		this.redHeartsGroup.addChild(redHeart);
 		
 		if(this.numPlayers == 2){
 			var blueHeart = new Heart(this, 'blue', i);
-			blueHeart.animation.add('blink',[56,17],.2,true);
-			blueHeart.animation.play('blink');
 			this.blueHeartsGroup.addChild(blueHeart);
 		}
 	}
@@ -1816,9 +1812,17 @@ gameState.iconsDuringCutScene = function(){
 }
 
 gameState.iconsDuringLevelScreen = function(){
+	this.menuArrow.visible = false;	
+	this.digitGroup.visible = false;
+	this.timerDigitGroup.visible = false;
+	this.bombIconGroup.visible = false;	
 	this.bigDigitGroup.visible = false;
 	this.betweenScreenGroup.visible = false;
 	this.iconGroup.visible = false;
+	this.redHeartsGroup.visible = false;
+	if(this.numPlayers == 2){
+		this.blueHeartsGroup.visible = false;
+	}	
 }
 
 gameState.iconsNotDuringCutscene = function(){
