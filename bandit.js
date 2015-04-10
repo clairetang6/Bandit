@@ -380,11 +380,7 @@ var HiddenBlock = function(state, x, y){
 	this.state = state;
 	this.isBreaking = false;
 
-	if(this.state.currentLevel >=20){
-		this.hiddenBlockTime = 8;
-	}else{
-		this.hiddenBlockTime = 5;
-	}
+	this.hiddenBlockTime = 5;
 
 	this.timer = state.game.time.clock.createTimer('hiddenBlockTimer',this.hiddenBlockTime,0,false);
 	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.hiddenBlockTimer, this);
