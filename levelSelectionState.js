@@ -79,8 +79,16 @@ levelSelectionState.create = function(){
 	
 	if(this.game.gamepads){
 		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce, this);
+		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce, this);
+		this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp, this);	
 	}
 
+	this.debounce = 0;
+}
+
+levelSelectionState.update = function(){
+	Kiwi.State.prototype.update.call(this);
+	this.checkController();
 }
 
 levelSelectionState.onPress = function(keyCode){
@@ -304,11 +312,7 @@ levelSelectionState.tryDirection = function(direction){
 levelSelectionState.buttonOnDownOnce = function(button){
 	switch( button.name ){
 		case "XBOX_A":
-			if(this.selectedIcon.objType() == 'LevelSelectionIcon'){
-				this.selectedIcon.startLevel();
-			}else{
-				this.selectedIcon.mouseClicked();
-			}
+			this.selectedIcon.playDown();
 			break;
 		case "XBOX_B":
 			break;
@@ -318,11 +322,7 @@ levelSelectionState.buttonOnDownOnce = function(button){
 
 			break;
 		case "XBOX_START":
-			if(this.selectedIcon.objType() == 'LevelSelectionIcon'){
-				this.selectedIcon.startLevel();
-			}else{
-				this.selectedIcon.mouseClicked();
-			}
+			this.selectedIcon.playDown();
 			break;			
 		case "XBOX_DPAD_LEFT":
 			this.tryDirection('left');
@@ -340,6 +340,119 @@ levelSelectionState.buttonOnDownOnce = function(button){
 	}
 }
 
+levelSelectionState.buttonOnUp = function(button){
+	switch( button.name ){
+		case "XBOX_A":
+			if(this.selectedIcon.objType() == 'LevelSelectionIcon'){
+				this.selectedIcon.startStartLevelTimer();
+			}else{
+				this.selectedIcon.mouseClicked();
+			}
+			break;
+		case "XBOX_B":
+			break;
+		case "XBOX_X":
+			break;
+		case "XBOX_Y":
+
+			break;
+		case "XBOX_START":
+			if(this.selectedIcon.objType() == 'LevelSelectionIcon'){
+				this.selectedIcon.startStartLevelTimer();
+			}else{
+				this.selectedIcon.mouseClicked();
+			}
+			break;				
+		case "XBOX_DPAD_LEFT":
+
+			break;
+		case "XBOX_DPAD_RIGHT":
+
+			break;
+		case "XBOX_DPAD_UP":
+			break;
+		case "XBOX_DPAD_DOWN":
+			break;
+		default:		
+	}
+}
+
+levelSelectionState.thumbstickOnDownOnce = function(stick){
+	var leftright = this.game.gamepads.gamepads[0].axis0;
+	var updown = this.game.gamepads.gamepads[0].axis1;
+	switch ( stick.name ) {
+		case "XBOX_LEFT_HORZ":
+			if(Math.abs(updown.value)<0.25){
+				if(stick.value < 0){
+					this.tryDirection('left');
+					this.debounce = 0;
+				}else if (stick.value > 0){
+					this.tryDirection('right');
+					this.debounce = 0;
+				}
+			}		
+			break;
+		case "XBOX_LEFT_VERT":
+			if(Math.abs(leftright.value)<0.25){
+				if(stick.value < 0){
+					this.tryDirection('up');
+					this.debounce = 0;
+				}else if (stick.value > 0){
+					this.tryDirection('down');
+					this.debounce = 0;
+				}
+			}
+			break;
+	}	
+}
+
+levelSelectionState.checkController = function(){
+	var leftright = this.game.gamepads.gamepads[0].axis0;
+	var updown = this.game.gamepads.gamepads[0].axis1;
+
+	if(leftright.value < -0.5){
+		if(Math.abs(updown.value) < 0.5){
+			if(this.checkDebounce()){
+				this.tryDirection('left');
+			}
+		}
+	}else if(leftright.value > 0.5){
+		if(Math.abs(updown.value) < 0.5){
+			if(this.checkDebounce()){
+				this.tryDirection('right');
+			}
+		}
+	}else if(updown.value < -0.5){
+		if(this.checkDebounce()){
+			this.tryDirection('up');
+		}
+	}else if(updown.value > 0.5){
+		if(this.checkDebounce()){
+			this.tryDirection('down');
+		}
+	}
+}
+
+levelSelectionState.checkDebounce = function(){
+	if(this.debounce == 15){
+		this.debounce = 0;
+		return true;
+	}else{
+		this.debounce++;
+		return false;
+	}
+}
+
+levelSelectionState.removeAllGamepadSignals = function(){
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
+	this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
+	this.game.gamepads.gamepads[0].buttonIsDown.removeAll();
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.removeAll();
+}
+
+
 levelSelectionState.shutDown = function(){
+	this.removeAllGamepadSignals();
+	this.selectedIcon = null;
 	this.game.input.keyboard.onKeyDown.removeAll();
 }
