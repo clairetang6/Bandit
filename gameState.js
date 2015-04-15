@@ -94,7 +94,17 @@ gameState.create = function(){
 		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'money', 560, this.MONEY_YPOS));	
 	}
 
-	this.alphaBox = new Kiwi.GameObjects.StaticImage(this, this.textures['alphaBox'], 250, this.MONEY_YPOS-60);
+	//this.alphaBox = new Kiwi.GameObjects.StaticImage(this, this.textures['alphaBox'], 250, this.MONEY_YPOS-60);
+	if(this.numPlayers == 1){
+		var params = {state: this, width: 395, height: 398, centerOnTransform: false, x: 298, y: 114, alpha: 0.5, color: [1,1,1], strokeColor: [0,0,0], strokeWidth: 3};
+		this.alphaBox = new Kiwi.Plugins.Primitives.Rectangle(params);
+	
+	}else{
+		var params1 = {state: this, width: 365, height: 398, centerOnTransform: false, x: 93, y: 114, alpha: 0.5, color: [1,1,1], strokeColor: [0,0,0], strokeWidth: 3};
+		var params2 = {state: this, width: 365, height: 398, centerOnTransform: false, x: 543, y: 114, alpha: 0.5, color: [1,1,1], strokeColor: [0,0,0], strokeWidth: 3};
+		this.alphaBox = new Kiwi.Plugins.Primitives.Rectangle(params1);
+		this.alphaBox2 = new Kiwi.Plugins.Primitives.Rectangle(params2);
+	}
 
 	this.iconGroup = new Kiwi.Group(this);
 	this.iconTweens = [];
@@ -274,6 +284,12 @@ gameState.create = function(){
 	this.stageCoach.animation.play('move');
 	this.horseGroup.addChild(this.stageCoach);
 
+	this.alphaBoxGroup = new Kiwi.Group(this);
+	this.alphaBoxGroup.addChild(this.alphaBox);
+	if(this.numPlayers == 2){
+		this.alphaBoxGroup.addChild(this.alphaBox2);
+	}
+
 	var starXPositions = [317, 450, 582];
 	this.stars = [];
 	this.starTweens = [];
@@ -285,9 +301,6 @@ gameState.create = function(){
 		this.stars.push(star);
 		this.horseGroup.addChild(star);
 	}
-
-
-	//this.horseGroup.addChild(this.alphaBox);
 
 	this.banditGroup = new Kiwi.Group(this);
 
@@ -718,10 +731,6 @@ gameState.createLevel = function(){
 	this.addChild(this.ghoulGroup);
 	this.addChild(this.banditGroup);
 
-	this.addChild(this.horseGroup);
-	this.horseGroup.active = false;
-	this.horseGroup.visible = false;
-
 	//this.addChild(this.ghouliath);
 
 
@@ -732,11 +741,17 @@ gameState.createLevel = function(){
 	if(this.numPlayers == 2){
 		this.addChild(this.blueHeartsGroup);
 	}	
+
 	
+	this.addChild(this.alphaBoxGroup);
 	this.iconsNotDuringCutscene();
 	this.betweenScreenGroup.addChild(this.bonusGroup);
 	this.addChild(this.betweenScreenGroup);
 	this.addChild(this.bigDigitGroup);
+
+	this.addChild(this.horseGroup);
+	this.horseGroup.active = false;
+	this.horseGroup.visible = false;
 
 	this.addChild(this.digitGroup);
 	this.addChild(this.bombIconGroup);
@@ -1802,6 +1817,7 @@ gameState.iconsDuringCutScene = function(){
 	this.digitGroup.visible = false;
 	this.timerDigitGroup.visible = false;
 	this.bombIconGroup.visible = false;
+	this.alphaBoxGroup.visible = true;
 	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
 		this.ghoulKillCountGroup[i].visible = false;
 	}
@@ -1812,6 +1828,7 @@ gameState.iconsDuringCutScene = function(){
 }
 
 gameState.iconsDuringLevelScreen = function(){
+	this.alphaBoxGroup.visible = false;
 	this.menuArrow.visible = false;	
 	this.digitGroup.visible = false;
 	this.timerDigitGroup.visible = false;
@@ -1834,6 +1851,7 @@ gameState.iconsNotDuringCutscene = function(){
 	this.betweenScreenGroup.visible = false;	
 	this.iconGroup.visible = false;
 	this.iconGroup.active = false;
+	this.alphaBoxGroup.visible = false;
 	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
 		this.ghoulKillCountGroup[i].visible = true;
 	}
@@ -2165,7 +2183,7 @@ gameState.update = function(){
 			}
 
 			if(this.debugKey.isDown){
-				//this.switchToState('creditsState');
+				this.switchToState('creditsState');
 			}
 		
 			if(this.mouse.isDown){

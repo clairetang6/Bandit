@@ -1,5 +1,5 @@
 var gameOptions = {debug: Kiwi.DEBUG_ON, 
-    plugins: ["Fullscreen", "Gamepad", "SaveGame"],
+    plugins: ["Fullscreen", "Gamepad", "SaveGame", "Primitives"],
     width: 1024,
     height: 768}
 
