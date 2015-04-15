@@ -36,10 +36,14 @@ creditsState.create = function(){
 	this.redHorse.animation.play('redrun');
 	this.blueHorse = new Horse(this, 300, 595);
 	this.blueHorse.animation.play('bluerun');
-	this.horseGroup.addChild(this.redHorse);
-	if(this.numPlayers == 2){
-		this.horseGroup.addChild(this.blueHorse);
-	}
+	//this.horseGroup.addChild(this.redHorse);
+	//if(this.numPlayers == 2){
+	//	this.horseGroup.addChild(this.blueHorse);
+	//}
+
+	this.banditStagecoach = new BanditStageCoach(this, 275, 500);
+
+	this.horseGroup.addChild(this.banditStagecoach);
 
 	this.horseGallopSound = new Kiwi.Sound.Audio(this.game, 'horseGallopSound', 1, false);
 	this.horseGallopSound.addMarker('start', 0, 8, false);

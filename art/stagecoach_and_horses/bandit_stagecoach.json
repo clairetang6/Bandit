@@ -1,0 +1,76 @@
+{"frames": [
+
+{
+	"filename": "stagecoach_ride_bandit_1.png",
+	"frame": {"x":0,"y":0,"w":500,"h":250},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":250},
+	"sourceSize": {"w":500,"h":250}
+},
+{
+	"filename": "stagecoach_ride_bandit_2.png",
+	"frame": {"x":500,"y":0,"w":500,"h":250},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":250},
+	"sourceSize": {"w":500,"h":250}
+},
+{
+	"filename": "stagecoach_ride_bandit_3.png",
+	"frame": {"x":1000,"y":0,"w":500,"h":250},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":250},
+	"sourceSize": {"w":500,"h":250}
+},
+{
+	"filename": "stagecoach_ride_bandit_4.png",
+	"frame": {"x":1500,"y":0,"w":500,"h":250},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":250},
+	"sourceSize": {"w":500,"h":250}
+},
+{
+	"filename": "stagecoach_ride_bandit_5.png",
+	"frame": {"x":0,"y":250,"w":500,"h":250},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":250},
+	"sourceSize": {"w":500,"h":250}
+},
+{
+	"filename": "stagecoach_ride_bandit_6.png",
+	"frame": {"x":500,"y":250,"w":500,"h":250},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":250},
+	"sourceSize": {"w":500,"h":250}
+},
+{
+	"filename": "stagecoach_ride_bandit_7.png",
+	"frame": {"x":1000,"y":250,"w":500,"h":250},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":250},
+	"sourceSize": {"w":500,"h":250}
+},
+{
+	"filename": "stagecoach_ride_bandit_8.png",
+	"frame": {"x":1500,"y":250,"w":500,"h":250},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":250},
+	"sourceSize": {"w":500,"h":250}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "bandit_stagecoach.png",
+	"format": "RGBA8888",
+	"size": {"w":2000,"h":500},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:6fcd4c913d97f81a8e4cd08e491e9e66:aed50de81acc15fc61cf140eae585f9d:764c9388941f20dae62119e1ec337f38$"
+}
+}

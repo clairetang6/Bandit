@@ -68,6 +68,7 @@ loadingState.preload = function(){
 	this.addImage('menuArrow','menu_arrow.png',469,0);
 	this.addSpriteSheet('horses','bandit_horse.png',200,200);
 	this.addSpriteSheet('stagecoach','stagecoach.png',500,250);
+	this.addSpriteSheet('banditStagecoach','bandit_stagecoach.png',500,250);
 
 	this.addImage('curtain', 'redside.png');
 	this.addImage('alphaBox', 'betweenscreen_alpha.png');

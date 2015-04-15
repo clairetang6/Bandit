@@ -598,6 +598,14 @@ BreakingBlock.prototype.breakingBlockTimer = function(){
 	this.animation.play('cracks');
 }
 
+var BanditStageCoach = function(state, x, y){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['banditStagecoach'], x, y, false);
+	this.state = state;
+	this.animation.add('move',[0,1,2,3,4,5,6,7],0.07,true);	
+	this.animation.play('move');
+}
+Kiwi.extend(BanditStageCoach, Kiwi.GameObjects.Sprite);
+
 var StageCoach = function(state, x, y){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['stagecoach'], x, y, false);
 	this.state = state;
