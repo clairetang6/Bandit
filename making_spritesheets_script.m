@@ -653,4 +653,11 @@ for j = 37:47
     alpha_new(1201:1250,i*50-49:i*50) = fliplr(alpha);
 end    
 
+
+for i = 0:9
+    [img, map, alpha] = imread(strcat('/users/claire/dropbox/bandit/art/black',num2str(i), '_50.png'));
+    img_new(501:550, 401+(i*50):450+(i*50),:) = img;
+    alpha_new(501:550, 401+(i*50):450+(i*50)) = alpha;
+end
+
 imwrite(uint8(img_new), 'bandit_spritesheet.png','Alpha',alpha_new);
