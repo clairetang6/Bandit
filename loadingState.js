@@ -7,6 +7,17 @@ loadingState.preload = function(){
 	this.addImage('lose','gameover.png');
 	this.addImage('win','bandit_win.png');
 	this.addImage('controls','controls_1.png');
+	this.addImage('controlsGamepad','controls_1gamepad.png');
+
+	this.addImage('cloud1','_clouds/cloud_wispy_1.png');
+	this.addImage('cloud2','_clouds/cloud_wispy_2.png');
+	this.addImage('cloud3','_clouds/cloud_wispy_3.png');
+	this.addImage('cloud4','_clouds/cloud_wispy_4.png');
+	this.addImage('cloud5','_clouds/cloud_wispy_5.png');
+	this.addImage('cloud6','_clouds/cloud_wispy_6.png');
+	this.addImage('cloud7','_clouds/cloud_wispy_7.png');
+	this.addImage('cloud8','_clouds/cloud_wispy_8.png');
+	this.addImage('cloud9','_clouds/cloud_wispy_9.png');
 
 	this.addAudio('bombSound','sounds/Cannon-SoundBible.com-1661203605.wav');
 	this.addAudio('coinSound','sounds/coin.wav');

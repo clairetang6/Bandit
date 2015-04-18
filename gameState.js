@@ -302,6 +302,11 @@ gameState.create = function(){
 		this.horseGroup.addChild(star);
 	}
 
+	this.cloudGroup = new Kiwi.Group(this);
+	for(var i = 1; i <= 9; i++){
+		this.cloudGroup.addChild(new Cloud(this, i));
+	}
+
 	this.banditGroup = new Kiwi.Group(this);
 
 	this.red = new Bandit(this,-(this.bps),-(this.bps),'red');
@@ -718,7 +723,16 @@ gameState.createLevel = function(){
 
 	this.removeBackgroundImages();
 
+	var params1 = {state: this, width: this.STAGE_X_OFFSET, height: 768, x: -1* this.STAGE_X_OFFSET, y: -1*this.STAGE_Y_OFFSET, color: [0,0,0], strokeColor: [0,0,0], strokeWidth: 0};
+	var params2 = {state: this, width: this.STAGE_X_OFFSET, height: 768, x: 1000, y: -1*this.STAGE_Y_OFFSET, color: [0,0,0], strokeColor: [0,0,0], strokeWidth: 0}; 
+	this.blackSide1 = new Kiwi.Plugins.Primitives.Rectangle(params1);
+	this.blackSide2 = new Kiwi.Plugins.Primitives.Rectangle(params2);
+
 	this.addChild(this.background);
+	this.resetClouds();
+	this.addChild(this.cloudGroup);
+	this.addChild(this.blackSide1);
+	this.addChild(this.blackSide2);
 		
 	this.addChild(this.tilemap.layers[0]);
 	this.addChild(this.cracksGroup);	
@@ -802,6 +816,29 @@ gameState.createLevel = function(){
 	this.showingLevelScreen = false;
 	this.showingTutorial = false;
 	this.showingPressUp = false;
+}
+
+gameState.resetClouds = function(){
+	var randomInt = this.random.integerInRange(0, 2);
+	if(randomInt == 0){
+		var direction = -1;
+	}else{
+		var direction = 1;
+	}
+
+	for (var i = 0; i < this.cloudGroup.members.length; i++){
+		if(this.random.frac() < 0.2){
+			this.cloudGroup.members[i].visible = true;
+			this.cloudGroup.members[i].active = true;
+		}else{
+			this.cloudGroup.members[i].visible = false;
+			this.cloudGroup.members[i].active = false;
+		}
+		this.cloudGroup.members[i].direction = direction;
+		this.cloudGroup.members[i].randomSpeedAndY();
+		this.cloudGroup.members[i].randomX();
+		this.cloudGroup.members[i].randomScale();
+	}
 }
 
 gameState.addGhoulKill = function(bandit){
@@ -1818,6 +1855,7 @@ gameState.iconsDuringCutScene = function(){
 	this.timerDigitGroup.visible = false;
 	this.bombIconGroup.visible = false;
 	this.alphaBoxGroup.visible = true;
+	this.cloudGroup.visible = false;
 	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
 		this.ghoulKillCountGroup[i].visible = false;
 	}
@@ -1828,6 +1866,7 @@ gameState.iconsDuringCutScene = function(){
 }
 
 gameState.iconsDuringLevelScreen = function(){
+	this.cloudGroup.visible = false;
 	this.alphaBoxGroup.visible = false;
 	this.menuArrow.visible = false;	
 	this.digitGroup.visible = false;
@@ -1843,6 +1882,7 @@ gameState.iconsDuringLevelScreen = function(){
 }
 
 gameState.iconsNotDuringCutscene = function(){
+	this.cloudGroup.visible = true;
 	this.menuArrow.visible = true;
 	this.digitGroup.visible = true;
 	this.timerDigitGroup.visible = true;

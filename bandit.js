@@ -637,6 +637,54 @@ Horse.prototype.update = function(){
 	}
 }
 
+var Cloud = function(state, number){
+	Kiwi.GameObjects.StaticImage.call(this, state, state.textures['cloud' + number], 0, 0);
+	this.state = state;
+	this.speed = 0.2; 
+	this.direction = -1;
+	this.anchorPointX = 0;
+	this.anchorPointY = 0;
+}
+Kiwi.extend(Cloud, Kiwi.GameObjects.StaticImage);
+
+Cloud.prototype.update = function(){
+	Kiwi.GameObjects.StaticImage.prototype.update.call(this);
+	this.x += this.speed * this.direction;
+
+	if(this.direction < 0){
+		if(this.x < -1000 * this.scaleX){
+			this.randomSpeedAndY();
+			this.randomScale();
+			this.x = 1200;
+		}
+	}else{
+		if(this.x > 1100){
+			this.randomSpeedAndY();
+			this.randomScale();
+			this.x = -1000 * this.scaleX;
+		}
+	}
+}
+
+Cloud.prototype.randomSpeedAndY = function(){
+	this.speed = this.state.random.integerInRange(1, 10)/10;
+	this.y = this.state.random.integerInRange(0, 400);
+}
+
+Cloud.prototype.randomX = function(){
+	this.x = this.state.random.integerInRange(0, 800);
+}
+
+Cloud.prototype.randomScale = function(){
+	this.scaleX = this.state.random.integerInRange(1, 5);
+	if(this.scaleX < 3){
+		this.scaleY = this.state.random.integerInRange(2, this.scaleX+1);
+	}else{
+		this.scaleY = this.state.random.integerInRange(this.scaleX-2, this.scaleX+1);
+	}
+}
+
+
 var Bomb = function(state, x, y){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
 	this.state = state;
