@@ -69,6 +69,7 @@ loadingState.preload = function(){
 	this.addSpriteSheet('level_selection','level_selection_spritesheet.png',132,132);
 	this.addSpriteSheet('betweenScreen','between_screen_spritesheet.png',75,75);
 	this.addSpriteSheet('icons', 'icon_spritesheet.png', 100, 100);
+	this.addSpriteSheet('bullet','bullet_spritesheet.png', 150, 75);
 	
 	this.addImage('tutorial1', 'sign_1.png');
 	this.addImage('tutorial2', 'sign_2.png');

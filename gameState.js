@@ -618,6 +618,7 @@ gameState.createLevel = function(){
 								var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
 								var ghoul = new TurboKingGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
 								this.ghoulGroup.addChild(ghoul);
+								this.turbo = ghoul;
 							}
 						}
 					}
@@ -1123,6 +1124,9 @@ gameState.checkGhoulCollision = function(){
 						this.banditDeathSound.play('start',false);
 					}
 					bandits[j].isAlive = false;
+					if(ghouls[i].objType() == 'Bullet'){
+						ghouls[i].explode();
+					}
 				}
 			}
 		}
@@ -2223,7 +2227,7 @@ gameState.update = function(){
 			}
 
 			if(this.debugKey.isDown){
-				this.switchToState('creditsState');
+				this.turbo.fireBullet();
 			}
 		
 			if(this.mouse.isDown){

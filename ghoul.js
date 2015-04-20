@@ -939,6 +939,55 @@ KingGhoul.prototype.laugh = function(){
 	}	
 }
 
+var Bullet = function(state){
+	this.yPixels = [30, 280, 530];	
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['bullet'], 720, this.yPixels[0], false);
+	this.state = state;
+
+	this.animation.add('fly', [1], 0.1, false);
+	this.animation.add('explode', [0], 0.1, false);
+	this.animation.play('fly');
+	this.directions = [-1, 1, -1];
+	this.row = 0; 
+	this.exploding = false;
+
+	this.timer = this.state.game.time.clock.createTimer('explodeTimerBullet', 0.2, 0, false);
+	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.destroy, this);
+}
+Kiwi.extend(Bullet, Kiwi.GameObjects.Sprite);
+
+Bullet.prototype.objType = function(){
+	return 'Bullet';
+}
+
+Bullet.prototype.explode = function(){
+	this.exploding = true;
+	this.animation.play('explode');
+	this.timer.start();
+}
+
+Bullet.prototype.update = function(){
+	Kiwi.GameObjects.Sprite.prototype.update.call(this);
+
+	if(!this.exploding){
+		this.x += this.directions[this.row] * 2;
+
+		if(this.row == 0){
+			if(this.x < -100){
+				this.row++;
+				this.y = this.yPixels[this.row];
+				this.scaleX = -1;
+			}
+		}else if(this.row == 1){
+			if(this.x > 1100){
+				this.row++;
+				this.y = this.yPixels[this.row];
+				this.scaleX = 1;
+			}
+		}
+	}
+}
+
 var TurboKingGhoul = function(state, x, y, facing){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['ghouliath'], x, y, false);
 	KingGhoul.prototype.setupActions.call(this);
@@ -950,12 +999,25 @@ var TurboKingGhoul = function(state, x, y, facing){
 
 	this.animation.add('idleleft',[16],0.2,false);
 	this.animation.add('dieleft',[16,17],0.1,true);
-	this.animation.add('laugh',[16,19],0.1,true);
+	this.animation.add('laugh',[16,20],0.1,true);
 	this.animation.add('shoot',[16,18,18,16],0.1,false);
+	this.animation.add('shootBullet', [16,19,19,16],0.1,false);
 	this.animation.add('explode',[15],0.1,false);
 	this.animation.play('idleleft');
+
+	this.bulletTimer = this.state.game.time.clock.createTimer('bulletTimer', 0.2, 0, false);
+	this.bulletTimerEvent = this.bulletTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.addBullet, this);
 }
 Kiwi.extend(TurboKingGhoul, KingGhoul);
+
+TurboKingGhoul.prototype.fireBullet = function(){
+	this.animation.play('shootBullet');
+	this.bulletTimer.start();
+}
+
+TurboKingGhoul.prototype.addBullet = function(){
+	this.state.ghoulGroup.addChild(new Bullet(this.state));	
+}
 
 TurboKingGhoul.prototype.update = function(){
 	Kiwi.GameObjects.Sprite.prototype.update.call(this);
