@@ -46,6 +46,7 @@ loadingState.preload = function(){
 	this.addAudio('clickOff2Sound', 'sounds/clickoff2.wav');
 	this.addAudio('clickOn3Sound', 'sounds/clickon3.wav');
 	this.addAudio('clickOff3Sound', 'sounds/clickoff3.wav');
+	this.addAudio('evilLaughSound', 'sounds/evil_laugh.wav');
 
 	this.addSpriteSheet('menu','menu_sprite.png',500,50);	
 	this.BLOCK_PIXEL_SIZE = 50; 

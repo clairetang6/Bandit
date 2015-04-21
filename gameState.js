@@ -345,6 +345,7 @@ gameState.create = function(){
 	this.random = new Kiwi.Utils.RandomDataGenerator();
 
 	this.bombSound = new Kiwi.Sound.Audio(this.game, 'bombSound', 0.3, false);
+	this.bombSound.addMarker('start',0,1,false);
 	this.coinSound = new Kiwi.Sound.Audio(this.game, 'coinSound', 0.1, false);
 	this.coinSound.addMarker('start',0,1,false);
 	this.gunSound = new Kiwi.Sound.Audio(this.game, 'gunSound', 0.1, false);
@@ -384,7 +385,8 @@ gameState.create = function(){
 	this.starDingSound.addMarker('start', 0, 1, false);
 
 	this.whiskeySound = new Kiwi.Sound.Audio(this.game, 'whiskeySound', 0.3, false);
-	
+	this.evilLaughSound = new Kiwi.Sound.Audio(this.game, 'evilLaughSound', 0.3, false);
+
 	this.voicesSound = new Kiwi.Sound.Audio(this.game, 'voicesSound', 0.3, false);
 	this.voicesSound.addMarker('bombPickup',0,1.3845,false);
 	this.voicesSound.addMarker('bombPlace',1.3845,3.1347,false);

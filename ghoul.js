@@ -261,7 +261,7 @@ Ghouliath.prototype.addToOccupiedBy = function(){
 Ghouliath.prototype.destroy = function(immediate){
 	this.resumeHiddenBlocks();
 	if(this.state.soundOptions.soundsOn){
-		this.state.bombSound.play();	
+		this.state.bombSound.play('start', true);	
 	}	
 	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
 }
@@ -879,7 +879,9 @@ KingGhoul.prototype.setupActions = function(){
 KingGhoul.prototype.explode = function(){
 	this.isInHole = false;
 	this.animation.play('explode');
-	this.state.bombSound.play();		
+	if(this.state.soundOptions.soundsOn){
+		this.state.bombSound.play('start', true);
+	}		
 	this.destroyTimer.start();
 }
 
@@ -940,7 +942,7 @@ KingGhoul.prototype.laugh = function(){
 }
 
 var Bullet = function(state){
-	this.yPixels = [30, 280, 530];	
+	this.yPixels = [5, 255, 505];	
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['bullet'], 720, this.yPixels[0], false);
 	this.state = state;
 
@@ -963,6 +965,9 @@ Bullet.prototype.objType = function(){
 Bullet.prototype.explode = function(){
 	this.exploding = true;
 	this.animation.play('explode');
+	if(this.state.soundOptions.soundsOn){
+		this.state.bombSound.play('start', true);
+	}
 	this.timer.start();
 }
 
@@ -983,6 +988,11 @@ Bullet.prototype.update = function(){
 				this.row++;
 				this.y = this.yPixels[this.row];
 				this.scaleX = 1;
+			}
+		}else if(this.row == 2){
+			if(this.x < -100){
+				this.timer.removeTimerEvent(this.timerEvent);
+				this.destroy();
 			}
 		}
 	}
@@ -1005,18 +1015,54 @@ var TurboKingGhoul = function(state, x, y, facing){
 	this.animation.add('explode',[15],0.1,false);
 	this.animation.play('idleleft');
 
+	this.timer = this.state.game.time.clock.createTimer('fireBulletTimer', 10, -1, false);
+	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.fireBullet, this);
+
+	this.delayTimer = this.state.game.time.clock.createTimer('delayTimer', 20, -1, false);
+	this.delayTimerEvent = this.delayTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.changeBulletTimerDelay, this);
+
 	this.bulletTimer = this.state.game.time.clock.createTimer('bulletTimer', 0.2, 0, false);
 	this.bulletTimerEvent = this.bulletTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.addBullet, this);
+
+	this.stopLaughTimer = this.state.game.time.clock.createTimer('stopLaughTimer', 3, 0, false);
+	this.stopLaughTimerEvent = this.stopLaughTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.stopLaughing, this);
+
+	this.delayTimer.start();
+	this.timer.start();
 }
 Kiwi.extend(TurboKingGhoul, KingGhoul);
 
+TurboKingGhoul.prototype.destroy = function(immediate){
+	this.timer.clear(0);
+	this.delayTimer.clear(0);
+	this.bulletTimer.clear(0);
+	this.stopLaughTimer.clear(0);
+	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
+}
+
+TurboKingGhoul.prototype.changeBulletTimerDelay = function(){
+	this.timer.delay = this.state.random.integerInRange(6,20);
+}
+
+TurboKingGhoul.prototype.stopLaughing = function(){
+	this.animation.play('idleleft');
+}
+
 TurboKingGhoul.prototype.fireBullet = function(){
 	this.animation.play('shootBullet');
+	if(this.state.soundOptions.soundsOn){
+		this.state.shotgunSound.play('start', true);
+	}
 	this.bulletTimer.start();
 }
 
 TurboKingGhoul.prototype.addBullet = function(){
 	this.state.ghoulGroup.addChild(new Bullet(this.state));	
+	this.animation.play('laugh');
+	if(this.state.soundOptions.soundsOn){
+		this.state.evilLaughSound.play();
+	}
+	this.stopLaughTimer.start();
 }
 
 TurboKingGhoul.prototype.update = function(){
