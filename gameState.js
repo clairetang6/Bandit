@@ -426,7 +426,7 @@ gameState.create = function(){
 
 	this.pointThresholds = [
 	[
-		[100, 600, 770], //  1
+		[100, 600, 750], //  1
 		[100, 400, 740], //
 		[100, 400, 720], //
 		[100, 400, 800], 
@@ -2220,7 +2220,9 @@ gameState.update = function(){
 
 			if(this.currentLevel <= 3){
 				if(this.checkPressUp()){
-					this.showPressUp();
+					if(this.rideOutPlayed == false){
+						this.showPressUp();
+					}
 				}else{
 					if(this.showingPressUp == true){
 						this.hidePressUp();

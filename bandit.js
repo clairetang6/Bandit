@@ -230,7 +230,9 @@ Bandit.prototype.update = function(){
 				this.moveUp();
 				if(this.state.currentLevel <= 3){
 					if(this.state.checkIfOnSign(southGridPosition) && this.state.showingTutorial == false){
-						this.state.openTutorial();
+						if(this.state.rideOutPlayed == false){
+							this.state.openTutorial();
+						}
 					}
 				}
 			}
