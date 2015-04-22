@@ -2,7 +2,7 @@ var levelSelectionState = new Kiwi.State('levelSelectionState');
 
 levelSelectionState.preload = function(){
 	Kiwi.State.prototype.preload.call(this);
-	this.addImage('levelSelectionBackground','level_select_1.png',0,0);
+	this.addImage('levelSelectionBackground','assets/level_select_1.png',0,0);
 
 	this.BLOCK_PIXEL_SIZE = 50; 
 	this.bps = this.BLOCK_PIXEL_SIZE; 
