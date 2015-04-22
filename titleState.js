@@ -159,6 +159,9 @@ titleState.startGame = function(){
 	if(this.game.gamepads){
 		this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
 	}
+	this.game.tweens.remove(this.button1);
+	this.game.tweens.remove(this.button2);
+	this.game.tweens.remove(this.button3);
 	this.game.states.switchState('levelSelectionState');
 }
 
