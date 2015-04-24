@@ -9,6 +9,8 @@ module.exports = function(grunt){
 					'1.2.0/kiwi.js',
 					'plugins/fullscreen-1.0.0.js',
 					'plugins/gamepad-plugin-1.0.0.js',
+					'plugins/saveManager-1.0.1.js',
+					'plugins/primitives-1.0.2.js',
 					'kiwipreloader.js',
 					'loadingState.js',
 					'levelSelectionState.js',

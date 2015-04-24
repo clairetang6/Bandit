@@ -16,6 +16,10 @@ titleState.create = function(){
 
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['title'],0,0);
 	this.controlsScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['controls'],1100,0);
+	this.controlsKeyboardTween = this.game.tweens.create(this.controlsScreen);
+
+	this.controlsScreenGamepad = new Kiwi.GameObjects.StaticImage(this, this.textures['controlsGamepad'], 1100,0);
+	this.controlsGamepadTween = this.game.tweens.create(this.controlsGamepadTween);
 
 	this.buttonGroup = new Kiwi.Group(this);
 
@@ -27,7 +31,6 @@ titleState.create = function(){
 	this.addChild(this.background);
 	this.addChild(this.controlsScreen);
 
-	this.controlsTween = this.game.tweens.create(this.controlsScreen);
 	this.random = new Kiwi.Utils.RandomDataGenerator();
 	
 	this.game.clickOn1Sound = new Kiwi.Sound.Audio(this.game, 'clickOn1Sound', 0.8, false);
@@ -65,6 +68,7 @@ titleState.create = function(){
 		}	
 	}
 
+	this.controlsType = 'keyboard';
 
 	this.backgroundTween = this.game.tweens.create(this.background);
 	this.backgroundTween.onComplete(this.finishAddingToSreen, this);
@@ -116,6 +120,18 @@ titleState.finishAddingToSreen = function(){
 }
 
 titleState.showControls = function(){
+	switch(this.controlsType){
+		case 'keyboard':
+			this.controlsTween = this.controlsKeyboardTween;
+			this.controlsScreenGamepad.visible = false;
+			this.controlsScreen.visible = true;
+			break;
+		case 'gamepad':
+			this.controlsTween = this.controlsGamepadTween;
+			this.controlsScreen.visible = false;
+			this.controlsScreenGamepad.visible = true;
+			break;
+	}
 	this.controlsTween.to({x: 0}, 500, Kiwi.Animations.Tweens.Easing.Cubic.Out);
 	this.controlsTween.onComplete(this.finishShowingControls, this);
 	this.controlsTween._onCompleteCalled = false;
@@ -263,6 +279,7 @@ titleState.buttonOnDownOnce = function(button){
 titleState.buttonOnUp = function(button){
 	switch( button.name ){
 		case "XBOX_A":
+			this.controlsType = 'gamepad';
 			this.selectedMenuIcon.mouseClicked();
 			break;
 		case "XBOX_B":
