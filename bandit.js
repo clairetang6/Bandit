@@ -381,6 +381,10 @@ var HiddenBlock = function(state, x, y){
 	this.col = this.gridPosition[1];
 	this.state = state;
 	this.isBreaking = false;
+	this.visible = false;
+	this.tileType = 0;
+	this.tileTypeAboveFront = 0;
+	this.tileTypeAboveBack = 0;
 
 	this.hiddenBlockTime = 5;
 
@@ -473,7 +477,12 @@ HiddenBlock.prototype.destroy = function(immediate){
 		var index = this.state.getArrayIndexForTilemapFromRowCol(this.row - 1, this.col);
 		this.state.tilemap.layers[2].setTileByIndex(index, this.tileTypeAboveBack);
 		this.state.tilemap.layers[2].dirty = true;
-	}	
+	}
+	if(this.tileType){
+		var index = this.state.getArrayIndexForTilemapFromRowCol(this.row, this.col);
+		this.state.tilemap.layers[0].setTileByIndex(index, this.tileType);
+		this.state.tilemap.layers[0].dirty = true;
+	}
 	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
 }
 

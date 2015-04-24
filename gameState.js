@@ -2063,6 +2063,12 @@ gameState.blastBlock = function(blastedBlockPosition, banditColor){
 		hiddenBlock.blastedBy = banditColor;
 		this.updateBlocksAfterAddingHiddenBlock(hiddenBlock);
 
+		var index = this.getArrayIndexForTilemapFromRowCol(hiddenBlock.row, hiddenBlock.col);
+		var tileType = this.tilemap.layers[0].getTileFromIndex(index);
+		hiddenBlock.tileType = tileType.index;
+		this.tilemap.layers[0].setTileByIndex(index, 0);
+		this.tilemap.layers[0].dirty = true;
+
 		if(hiddenBlock.row > 0){
 			if(this.groundBlocks[hiddenBlock.row - 1][hiddenBlock.col] == 0){
 				var index = this.getArrayIndexForTilemapFromRowCol(hiddenBlock.row - 1, hiddenBlock.col);
