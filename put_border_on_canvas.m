@@ -18,7 +18,7 @@ new_img = uint8(zeros(rows+rows_to_add, cols+cols_to_add,3));
 new_img(rows_to_add+1:end, cols_to_add+1:end, :) = img;
 
 if(rows == 768)
-    imwrite(uint8(new_img),strcat('canvas',num2str(i),'.png'),'png');
+    imwrite(uint8(new_img),strcat('/users/claire/dropbox/bandit/assets/canvases/canvas',num2str(i),'.png'),'png');
 else
     imwrite(uint8(new_img),strcat('canvas',num2str(i),'@2x.png'),'png');
 end
