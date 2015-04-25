@@ -427,7 +427,7 @@ gameState.create = function(){
 	[
 		[100, 600, 750], //  1
 		[100, 400, 740], //
-		[100, 400, 720], //
+		[100, 400, 719], //
 		[100, 400, 800], 
 		[100, 400, 920], 
 		[100, 400, 800], //  6
@@ -2346,15 +2346,19 @@ gameState.addGamepadSignalsGame = function(){
 
 gameState.addGamepadSignalsMenu = function(){
 	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringMenu, this);
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringMenu, this);
 	if(this.numPlayers == 2){
 		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringMenu, this);
+		this.game.gamepads.gamepads[1].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringMenu, this);
 	}
 }
 
 gameState.addGamepadSignalsBetweenScreen = function(){
 	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringBetweenScreen, this);
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringBetweenScreen, this);
 	if(this.numPlayers == 2){
 		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringBetweenScreen, this);
+		this.game.gamepads.gamepads[1].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringBetweenScreen, this);
 	}
 }
 
@@ -2490,6 +2494,18 @@ gameState.buttonOnUpDuringMenu = function (button){
 	}
 }
 
+gameState.thumbstickOnDownOnceDuringMenu = function(stick){
+	switch ( stick.name ) {
+		case "XBOX_LEFT_VERT":
+			if(stick.value < 0){
+				this.backwardMenuIcon();
+			}else if (stick.value > 0){
+				this.forwardMenuIcon();
+			}
+			break;
+	}	
+}
+
 gameState.forwardBetweenScreenMenuIcon = function(){
 	this.iconGroup.members[this.availableBetweenScreenMenuIconsIndex].playOff();
 	if(this.availableBetweenScreenMenuIconsIndex == this.availableBetweenScreenMenuIcons.length - 1){
@@ -2541,6 +2557,18 @@ gameState.buttonOnUpDuringBetweenScreen = function(button){
 		default:
 			// Code		
 	}
+}
+
+gameState.thumbstickOnDownOnceDuringBetweenScreen = function(stick){
+	switch ( stick.name ) {
+		case "XBOX_LEFT_HORZ":
+			if(stick.value < 0){
+				this.backwardBetweenScreenMenuIcon();
+			}else if (stick.value > 0){
+				this.forwardBetweenScreenMenuIcon();
+			}
+			break;
+	}	
 }
 
 gameState.buttonOnUp0 = function( button ){
@@ -2779,5 +2807,6 @@ gameState.shutDown = function(){
 	while(removingHeartTimers){
 		removingHeartTimers = this.game.time.clock.removeTimer(null, 'heartTimer');
 	}
+	this.removeAllGamepadSignals();
 	this.game.input.keyboard.onKeyDown.removeAll();
 }
