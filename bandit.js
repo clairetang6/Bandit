@@ -1111,13 +1111,12 @@ MenuIcon.prototype.mouseClicked = function(){
 			if(this.state.game.gamepads){
 				this.state.removeAllGamepadSignals();
 			}
-			this.state.destroyEverything(true);
-			this.state.gameTimer.removeTimerEvent(this.state.gameTimerEvent);
 			if(this.state.soundOptions.musicOn){
 				this.state.musicSound.stop();
 			}
-			this.playOff();	
-			this.state.game.states.switchState('titleState');
+			this.timer = this.state.game.time.clock.createTimer('homeTimer', 0.2, 0, false);
+			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.switchToTitleStateAfterDestroyingEverything, this);
+			this.timer.start();	
 			break;
 		case '1player':
 			this.state.game.numPlayers = 1;
@@ -1147,6 +1146,12 @@ MenuIcon.prototype.mouseClicked = function(){
 			this.timer.start();		
 			break;
 	}
+}
+
+MenuIcon.prototype.switchToTitleStateAfterDestroyingEverything = function(){
+	this.state.destroyEverything(true);
+	this.state.gameTimer.removeTimerEvent(this.state.gameTimerEvent);
+	this.state.game.states.switchState('titleState');
 }
 
 MenuIcon.prototype.switchToTitleState = function(){

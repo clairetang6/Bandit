@@ -1,4 +1,4 @@
-var loadingState = new KiwiLoadingScreen('loadingState', 'titleState', 'loading/',{width: 1024, height: 768});
+var loadingState = new KiwiLoadingScreen('loadingState', 'inputState', 'loading/',{width: 1024, height: 768});
 
 loadingState.preload = function(){
 	KiwiLoadingScreen.prototype.preload.call(this);
@@ -88,6 +88,8 @@ loadingState.preload = function(){
 
 	this.addImage('curtain', 'assets/redside.png');
 	this.addImage('alphaBox', 'assets/betweenscreen_alpha.png');
+
+	this.addImage('pressa', 'assets/press_a_space.png');
 
 
 }

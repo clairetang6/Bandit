@@ -7,8 +7,10 @@ var myGame = new Kiwi.Game('game','Bandit',null, gameOptions);
 
 myGame.levelsUnlocked = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 myGame.soundOptions = {soundsOn: true, musicOn: true};  
+myGame.inputOptions = {gamepad: false};
 
 myGame.states.addState(loadingState);
+myGame.states.addState(inputState);
 myGame.states.addState(titleState);
 myGame.states.addState(levelSelectionState);
 myGame.states.addState(gameState);
