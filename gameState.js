@@ -303,7 +303,7 @@ gameState.create = function(){
 	}
 
 	this.cloudGroup = new Kiwi.Group(this);
-	for(var i = 1; i <= 9; i++){
+	for(var i = 1; i <= 10; i++){
 		this.cloudGroup.addChild(new Cloud(this, i));
 	}
 

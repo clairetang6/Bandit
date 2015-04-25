@@ -687,12 +687,8 @@ Cloud.prototype.randomX = function(){
 }
 
 Cloud.prototype.randomScale = function(){
-	this.scaleX = this.state.random.integerInRange(1, 5);
-	if(this.scaleX < 3){
-		this.scaleY = this.state.random.integerInRange(2, this.scaleX+1);
-	}else{
-		this.scaleY = this.state.random.integerInRange(this.scaleX-2, this.scaleX+1);
-	}
+	this.scaleX = this.state.random.realInRange(1, 1.5);
+	this.scaleX = this.state.random.realInRange(1, 1.5);
 }
 
 

@@ -9,15 +9,16 @@ loadingState.preload = function(){
 	this.addImage('controls','assets/controls_1.png');
 	this.addImage('controlsGamepad','assets/controls_1gamepad.png');
 
-	this.addImage('cloud1','assets/clouds/cloud_wispy_1.png');
-	this.addImage('cloud2','assets/clouds/cloud_wispy_2.png');
-	this.addImage('cloud3','assets/clouds/cloud_wispy_3.png');
-	this.addImage('cloud4','assets/clouds/cloud_wispy_4.png');
-	this.addImage('cloud5','assets/clouds/cloud_wispy_5.png');
+	this.addImage('cloud1','assets/clouds/cloud_1.png');
+	this.addImage('cloud2','assets/clouds/cloud_2.png');
+	this.addImage('cloud3','assets/clouds/cloud_2b.png');
+	this.addImage('cloud4','assets/clouds/cloud_3b.png');
+	this.addImage('cloud5','assets/clouds/cloud_4.png');
 	this.addImage('cloud6','assets/clouds/cloud_wispy_6.png');
-	this.addImage('cloud7','assets/clouds/cloud_wispy_7.png');
-	this.addImage('cloud8','assets/clouds/cloud_wispy_8.png');
-	this.addImage('cloud9','assets/clouds/cloud_wispy_9.png');
+	this.addImage('cloud7','assets/clouds/cloud_wispy_3.png');
+	this.addImage('cloud8','assets/clouds/cloud_wispy_7.png');
+	this.addImage('cloud9','assets/clouds/clouds_2.png');
+	this.addImage('cloud10','assets/clouds/clouds_3.png');
 
 	this.addAudio('bombSound','sounds/bombExplosion.wav');
 	this.addAudio('coinSound','sounds/coin.wav');
