@@ -54,6 +54,8 @@ var KiwiLoadingScreen = function(name, stateToSwitch,subfolder, dimensions) {
 	//The subfolder where everything will be saved
 	this.subfolder = subfolder;
 
+	this.finishedLoading = false;
+
 }
 
 //Extend the State
@@ -288,8 +290,11 @@ KiwiLoadingScreen.prototype.fadeOutHTML5 = function() {
 
 	//Start the Tween
 	this.loadingTween = this.game.tweens.create(this);
+	this.loadingTweenLast = this.game.tweens.create(this);
+	this.loadingTweenLast.onUpdate(this.updatedAlpha, this);
+
 	
-	this.loadingTween.to({ kiwiAlpha : 1 }, 2500, Kiwi.Animations.Tweens.Easing.Linear.None);
+	this.loadingTween.to({ kiwiAlpha : 1 }, 300, Kiwi.Animations.Tweens.Easing.Linear.None);
 	this.loadingTween.onComplete(null, null);
 	this.loadingTween.onUpdate(this.updatedAlpha, this);
 	this.loadingTween.onComplete(this.finishLoading, this);
@@ -308,11 +313,14 @@ KiwiLoadingScreen.prototype.fadeOutHTML5 = function() {
 * 
 */
 KiwiLoadingScreen.prototype.finishLoading = function() {
-	if(this.percentLoaded == 100) {
+	if(this.percentLoaded == 100 && this.finishedLoading == false) {
+		this.finishedLoading = true;
+		this.loadingTweenLast.to({ kiwiAlpha : 0 }, 500, Kiwi.Animations.Tweens.Easing.Linear.None);
+		this.loadingTweenLast.onComplete(this.completed, this);
+    	this.loadingTweenLast._onCompleteCalled = false;
+    	this.loadingTween.to({ kiwiAlpha: 1}, 300, Kiwi.Animations.Tweens.Easing.Linear.None);
+		this.loadingTween.chain(this.loadingTweenLast);
 		
-		this.loadingTween.to({ kiwiAlpha : 0 }, 500, Kiwi.Animations.Tweens.Easing.Linear.None);
-		this.loadingTween.onComplete(this.completed, this);
-    	this.loadingTween._onCompleteCalled = false;
 		this.loadingTween.start(); 
 		this.loadingBar.atlas = this.textures.loadingGraphic;
 	}
