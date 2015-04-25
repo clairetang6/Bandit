@@ -207,7 +207,6 @@ gameState.create = function(){
 		var dot = new Digit(this, 118+18*i, -18, 'ghoul', 1);
 		dot.animation.play('dot');
 		this.ghoulKillCountGroup[0].addChild(dot);
-		console.log(dot);
 	}		
 	if(this.numPlayers == 2){
 		this.ghoulKillCountGroup[1] = new Kiwi.Group(this);
@@ -2002,6 +2001,12 @@ gameState.destroyAllMembersOfGroup = function(group){
 		case 'potion':
 			var members = this.potionGroup.members;
 			break;
+		case 'redHearts':
+			var members = this.redHeartsGroup.members;
+			break;
+		case 'blueHearts':
+			var members = this.blueHeartsGroup.members;
+			break;
 	}
 	for (var i =0; i<members.length; i++){
 		members[i].destroy();
@@ -2148,18 +2153,30 @@ gameState.hidePressUp = function(){
 
 gameState.openTutorial = function(){
 	this.tutorialSignTween.onComplete(function(){
-		this.showingTutorial = true;
+		this.showingTutorial = true;	
+		if(this.game.gamepads){
+			this.addGamepadSignalsTutorial();
+		}
 	}, this);		
 	this.tutorialSignTween.to({y: 125}, 600, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
 	this.pauseGame();
+	if(this.game.gamepads){
+		this.removeAllGamepadSignals();
+	}		
 }
 
 gameState.closeTutorial = function(){
 	this.tutorialSignTween.onComplete(function(){
 		this.showingTutorial = false;
+		if(this.game.gamepads){
+			this.addGamepadSignalsGame();
+		}
+		this.resumeGame();
 	}, this);	
 	this.tutorialSignTween.to({y: this.GRID_ROWS * this.bps}, 600, Kiwi.Animations.Tweens.Easing.Linear.Out, true);
-	this.resumeGame();
+	if(this.game.gamepads){
+		this.removeAllGamepadSignals();
+	}	
 }
 
 gameState.openMenu = function(){
@@ -2306,10 +2323,13 @@ gameState.removeAllGamepadSignals = function(){
 	this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
 	this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
 	this.game.gamepads.gamepads[0].buttonIsDown.removeAll();
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.removeAll();
+
 	if(this.numPlayers == 2){
 		this.game.gamepads.gamepads[1].buttonOnDownOnce.removeAll();
 		this.game.gamepads.gamepads[1].buttonOnUp.removeAll();	
 		this.game.gamepads.gamepads[1].buttonIsDown.removeAll();	
+		this.game.gamepads.gamepads[1].thumbstickOnDownOnce.removeAll();		
 	}
 }
 
@@ -2336,6 +2356,20 @@ gameState.addGamepadSignalsBetweenScreen = function(){
 	if(this.numPlayers == 2){
 		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringBetweenScreen, this);
 	}
+}
+
+gameState.addGamepadSignalsTutorial = function(){
+	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringTutorial, this);
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.buttonOnUpDuringTutorial, this);
+
+	if(this.numPlayers == 2){
+		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringTutorial, this);
+		this.game.gamepads.gamepads[1].thumbstickOnDownOnce.add(this.buttonOnUpDuringTutorial, this);		
+	}	
+}
+
+gameState.buttonOnUpDuringTutorial = function(){
+	this.closeTutorial();
 }
 
 gameState.buttonOnDownOnce0 = function(button){
@@ -2525,10 +2559,12 @@ gameState.buttonOnUp0 = function( button ){
 			this.red.goBomb = false;
 			break;
 		case "XBOX_START":
-			this.openMenu();
-			this.availableMenuIconsIndex = 0;
-			this.selectedIcon = this.menuGroup.members[this.availableMenuIconsIndex];
-			this.menuGroup.members[this.availableMenuIconsIndex].playHover();
+			if(!this.isPaused){
+				this.openMenu();
+				this.availableMenuIconsIndex = 0;
+				this.selectedIcon = this.menuGroup.members[this.availableMenuIconsIndex];
+				this.menuGroup.members[this.availableMenuIconsIndex].playHover();
+			}
 			break;			
 		case "XBOX_DPAD_LEFT":
 			this.red.goLeft = false;
@@ -2739,5 +2775,9 @@ gameState.checkController = function(bandit){
 }
 
 gameState.shutDown = function(){
+	var removingHeartTimers = true;
+	while(removingHeartTimers){
+		removingHeartTimers = this.game.time.clock.removeTimer(null, 'heartTimer');
+	}
 	this.game.input.keyboard.onKeyDown.removeAll();
 }
