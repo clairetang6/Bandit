@@ -712,7 +712,8 @@ gameState.createLevel = function(){
 	this.getBlockedBlocks(this.originalGroundBlocks,'leftghoul',this.originalLeftBlockedBlocks);
 	this.originalRightBlockedBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
 	this.getBlockedBlocks(this.originalGroundBlocks,'rightghoul', this.originalRightBlockedBlocks);
-	
+	this.originalTopGroundBlocks = this.getTopBlocks(this.originalGroundBlocks);
+
 	this.leftBlockedBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
 	this.rightBlockedBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
 	this.topGroundBlocks = this.getTopBlocks(this.groundBlocks);
@@ -953,11 +954,6 @@ gameState.onKeyDownCallback = function(keyCode){
 	}
 }
 
-gameState.updateBlockedBlocks = function(){
-	this.getBlockedBlocks(this.groundBlocks,'left',this.leftBlockedBlocks);
-	this.getBlockedBlocks(this.groundBlocks,'right',this.rightBlockedBlocks);
-}
-
 gameState.checkCollisions = function(){
 	this.checkCoinCollision();
 	this.checkPotionCollision();
@@ -1184,7 +1180,7 @@ gameState.getGhoulBlocks = function(){
 	for (var i = 0; i<this.GRID_ROWS; i++){
 		for (var j = 0; j<this.GRID_COLS; j++){
 			var ghoulCode = 1; 
-			if(this.topGroundBlocks[i][j]==1){
+			if(this.originalTopGroundBlocks[i][j]==1){
 				if(this.originalRightBlockedBlocks[i][j] == 0){
 					ghoulCode *= 2;
 				}
@@ -1206,6 +1202,33 @@ gameState.getGhoulBlocks = function(){
 		}
 	}
 	return ghoulBlocks;
+}
+
+gameState.updateGhoulBlocks = function(){
+	for (var i = 0; i<this.GRID_ROWS; i++){
+		for (var j = 0; j<this.GRID_COLS; j++){
+			var ghoulCode = 1; 
+			if(this.originalTopGroundBlocks[i][j]==1){
+				if(this.originalRightBlockedBlocks[i][j] == 0){
+					ghoulCode *= 2;
+				}
+				if(this.originalLeftBlockedBlocks[i][j] == 0){
+					ghoulCode *= 3;
+				}
+			}
+			if(this.ladderBlocks[i][j] == 1){
+				ghoulCode *= 5;
+				if(this.firstLadderBlocks[i][j] == 0){
+					ghoulCode *=7;
+				}
+			}
+			if(this.topLadderBlocks[i][j] == 1){
+				ghoulCode *= 7;
+			}
+
+			this.ghoulBlocks[i][j] = ghoulCode; 
+		}
+	}	
 }
 
 /**
@@ -1248,25 +1271,10 @@ gameState.getTopBlocks = function(blocks){
 	return topBlocks;
 }
 
-gameState.updateTopGroundBlocks = function(){
-	for (var i = 0; i<this.GRID_ROWS-1; i++){
-		var thisRow = this.groundBlocks[i];
-		var nextRow = this.groundBlocks[i+1];
-		for(var j = 0; j<this.GRID_COLS; j++){
-			if(thisRow[j] == 0 && nextRow[j]==1){
-				this.topGroundBlocks[i][j] = 1;
-			}else{
-				this.topGroundBlocks[i][j] = 0;
-			}
-		}
-	}	
-}
-
-
 gameState.getBlockedBlocks = function(groundBlocks, direction, blockedBlocks){
 	switch (direction){
 		case 'left': 
-			for(var i =0;i<this.GRID_ROWS; i++){
+			for(var i = 0;i<this.GRID_ROWS; i++){
 				for(var j=0; j<this.GRID_COLS; j++){
 					if(j==0){
 						blockedBlocks[i][j] = 1;
@@ -1295,6 +1303,27 @@ gameState.getBlockedBlocks = function(groundBlocks, direction, blockedBlocks){
 				}
 			}
 			break;
+		case 'rightghoul':
+			for(var i =0; i<this.GRID_ROWS; i++){
+				for(var j=0; j<this.GRID_COLS; j++){
+					if(j==this.GRID_COLS-1){
+						blockedBlocks[i][j] = 1;
+					}else{
+						if(groundBlocks[i][j]==0){
+							if(groundBlocks[i][j+1] == 1){
+								blockedBlocks[i][j] = 1;
+							}else{
+								if(i+1<this.GRID_ROWS && groundBlocks[i+1][j+1] == 0){
+									blockedBlocks[i][j] = 1;
+								}else{
+									blockedBlocks[i][j] = 0;
+								}
+							}
+						}
+					}			
+				}
+			}
+			break;			
 		case 'leftghoul':
 			for(var i =0; i<this.GRID_ROWS; i++){
 				for(var j=0; j<this.GRID_COLS; j++){
@@ -1315,28 +1344,6 @@ gameState.getBlockedBlocks = function(groundBlocks, direction, blockedBlocks){
 					}
 				}
 			}			
-			break;
-
-		case 'rightghoul':
-			for(var i =0; i<this.GRID_ROWS; i++){
-				for(var j=0; j<this.GRID_COLS; j++){
-					if(j==this.GRID_COLS-1){
-						blockedBlocks[i][j] = 1;
-					}else{
-						if(groundBlocks[i][j]==0){
-							if(groundBlocks[i][j+1] == 1){
-								blockedBlocks[i][j] = 1;
-							}else{
-								if(i+1<this.GRID_ROWS && groundBlocks[i+1][j+1] == 0){
-									blockedBlocks[i][j] = 1;
-								}else{
-									blockedBlocks[i][j] = 0;
-								}
-							}
-						}
-					}					
-				}
-			}
 			break;
 	}
 }
@@ -2068,6 +2075,8 @@ gameState.blastBlock = function(blastedBlockPosition, banditColor){
 		hiddenBlock.blastedBy = banditColor;
 		this.updateBlocksAfterAddingHiddenBlock(hiddenBlock);
 
+		this.removeCracksAtRowCol(hiddenBlock.row, hiddenBlock.col);
+
 		var index = this.getArrayIndexForTilemapFromRowCol(hiddenBlock.row, hiddenBlock.col);
 		var tileType = this.tilemap.layers[0].getTileFromIndex(index);
 		hiddenBlock.tileType = tileType.index;
@@ -2096,6 +2105,19 @@ gameState.blastBlock = function(blastedBlockPosition, banditColor){
 	}
 }
 
+gameState.removeCracksAtRowCol = function(row, col){
+	for(var i = 0; i < this.cracksGroup.members.length; i++){
+		if(this.cracksGroup.members[i].gridPosition[0] == row){
+			if(this.cracksGroup.members[i].gridPosition[1] == col){
+				var cracks = this.cracksGroup.removeChildAt(i);
+				this.updateGhoulBlocksAfterRemovingCracks(cracks);
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
 gameState.addHiddenBlock = function(blockPosition){
 	var pixels = this.getPixelPositionFromRowCol(blockPosition[0],blockPosition[1]);
 	var hiddenBlock = new HiddenBlock(this, pixels[0],pixels[1]);
@@ -2111,12 +2133,61 @@ gameState.updateBlocksAfterAddingHiddenBlock = function(hiddenBlock){
 	this.updateBlockedBlocks();	
 }
 
+gameState.updateGhoulBlocksAfterRemovingCracks = function(cracks){
+	this.removeFromGroundBlocksGhoul(cracks.gridPosition);
+	this.updateTopGroundBlocksGhoul();
+	this.updateBlockedBlocksGhoul();
+	this.updateGhoulBlocks();
+}
+
 gameState.addToBlocks = function(row, col, blocks){
 	blocks[row][col] = 1;
 }
 
 gameState.removeFromGroundBlocks = function(blastedBlockPosition){
 	this.groundBlocks[blastedBlockPosition[0]][blastedBlockPosition[1]] = 0;
+}
+
+gameState.removeFromGroundBlocksGhoul = function(gridPosition){
+	this.originalGroundBlocks[gridPosition[0]][gridPosition[1]] = 0;
+}
+
+gameState.updateTopGroundBlocks = function(){
+	for (var i = 0; i<this.GRID_ROWS-1; i++){
+		var thisRow = this.groundBlocks[i];
+		var nextRow = this.groundBlocks[i+1];
+		for(var j = 0; j<this.GRID_COLS; j++){
+			if(thisRow[j] == 0 && nextRow[j]==1){
+				this.topGroundBlocks[i][j] = 1;
+			}else{
+				this.topGroundBlocks[i][j] = 0;
+			}
+		}
+	}	
+}
+
+gameState.updateTopGroundBlocksGhoul = function(){
+	for (var i = 0; i<this.GRID_ROWS-1; i++){
+		var thisRow = this.originalGroundBlocks[i];
+		var nextRow = this.originalGroundBlocks[i+1];
+		for(var j = 0; j<this.GRID_COLS; j++){
+			if(thisRow[j] == 0 && nextRow[j]==1){
+				this.originalTopGroundBlocks[i][j] = 1;
+			}else{
+				this.originalTopGroundBlocks[i][j] = 0;
+			}
+		}
+	}	
+}
+
+gameState.updateBlockedBlocks = function(){
+	this.getBlockedBlocks(this.groundBlocks,'left',this.leftBlockedBlocks);
+	this.getBlockedBlocks(this.groundBlocks,'right',this.rightBlockedBlocks);
+}
+
+gameState.updateBlockedBlocksGhoul = function(){
+	this.getBlockedBlocks(this.originalGroundBlocks,'leftghoul',this.originalLeftBlockedBlocks);
+	this.getBlockedBlocks(this.originalGroundBlocks,'rightghoul',this.originalRightBlockedBlocks);
 }
 
 gameState.mouseClicked = function(){

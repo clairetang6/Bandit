@@ -391,9 +391,7 @@ var HiddenBlock = function(state, x, y){
 	this.timer = state.game.time.clock.createTimer('hiddenBlockTimer',this.hiddenBlockTime,0,false);
 	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.hiddenBlockTimer, this);
 	
-	if(this.state.permBlocks[this.row][this.col] != 1){
-		this.timer.start();
-	}
+	this.timer.start();
 }
 Kiwi.extend(HiddenBlock, Kiwi.GameObjects.Sprite);
 
@@ -447,41 +445,47 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 			}
 		}
 	}
-	this.destroy();
-	if(this.state.soundOptions.soundsOn){
-		this.state.blockReappearSound.play('start',true);
-	}
 
-	this.state.addToBlocks(this.row, this.col, this.state.groundBlocks);
-	this.state.updateTopGroundBlocks();
-	this.state.updateBlockedBlocks();
-
-	var bandits = this.state.banditGroup.members;
-
-	for(var i = 0; i<bandits.length; i++){
-		gridPosition = this.state.getGridPosition(bandits[i].x, bandits[i].y, 'middle');
-		if(gridPosition[0] == this.row && gridPosition[1] == this.col){	
-			bandits[i].isAlive = false;
+	if(this.state.permBlocks[this.row][this.col] != 1){
+		if(this.state.soundOptions.soundsOn){
+			this.state.blockReappearSound.play('start',true);
 		}		
+
+		this.state.addToBlocks(this.row, this.col, this.state.groundBlocks);
+		this.state.updateTopGroundBlocks();
+		this.state.updateBlockedBlocks();
+
+		var bandits = this.state.banditGroup.members;
+
+		for(var i = 0; i<bandits.length; i++){
+			gridPosition = this.state.getGridPosition(bandits[i].x, bandits[i].y, 'middle');
+			if(gridPosition[0] == this.row && gridPosition[1] == this.col){	
+				bandits[i].isAlive = false;
+			}		
+		}	
 	}
+
+	this.destroy();	
 }
 
 HiddenBlock.prototype.destroy = function(immediate){
 	this.timer.removeTimerEvent(this.timerEvent);
-	if(this.tileTypeAboveFront){
-		var index = this.state.getArrayIndexForTilemapFromRowCol(this.row - 1, this.col);
-		this.state.tilemap.layers[5].setTileByIndex(index, this.tileTypeAboveFront);
-		this.state.tilemap.layers[5].dirty = true;
-	}
-	if(this.tileTypeAboveBack){
-		var index = this.state.getArrayIndexForTilemapFromRowCol(this.row - 1, this.col);
-		this.state.tilemap.layers[2].setTileByIndex(index, this.tileTypeAboveBack);
-		this.state.tilemap.layers[2].dirty = true;
-	}
-	if(this.tileType){
-		var index = this.state.getArrayIndexForTilemapFromRowCol(this.row, this.col);
-		this.state.tilemap.layers[0].setTileByIndex(index, this.tileType);
-		this.state.tilemap.layers[0].dirty = true;
+	if(this.state.permBlocks[this.row][this.col] != 1){
+		if(this.tileTypeAboveFront){
+			var index = this.state.getArrayIndexForTilemapFromRowCol(this.row - 1, this.col);
+			this.state.tilemap.layers[5].setTileByIndex(index, this.tileTypeAboveFront);
+			this.state.tilemap.layers[5].dirty = true;
+		}
+		if(this.tileTypeAboveBack){
+			var index = this.state.getArrayIndexForTilemapFromRowCol(this.row - 1, this.col);
+			this.state.tilemap.layers[2].setTileByIndex(index, this.tileTypeAboveBack);
+			this.state.tilemap.layers[2].dirty = true;
+		}
+		if(this.tileType){
+			var index = this.state.getArrayIndexForTilemapFromRowCol(this.row, this.col);
+			this.state.tilemap.layers[0].setTileByIndex(index, this.tileType);
+			this.state.tilemap.layers[0].dirty = true;
+		}
 	}
 	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
 }
@@ -580,6 +584,8 @@ var Cracks = function(state, x, y){
 	this.state = state;
 	this.animation.add('cracks',[114],0.1,false);
 	this.animation.play('cracks');
+
+	this.gridPosition = this.state.getGridPosition(x,y);
 }
 Kiwi.extend(Cracks, Kiwi.GameObjects.Sprite);
 

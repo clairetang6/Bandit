@@ -444,14 +444,16 @@ Ghoul.prototype.checkForHiddenBlock = function(gridPosition, topGridPosition){
 	var hiddenBlockToPushTo = null;
 	for (var i = 0; i < this.state.hiddenBlockGroup.members.length; i++){
 		hiddenBlock = this.state.hiddenBlockGroup.members[i];
-		if(hiddenBlock.row == checkForHiddenBlockPosition[0] && hiddenBlock.col == checkForHiddenBlockPosition[1]){
-			this.shouldFall = true;
-		}else{
-			if(hiddenBlock.row == topGridPosition[0] && hiddenBlock.col == topGridPosition[1]){
-				if(this.shouldFall == false){
-					this.isInHole = true;
-					hiddenBlock.occupiedBy.push(this);
-					this.isInHiddenBlock = true;
+		if(this.state.permBlocks[hiddenBlock.row][hiddenBlock.col] != 1){
+			if(hiddenBlock.row == checkForHiddenBlockPosition[0] && hiddenBlock.col == checkForHiddenBlockPosition[1]){
+				this.shouldFall = true;
+			}else{
+				if(hiddenBlock.row == topGridPosition[0] && hiddenBlock.col == topGridPosition[1]){
+					if(this.shouldFall == false){
+						this.isInHole = true;
+						hiddenBlock.occupiedBy.push(this);
+						this.isInHiddenBlock = true;
+					}
 				}
 			}
 		}
