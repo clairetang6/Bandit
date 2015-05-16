@@ -1,0 +1,11 @@
+{
+	"name": "Bandit",
+	"main": "index.html",
+	"version": "1.0.0",
+	"window": {
+		"title": "Bandit",
+		"toolbar": false,
+		"fullscreen": true,
+		"frame": false
+	}
+}

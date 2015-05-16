@@ -1,0 +1,41 @@
+{
+	"name": "LoadingGraphics", 
+	"cells": [
+		{
+			"name": "bandit_banner.png",
+			"x":0,
+			"y":0,
+			"w":1000,
+			"h":380
+		},
+		{
+			"name": "loading_bar.png",
+			"x":18,
+			"y":382,
+			"w":414,
+			"h":57
+		},
+		{
+			"name": "loading_bar_container.png",
+			"x":432,
+			"y":382,
+			"w":432,
+			"h":57
+		},
+		{
+			"name": "rydaire.png",
+			"x":0,
+			"y":437,
+			"w":700,
+			"h":150
+		},
+		{
+			"name": "games",
+			"x":0,
+			"y":587,
+			"w": 700,
+			"h": 150
+		}
+	]
+
+}
