@@ -1141,6 +1141,16 @@ MenuIcon.prototype.mouseClicked = function(){
 			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.state.showControls, this.state);
 			this.timer.start();
 			break;
+		case 'yes':
+			this.timer = this.state.game.time.clock.createTimer('quitYesTimer', 0.2, 0, false);
+			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.state.quitGame, this.state);
+			this.timer.start();
+			break;	
+		case 'no':
+			this.timer = this.state.game.time.clock.createTimer('quitNoTimer', 0.2, 0, false);
+			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.state.closeQuitDialog, this.state);
+			this.timer.start();
+			break;						
 		case 'backControls':
 			this.timer = this.state.game.time.clock.createTimer('backControlsTimer', 0.2, 0, false);
 			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.state.hideControls, this.state);
@@ -1223,6 +1233,7 @@ var TitleIcon = function(state, x, y, type){
 	this.state = state;
 	this.type = type;
 	this.isDown = false;
+	this.group = this.state.buttonGroup;
 
 	switch(type){
 		case '1player':
@@ -1240,7 +1251,7 @@ var TitleIcon = function(state, x, y, type){
 		case 'backControls':
 			this.animation.add('on',[18],0.1,false);
 			this.animation.add('hover',[19],0.1,false);
-			break;		
+			break;			
 	}
 	this.animation.play('on');
 	this.alpha = 0.5;
@@ -1261,13 +1272,45 @@ TitleIcon.prototype.playHover = function(){
 }
 
 TitleIcon.prototype.removeAllHovers = function(){
-	var icons = this.state.buttonGroup.members;
+	var icons = this.group.members;
 	for(var i = 0; i < icons.length; i++){
 		if(icons[i].animation.currentAnimation.name == 'hover'){
 			icons[i].playOff();
 		}
 	}	
 }
+
+var QuitIcon = function(state, x, y, type){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['quit'], x, y, true);
+
+	this.state = state;
+	this.type = type;
+	this.isDown = false;
+	this.group = this.state.quitButtonGroup;
+
+	switch(type){
+		case 'yes':
+			this.animation.add('on', [0], 0.1, false);
+			this.animation.add('hover', [1], 0.1, false);
+			break;
+		case 'no':
+			this.animation.add('on', [2], 0.1, false);
+			this.animation.add('hover', [3], 0.1, false);
+			break;
+	}
+
+	this.animation.play('on');
+	this.alpha = 0.5;
+
+	this.input.onEntered.add(TitleIcon.prototype.playHover, this);
+	this.input.onLeft.add(MenuIcon.prototype.playOff, this);
+	this.input.onUp.add(MenuIcon.prototype.mouseClicked, this);
+	this.input.onDown.add(MenuIcon.prototype.playDown, this);
+}
+Kiwi.extend(QuitIcon, Kiwi.GameObjects.Sprite);
+Kiwi.extend(QuitIcon, MenuIcon);
+Kiwi.extend(QuitIcon, TitleIcon);
+
 
 var LevelSelectionIcon = function(state, x, y, number){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['level_selection'], x, y, true);

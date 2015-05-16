@@ -50,6 +50,8 @@ loadingState.preload = function(){
 	this.addAudio('evilLaughSound', 'sounds/evil_laugh.wav');
 
 	this.addSpriteSheet('menu','assets/menu_spritesheet.png',500,50);	
+	this.addSpriteSheet('quit', 'assets/quit_spritesheet.png',150,50);
+	this.addImage('quitDialog', 'assets/quit_dialog.png');
 	this.BLOCK_PIXEL_SIZE = 50; 
 	this.bps = this.BLOCK_PIXEL_SIZE; 
 	this.MULTIPLIER = 1; 

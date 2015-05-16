@@ -5,6 +5,44 @@ titleState.preload = function(){
 
 }
 
+titleState.showQuitDialog = function(){
+	this.buttonGroup.active = false;
+	this.quitButtonGroup.active = true;
+	this.selectedMenuIconIndex = 0;
+	this.group = this.quitButtonGroup;
+	this.changeSelectedMenuIcon(0);
+
+	if(this.game.gamepads){
+		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.removeAll();
+		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce2, this);
+	}
+
+	this.quitTween.to({y: 300}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+	this.quitTween2.to({y: 300}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+
+}
+
+titleState.closeQuitDialog = function(){
+	this.buttonGroup.active = true;
+	this.quitButtonGroup.active = false;
+	this.selectedMenuIconIndex = 0;
+	this.group = this.buttonGroup;
+	this.changeSelectedMenuIcon(0);
+
+	if(this.game.gamepads){
+		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.removeAll();
+		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce, this);
+	}	
+
+	this.quitTween.to({y: -500}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	
+	this.quitTween2.to({y: -500}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	
+
+}
+
+titleState.quitGame = function(){
+	window.close();
+}
+
 titleState.create = function(){
 	Kiwi.State.prototype.create.call(this);
 
@@ -15,7 +53,10 @@ titleState.create = function(){
 	myGame.stage.resize(this.STAGE_WIDTH, this.STAGE_HEIGHT);
 
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['title'],0,0);
-	
+	this.quitDialog = new Kiwi.GameObjects.StaticImage(this, this.textures['quitDialog'], 0, -500);
+	this.quitDialog.x = this.game.stage.width/2-this.quitDialog.width/2;
+	this.quitTween = this.game.tweens.create(this.quitDialog);
+
 	if(this.game.inputOptions.gamepad){
 		this.controlsScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['controlsGamepad'], 1100,0);
 		this.controlsTween = this.game.tweens.create(this.controlsScreen);
@@ -25,6 +66,15 @@ titleState.create = function(){
 	}
 
 	this.buttonGroup = new Kiwi.Group(this);
+	this.quitButtonGroup = new Kiwi.Group(this);
+	this.group = this.buttonGroup;
+
+	this.yesButton = new QuitIcon(this, 340, 90, 'yes');
+	this.noButton = new QuitIcon(this, 530, 90, 'no');
+	this.quitButtonGroup.addChild(this.yesButton);
+	this.quitButtonGroup.addChild(this.noButton);
+	this.quitButtonGroup.y = -500;
+	this.quitTween2 = this.game.tweens.create(this.quitButtonGroup);
 
 	this.playerButton1 = new TitleIcon(this, 270, 1475, '1player');
 	this.playerButton2 = new TitleIcon(this, 270, 1550, '2player');
@@ -33,6 +83,8 @@ titleState.create = function(){
 	this.background.alpha = 0;
 	this.addChild(this.background);
 	this.addChild(this.controlsScreen);
+	this.addChild(this.quitDialog);
+	this.addChild(this.quitButtonGroup);
 
 	this.random = new Kiwi.Utils.RandomDataGenerator();
 	
@@ -113,6 +165,7 @@ titleState.finishAddingToSreen = function(){
 
 	this.debounce = 0;
 
+	this.group = this.buttonGroup;
 	this.selectedMenuIconIndex = 0;
 	this.changeSelectedMenuIcon(this.selectedMenuIconIndex);
 
@@ -191,7 +244,7 @@ titleState.changeSelectedMenuIcon = function(index){
 		this.selectedMenuIcon.animation.play('hover');
 	}else{
 		this.selectedMenuIconIndex = index;
-		this.selectedMenuIcon = this.buttonGroup.members[this.selectedMenuIconIndex];
+		this.selectedMenuIcon = this.group.members[this.selectedMenuIconIndex];
 		this.selectedMenuIcon.alpha = 1;
 		this.selectedMenuIcon.animation.play('hover');
 	}
@@ -201,15 +254,26 @@ titleState.changeSelectedMenuIconByType = function(type){
 	switch(type){
 		case '1player':
 			var index = 0;
+			this.group = this.buttonGroup;
 			break;
 		case '2player':
 			var index = 1;
+			this.group = this.buttonGroup;
 			break;
 		case 'controls':
 			var index = 2;
+			this.group = this.buttonGroup;
 			break;
 		case 'backControls':
 			var index = 'back';
+			break;
+		case 'yes':
+			var index = 0;
+			this.group = this.quitButtonGroup;
+			break;
+		case 'no':
+			var index = 1;
+			this.group = this.quitButtonGroup;
 			break;
 	}
 	if(index == 'back'){
@@ -217,13 +281,13 @@ titleState.changeSelectedMenuIconByType = function(type){
 		this.selectedMenuIcon = this.backButton;
 	}else{
 		this.selectedMenuIconIndex = index;
-		this.selectedMenuIcon = this.buttonGroup.members[this.selectedMenuIconIndex];
+		this.selectedMenuIcon = this.group.members[this.selectedMenuIconIndex];
 	}
 }
 
 titleState.getIncreasedIndex = function(){
 	var index = this.selectedMenuIconIndex + 1;
-	if(index >= this.buttonGroup.members.length){
+	if(index >= this.group.members.length){
 		index = 0;
 	}
 	return index;
@@ -232,7 +296,7 @@ titleState.getIncreasedIndex = function(){
 titleState.getDecreasedIndex = function(){
 	var index = this.selectedMenuIconIndex - 1;
 	if(index < 0){
-		index = this.buttonGroup.members.length - 1;
+		index = this.group.members.length - 1;
 	}
 	return index;
 }
@@ -293,7 +357,6 @@ titleState.buttonOnUp = function(button){
 }
 
 titleState.thumbstickOnDownOnce = function(stick){
-	console.log(stick.name + ' ' + stick.value);
 	switch ( stick.name ) {
 		case "XBOX_LEFT_HORZ":
 			break;
@@ -314,6 +377,20 @@ titleState.thumbstickOnDownOnce = function(stick){
 			break;
 		default:
 			// Code
+	}	
+}
+
+titleState.thumbstickOnDownOnce2 = function(stick){
+	switch ( stick.name ) {
+		case "XBOX_LEFT_HORZ":
+			if(stick.value < 0){
+				this.changeSelectedMenuIcon(this.getDecreasedIndex());
+				this.debounce = 0;
+			}else if (stick.value > 0){
+				this.changeSelectedMenuIcon(this.getIncreasedIndex());
+				this.debounce = 0;
+			}
+			break;
 	}	
 }
 
@@ -370,7 +447,11 @@ titleState.onPressTitle = function(keyCode){
 		this.selectedMenuIcon.mouseClicked();
 	}else if(keyCode == Kiwi.Input.Keycodes.I){
 
-	}
+	}else if(keyCode == Kiwi.Input.Keycodes.Q){
+		this.closeQuitDialog();
+	}else if(keyCode == Kiwi.Input.Keycodes.ESC){
+		this.showQuitDialog();
+	}	
 }
 
 titleState.onPressControls = function(keyCode){
