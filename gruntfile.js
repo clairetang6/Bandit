@@ -13,6 +13,7 @@ module.exports = function(grunt){
 					'plugins/primitives-1.0.2.js',
 					'kiwipreloader.js',
 					'loadingState.js',
+					'inputState.js',
 					'levelSelectionState.js',
 					'creditsState.js',
 					'astar.js',
@@ -22,14 +23,14 @@ module.exports = function(grunt){
 					'gameState.js',
 					'game.js'
 				],
-				dest: 'bandit-0.8.5.js'
+				dest: 'bandit-0.8.6.js'
 			}
 		},
 
 		uglify: {
 			build: {
-				src: 'bandit-0.8.5.js',
-				dest: 'bandit-0.8.5.min.js'
+				src: 'bandit-0.8.6.js',
+				dest: 'bandit-0.8.6.min.js'
 			}
 		},
 
