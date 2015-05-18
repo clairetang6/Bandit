@@ -1032,14 +1032,14 @@ Icon.prototype.mouseClicked = function(){
 			this.state.stopCutScene();
 			this.state.currentLevel-=2;
 			if(this.state.soundOptions.musicOn){
-				this.state.musicSound.stop();
+				this.state.currentMusic.stop();
 			}
 			this.state.tweenOutCurtains(this.state.restartLevel);
 			break;
 		case 'home':
 			this.state.stopCutScene();
 			if(this.state.soundOptions.musicOn){
-				this.state.musicSound.stop();
+				this.state.currentMusic.stop();
 			}
 			this.state.tweenOutCurtains(this.state.switchToTitleStateFromBetweenScreen);
 			break;			
@@ -1133,11 +1133,11 @@ MenuIcon.prototype.mouseClicked = function(){
 		case 'music':
 			if(this.state.soundOptions.musicOn == true){
 				this.state.soundOptions.musicOn = false;
-				this.state.musicSound.pause();
+				this.state.currentMusic.pause();
 				this.animation.play('hoveroff');
 			}else{
 				this.state.soundOptions.musicOn = true;
-				this.state.musicSound.resume();
+				this.state.currentMusic.resume();
 				this.animation.play('hoveron');
 			}
 			break;
@@ -1145,7 +1145,7 @@ MenuIcon.prototype.mouseClicked = function(){
 			this.state.currentLevel--;
 			this.state.closeMenu('noresume');
 			if(this.state.soundOptions.musicOn){
-				this.state.musicSound.stop();
+				this.state.currentMusic.stop();
 			}
 			this.playOff();
 			this.timer = this.state.game.time.clock.createTimer('restartLevelTimer',0.9,0,false);
@@ -1157,7 +1157,7 @@ MenuIcon.prototype.mouseClicked = function(){
 				this.state.removeAllGamepadSignals();
 			}
 			if(this.state.soundOptions.musicOn){
-				this.state.musicSound.stop();
+				this.state.currentMusic.stop();
 			}
 			this.timer = this.state.game.time.clock.createTimer('homeTimer', 0.2, 0, false);
 			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.switchToTitleStateAfterDestroyingEverything, this);

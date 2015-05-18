@@ -810,8 +810,18 @@ gameState.createLevel = function(){
 	this.timer = this.game.time.clock.createTimer('levelOver',2,0,false);
 	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.levelOver,this);
 
+	if(this.currentLevel > 19){
+		this.bossMusicSound = new Kiwi.Sound.Audio(this.game, 'bossMusicSound', 0.2, true);
+	}
+	
+	if(this.currentLevel < 20){
+		this.currentMusic = this.musicSound;
+	}else{
+		this.currentMusic = this.bossMusicSound;
+	}
+
 	if(this.soundOptions.musicOn){
-		this.musicSound.play();
+		this.currentMusic.play();
 	}
 	
 	this.gameTimeSeconds = 0;
@@ -1558,7 +1568,7 @@ gameState.showCutScene = function(){
 	this.destroyEverything(false);
 
 	if(this.soundOptions.musicOn){
-		this.musicSound.stop();
+		this.currentMusic.stop();
 	}
 
 	var members = this.banditGroup.members;
@@ -2053,7 +2063,7 @@ gameState.isGameOver = function(){
 	}
 	if(this.gameIsOver){
 		if(this.soundOptions.musicOn){
-			this.musicSound.stop();
+			this.currentMusic.stop();
 		}
 		this.addChild(this.loseScreen);
 	}
