@@ -28,6 +28,7 @@ var Bandit = function(state, x, y, color){
 	this.goRight = false;
 	this.goFire = false;
 	this.goBomb = false;
+	this.flash = null;
 
 	var banditHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
 	var banditHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);
@@ -201,6 +202,7 @@ Bandit.prototype.moveDown = function(southGridPosition){
 
 Bandit.prototype.blastBlock = function(){
 	var blastedBlockPosition = this.state.getBlastedBlockPosition(this.state.getGridPosition(this.x, this.y, 'middle'), this.facing);
+	this.flash.appear();
 	this.state.blastBlock(blastedBlockPosition, this.color);
 }
 
@@ -335,7 +337,7 @@ Bandit.prototype.placeBomb = function(){
 	if(this.bombsCollected > 0){
 		this.bombClock.start();
 		console.log('start' + this.bombClock.elapsed());
-		bomb = this.bombs.pop();
+		var bomb = this.bombs.pop();
 		bomb.x = this.state.getPixelNumberForGridPosition(this.state.getGridPosition(this.x, this.y,'middle'),'west');
 		bomb.y = this.state.getPixelNumberForGridPosition(this.state.getGridPosition(this.x, this.y,'middle'),'north');	
 		var bombGridPosition = this.state.getGridPosition(bomb.x,bomb.y);
@@ -372,6 +374,40 @@ Bandit.prototype.resetPropertiesAtBeginningOfLevel = function(){
 	this.blackGhoulsKilled = 0;
 	this.ghouliathsKilled = 0;
 }
+
+var Flash = function(state, bandit){
+	Kiwi.GameObjects.StaticImage.call(this, state, state.textures[bandit.color+'Flash'], bandit.x, bandit.y);
+	
+	this.state = state;
+	this.bandit = bandit;
+	this.visible = false;
+	
+	this.timer = this.state.game.time.clock.createTimer(this.bandit.color + 'FlashTimer', 0.1 , 1, false);
+	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.disappear, this);
+}
+Kiwi.extend(Flash, Kiwi.GameObjects.StaticImage);
+
+Flash.prototype.appear = function(){
+	this.visible = true;
+	this.timer.start();
+}
+
+Flash.prototype.disappear = function(){
+	this.visible = false;
+}
+
+Flash.prototype.update = function(){
+	Kiwi.GameObjects.StaticImage.prototype.update.call(this);
+	
+	if(this.bandit.facing == 'right'){
+		this.scaleX = -1;
+	}else if (this.bandit.facing == 'left'){
+		this.scaleX = 1;
+	}
+	this.x = this.bandit.x;
+	this.y = this.bandit.y;
+}
+
 
 var HiddenBlock = function(state, x, y){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['backgroundSpriteSheet'+state.currentLevel], x, y, false);
@@ -458,7 +494,7 @@ HiddenBlock.prototype.hiddenBlockTimer = function(){
 		var bandits = this.state.banditGroup.members;
 
 		for(var i = 0; i<bandits.length; i++){
-			gridPosition = this.state.getGridPosition(bandits[i].x, bandits[i].y, 'middle');
+			var gridPosition = this.state.getGridPosition(bandits[i].x, bandits[i].y, 'middle');
 			if(gridPosition[0] == this.row && gridPosition[1] == this.col){	
 				bandits[i].isAlive = false;
 			}		
@@ -661,6 +697,9 @@ var Cloud = function(state, number){
 	this.direction = -1;
 	this.anchorPointX = 0;
 	this.anchorPointY = 0;
+	if(number == 1 || number == 2 || number == 10){
+		this.alpha = 0.5;
+	}
 }
 Kiwi.extend(Cloud, Kiwi.GameObjects.StaticImage);
 
@@ -669,7 +708,7 @@ Cloud.prototype.update = function(){
 	this.x += this.speed * this.direction;
 
 	if(this.direction < 0){
-		if(this.x < -1000 * this.scaleX){
+		if(this.x < -1 * this.width * this.scaleX){
 			this.randomSpeedAndY();
 			this.randomScale();
 			this.x = 1200;
@@ -685,7 +724,7 @@ Cloud.prototype.update = function(){
 
 Cloud.prototype.randomSpeedAndY = function(){
 	this.speed = this.state.random.integerInRange(1, 10)/10;
-	this.y = this.state.random.integerInRange(0, 400);
+	this.y = this.state.random.integerInRange(0, 300);
 }
 
 Cloud.prototype.randomX = function(){
@@ -693,8 +732,8 @@ Cloud.prototype.randomX = function(){
 }
 
 Cloud.prototype.randomScale = function(){
-	this.scaleX = this.state.random.realInRange(1, 1.5);
-	this.scaleX = this.state.random.realInRange(1, 1.5);
+	//this.scaleX = this.state.random.realInRange(1, 1.5);
+	//this.scaleX = this.state.random.realInRange(1, 1.5);
 }
 
 

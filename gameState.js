@@ -330,6 +330,13 @@ gameState.create = function(){
 		}
 	}
 
+	this.banditFlashGroup = new Kiwi.Group(this);
+	this.banditFlashGroup.addChild(new Flash(this, this.red));
+	this.red.flash = this.banditFlashGroup.members[0];
+	if(this.numPlayers == 2){
+		this.banditFlashGroup.addChild(new Flash(this, this.blue));
+		this.blue.flash = this.banditFlashGroup.members[1];
+	}
 
 	this.game.input.keyboard.onKeyDown.add(this.onKeyDownCallback, this);
 	this.debugKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.I);
@@ -747,6 +754,7 @@ gameState.createLevel = function(){
 	this.addChild(this.potionGroup);
 	this.addChild(this.ghoulGroup);
 	this.addChild(this.banditGroup);
+	this.addChild(this.banditFlashGroup);
 
 	//this.addChild(this.ghouliath);
 
@@ -2325,7 +2333,7 @@ gameState.update = function(){
 			}
 
 			if(this.debugKey.isDown){
-				this.turbo.fireBullet();
+				this.game.switchToState('creditsState');
 			}
 		
 			if(this.mouse.isDown){
