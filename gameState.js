@@ -358,7 +358,7 @@ gameState.create = function(){
 	this.coinSound.addMarker('start',0,1,false);
 	this.gunSound = new Kiwi.Sound.Audio(this.game, 'gunSound', 0.1, false);
 	this.gunSound.addMarker('start',0,1,false);
-	this.shotgunSound = new Kiwi.Sound.Audio(this.game, 'shotgunSound', 0.1, false);
+	this.shotgunSound = new Kiwi.Sound.Audio(this.game, 'shotgunSound', 0.05, false);
 	this.shotgunSound.addMarker('start',0,3,false);
 
 	this.blockReappearSound = new Kiwi.Sound.Audio(this.game, 'blockReappearSound',0.3,false);
@@ -419,8 +419,10 @@ gameState.create = function(){
 	this.voicesSound.addMarker('yaaahhh',39.0008,40.5682, false);
 	this.voicesSound.addMarker('yeehaw',40.5682, 42.6057, false);
 
-	this.musicSound = new Kiwi.Sound.Audio(this.game, 'musicSound', 0.2, true);
+	this.musicSound1 = new Kiwi.Sound.Audio(this.game, 'musicSound1', 0.2, true);
 	this.musicSound2 = new Kiwi.Sound.Audio(this.game, 'musicSound2', 0.2, true);
+	this.musicSound3 = new Kiwi.Sound.Audio(this.game, 'musicSound3', 0.7, true);
+	this.musicSoundList = [this.musicSound1, this.musicSound2, this.musicSound3];
 
 	this.beginningLevelVoices = ['critters','dontTread','killAllThemGhouls','westBest'];
 
@@ -819,7 +821,7 @@ gameState.createLevel = function(){
 	}
 	
 	if(this.currentLevel < 20){
-		this.currentMusic = this.musicSound;
+		this.currentMusic = this.musicSoundList[this.currentLevel % 3];
 	}else{
 		this.currentMusic = this.bossMusicSound;
 	}
