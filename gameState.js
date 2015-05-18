@@ -1945,6 +1945,11 @@ gameState.showStageCoachAndHorses = function(){
 		this.blueHorse.x = -1000;
 	}
 	this.stageCoach.x = -500;
+	if(this.currentLevel > 20){
+		this.stageCoach.animation.play('turbo');
+	}else{
+		this.stageCoach.animation.play('move');
+	}
 	if(this.soundOptions.soundsOn){
 		this.wagonSound.play('start', true);
 		this.horseGallopSound.play('start', true);

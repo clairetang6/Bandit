@@ -663,6 +663,7 @@ var StageCoach = function(state, x, y){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['stagecoach'], x, y, false);
 	this.state = state;
 	this.animation.add('move',[0,1,2,3,4,5,6,7],0.07,true);
+	this.animation.add('turbo',[8,9,10,11,12,13,14,15],0.07, true);
 }
 Kiwi.extend(StageCoach, Kiwi.GameObjects.Sprite);
 
