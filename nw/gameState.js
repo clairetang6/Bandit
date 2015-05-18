@@ -193,6 +193,8 @@ gameState.create = function(){
 		this.bonusTweens.push(this.game.tweens.create(bonusBlue));
 	}
 
+	this.destroyingNow = false;
+
 	this.digitGroup = new Kiwi.Group(this);
 	this.timerDigitGroup = new Kiwi.Group(this);
 	this.bombIconGroup = new Kiwi.Group(this);
@@ -330,6 +332,13 @@ gameState.create = function(){
 		}
 	}
 
+	this.banditFlashGroup = new Kiwi.Group(this);
+	this.banditFlashGroup.addChild(new Flash(this, this.red));
+	this.red.flash = this.banditFlashGroup.members[0];
+	if(this.numPlayers == 2){
+		this.banditFlashGroup.addChild(new Flash(this, this.blue));
+		this.blue.flash = this.banditFlashGroup.members[1];
+	}
 
 	this.game.input.keyboard.onKeyDown.add(this.onKeyDownCallback, this);
 	this.debugKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.I);
@@ -506,6 +515,8 @@ gameState.createLevel = function(){
 		this.removeAllGamepadSignals();
 		this.addGamepadSignalsGame();
 	}
+	
+	this.destroyingNow = false;
 
 	var blockArrays = this.parseBlocks('level_tilemap'+this.currentLevel);
 	this.permBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
@@ -747,6 +758,7 @@ gameState.createLevel = function(){
 	this.addChild(this.potionGroup);
 	this.addChild(this.ghoulGroup);
 	this.addChild(this.banditGroup);
+	this.addChild(this.banditFlashGroup);
 
 	//this.addChild(this.ghouliath);
 
@@ -802,8 +814,18 @@ gameState.createLevel = function(){
 	this.timer = this.game.time.clock.createTimer('levelOver',2,0,false);
 	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.levelOver,this);
 
+	if(this.currentLevel > 19){
+		this.bossMusicSound = new Kiwi.Sound.Audio(this.game, 'bossMusicSound', 0.2, true);
+	}
+	
+	if(this.currentLevel < 20){
+		this.currentMusic = this.musicSound;
+	}else{
+		this.currentMusic = this.bossMusicSound;
+	}
+
 	if(this.soundOptions.musicOn){
-		this.musicSound.play();
+		this.currentMusic.play();
 	}
 	
 	this.gameTimeSeconds = 0;
@@ -1550,7 +1572,7 @@ gameState.showCutScene = function(){
 	this.destroyEverything(false);
 
 	if(this.soundOptions.musicOn){
-		this.musicSound.stop();
+		this.currentMusic.stop();
 	}
 
 	var members = this.banditGroup.members;
@@ -1959,6 +1981,7 @@ gameState.moveBanditsOffscreen = function(){
 }
 
 gameState.destroyEverything = function(removeBackground){
+	this.destroyingNow = true;
 	this.destroyAllMembersOfGroup('ghoul');
 	this.destroyAllMembersOfGroup('coin');
 	this.destroyAllMembersOfGroup('potion');
@@ -2045,9 +2068,15 @@ gameState.isGameOver = function(){
 	}
 	if(this.gameIsOver){
 		if(this.soundOptions.musicOn){
-			this.musicSound.stop();
+			this.currentMusic.stop();
 		}
 		this.addChild(this.loseScreen);
+		this.pauseAllTimers();
+		if(this.game.gamepads){
+			this.removeAllGamepadSignals();
+			this.addGamepadSignalsGameOver();
+		}
+		//this.destroyEverything(false);
 	}
 }
 
@@ -2325,13 +2354,13 @@ gameState.update = function(){
 			}
 
 			if(this.debugKey.isDown){
-				this.turbo.fireBullet();
+				this.game.switchToState('creditsState');
 			}
 		
 			if(this.mouse.isDown){
 				if(this.gameIsOver){
 					if(this.mouse.isDown){
-						this.levelOver(true);
+						this.levelOver(false);
 						this.game.input.mouse.reset();
 					}						
 				}
@@ -2415,6 +2444,13 @@ gameState.addGamepadSignalsGame = function(){
 	}	
 }
 
+gameState.addGamepadSignalsGameOver = function(){
+	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringGameOver, this);
+	if(this.numPlayers == 2){
+		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringGameOver, this);
+	}	
+}
+
 gameState.addGamepadSignalsMenu = function(){
 	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringMenu, this);
 	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringMenu, this);
@@ -2426,7 +2462,7 @@ gameState.addGamepadSignalsMenu = function(){
 
 gameState.addGamepadSignalsBetweenScreen = function(){
 	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringBetweenScreen, this);
-	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringBetweenScreen, this);
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringBetweenScreen, this);	
 	if(this.numPlayers == 2){
 		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringBetweenScreen, this);
 		this.game.gamepads.gamepads[1].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringBetweenScreen, this);
@@ -2531,6 +2567,10 @@ gameState.backwardMenuIcon = function(){
 	}
 	this.selectedIcon = this.menuGroup.members[this.availableMenuIconsIndex];
 	this.menuGroup.members[this.availableMenuIconsIndex].playHover();	
+}
+
+gameState.buttonOnUpDuringGameOver = function(button){
+	this.levelOver(false);
 }
 
 gameState.buttonOnUpDuringMenu = function (button){

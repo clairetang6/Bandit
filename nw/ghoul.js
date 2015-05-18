@@ -260,7 +260,7 @@ Ghouliath.prototype.addToOccupiedBy = function(){
 
 Ghouliath.prototype.destroy = function(immediate){
 	this.resumeHiddenBlocks();
-	if(this.state.soundOptions.soundsOn){
+	if(this.state.soundOptions.soundsOn && this.state.destroyingNow === false){
 		this.state.bombSound.play('start', true);	
 	}	
 	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);

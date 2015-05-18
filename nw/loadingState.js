@@ -9,16 +9,19 @@ loadingState.preload = function(){
 	this.addImage('controls','assets/controls_1.png');
 	this.addImage('controlsGamepad','assets/controls_1gamepad.png');
 
-	this.addImage('cloud1','assets/clouds/cloud_1.png');
-	this.addImage('cloud2','assets/clouds/cloud_2.png');
-	this.addImage('cloud3','assets/clouds/cloud_2b.png');
-	this.addImage('cloud4','assets/clouds/cloud_3b.png');
+	this.addImage('cloud1','assets/clouds/cloud_0.png');
+	this.addImage('cloud2','assets/clouds/cloud_1.png');
+	this.addImage('cloud3','assets/clouds/cloud_2.png');
+	this.addImage('cloud4','assets/clouds/cloud_3.png');
 	this.addImage('cloud5','assets/clouds/cloud_4.png');
-	this.addImage('cloud6','assets/clouds/cloud_wispy_6.png');
-	this.addImage('cloud7','assets/clouds/cloud_wispy_3.png');
-	this.addImage('cloud8','assets/clouds/cloud_wispy_7.png');
-	this.addImage('cloud9','assets/clouds/clouds_2.png');
-	this.addImage('cloud10','assets/clouds/clouds_3.png');
+	this.addImage('cloud6','assets/clouds/cloud_5.png');
+	this.addImage('cloud7','assets/clouds/cloud_6.png');
+	this.addImage('cloud8','assets/clouds/cloud_7.png');
+	this.addImage('cloud9','assets/clouds/cloud_8.png');
+	this.addImage('cloud10','assets/clouds/cloud_9.png');
+	
+	this.addImage('blueFlash', 'assets/bandit_blue_flash.png');
+	this.addImage('redFlash', 'assets/bandit_red_flash.png');
 
 	this.addAudio('bombSound','sounds/bombExplosion.wav');
 	this.addAudio('coinSound','sounds/coin.wav');
@@ -30,6 +33,7 @@ loadingState.preload = function(){
 	this.addAudio('voicesSound','sounds/bandit_voices.wav');
 	this.addAudio('musicSound','sounds/level1.ogg');
 	this.addAudio('musicSound2', 'sounds/level_4.ogg');
+	this.addAudio('bossMusicSound', 'sounds/level_bandit_boss_3.ogg');
 
 	this.addAudio('ghoulTeleportOutSound','sounds/ghoul_teleport.wav');
 	this.addAudio('ghoulTeleportInSound','sounds/ghoul_teleport_in.wav');
