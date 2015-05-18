@@ -944,7 +944,7 @@ KingGhoul.prototype.laugh = function(){
 }
 
 var Bullet = function(state){
-	this.yPixels = [5, 255, 505];	
+	this.yPixels = [5, 255+20, 505+20];	
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['bullet'], 720, this.yPixels[0], false);
 	this.state = state;
 
@@ -954,6 +954,9 @@ var Bullet = function(state){
 	this.directions = [-1, 1, -1];
 	this.row = 0; 
 	this.exploding = false;
+	
+	//x offset, y offset, width, height.
+	this.box.hitbox = new Kiwi.Geom.Rectangle(10, 20, 30, 35);
 
 	this.timer = this.state.game.time.clock.createTimer('explodeTimerBullet', 0.2, 0, false);
 	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.destroy, this);
