@@ -193,6 +193,8 @@ gameState.create = function(){
 		this.bonusTweens.push(this.game.tweens.create(bonusBlue));
 	}
 
+	this.destroyingNow = false;
+
 	this.digitGroup = new Kiwi.Group(this);
 	this.timerDigitGroup = new Kiwi.Group(this);
 	this.bombIconGroup = new Kiwi.Group(this);
@@ -513,6 +515,8 @@ gameState.createLevel = function(){
 		this.removeAllGamepadSignals();
 		this.addGamepadSignalsGame();
 	}
+	
+	this.destroyingNow = false;
 
 	var blockArrays = this.parseBlocks('level_tilemap'+this.currentLevel);
 	this.permBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
@@ -1977,6 +1981,7 @@ gameState.moveBanditsOffscreen = function(){
 }
 
 gameState.destroyEverything = function(removeBackground){
+	this.destroyingNow = true;
 	this.destroyAllMembersOfGroup('ghoul');
 	this.destroyAllMembersOfGroup('coin');
 	this.destroyAllMembersOfGroup('potion');
@@ -2066,6 +2071,12 @@ gameState.isGameOver = function(){
 			this.currentMusic.stop();
 		}
 		this.addChild(this.loseScreen);
+		this.pauseAllTimers();
+		if(this.game.gamepads){
+			this.removeAllGamepadSignals();
+			this.addGamepadSignalsGameOver();
+		}
+		//this.destroyEverything(false);
 	}
 }
 
@@ -2349,7 +2360,7 @@ gameState.update = function(){
 			if(this.mouse.isDown){
 				if(this.gameIsOver){
 					if(this.mouse.isDown){
-						this.levelOver(true);
+						this.levelOver(false);
 						this.game.input.mouse.reset();
 					}						
 				}
@@ -2433,6 +2444,13 @@ gameState.addGamepadSignalsGame = function(){
 	}	
 }
 
+gameState.addGamepadSignalsGameOver = function(){
+	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringGameOver, this);
+	if(this.numPlayers == 2){
+		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringGameOver, this);
+	}	
+}
+
 gameState.addGamepadSignalsMenu = function(){
 	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringMenu, this);
 	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringMenu, this);
@@ -2444,7 +2462,7 @@ gameState.addGamepadSignalsMenu = function(){
 
 gameState.addGamepadSignalsBetweenScreen = function(){
 	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringBetweenScreen, this);
-	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringBetweenScreen, this);
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringBetweenScreen, this);	
 	if(this.numPlayers == 2){
 		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringBetweenScreen, this);
 		this.game.gamepads.gamepads[1].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringBetweenScreen, this);
@@ -2549,6 +2567,10 @@ gameState.backwardMenuIcon = function(){
 	}
 	this.selectedIcon = this.menuGroup.members[this.availableMenuIconsIndex];
 	this.menuGroup.members[this.availableMenuIconsIndex].playHover();	
+}
+
+gameState.buttonOnUpDuringGameOver = function(button){
+	this.levelOver(false);
 }
 
 gameState.buttonOnUpDuringMenu = function (button){
