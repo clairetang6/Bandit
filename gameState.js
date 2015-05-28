@@ -976,6 +976,12 @@ gameState.onKeyDownCallback = function(keyCode){
 			}
 		}		
 	}
+	
+	if(this.gameIsOver){
+		if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+			this.levelOver(false);		
+		}		
+	}
 }
 
 gameState.checkCollisions = function(){
@@ -2084,6 +2090,10 @@ gameState.isGameOver = function(){
 			this.addGamepadSignalsGameOver();
 		}
 		//this.destroyEverything(false);
+		this.showingLevelScreen = true;
+		this.iconsDuringCutScene();
+		this.iconsDuringLevelScreen();
+		this.moveBanditsOffscreen();
 	}
 }
 
@@ -2343,6 +2353,13 @@ gameState.update = function(){
 	if(this.isPaused == false){
 		Kiwi.State.prototype.update.call(this);
 
+		if(this.gameIsOver){
+			if(this.mouse.isDown){
+				this.levelOver(false);
+				this.game.input.mouse.reset();
+			}						
+		}
+
 		if(this.showingLevelScreen == false){
 			this.checkCollisions();
 			this.isLevelOver();
@@ -2365,12 +2382,6 @@ gameState.update = function(){
 			}
 		
 			if(this.mouse.isDown){
-				if(this.gameIsOver){
-					if(this.mouse.isDown){
-						this.levelOver(false);
-						this.game.input.mouse.reset();
-					}						
-				}
 				if(this.mouse.y > this.bps*this.GRID_ROWS && this.mouse.x < 20){
 					this.levelOver(true);
 					this.game.input.mouse.reset();
