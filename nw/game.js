@@ -1,7 +1,8 @@
 var gameOptions = {debug: Kiwi.DEBUG_ON, 
     plugins: ["Fullscreen", "Gamepad", "SaveGame", "Primitives"],
     width: 1024,
-    height: 768}
+    height: 768,
+    scaleType: Kiwi.Stage.SCALE_FIT}
 
 var myGame = new Kiwi.Game('game','Bandit',null, gameOptions);
 

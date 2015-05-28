@@ -1084,6 +1084,11 @@ var Kiwi;
         Stage.prototype._scaleContainer = function () {
             if (this._game.deviceTargetOption == Kiwi.TARGET_BROWSER) {
                 var clientWidth = this.container.clientWidth;
+                
+                var windowWidth = window.innerWidth;
+                var windowHeight = window.innerHeight;
+                var widthToSet = windowHeight / this._height * this._width;
+                
                 this.container.style.width = String(this._width + "px");
                 this.container.style.height = String(this._height + "px");
                 if (this._scaleType == Kiwi.Stage.SCALE_NONE) {
@@ -1091,9 +1096,14 @@ var Kiwi;
                     this.container.style.minWidth = "";
                 }
                 //To Fit or STRETCH 
-                if (this._scaleType == Kiwi.Stage.SCALE_STRETCH || this._scaleType == Kiwi.Stage.SCALE_FIT) {
+                if (this._scaleType == Kiwi.Stage.SCALE_STRETCH) {
                     this.container.style.minWidth = "100%";
                     this.container.style.maxWidth = "100%";
+                }
+                
+                if( this._scaleType == Kiwi.Stage.SCALE_FIT){
+                    this.container.style.minWidth = String(widthToSet/ windowWidth * 100 -2) + "%";
+                    this.container.style.maxWidth = String(widthToSet/ windowWidth * 100 -2) + "%";           
                 }
                 //If scale stretched then scale the containers height to 100% of its parents.
                 if (this._scaleType == Kiwi.Stage.SCALE_STRETCH) {
