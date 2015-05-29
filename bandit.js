@@ -1217,6 +1217,7 @@ MenuIcon.prototype.switchToTitleState = function(){
 MenuIcon.prototype.restartLevel = function(){
 	this.state.destroyEverything(false);
 	this.state.moveBanditsOffscreen();
+	this.state.iconsDuringLevelScreen();
 	this.state.levelOver(false);
 	this.state.resumeGame();
 }
@@ -1314,10 +1315,12 @@ TitleIcon.prototype.playHover = function(){
 }
 
 TitleIcon.prototype.removeAllHovers = function(){
-	var icons = this.parent.members;
-	for(var i = 0; i < icons.length; i++){
-		if(icons[i].animation.currentAnimation.name == 'hover'){
-			icons[i].playOff();
+	if(this.parent.objType() != "State"){
+		var icons = this.parent.members;
+		for(var i = 0; i < icons.length; i++){
+			if(icons[i].animation.currentAnimation.name == 'hover'){
+				icons[i].playOff();
+			}
 		}
 	}	
 }

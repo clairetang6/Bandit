@@ -1783,6 +1783,7 @@ gameState.tweenOutCurtains = function(onCompleteCallback){
 
 gameState.restartLevel = function(){
 	this.destroyEverything(false);
+	this.iconsDuringLevelScreen();
 	this.levelOver(false);
 }
 
@@ -1987,14 +1988,15 @@ gameState.onLevelScreenInComplete = function(){
 }
 
 gameState.iconsDuringCutScene = function(){
-	this.menuArrow.visible = false;
+	this.alphaBoxGroup.visible = true;
 	this.bigDigitGroup.visible = true;
 	this.betweenScreenGroup.visible = true;
+
+	this.cloudGroup.visible = false;
+	this.menuArrow.visible = false;
 	this.digitGroup.visible = false;
 	this.timerDigitGroup.visible = false;
-	this.bombIconGroup.visible = false;
-	this.alphaBoxGroup.visible = true;
-	this.cloudGroup.visible = false;
+	this.bombIconGroup.visible = false;	
 	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
 		this.ghoulKillCountGroup[i].visible = false;
 	}
@@ -2005,15 +2007,20 @@ gameState.iconsDuringCutScene = function(){
 }
 
 gameState.iconsDuringLevelScreen = function(){
-	this.cloudGroup.visible = false;
 	this.alphaBoxGroup.visible = false;
+	this.bigDigitGroup.visible = false;
+	this.betweenScreenGroup.visible = false;
+
+	this.iconGroup.visible = false;
+
+	this.cloudGroup.visible = false;
 	this.menuArrow.visible = false;	
 	this.digitGroup.visible = false;
 	this.timerDigitGroup.visible = false;
 	this.bombIconGroup.visible = false;	
-	this.bigDigitGroup.visible = false;
-	this.betweenScreenGroup.visible = false;
-	this.iconGroup.visible = false;
+	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
+		this.ghoulKillCountGroup[i].visible = false;
+	}	
 	this.redHeartsGroup.visible = false;
 	if(this.numPlayers == 2){
 		this.blueHeartsGroup.visible = false;
@@ -2021,16 +2028,17 @@ gameState.iconsDuringLevelScreen = function(){
 }
 
 gameState.iconsNotDuringCutscene = function(){
+	this.alphaBoxGroup.visible = false;
+	this.bigDigitGroup.visible = false;
+	this.betweenScreenGroup.visible = false;	
+	this.iconGroup.visible = false;
+	this.iconGroup.active = false;
+
 	this.cloudGroup.visible = true;
 	this.menuArrow.visible = true;
 	this.digitGroup.visible = true;
 	this.timerDigitGroup.visible = true;
 	this.bombIconGroup.visible = true;
-	this.bigDigitGroup.visible = false;
-	this.betweenScreenGroup.visible = false;	
-	this.iconGroup.visible = false;
-	this.iconGroup.active = false;
-	this.alphaBoxGroup.visible = false;
 	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
 		this.ghoulKillCountGroup[i].visible = true;
 	}
