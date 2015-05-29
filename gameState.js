@@ -122,7 +122,6 @@ gameState.create = function(){
 
 	this.availableBetweenScreenMenuIcons = [0,1,2];
 	this.availableBetweenScreenMenuIconsIndex = 0;
-	this.selectedBetweenScreenIcon = this.playIcon;
 
 	this.bigDigitGroup = new Kiwi.Group(this);
 	this.SCORE_LEVEL_YPOS = this.TIME_YPOS+ this.BETWEEN_SCREEN_SPACING +9; 
@@ -844,6 +843,9 @@ gameState.createLevel = function(){
 
 	this.resumeGame();
 
+	this.selectedBetweenScreenIcon = this.playIcon;
+
+	this.showingBetweenScreenIcons = false;
 	this.showingLevelScreen = false;
 	this.showingTutorial = false;
 	this.showingPressUp = false;
@@ -1002,18 +1004,38 @@ gameState.onKeyDownCallback = function(keyCode){
 	if(keyCode == Kiwi.Input.Keycodes.U){
 		this.logAllTimers();
 	}
-	if(keyCode == Kiwi.Input.Keycodes.P){
-		if(!this.isPaused){
-			this.openMenu();
-			this.availableMenuIconsIndex = 0;
-			this.selectedIcon = this.menuGroup.members[this.availableMenuIconsIndex];
-			this.menuGroup.members[this.availableMenuIconsIndex].playHover();
-		}else{
-			if(this.selectedIcon){
-				this.selectedIcon.playOff();
+
+	if(this.quitButtonGroup.active == false){
+		if(keyCode == Kiwi.Input.Keycodes.P){
+			if(!this.isPaused){
+				this.openMenu();
+				this.availableMenuIconsIndex = 0;
+				this.selectedIcon = this.menuGroup.members[this.availableMenuIconsIndex];
+				this.menuGroup.members[this.availableMenuIconsIndex].playHover();
+			}else{
+				if(this.selectedIcon){
+					this.selectedIcon.playOff();
+				}
+				this.closeMenu();
 			}
-			this.closeMenu();
 		}
+
+
+		if(this.showingLevelScreen){
+			if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+				if(this.selectedBetweenScreenIcon){
+					this.selectedBetweenScreenIcon.mouseClicked();
+				}
+			}
+			if(this.showingBetweenScreenIcons){
+				if(keyCode == Kiwi.Input.Keycodes.LEFT || keyCode == Kiwi.Input.Keycodes.A){
+					this.backwardBetweenScreenMenuIcon();
+				}else if(keyCode == Kiwi.Input.Keycodes.RIGHT || keyCode == Kiwi.Input.Keycodes.D){
+					this.forwardBetweenScreenMenuIcon();
+				}
+			}			
+		}
+
 	}
 
 	if(this.isPaused){
@@ -1569,8 +1591,8 @@ gameState.getBlastedBlockPosition = function(gridPosition, facing){
 }
 
 gameState.levelOver = function(showCutScene){
+	//default is showing cutscene. Pass false to level over at end of game.
 	showCutScene = typeof showCutScene !== 'undefined' ? showCutScene : true;
-	console.log(showCutScene + ' show showCutScene');
 	if(this.gameIsOver){
 		this.destroyEverything(true);
 		this.gameTimer.pause();
@@ -1587,6 +1609,7 @@ gameState.levelOver = function(showCutScene){
 			if(showCutScene){
 				this.showingLevelScreen = true;	
 				this.background2Tween.start();
+				//when the background2Tween finishes, this.showCutScene() is called
 			}else{
 				this.showLevelScreen();
 			}
@@ -1653,6 +1676,7 @@ gameState.getTotalScores = function(){
 
 gameState.showCutScene = function(){
 	this.destroyEverything(false);
+	this.iconsDuringCutScene();
 
 	if(this.soundOptions.musicOn){
 		this.currentMusic.stop();
@@ -1663,7 +1687,6 @@ gameState.showCutScene = function(){
 		members[i].totalCoinsCollected += members[i].coinsCollected;
 	}
 
-	this.iconsDuringCutScene();
 	var totalPoints = this.addPointCounters();	
 	for(var i =0; i<members.length; i++){
 		members[i].totalCoinsCollected = totalPoints[i];		
@@ -1707,8 +1730,6 @@ gameState.showCutScene = function(){
 	this.moveBanditsOffscreen();
 	this.tweenInCurtains();
 	this.showStageCoachAndHorses();
-
-
 
 	this.showIconsTimer = this.game.time.clock.createTimer('showIconsTimer',7,0,false);
 	this.showIconsTimerEvent = this.showIconsTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.addIcons,this);
@@ -1778,6 +1799,7 @@ gameState.switchToState = function(stateName){
 }
 
 gameState.addIcons = function(){
+	this.showingBetweenScreenIcons = true;
 	this.iconGroup.active = true;
 	this.iconGroup.visible = true;
 	for(var i = 0; i < this.iconGroup.members.length; i++){
@@ -2048,6 +2070,7 @@ gameState.playHorseGallopSound2 = function(){
 }
 
 gameState.stopCutScene = function(){
+	this.showingBetweenScreenIcons = false;
 	this.showIconsTimer.removeTimerEvent(this.showIconsTimerEvent);
 	this.bigCoinTimer.removeTimerEvent(this.bigCoinTimerEvent);
 	try{
