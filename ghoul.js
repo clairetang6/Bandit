@@ -967,6 +967,12 @@ Bullet.prototype.objType = function(){
 	return 'Bullet';
 }
 
+Bullet.prototype.singleBlockDeath = function(speed){
+	if(speed == 'fast'){
+		this.explode();
+	}
+}
+
 Bullet.prototype.explode = function(){
 	this.exploding = true;
 	this.animation.play('explode');
