@@ -1306,13 +1306,15 @@ Kiwi.extend(TitleIcon, MenuIcon);
 
 TitleIcon.prototype.playHover = function(){
 	this.removeAllHovers();
-	this.state.changeSelectedMenuIconByType(this.type);
+	if(this.state.name != "gameState"){
+		this.state.changeSelectedMenuIconByType(this.type);
+	}
 	this.alpha = 1;
 	this.animation.play('hover');
 }
 
 TitleIcon.prototype.removeAllHovers = function(){
-	var icons = this.group.members;
+	var icons = this.parent.members;
 	for(var i = 0; i < icons.length; i++){
 		if(icons[i].animation.currentAnimation.name == 'hover'){
 			icons[i].playOff();

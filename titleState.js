@@ -49,6 +49,7 @@ titleState.create = function(){
 	this.addChild(this.background);
 	this.addChild(this.controlsScreen);
 	
+	this.game.setUpQuitDialog.call(this);
 	this.game.addQuitDialog.call(this);
 
 	this.random = new Kiwi.Utils.RandomDataGenerator();

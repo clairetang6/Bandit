@@ -10,8 +10,9 @@ myGame.levelsUnlocked = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 myGame.soundOptions = {soundsOn: true, musicOn: true};  
 myGame.inputOptions = {gamepad: false};
 
-myGame.addQuitDialog = function(){
+myGame.setUpQuitDialog = function(){
 	this.quitDialog = new Kiwi.GameObjects.StaticImage(this, this.textures['quitDialog'], 0, -500);
+	this.quitDialog.name = 'menu';
 	this.quitDialog.x = this.game.stage.width/2-this.quitDialog.width/2;
 	this.quitTween = this.game.tweens.create(this.quitDialog);   
 	this.quitButtonGroup = new Kiwi.Group(this);
@@ -20,9 +21,15 @@ myGame.addQuitDialog = function(){
 	this.quitButtonGroup.addChild(this.yesButton);
 	this.quitButtonGroup.addChild(this.noButton);
 	this.quitButtonGroup.y = -500;
+	this.quitButtonGroup.active = false;
 	this.quitTween2 = this.game.tweens.create(this.quitButtonGroup);    
+	this.quitIndex = 0;   
+	this.selectedQuitIcon = this.quitButtonGroup.members[this.quitIndex];
+}
+
+myGame.addQuitDialog = function(){
     this.addChild(this.quitDialog);
-	this.addChild(this.quitButtonGroup);    
+	this.addChild(this.quitButtonGroup); 	
 }
 
 myGame.titleStateShowQuitDialog = function(){
