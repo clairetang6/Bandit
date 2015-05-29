@@ -829,8 +829,9 @@ gameState.createLevel = function(){
 		this.currentMusic = this.bossMusicSound;
 	}
 
-	if(this.soundOptions.musicOn){
-		this.currentMusic.play();
+	this.currentMusic.play();
+	if(!this.soundOptions.musicOn){
+		this.currentMusic.pause();
 	}
 	
 	this.gameTimeSeconds = 0;
