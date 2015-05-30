@@ -26,6 +26,17 @@ creditsState.preload = function(){
 
 creditsState.create = function(){
 	Kiwi.State.prototype.create.call(this);
+	
+	this.mouse = this.game.input.mouse;
+	this.game.input.keyboard.onKeyDown.add(this.onKeyDownCallback, this);
+	if(this.game.gamepads){
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce, this);
+		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce, this);
+		this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp, this);			
+	}
+	this.debounce = 0;
+	
+	this.game.setUpQuitDialog.call(this);
 
 	this.parallaxBackground = new Kiwi.GameObjects.StaticImage(this, this.textures['parallaxBackground'],0,0);
 	
@@ -88,6 +99,11 @@ creditsState.create = function(){
 	this.horseGallopSound.addMarker('start', 0, 8, false);
 	this.horseGallopSound2 = new Kiwi.Sound.Audio(this.game, 'horseGallopSound', 1, false);
 	this.horseGallopSound2.addMarker('start', 0, 8, false);
+	
+	var fadeOutParams = {state: this, width: this.game.stage.width, height: this.game.stage.height, x: 0, y: 0, color: [0,0,0]};
+	this.blackBox = new Kiwi.Plugins.Primitives.Rectangle(fadeOutParams);
+	this.blackBox.alpha = 0;
+	this.blackBoxTween = this.game.tweens.create(this.blackBox);
 
 	this.addChild(this.parallaxBackground);
 	this.addChild(this.cloudGroup2);
@@ -103,6 +119,10 @@ creditsState.create = function(){
 	this.addChild(this.parallaxGrass);
 	this.addChild(this.parallaxGrass2);
 	this.addChild(this.cloudGroup);
+	
+	this.addChild(this.blackBox);
+	
+	this.game.addQuitDialog.call(this);
 
 	this.grassIndex = 0;
 	this.mountainIndex = 0;
@@ -116,28 +136,72 @@ creditsState.create = function(){
 	
 	this.random = new Kiwi.Utils.RandomDataGenerator();
 	this.showingNameClouds = true;
+	this.isPaused = false;
+}
+
+creditsState.fadeOut = function(){
+	this.blackBoxTween.onComplete(function(){this.game.states.switchState('titleState')}, this);
+	this.blackBoxTween.to({alpha: 1}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+}
+
+creditsState.showQuitDialog = function(){
+	this.isPaused = true;
+	this.quitButtonGroup.active = true;
+	this.selectedQuitIcon.playHover();
+
+	this.quitTween.to({y: 300}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+	this.quitTween2.to({y: 300}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);    
+	
+}
+
+creditsState.closeQuitDialog = function(){
+	this.isPaused = false;
+	this.quitButtonGroup.active = false;
+	
+	this.quitTween.to({y: -500}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	
+	this.quitTween2.to({y: -500}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	
+}
+
+creditsState.quitGame = function(){
+	this.game.quitGame.call(this);
+}
+
+creditsState.forwardQuitIcon = function(){
+	this.quitButtonGroup.members[this.quitIndex].playOff();
+	if(this.quitIndex == 0){
+		this.quitIndex = 1;
+	}else{
+		this.quitIndex = 0;
+	}
+	this.selectedQuitIcon = this.quitButtonGroup.members[this.quitIndex];
+	this.selectedQuitIcon.playHover();
 }
 
 creditsState.update = function(){
-	Kiwi.State.prototype.update.call(this);
-
-	this.parallaxMountain.x -= this.mountainSpeed;
-	this.parallaxMountain2.x -= this.mountainSpeed;
-	this.parallaxMesa.x -= this.mesaSpeed;
-	this.parallaxMesa2.x -= this.mesaSpeed;
-	this.parallaxGrass.x -= this.grassSpeed;
-	this.parallaxGrass2.x -= this.grassSpeed;
-	this.hills.x -= this.hillsSpeed;
-	this.hills2.x -= this.hillsSpeed;
+	if(this.isPaused == false){
+		Kiwi.State.prototype.update.call(this);
+		this.parallaxMountain.x -= this.mountainSpeed;
+		this.parallaxMountain2.x -= this.mountainSpeed;
+		this.parallaxMesa.x -= this.mesaSpeed;
+		this.parallaxMesa2.x -= this.mesaSpeed;
+		this.parallaxGrass.x -= this.grassSpeed;
+		this.parallaxGrass2.x -= this.grassSpeed;
+		this.hills.x -= this.hillsSpeed;
+		this.hills2.x -= this.hillsSpeed;
+		
+		if(this.showingNameClouds){
+			this.updateCloud();
+		}
 	
-	if(this.showingNameClouds){
-		this.updateCloud();
+		this.hillsIndex = this.updateParallax(this.hills, this.hills2, this.hillsIndex);
+		this.mesaIndex = this.updateParallax(this.parallaxMesa, this.parallaxMesa2, this.mesaIndex);
+		this.mountainIndex = this.updateParallax(this.parallaxMountain, this.parallaxMountain2, this.mountainIndex);
+		this.grassIndex = this.updateParallax(this.parallaxGrass, this.parallaxGrass2, this.grassIndex);
+	}else{
+		Kiwi.Group.prototype.update.call(this.quitButtonGroup);
 	}
-
-	this.hillsIndex = this.updateParallax(this.hills, this.hills2, this.hillsIndex);
-	this.mesaIndex = this.updateParallax(this.parallaxMesa, this.parallaxMesa2, this.mesaIndex);
-	this.mountainIndex = this.updateParallax(this.parallaxMountain, this.parallaxMountain2, this.mountainIndex);
-	this.grassIndex = this.updateParallax(this.parallaxGrass, this.parallaxGrass2, this.grassIndex);
+	
+	this.checkController();
 }
 
 creditsState.updateParallax = function(p1, p2, index){
@@ -191,4 +255,122 @@ creditsState.setUpClouds = function(){
 		this.cloudGroup2.members[i].randomXToRight();
 		this.cloudGroup2.members[i].randomSpeedAndY();
 	}
+}
+
+creditsState.onKeyDownCallback = function(keyCode){
+	if(keyCode == Kiwi.Input.Keycodes.ESC){
+		if(this.quitButtonGroup.active){
+			this.quitGame();
+		}else{
+			this.showQuitDialog();
+		}
+	}else if(keyCode == Kiwi.Input.Keycodes.LEFT | keyCode == Kiwi.Input.Keycodes.RIGHT){
+		if(this.quitButtonGroup.active){
+			this.forwardQuitIcon();
+		}
+	}else if(keyCode == Kiwi.Input.Keycodes.ENTER | keyCode == Kiwi.Input.Keycodes.SPACEBAR){
+		if(this.quitButtonGroup.active){
+			this.selectedQuitIcon.mouseClicked();
+		}else{
+			this.fadeOut();
+		}
+	}else{
+		if(this.quitButtonGroup.active == false){
+			this.fadeOut();
+		}
+	}
+}
+
+creditsState.buttonOnDownOnce = function(button){
+	switch( button.name ){
+		case "XBOX_A":
+		case "XBOX_B":
+		case "XBOX_X":
+		case "XBOX_Y":
+		case "XBOX_START":
+			if(this.quitButtonGroup.active){
+				this.selectedQuitIcon.playDown();	
+			}else{
+				this.fadeOut();
+			}
+			break;			
+		case "XBOX_BACK":
+			if(this.quitButtonGroup.active){
+				this.closeQuitDialog();
+			}else{
+				this.showQuitDialog();
+			}
+			break;
+		default:		
+	}
+}
+
+creditsState.buttonOnUp = function(button){
+	switch( button.name ){
+		case "XBOX_A":
+		case "XBOX_B":
+		case "XBOX_X":
+		case "XBOX_Y":
+		case "XBOX_START":
+			if(this.quitButtonGroup.active){
+				this.selectedQuitIcon.mouseClicked();
+			}
+			break;				
+		case "XBOX_DPAD_LEFT":
+		case "XBOX_DPAD_RIGHT":
+		case "XBOX_DPAD_UP":
+		case "XBOX_DPAD_DOWN":
+			if(this.quitButtonGroup.active){
+				this.forwardQuitIcon();
+			}
+			break;
+		default:		
+	}
+}
+
+creditsState.thumbstickOnDownOnce = function(stick){
+	var updown = this.game.gamepads.gamepads[0].axis1;
+	switch ( stick.name ) {
+		case "XBOX_LEFT_HORZ":
+			if(Math.abs(updown.value)<0.25){
+				this.forwardQuitIcon();
+				this.debounce = 0;
+			}		
+			break;
+	}	
+}
+
+creditsState.checkController = function(){
+	var leftright = this.game.gamepads.gamepads[0].axis0;
+	var updown = this.game.gamepads.gamepads[0].axis1;
+
+	if(leftright.value < -0.5 | leftright.value > 0){
+		if(Math.abs(updown.value) < 0.5){
+			if(this.checkDebounce()){
+				this.forwardQuitIcon();
+				this.debounce = 0;
+			}
+		}
+	}
+}
+
+creditsState.checkDebounce = function(){
+	if(this.debounce == 15){
+		this.debounce = 0;
+		return true;
+	}else{
+		this.debounce++;
+		return false;
+	}
+}
+
+creditsState.removeAllGamepadSignals = function(){
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
+	this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.removeAll();
+}
+
+creditsState.shutDown = function(){
+	this.removeAllGamepadSignals();
+	this.game.input.keyboard.onKeyDown.removeAll();
 }

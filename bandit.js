@@ -1311,7 +1311,7 @@ Kiwi.extend(TitleIcon, MenuIcon);
 
 TitleIcon.prototype.playHover = function(){
 	this.removeAllHovers();
-	if(this.state.name != "gameState"){
+	if(this.state.name == "titleState"){
 		this.state.changeSelectedMenuIconByType(this.type);
 	}
 	this.alpha = 1;
