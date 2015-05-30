@@ -1,3 +1,5 @@
+/// <reference path="kiwi.d.ts"/>
+
 var gameState = new Kiwi.State('gameState');
 
 gameState.preload = function(){

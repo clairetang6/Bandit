@@ -732,6 +732,10 @@ Cloud.prototype.randomX = function(){
 	this.x = this.state.random.integerInRange(0, 800);
 }
 
+Cloud.prototype.randomXToRight = function(){
+	this.x = this.state.random.integerInRange(1200, 3000);
+}
+
 Cloud.prototype.randomScale = function(){
 	//this.scaleX = this.state.random.realInRange(1, 1.5);
 	//this.scaleX = this.state.random.realInRange(1, 1.5);

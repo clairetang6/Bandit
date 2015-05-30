@@ -1,3 +1,5 @@
+/// <reference path="kiwi.d.ts"/>
+
 /**
 *
 * @module Kiwi
