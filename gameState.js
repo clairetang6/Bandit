@@ -3164,4 +3164,7 @@ gameState.shutDown = function(){
 	this.removeAllGamepadSignals();
 	this.game.input.keyboard.onKeyDown.removeAll();
 	this.game.input.keyboard.onKeyUp.removeAll();
+	if(this.currentMusic.isPlaying){
+		this.currentMusic.stop();
+	}
 }
