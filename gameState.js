@@ -2124,6 +2124,24 @@ gameState.stopCutScene = function(){
 	this.flipSound.stop();
 }
 
+gameState.pauseCutSceneSounds = function(){
+	this.horseGallopSound.pause();
+	if(this.numPlayers == 2){
+		this.horseGallopSound2.pause();
+	}
+	this.wagonSound.pause();
+	this.flipSound.pause();	
+}
+
+gameState.resumeCutSceneSounds = function(){
+	this.horseGallopSound.resume();
+	if(this.numPlayers == 2){
+		this.horseGallopSound2.resume();
+	}
+	this.wagonSound.resume();
+	this.flipSound.resume();		
+}
+
 gameState.moveBanditsOffscreen = function(){
 	for(var i = 0; i<this.banditGroup.members.length; i++){
 		this.banditGroup.members[i].x = this.bps * (this.GRID_COLS + 2);
@@ -2548,11 +2566,17 @@ gameState.launchFullscreen = function(){
 
 gameState.pauseGame = function(){
 	this.isPaused = true;
+	if(this.showingLevelScreen){
+		this.pauseCutSceneSounds();
+	}
 	this.pauseAllTimers();
 }
 
 gameState.resumeGame = function(){
 	this.isPaused = false;
+	if(this.showingLevelScreen){
+		this.resumeCutSceneSounds();
+	}
 	this.resumeAllTimers();
 }
 

@@ -29,6 +29,7 @@ creditsState.create = function(){
 	
 	this.mouse = this.game.input.mouse;
 	this.game.input.keyboard.onKeyDown.add(this.onKeyDownCallback, this);
+	this.game.input.keyboard.onKeyUp.add(this.onKeyUpCallback, this);
 	if(this.game.gamepads){
 		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce, this);
 		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce, this);
@@ -270,13 +271,25 @@ creditsState.onKeyDownCallback = function(keyCode){
 		}
 	}else if(keyCode == Kiwi.Input.Keycodes.ENTER | keyCode == Kiwi.Input.Keycodes.SPACEBAR){
 		if(this.quitButtonGroup.active){
-			this.selectedQuitIcon.mouseClicked();
+			if(this.selectedQuitIcon){
+				this.selectedQuitIcon.playDown();
+			}
 		}else{
 			this.fadeOut();
 		}
 	}else{
 		if(this.quitButtonGroup.active == false){
 			this.fadeOut();
+		}
+	}
+}
+
+creditsState.onKeyUpCallback = function(keyCode){
+	if(this.quitButtonGroup.active){
+		if(keyCode == Kiwi.Input.Keycodes.ENTER | keyCode == Kiwi.Input.Keycodes.SPACEBAR){
+			if(this.selectedQuitIcon){
+				this.selectedQuitIcon.mouseClicked();	
+			}
 		}
 	}
 }
@@ -373,4 +386,5 @@ creditsState.removeAllGamepadSignals = function(){
 creditsState.shutDown = function(){
 	this.removeAllGamepadSignals();
 	this.game.input.keyboard.onKeyDown.removeAll();
+	this.game.input.keyboard.onKeyUp.removeAll();
 }
