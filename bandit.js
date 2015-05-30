@@ -1054,9 +1054,18 @@ Icon.prototype.mouseClicked = function(){
 Icon.prototype.playHover = function(){
 	MenuIcon.prototype.playHover.call(this);
 	this.alpha = 1;
-	if(this.type != 'play'){
-		this.state.playIcon.playOff();
+	switch(this.type){
+		case 'home':
+			this.state.availableBetweenScreenMenuIconsIndex = 1;
+			break;
+		case 'restart':
+			this.state.availableBetweenScreenMenuIconsIndex = 2;
+			break;
+		case 'play':
+			this.state.availableBetweenScreenMenuIconsIndex = 0;
+			break;
 	}
+	this.state.selectedBetweenScreenIcon = this.state.iconGroup.members[this.state.availableBetweenScreenMenuIconsIndex];
 }
 
 Icon.prototype.playOff = function(){
@@ -1228,24 +1237,39 @@ MenuIcon.prototype.restartLevel = function(){
 
 MenuIcon.prototype.playHover = function(){
 	this.alpha = 1; 
-	if(this.type == 'sound'){
-		if(this.state.soundOptions.soundsOn){
-			this.animation.play('hoveron');
-		}else{
-			this.animation.play('hoveroff');
-		}
-	}else if (this.type == 'music'){
-		if(this.state.soundOptions.musicOn){
-			this.animation.play('hoveron');
-		}else{
-			this.animation.play('hoveroff');
-		}
-	}else if (this.type == 'backLevelSelection'){
+	if (this.type == 'backLevelSelection'){
 		LevelSelectionIcon.prototype.removeAllHovers.call(this);
 		this.state.changeSelectedIconByLevel(this.state.availableIcons.length + 1); //so that selected icon is the back button
 		this.animation.play('hover');
 	}else{
-		this.animation.play('hover');
+		TitleIcon.prototype.removeAllHovers.call(this);		
+		if(this.type == 'sound'){
+			if(this.state.soundOptions.soundsOn){
+				this.animation.play('hoveron');
+			}else{
+				this.animation.play('hoveroff');
+			}
+			this.state.availableMenuIconsIndex = 0;
+			this.state.selectedIcon = this.state.menuGroup.members[this.state.availableMenuIconsIndex];
+		}else if (this.type == 'music'){
+			if(this.state.soundOptions.musicOn){
+				this.animation.play('hoveron');
+			}else{
+				this.animation.play('hoveroff');
+			}
+			this.state.availableMenuIconsIndex = 1;
+			this.state.selectedIcon = this.state.menuGroup.members[this.state.availableMenuIconsIndex];
+		}else if(this.type == 'restart'){
+			this.animation.play('hover');
+			this.state.availableMenuIconsIndex = 2;
+			this.state.selectedIcon = this.state.menuGroup.members[this.state.availableMenuIconsIndex];
+		}else if(this.type == 'home'){
+			this.animation.play('hover');
+			this.state.availableMenuIconsIndex = 3;
+			this.state.selectedIcon = this.state.menuGroup.members[this.state.availableMenuIconsIndex];
+		}else{
+			this.animation.play('hover');
+		}
 	}
 }
 
@@ -1322,7 +1346,7 @@ TitleIcon.prototype.removeAllHovers = function(){
 	if(this.parent.objType() != "State"){
 		var icons = this.parent.members;
 		for(var i = 0; i < icons.length; i++){
-			if(icons[i].animation.currentAnimation.name == 'hover'){
+			if(icons[i].animation.currentAnimation.name.substring(0,5) == 'hover'){
 				icons[i].playOff();
 			}
 		}
