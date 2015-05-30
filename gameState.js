@@ -750,8 +750,6 @@ gameState.createLevel = function(){
 	this.addChild(this.background);
 	this.resetClouds();
 	this.addChild(this.cloudGroup);
-	this.addChild(this.blackSide1);
-	this.addChild(this.blackSide2);
 		
 	this.addChild(this.tilemap.layers[0]);
 	this.addChild(this.cracksGroup);	
@@ -764,6 +762,9 @@ gameState.createLevel = function(){
 	this.addChild(this.ghoulGroup);
 	this.addChild(this.banditGroup);
 	this.addChild(this.banditFlashGroup);
+	
+	this.addChild(this.blackSide1);
+	this.addChild(this.blackSide2);
 
 	//this.addChild(this.ghouliath);
 
