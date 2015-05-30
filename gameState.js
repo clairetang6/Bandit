@@ -342,6 +342,7 @@ gameState.create = function(){
 	}
 
 	this.game.input.keyboard.onKeyDown.add(this.onKeyDownCallback, this);
+	this.game.input.keyboard.onKeyUp.add(this.onKeyUpCallback, this);
 	this.debugKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.I);
 
 	this.coinGroup = new Kiwi.Group(this);
@@ -1028,7 +1029,7 @@ gameState.onKeyDownCallback = function(keyCode){
 		if(this.showingLevelScreen){
 			if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
 				if(this.selectedBetweenScreenIcon){
-					this.selectedBetweenScreenIcon.mouseClicked();
+					this.selectedBetweenScreenIcon.playDown();
 				}
 			}
 			if(this.showingBetweenScreenIcons){
@@ -1056,7 +1057,7 @@ gameState.onKeyDownCallback = function(keyCode){
 				this.forwardQuitIcon();
 			}else if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
 				if(this.selectedQuitIcon){
-					this.selectedQuitIcon.mouseClicked();
+					this.selectedQuitIcon.playDown();
 				}
 			}			
 		}else{
@@ -1067,7 +1068,7 @@ gameState.onKeyDownCallback = function(keyCode){
 				this.forwardMenuIcon();
 			}else if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
 				if(this.selectedIcon){
-					this.selectedIcon.mouseClicked();
+					this.selectedIcon.playDown();
 				}
 			}else if(keyCode == Kiwi.Input.Keycodes.ESC){
 				if(this.selectedIcon){
@@ -1081,6 +1082,32 @@ gameState.onKeyDownCallback = function(keyCode){
 	if(this.gameIsOver){
 		if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
 			this.levelOver(false);		
+		}		
+	}
+}
+
+gameState.onKeyUpCallback = function(keyCode){
+	if(this.quitButtonGroup.active == false){
+		//if not in quit dialog, either paused, in game, or showing level screen.
+		if(this.isPaused){
+			if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+				if(this.selectedIcon){
+					this.selectedIcon.mouseClicked();
+				}
+			}
+		}else if(this.showingLevelScreen){
+			if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+				if(this.selectedBetweenScreenIcon){
+					this.selectedBetweenScreenIcon.mouseClicked();
+				}
+			}			
+		}
+	}else{
+		//in quit dialog
+		if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+			if(this.selectedQuitIcon){
+					this.selectedQuitIcon.mouseClicked();
+			}
 		}		
 	}
 }
@@ -3112,4 +3139,5 @@ gameState.shutDown = function(){
 	}
 	this.removeAllGamepadSignals();
 	this.game.input.keyboard.onKeyDown.removeAll();
+	this.game.input.keyboard.onKeyUp.removeAll();
 }

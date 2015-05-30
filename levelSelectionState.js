@@ -18,6 +18,7 @@ levelSelectionState.create = function(){
 	
 	this.mouse = this.game.input.mouse;
 	this.game.input.keyboard.onKeyDown.add(this.onPress, this);
+	this.game.input.keyboard.onKeyUp.add(this.onKeyUpCallback, this);
 
 	if(this.game.saveManager.localStorage.exists('levelsData')){
 		this.game.levelsData = this.game.saveManager.localStorage.getData('levelsData');
@@ -103,15 +104,21 @@ levelSelectionState.onPress = function(keyCode){
 	}else if(keyCode == Kiwi.Input.Keycodes.TAB){
 		this.changeSelectedIconByTab();
 	}else if(keyCode == Kiwi.Input.Keycodes.ENTER || keyCode == Kiwi.Input.Keycodes.SPACEBAR){
-		if(this.selectedIcon.number){
-			this.startGame(this.selectedIcon.number);
-		}else{
-			this.selectedIcon.mouseClicked();
-		}
+		this.selectedIcon.playDown();
 	}else if(keyCode == Kiwi.Input.Keycodes.I){
 		console.log(this.selectedIcon.type + ' row:' + this.selectedIconRow + ' col:' + this.selectedIconCol);
 
 	}
+}
+
+levelSelectionState.onKeyUpCallback = function(keyCode){
+	if(keyCode == Kiwi.Input.Keycodes.ENTER || keyCode == Kiwi.Input.Keycodes.SPACEBAR){
+		if(this.selectedIcon.number){
+			this.selectedIcon.startStartLevelTimer();
+		}else{
+			this.selectedIcon.mouseClicked();
+		}
+	}	
 }
 
 levelSelectionState.createLevelsData = function(){
@@ -455,4 +462,5 @@ levelSelectionState.shutDown = function(){
 	this.removeAllGamepadSignals();
 	this.selectedIcon = null;
 	this.game.input.keyboard.onKeyDown.removeAll();
+	this.game.input.keyboard.onKeyUp.removeAll();
 }

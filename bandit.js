@@ -1073,6 +1073,10 @@ Icon.prototype.playOff = function(){
 	this.alpha = 0.3;
 }
 
+Icon.prototype.playDown = function(){
+	MenuIcon.prototype.playDown.call(this);
+}
+
 var MenuIcon = function(state, x, y, type){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['menu'], x, y, true);
 

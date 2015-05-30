@@ -137,6 +137,7 @@ titleState.finishAddingToSreen = function(){
 
 	this.backgroundTween.onComplete(null, null);
 	this.game.input.keyboard.onKeyDown.add(this.onPressTitle, this);
+	this.game.input.keyboard.onKeyUp.add(this.onKeyUpCallback, this);
 }
 
 titleState.addGamepadSignalsTitle = function(){
@@ -431,7 +432,7 @@ titleState.onPressTitle = function(keyCode){
 	}else if(keyCode == Kiwi.Input.Keycodes.TAB){
 		this.changeSelectedMenuIcon(this.getIncreasedIndex());
 	}else if(keyCode == Kiwi.Input.Keycodes.ENTER || keyCode == Kiwi.Input.Keycodes.SPACEBAR){
-		this.selectedMenuIcon.mouseClicked();
+		this.selectedMenuIcon.playDown();
 	}else if(keyCode == Kiwi.Input.Keycodes.I){
 
 	}else if(keyCode == Kiwi.Input.Keycodes.Q){
@@ -441,12 +442,20 @@ titleState.onPressTitle = function(keyCode){
 	}	
 }
 
+titleState.onKeyUpCallback = function(keyCode){
+	if(keyCode == Kiwi.Input.Keycodes.ENTER || keyCode == Kiwi.Input.Keycodes.SPACEBAR){
+		if(this.selectedMenuIcon){
+			this.selectedMenuIcon.mouseClicked();
+		}
+	}	
+}
+
 titleState.onPressControls = function(keyCode){
 	if(keyCode == Kiwi.Input.Keycodes.LEFT || keyCode == Kiwi.Input.Keycodes.RIGHT || keyCode == Kiwi.Input.Keycodes.UP || keyCode == Kiwi.Input.Keycodes.DOWN){
 		this.selectedMenuIcon.animation.play('hover');
 		this.selectedMenuIcon.alpha = 1;
 	}else if(keyCode == Kiwi.Input.Keycodes.ENTER || keyCode == Kiwi.Input.Keycodes.SPACEBAR){
-		this.selectedMenuIcon.mouseClicked();
+		this.selectedMenuIcon.playDown();
 	}else if(keyCode == Kiwi.Input.Keycodes.I){
 		console.log(this.selectedMenuIcon);
 	}
@@ -464,4 +473,5 @@ titleState.shutDown = function(){
 	this.removeAllGamepadSignals();
 	this.selectedMenuIcon = null;
 	this.game.input.keyboard.onKeyDown.removeAll();
+	this.game.input.keyboard.onKeyUp.removeAll();
 }
