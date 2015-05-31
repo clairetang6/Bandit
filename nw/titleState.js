@@ -6,41 +6,15 @@ titleState.preload = function(){
 }
 
 titleState.showQuitDialog = function(){
-	this.buttonGroup.active = false;
-	this.quitButtonGroup.active = true;
-	this.selectedMenuIconIndex = 0;
-	this.group = this.quitButtonGroup;
-	this.changeSelectedMenuIcon(0);
-
-	if(this.game.gamepads){
-		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.removeAll();
-		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce2, this);
-	}
-
-	this.quitTween.to({y: 300}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
-	this.quitTween2.to({y: 300}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
-
+	this.game.titleStateShowQuitDialog.call(this);
 }
 
 titleState.closeQuitDialog = function(){
-	this.buttonGroup.active = true;
-	this.quitButtonGroup.active = false;
-	this.selectedMenuIconIndex = 0;
-	this.group = this.buttonGroup;
-	this.changeSelectedMenuIcon(0);
-
-	if(this.game.gamepads){
-		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.removeAll();
-		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce, this);
-	}	
-
-	this.quitTween.to({y: -500}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	
-	this.quitTween2.to({y: -500}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	
-
+	this.game.titleStateCloseQuitDialog.call(this);
 }
 
 titleState.quitGame = function(){
-	window.close();
+	this.game.quitGame();
 }
 
 titleState.create = function(){
@@ -53,9 +27,7 @@ titleState.create = function(){
 	myGame.stage.resize(this.STAGE_WIDTH, this.STAGE_HEIGHT);
 
 	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['title'],0,0);
-	this.quitDialog = new Kiwi.GameObjects.StaticImage(this, this.textures['quitDialog'], 0, -500);
-	this.quitDialog.x = this.game.stage.width/2-this.quitDialog.width/2;
-	this.quitTween = this.game.tweens.create(this.quitDialog);
+
 
 	if(this.game.inputOptions.gamepad){
 		this.controlsScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['controlsGamepad'], 1100,0);
@@ -66,15 +38,8 @@ titleState.create = function(){
 	}
 
 	this.buttonGroup = new Kiwi.Group(this);
-	this.quitButtonGroup = new Kiwi.Group(this);
 	this.group = this.buttonGroup;
 
-	this.yesButton = new QuitIcon(this, 340, 90, 'yes');
-	this.noButton = new QuitIcon(this, 530, 90, 'no');
-	this.quitButtonGroup.addChild(this.yesButton);
-	this.quitButtonGroup.addChild(this.noButton);
-	this.quitButtonGroup.y = -500;
-	this.quitTween2 = this.game.tweens.create(this.quitButtonGroup);
 
 	this.playerButton1 = new TitleIcon(this, 270, 1475, '1player');
 	this.playerButton2 = new TitleIcon(this, 270, 1550, '2player');
@@ -83,8 +48,9 @@ titleState.create = function(){
 	this.background.alpha = 0;
 	this.addChild(this.background);
 	this.addChild(this.controlsScreen);
-	this.addChild(this.quitDialog);
-	this.addChild(this.quitButtonGroup);
+	
+	this.game.setUpQuitDialog.call(this);
+	this.game.addQuitDialog.call(this);
 
 	this.random = new Kiwi.Utils.RandomDataGenerator();
 	
@@ -122,6 +88,8 @@ titleState.create = function(){
 				break;
 		}	
 	}
+	
+	this.showingControls = false;
 
 	this.backgroundTween = this.game.tweens.create(this.background);
 	this.backgroundTween.onComplete(this.finishAddingToSreen, this);
@@ -158,9 +126,7 @@ titleState.finishAddingToSreen = function(){
 
 	if(this.game.gamepads){
 		this.game.gamepads.gamepadConnected.add(this.gamepadConnected, this);
-		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce, this);
-		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce, this);
-		this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp, this);
+		this.addGamepadSignalsTitle();
 	}
 
 	this.debounce = 0;
@@ -171,9 +137,30 @@ titleState.finishAddingToSreen = function(){
 
 	this.backgroundTween.onComplete(null, null);
 	this.game.input.keyboard.onKeyDown.add(this.onPressTitle, this);
+	this.game.input.keyboard.onKeyUp.add(this.onKeyUpCallback, this);
+}
+
+titleState.addGamepadSignalsTitle = function(){
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceAButton, this);
+	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpAButton, this);
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceArrowPad, this);
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce, this);
+}
+
+titleState.addGamepadSignalsControls = function(){
+	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpAButton, this);	
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceAButton, this);	
+}
+
+titleState.addGamepadSignalsQuit = function(){
+	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpAButton, this);	
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceAButton, this);
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceArrowPad, this);	
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce2, this);
 }
 
 titleState.showControls = function(){
+	this.showingControls = true;
 	this.controlsTween.to({x: 0}, 500, Kiwi.Animations.Tweens.Easing.Cubic.Out);
 	this.controlsTween.onComplete(this.finishShowingControls, this);
 	this.controlsTween._onCompleteCalled = false;
@@ -183,6 +170,9 @@ titleState.showControls = function(){
 	this.controlsTween.start();
 	this.backgroundTween.start();
 	this.game.input.keyboard.onKeyDown.removeAll();	
+	if(this.game.gamepads){
+		this.removeAllGamepadSignals();
+	}
 }
 
 titleState.finishShowingControls = function(){
@@ -191,6 +181,9 @@ titleState.finishShowingControls = function(){
 	this.controlsTween.onComplete(null, null);
 	this.changeSelectedMenuIcon('back');
 	this.game.input.keyboard.onKeyDown.add(this.onPressControls, this);
+	if(this.game.gamepads){
+		this.addGamepadSignalsControls();
+	}
 }
 
 titleState.hideControls = function(){
@@ -203,14 +196,21 @@ titleState.hideControls = function(){
 	this.controlsTween.start();
 	this.backgroundTween.start();
 	this.game.input.keyboard.onKeyDown.removeAll();	
+	if(this.game.gamepads){
+		this.removeAllGamepadSignals();
+	}
 }
 
 titleState.finishHidingControls = function(){
+	this.showingControls = false;
 	this.buttonGroup.visible = true;
 	this.buttonGroup.active = true;
 	this.controlsTween.onComplete(null, null);
 	this.changeSelectedMenuIcon(0);
 	this.game.input.keyboard.onKeyDown.add(this.onPressTitle, this);
+	if(this.game.gamepads){
+		this.addGamepadSignalsTitle();
+	}
 }
 
 titleState.startGame = function(){
@@ -225,7 +225,9 @@ titleState.startGame = function(){
 
 titleState.update = function(){
 	Kiwi.State.prototype.update.call(this);
-	this.checkController();
+	if(this.showingControls == false){
+		this.checkController();
+	}
 }
 
 titleState.gamepadConnected = function(){
@@ -301,23 +303,13 @@ titleState.getDecreasedIndex = function(){
 	return index;
 }
 
-titleState.buttonOnDownOnce = function(button){
-	switch( button.name ){
-		case "XBOX_A":
-			this.selectedMenuIcon.playDown();
-			break;
-		case "XBOX_B":
-			break;
-		case "XBOX_X":
-			break;
-		case "XBOX_Y":
-
-			break;
+titleState.buttonOnDownOnceArrowPad = function(button){
+	switch(button.name){
 		case "XBOX_DPAD_LEFT":
-
+			this.changeSelectedMenuIcon(this.getDecreasedIndex());
 			break;
 		case "XBOX_DPAD_RIGHT":
-
+			this.changeSelectedMenuIcon(this.getIncreasedIndex());
 			break;
 		case "XBOX_DPAD_UP":
 			this.changeSelectedMenuIcon(this.getDecreasedIndex());
@@ -329,30 +321,26 @@ titleState.buttonOnDownOnce = function(button){
 	}
 }
 
-titleState.buttonOnUp = function(button){
+titleState.buttonOnDownOnceAButton = function(button){
 	switch( button.name ){
 		case "XBOX_A":
-			this.controlsType = 'gamepad';
-			this.selectedMenuIcon.mouseClicked();
+			this.selectedMenuIcon.playDown();
 			break;
 		case "XBOX_B":
 			break;
 		case "XBOX_X":
 			break;
 		case "XBOX_Y":
+			break;
+		case "XBOX_BACK":
+			this.showQuitDialog();
+			break;
+	}
+}
 
-			break;
-		case "XBOX_DPAD_LEFT":
-
-			break;
-		case "XBOX_DPAD_RIGHT":
-
-			break;
-		case "XBOX_DPAD_UP":
-			break;
-		case "XBOX_DPAD_DOWN":
-			break;
-		default:		
+titleState.buttonOnUpAButton = function(button){
+	if(button.name == "XBOX_A"){
+		this.selectedMenuIcon.mouseClicked();
 	}
 }
 
@@ -444,7 +432,7 @@ titleState.onPressTitle = function(keyCode){
 	}else if(keyCode == Kiwi.Input.Keycodes.TAB){
 		this.changeSelectedMenuIcon(this.getIncreasedIndex());
 	}else if(keyCode == Kiwi.Input.Keycodes.ENTER || keyCode == Kiwi.Input.Keycodes.SPACEBAR){
-		this.selectedMenuIcon.mouseClicked();
+		this.selectedMenuIcon.playDown();
 	}else if(keyCode == Kiwi.Input.Keycodes.I){
 
 	}else if(keyCode == Kiwi.Input.Keycodes.Q){
@@ -454,12 +442,20 @@ titleState.onPressTitle = function(keyCode){
 	}	
 }
 
+titleState.onKeyUpCallback = function(keyCode){
+	if(keyCode == Kiwi.Input.Keycodes.ENTER || keyCode == Kiwi.Input.Keycodes.SPACEBAR){
+		if(this.selectedMenuIcon){
+			this.selectedMenuIcon.mouseClicked();
+		}
+	}	
+}
+
 titleState.onPressControls = function(keyCode){
 	if(keyCode == Kiwi.Input.Keycodes.LEFT || keyCode == Kiwi.Input.Keycodes.RIGHT || keyCode == Kiwi.Input.Keycodes.UP || keyCode == Kiwi.Input.Keycodes.DOWN){
 		this.selectedMenuIcon.animation.play('hover');
 		this.selectedMenuIcon.alpha = 1;
 	}else if(keyCode == Kiwi.Input.Keycodes.ENTER || keyCode == Kiwi.Input.Keycodes.SPACEBAR){
-		this.selectedMenuIcon.mouseClicked();
+		this.selectedMenuIcon.playDown();
 	}else if(keyCode == Kiwi.Input.Keycodes.I){
 		console.log(this.selectedMenuIcon);
 	}
@@ -467,8 +463,8 @@ titleState.onPressControls = function(keyCode){
 
 titleState.removeAllGamepadSignals = function(){
 	this.game.gamepads.gamepadConnected.removeAll();
-	this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
 	this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
 	this.game.gamepads.gamepads[0].buttonIsDown.removeAll();
 	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.removeAll();
 }
@@ -477,4 +473,5 @@ titleState.shutDown = function(){
 	this.removeAllGamepadSignals();
 	this.selectedMenuIcon = null;
 	this.game.input.keyboard.onKeyDown.removeAll();
+	this.game.input.keyboard.onKeyUp.removeAll();
 }

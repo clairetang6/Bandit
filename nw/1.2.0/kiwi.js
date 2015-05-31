@@ -1,3 +1,5 @@
+/// <reference path="kiwi.d.ts"/>
+
 /**
 *
 * @module Kiwi
@@ -27386,8 +27388,9 @@ var Kiwi;
                 if (forceRestart === void 0) { forceRestart = false; }
                 if (this.isPlaying && !forceRestart || this._game.audio.noAudio)
                     return;
-                if (forceRestart && !this._pending)
+                if (forceRestart && !this._pending){
                     this.stop();
+                }
                 if (typeof this._markers[marker] == "undefined")
                     return;
                 //If its the current marker that is playing and shouldn't force restart then stop
@@ -27553,6 +27556,8 @@ var Kiwi;
                                 if (this._currentMarker == 'default') {
                                     this._currentTime = 0;
                                     this._startTime = this._game.time.now();
+                                    this.play(this._currentMarker, true);
+    
                                 }
                                 else {
                                     this.play(this._currentMarker, true);

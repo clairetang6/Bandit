@@ -1,3 +1,5 @@
+/// <reference path="kiwi.d.ts"/>
+
 var gameState = new Kiwi.State('gameState');
 
 gameState.preload = function(){
@@ -122,7 +124,6 @@ gameState.create = function(){
 
 	this.availableBetweenScreenMenuIcons = [0,1,2];
 	this.availableBetweenScreenMenuIconsIndex = 0;
-	this.selectedBetweenScreenIcon = this.playIcon;
 
 	this.bigDigitGroup = new Kiwi.Group(this);
 	this.SCORE_LEVEL_YPOS = this.TIME_YPOS+ this.BETWEEN_SCREEN_SPACING +9; 
@@ -341,6 +342,7 @@ gameState.create = function(){
 	}
 
 	this.game.input.keyboard.onKeyDown.add(this.onKeyDownCallback, this);
+	this.game.input.keyboard.onKeyUp.add(this.onKeyUpCallback, this);
 	this.debugKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.I);
 
 	this.coinGroup = new Kiwi.Group(this);
@@ -431,6 +433,8 @@ gameState.create = function(){
 	this.gameTimer.start();
 	this.gameTimer.pause();
 
+	this.game.setUpQuitDialog.call(this);
+	
 	this.pressUpSignLocations = [[515, 650], [515, 650], [165, 650]];
 	this.signGridPositions = [[14, 12], [14, 12], [14, 5]];
 
@@ -747,8 +751,6 @@ gameState.createLevel = function(){
 	this.addChild(this.background);
 	this.resetClouds();
 	this.addChild(this.cloudGroup);
-	this.addChild(this.blackSide1);
-	this.addChild(this.blackSide2);
 		
 	this.addChild(this.tilemap.layers[0]);
 	this.addChild(this.cracksGroup);	
@@ -761,6 +763,9 @@ gameState.createLevel = function(){
 	this.addChild(this.ghoulGroup);
 	this.addChild(this.banditGroup);
 	this.addChild(this.banditFlashGroup);
+	
+	this.addChild(this.blackSide1);
+	this.addChild(this.blackSide2);
 
 	//this.addChild(this.ghouliath);
 
@@ -806,6 +811,8 @@ gameState.createLevel = function(){
 		this.addChild(this.pressUpSign);		
 		this.addChild(this.tutorialSign);
 	}
+	
+	this.game.addQuitDialog.call(this);
 
 	this.rideOutPlayed = false;
 	if(this.soundOptions.soundsOn){
@@ -826,8 +833,9 @@ gameState.createLevel = function(){
 		this.currentMusic = this.bossMusicSound;
 	}
 
-	if(this.soundOptions.musicOn){
-		this.currentMusic.play();
+	this.currentMusic.play();
+	if(!this.soundOptions.musicOn){
+		this.currentMusic.pause();
 	}
 	
 	this.gameTimeSeconds = 0;
@@ -840,9 +848,53 @@ gameState.createLevel = function(){
 
 	this.resumeGame();
 
+	this.selectedBetweenScreenIcon = this.playIcon;
+
+	this.showingBetweenScreenIcons = false;
 	this.showingLevelScreen = false;
 	this.showingTutorial = false;
 	this.showingPressUp = false;
+}
+
+gameState.showQuitDialog = function(){
+	if(this.isPaused == false){
+		this.pauseGame();
+		
+		this.quitButtonGroup.active = true;
+		this.selectedQuitIcon.playHover();
+	
+		if(this.game.gamepads){
+			this.removeAllGamepadSignals();
+			this.addGamepadSignalsQuit();
+		}
+	
+		this.quitTween.to({y: 300}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+		this.quitTween2.to({y: 300}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);  
+	} 
+}
+
+gameState.closeQuitDialog = function(){
+	this.resumeGame();
+	this.quitButtonGroup.active = false;
+
+	if(this.game.gamepads){
+        this.removeAllGamepadSignals();
+		if(this.gameIsOver){
+			this.addGamepadSignalsGameOver();
+		}else if (this.showingLevelScreen){
+			this.addGamepadSignalsBetweenScreen();
+		}else {
+			this.addGamepadSignalsGame();
+		}
+		
+    }	
+
+	this.quitTween.to({y: -500}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	
+	this.quitTween2.to({y: -500}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	  
+}
+
+gameState.quitGame = function(){
+	this.game.quitGame.call(this);
 }
 
 gameState.resetClouds = function(){
@@ -947,32 +999,114 @@ gameState.onKeyDownCallback = function(keyCode){
 		}
 	}
 
+	if(keyCode == Kiwi.Input.Keycodes.ESC){
+		this.showQuitDialog();
+	}
+
 	if(keyCode == Kiwi.Input.Keycodes.T){
 		this.launchFullscreen();
 	}
 	if(keyCode == Kiwi.Input.Keycodes.U){
 		this.logAllTimers();
 	}
-	if(keyCode == Kiwi.Input.Keycodes.P){
-		if(!this.isPaused){
-			this.openMenu();
-			this.availableMenuIconsIndex = 0;
-			this.selectedIcon = this.menuGroup.members[this.availableMenuIconsIndex];
-			this.menuGroup.members[this.availableMenuIconsIndex].playHover();
-		}else{
-			this.selectedIcon.playOff();
-			this.closeMenu();
+
+	if(this.quitButtonGroup.active == false){
+		if(keyCode == Kiwi.Input.Keycodes.P){
+			if(!this.isPaused){
+				this.openMenu();
+				this.availableMenuIconsIndex = 0;
+				this.selectedIcon = this.menuGroup.members[this.availableMenuIconsIndex];
+				this.menuGroup.members[this.availableMenuIconsIndex].playHover();
+			}else{
+				if(this.selectedIcon){
+					this.selectedIcon.playOff();
+				}
+				this.closeMenu();
+			}
 		}
+
+
+		if(this.showingLevelScreen){
+			if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+				if(this.selectedBetweenScreenIcon){
+					this.selectedBetweenScreenIcon.playDown();
+				}
+			}
+			if(this.showingBetweenScreenIcons){
+				if(keyCode == Kiwi.Input.Keycodes.LEFT || keyCode == Kiwi.Input.Keycodes.A){
+					this.backwardBetweenScreenMenuIcon();
+				}else if(keyCode == Kiwi.Input.Keycodes.RIGHT || keyCode == Kiwi.Input.Keycodes.D){
+					this.forwardBetweenScreenMenuIcon();
+				}
+			}			
+		}
+
 	}
 
 	if(this.isPaused){
-		if(keyCode == Kiwi.Input.Keycodes.UP || keyCode == Kiwi.Input.Keycodes.W){
-			this.backwardMenuIcon();
-		}else if(keyCode == Kiwi.Input.Keycodes.DOWN || keyCode == Kiwi.Input.Keycodes.S){
-			this.forwardMenuIcon();
-		}else if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
-			if(this.selectedIcon){
-				this.selectedIcon.mouseClicked();
+		//If paused, then game is either in menu or in quit dialog. 
+
+		if(this.quitButtonGroup.active){
+			if(keyCode == Kiwi.Input.Keycodes.UP || keyCode == Kiwi.Input.Keycodes.W){
+				this.forwardQuitIcon();
+			}else if(keyCode == Kiwi.Input.Keycodes.DOWN || keyCode == Kiwi.Input.Keycodes.S){
+				this.forwardQuitIcon();
+			}else if(keyCode == Kiwi.Input.Keycodes.LEFT || keyCode == Kiwi.Input.Keycodes.A){
+				this.forwardQuitIcon();
+			}else if(keyCode == Kiwi.Input.Keycodes.RIGHT || keyCode == Kiwi.Input.Keycodes.D){
+				this.forwardQuitIcon();
+			}else if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+				if(this.selectedQuitIcon){
+					this.selectedQuitIcon.playDown();
+				}
+			}			
+		}else{
+
+			if(keyCode == Kiwi.Input.Keycodes.UP || keyCode == Kiwi.Input.Keycodes.W){
+				this.backwardMenuIcon();
+			}else if(keyCode == Kiwi.Input.Keycodes.DOWN || keyCode == Kiwi.Input.Keycodes.S){
+				this.forwardMenuIcon();
+			}else if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+				if(this.selectedIcon){
+					this.selectedIcon.playDown();
+				}
+			}else if(keyCode == Kiwi.Input.Keycodes.ESC){
+				if(this.selectedIcon){
+					this.selectedIcon.playOff();
+				}
+				this.closeMenu();			
+			}	
+		}	
+	}
+	
+	if(this.gameIsOver){
+		if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+			this.levelOver(false);		
+		}		
+	}
+}
+
+gameState.onKeyUpCallback = function(keyCode){
+	if(this.quitButtonGroup.active == false){
+		//if not in quit dialog, either paused, in game, or showing level screen.
+		if(this.isPaused){
+			if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+				if(this.selectedIcon){
+					this.selectedIcon.mouseClicked();
+				}
+			}
+		}else if(this.showingLevelScreen){
+			if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+				if(this.selectedBetweenScreenIcon){
+					this.selectedBetweenScreenIcon.mouseClicked();
+				}
+			}			
+		}
+	}else{
+		//in quit dialog
+		if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+			if(this.selectedQuitIcon){
+					this.selectedQuitIcon.mouseClicked();
 			}
 		}		
 	}
@@ -1488,8 +1622,8 @@ gameState.getBlastedBlockPosition = function(gridPosition, facing){
 }
 
 gameState.levelOver = function(showCutScene){
+	//default is showing cutscene. Pass false to level over at end of game.
 	showCutScene = typeof showCutScene !== 'undefined' ? showCutScene : true;
-	console.log(showCutScene + ' show showCutScene');
 	if(this.gameIsOver){
 		this.destroyEverything(true);
 		this.gameTimer.pause();
@@ -1506,6 +1640,7 @@ gameState.levelOver = function(showCutScene){
 			if(showCutScene){
 				this.showingLevelScreen = true;	
 				this.background2Tween.start();
+				//when the background2Tween finishes, this.showCutScene() is called
 			}else{
 				this.showLevelScreen();
 			}
@@ -1572,6 +1707,7 @@ gameState.getTotalScores = function(){
 
 gameState.showCutScene = function(){
 	this.destroyEverything(false);
+	this.iconsDuringCutScene();
 
 	if(this.soundOptions.musicOn){
 		this.currentMusic.stop();
@@ -1582,7 +1718,6 @@ gameState.showCutScene = function(){
 		members[i].totalCoinsCollected += members[i].coinsCollected;
 	}
 
-	this.iconsDuringCutScene();
 	var totalPoints = this.addPointCounters();	
 	for(var i =0; i<members.length; i++){
 		members[i].totalCoinsCollected = totalPoints[i];		
@@ -1626,8 +1761,6 @@ gameState.showCutScene = function(){
 	this.moveBanditsOffscreen();
 	this.tweenInCurtains();
 	this.showStageCoachAndHorses();
-
-
 
 	this.showIconsTimer = this.game.time.clock.createTimer('showIconsTimer',7,0,false);
 	this.showIconsTimerEvent = this.showIconsTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.addIcons,this);
@@ -1681,6 +1814,7 @@ gameState.tweenOutCurtains = function(onCompleteCallback){
 
 gameState.restartLevel = function(){
 	this.destroyEverything(false);
+	this.iconsDuringLevelScreen();
 	this.levelOver(false);
 }
 
@@ -1697,6 +1831,7 @@ gameState.switchToState = function(stateName){
 }
 
 gameState.addIcons = function(){
+	this.showingBetweenScreenIcons = true;
 	this.iconGroup.active = true;
 	this.iconGroup.visible = true;
 	for(var i = 0; i < this.iconGroup.members.length; i++){
@@ -1884,14 +2019,15 @@ gameState.onLevelScreenInComplete = function(){
 }
 
 gameState.iconsDuringCutScene = function(){
-	this.menuArrow.visible = false;
+	this.alphaBoxGroup.visible = true;
 	this.bigDigitGroup.visible = true;
 	this.betweenScreenGroup.visible = true;
+
+	this.cloudGroup.visible = false;
+	this.menuArrow.visible = false;
 	this.digitGroup.visible = false;
 	this.timerDigitGroup.visible = false;
-	this.bombIconGroup.visible = false;
-	this.alphaBoxGroup.visible = true;
-	this.cloudGroup.visible = false;
+	this.bombIconGroup.visible = false;	
 	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
 		this.ghoulKillCountGroup[i].visible = false;
 	}
@@ -1902,15 +2038,20 @@ gameState.iconsDuringCutScene = function(){
 }
 
 gameState.iconsDuringLevelScreen = function(){
-	this.cloudGroup.visible = false;
 	this.alphaBoxGroup.visible = false;
+	this.bigDigitGroup.visible = false;
+	this.betweenScreenGroup.visible = false;
+
+	this.iconGroup.visible = false;
+
+	this.cloudGroup.visible = false;
 	this.menuArrow.visible = false;	
 	this.digitGroup.visible = false;
 	this.timerDigitGroup.visible = false;
 	this.bombIconGroup.visible = false;	
-	this.bigDigitGroup.visible = false;
-	this.betweenScreenGroup.visible = false;
-	this.iconGroup.visible = false;
+	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
+		this.ghoulKillCountGroup[i].visible = false;
+	}	
 	this.redHeartsGroup.visible = false;
 	if(this.numPlayers == 2){
 		this.blueHeartsGroup.visible = false;
@@ -1918,16 +2059,17 @@ gameState.iconsDuringLevelScreen = function(){
 }
 
 gameState.iconsNotDuringCutscene = function(){
+	this.alphaBoxGroup.visible = false;
+	this.bigDigitGroup.visible = false;
+	this.betweenScreenGroup.visible = false;	
+	this.iconGroup.visible = false;
+	this.iconGroup.active = false;
+
 	this.cloudGroup.visible = true;
 	this.menuArrow.visible = true;
 	this.digitGroup.visible = true;
 	this.timerDigitGroup.visible = true;
 	this.bombIconGroup.visible = true;
-	this.bigDigitGroup.visible = false;
-	this.betweenScreenGroup.visible = false;	
-	this.iconGroup.visible = false;
-	this.iconGroup.active = false;
-	this.alphaBoxGroup.visible = false;
 	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
 		this.ghoulKillCountGroup[i].visible = true;
 	}
@@ -1967,6 +2109,7 @@ gameState.playHorseGallopSound2 = function(){
 }
 
 gameState.stopCutScene = function(){
+	this.showingBetweenScreenIcons = false;
 	this.showIconsTimer.removeTimerEvent(this.showIconsTimerEvent);
 	this.bigCoinTimer.removeTimerEvent(this.bigCoinTimerEvent);
 	try{
@@ -1979,6 +2122,24 @@ gameState.stopCutScene = function(){
 	this.horseGallopSound2.stop();
 	this.wagonSound.stop();
 	this.flipSound.stop();
+}
+
+gameState.pauseCutSceneSounds = function(){
+	this.horseGallopSound.pause();
+	if(this.numPlayers == 2){
+		this.horseGallopSound2.pause();
+	}
+	this.wagonSound.pause();
+	this.flipSound.pause();	
+}
+
+gameState.resumeCutSceneSounds = function(){
+	this.horseGallopSound.resume();
+	if(this.numPlayers == 2){
+		this.horseGallopSound2.resume();
+	}
+	this.wagonSound.resume();
+	this.flipSound.resume();		
 }
 
 gameState.moveBanditsOffscreen = function(){
@@ -2084,6 +2245,10 @@ gameState.isGameOver = function(){
 			this.addGamepadSignalsGameOver();
 		}
 		//this.destroyEverything(false);
+		this.showingLevelScreen = true;
+		this.iconsDuringCutScene();
+		this.iconsDuringLevelScreen();
+		this.moveBanditsOffscreen();
 	}
 }
 
@@ -2343,6 +2508,13 @@ gameState.update = function(){
 	if(this.isPaused == false){
 		Kiwi.State.prototype.update.call(this);
 
+		if(this.gameIsOver){
+			if(this.mouse.isDown){
+				this.levelOver(false);
+				this.game.input.mouse.reset();
+			}						
+		}
+
 		if(this.showingLevelScreen == false){
 			this.checkCollisions();
 			this.isLevelOver();
@@ -2365,12 +2537,6 @@ gameState.update = function(){
 			}
 		
 			if(this.mouse.isDown){
-				if(this.gameIsOver){
-					if(this.mouse.isDown){
-						this.levelOver(false);
-						this.game.input.mouse.reset();
-					}						
-				}
 				if(this.mouse.y > this.bps*this.GRID_ROWS && this.mouse.x < 20){
 					this.levelOver(true);
 					this.game.input.mouse.reset();
@@ -2400,11 +2566,17 @@ gameState.launchFullscreen = function(){
 
 gameState.pauseGame = function(){
 	this.isPaused = true;
+	if(this.showingLevelScreen){
+		this.pauseCutSceneSounds();
+	}
 	this.pauseAllTimers();
 }
 
 gameState.resumeGame = function(){
 	this.isPaused = false;
+	if(this.showingLevelScreen){
+		this.resumeCutSceneSounds();
+	}
 	this.resumeAllTimers();
 }
 
@@ -2444,18 +2616,33 @@ gameState.addGamepadSignalsGame = function(){
 	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce0, this);
 	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp0, this);
 	this.game.gamepads.gamepads[0].buttonIsDown.add(this.buttonIsDown0, this)
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);
 	if(this.numPlayers == 2){
 		this.game.gamepads.gamepads[1].buttonOnDownOnce.add(this.buttonOnDownOnce1, this);
 		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUp1, this);
 		this.game.gamepads.gamepads[1].buttonIsDown.add(this.buttonIsDown1, this)
+		this.game.gamepads.gamepads[1].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);
 	}	
 }
 
 gameState.addGamepadSignalsGameOver = function(){
 	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringGameOver, this);
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);	
 	if(this.numPlayers == 2){
 		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringGameOver, this);
+		this.game.gamepads.gamepads[1].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);	
 	}	
+}
+
+gameState.addGamepadSignalsQuit = function(){
+	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringQuit, this);
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceDuringQuit, this);
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringQuit, this);
+	if(this.numPlayers == 2){
+		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringQuit, this);
+		this.game.gamepads.gamepads[1].buttonOnDownOnce.add(this.buttonOnDownOnceDuringQuit, this);
+		this.game.gamepads.gamepads[1].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringQuit, this);
+	}
 }
 
 gameState.addGamepadSignalsMenu = function(){
@@ -2470,9 +2657,11 @@ gameState.addGamepadSignalsMenu = function(){
 gameState.addGamepadSignalsBetweenScreen = function(){
 	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringBetweenScreen, this);
 	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringBetweenScreen, this);	
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);	
 	if(this.numPlayers == 2){
 		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringBetweenScreen, this);
 		this.game.gamepads.gamepads[1].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringBetweenScreen, this);
+		this.game.gamepads.gamepads[1].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);	
 	}
 }
 
@@ -2490,13 +2679,18 @@ gameState.buttonOnUpDuringTutorial = function(){
 	this.closeTutorial();
 }
 
+gameState.buttonOnDownOnceForQuitting = function(button){
+	if(button.name == "XBOX_BACK"){
+		this.showQuitDialog();
+	}
+}
+
 gameState.buttonOnDownOnce0 = function(button){
 	switch ( button.name ) {
 		case "XBOX_A":
 			if(!this.isPaused && !this.showingLevelScreen && this.red.isAlive){
 				this.red.goFire = true;
 				this.gunSound.play('start',true);
-				console.log('gun' + this.red.color);
 				this.red.blastBlock();
 			}
 			break;
@@ -2588,6 +2782,9 @@ gameState.buttonOnUpDuringMenu = function (button){
 			}
 			break;
 		case "XBOX_B":
+			if(this.selectedIcon){
+				this.selectedIcon.playOff();
+			}
 			this.closeMenu();
 			break;
 		case "XBOX_X":
@@ -2595,6 +2792,9 @@ gameState.buttonOnUpDuringMenu = function (button){
 		case "XBOX_Y":
 			break;
 		case "XBOX_START":
+			if(this.selectedIcon){
+				this.selectedIcon.playOff();
+			}
 			this.closeMenu();
 			break;			
 		case "XBOX_DPAD_LEFT":
@@ -2623,6 +2823,44 @@ gameState.thumbstickOnDownOnceDuringMenu = function(stick){
 			break;
 	}	
 }
+
+gameState.forwardQuitIcon = function(){
+	this.quitButtonGroup.members[this.quitIndex].playOff();
+	if(this.quitIndex == 0){
+		this.quitIndex = 1;
+	}else{
+		this.quitIndex = 0;
+	}
+	this.selectedQuitIcon = this.quitButtonGroup.members[this.quitIndex];
+	this.selectedQuitIcon.playHover();
+}
+
+gameState.thumbstickOnDownOnceDuringQuit = function(stick){
+	switch ( stick.name ) {
+		case "XBOX_LEFT_HORZ":
+			this.forwardQuitIcon();
+			break;
+	}	
+}
+
+gameState.buttonOnUpDuringQuit = function(button){
+	switch(button.name){
+		case "XBOX_A":
+			if(this.selectedQuitIcon){
+				this.selectedQuitIcon.mouseClicked();
+			}
+			break;		
+	}	
+}
+
+gameState.buttonOnDownOnceDuringQuit = function(button){
+	if(button.name == "XBOX_A"){
+		if(this.selectedQuitIcon){
+			this.selectedQuitIcon.playDown();
+		}
+	}
+}
+
 
 gameState.forwardBetweenScreenMenuIcon = function(){
 	this.iconGroup.members[this.availableBetweenScreenMenuIconsIndex].playOff();
@@ -2740,7 +2978,6 @@ gameState.buttonOnDownOnce1 = function(button){
 				this.blue.goFire = true;
 				this.gunSound.play('start',true);
 				this.blue.blastBlock();
-				console.log('blue gune')
 			}
 			break;
 		case "XBOX_B":
@@ -2750,8 +2987,6 @@ gameState.buttonOnDownOnce1 = function(button){
 			this.blue.goBomb = true;
 			break;
 		case "XBOX_Y":
-			console.log('trying to launch full screen');
-			this.game.fullscreen.launchFullscreen();
 			break;
 		case "XBOX_DPAD_LEFT":
 			this.blue.goLeft = true;
@@ -2814,10 +3049,11 @@ gameState.buttonOnUp1 = function( button ){
 			this.blue.goBomb = false;
 			break;
 		case "XBOX_START":
-			if(this.isPaused){
-				this.closeMenu();
-			}else{
+			if(!this.isPaused){
 				this.openMenu();
+				this.availableMenuIconsIndex = 0;
+				this.selectedIcon = this.menuGroup.members[this.availableMenuIconsIndex];
+				this.menuGroup.members[this.availableMenuIconsIndex].playHover();
 			}
 			break;			
 		case "XBOX_DPAD_LEFT":
@@ -2927,4 +3163,8 @@ gameState.shutDown = function(){
 	}
 	this.removeAllGamepadSignals();
 	this.game.input.keyboard.onKeyDown.removeAll();
+	this.game.input.keyboard.onKeyUp.removeAll();
+	if(this.currentMusic.isPlaying){
+		this.currentMusic.stop();
+	}
 }
