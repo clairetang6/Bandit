@@ -12,6 +12,17 @@ myGame.levelsUnlocked = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 myGame.soundOptions = {soundsOn: true, musicOn: true};  
 myGame.inputOptions = {gamepad: false};
 
+myGame.banditColors = {RED: 200, BLUE: 405, BLACK: 102, GHOUL_DIGIT: 104,
+	GROUP_GHOUL: 110,
+	GROUP_COIN: 202,
+	GROUP_POTION: 5,
+	GROUP_BOMB: 10,
+	GROUP_HIDDENBLOCK: 23,
+	GROUP_CRACKS: 45,
+	GROUP_BLUEHEARTS: 1,
+	GROUP_REDHEARTS: 2
+};
+
 myGame.setUpQuitDialog = function(){
 	this.quitDialog = new Kiwi.GameObjects.StaticImage(this, this.textures['quitDialog'], 0, -500);
 	this.quitDialog.name = 'menu';

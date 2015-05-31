@@ -132,27 +132,27 @@ gameState.create = function(){
 	if(this.numPlayers == 1){
 		for(var i = 1; i < 6; i++){
 			if(i > 1){
-				var bigDigit = new BigDigit(this, 370+(i*52), this.SCORE_LEVEL_YPOS, 'red', 6-i, 'level');
+				var bigDigit = new BigDigit(this, 370+(i*52), this.SCORE_LEVEL_YPOS, this.game.banditColors.RED, 6-i, 'level');
 				bigDigit.animation.play('cycle');
 				this.bigDigitGroup.addChild(bigDigit);
 			}
-			var bigDigit2 = new BigDigit(this, 370+(i*52), this.SCORE_TOTAL_YPOS, 'red', 6-i, 'total');
+			var bigDigit2 = new BigDigit(this, 370+(i*52), this.SCORE_TOTAL_YPOS, this.game.banditColors.RED, 6-i, 'total');
 			bigDigit2.animation.play('0');
 			this.bigDigitGroup.addChild(bigDigit2);
 			if(i>2){
-				var bigDigit = new BigDigit(this, 370+(i*52), this.MONEY_YPOS+24, 'black', 'money'+(6-i));
+				var bigDigit = new BigDigit(this, 370+(i*52), this.MONEY_YPOS+24, this.game.banditColors.BLACK, 'money'+(6-i));
 				bigDigit.visible = false;
 				this.betweenScreenGroup.addChild(bigDigit);
-				var bigDigit = new BigDigit(this, 370+(i*52), this.DEATH_YPOS+19, 'black', 'death'+(6-i));
+				var bigDigit = new BigDigit(this, 370+(i*52), this.DEATH_YPOS+19, this.game.banditColors.BLACK, 'death'+(6-i));
 				bigDigit.visible = false;
 				this.betweenScreenGroup.addChild(bigDigit);
-				var bigDigit = new BigDigit(this, 370+(i*52), this.TIME_YPOS+14, 'black', 'time'+(6-i));
+				var bigDigit = new BigDigit(this, 370+(i*52), this.TIME_YPOS+14, this.game.banditColors.BLACK, 'time'+(6-i));
 				bigDigit.visible = false;	
 				this.betweenScreenGroup.addChild(bigDigit);							
 			}
 		}			
 	}else{
-		var colors = ['red','blue'];
+		var colors = [this.game.banditColors.RED, this.game.banditColors.BLUE];
 		for (var j = 0; j < 2; j++){
 			for(var i = 1; i < 6; i++){
 				if(i>1){
@@ -164,13 +164,13 @@ gameState.create = function(){
 				bigDigit2.animation.play('0');
 				this.bigDigitGroup.addChild(bigDigit2);			
 				if(i>2){
-					var bigDigit = new BigDigit(this, 120+(i*52)+(j*450), this.MONEY_YPOS+15, 'black', 'money'+(6-i));
+					var bigDigit = new BigDigit(this, 120+(i*52)+(j*450), this.MONEY_YPOS+15, this.game.banditColors.BLACK, 'money'+(6-i));
 					bigDigit.visible = false;
 					this.betweenScreenGroup.addChild(bigDigit);
-					var bigDigit = new BigDigit(this, 120+(i*52)+(j*450), this.DEATH_YPOS+15, 'black', 'death'+(6-i));
+					var bigDigit = new BigDigit(this, 120+(i*52)+(j*450), this.DEATH_YPOS+15, this.game.banditColors.BLACK, 'death'+(6-i));
 					bigDigit.visible = false;
 					this.betweenScreenGroup.addChild(bigDigit);
-					var bigDigit = new BigDigit(this, 120+(i*52)+(j*450), this.TIME_YPOS+15, 'black', 'time'+(6-i));
+					var bigDigit = new BigDigit(this, 120+(i*52)+(j*450), this.TIME_YPOS+15, this.game.banditColors.BLACK, 'time'+(6-i));
 					bigDigit.visible = false;	
 					this.betweenScreenGroup.addChild(bigDigit);	
 				}						
@@ -207,7 +207,7 @@ gameState.create = function(){
 	//skull.animation.play('skull');
 	//this.ghoulKillCountGroup[0].addChild(skull);
 	for(var i = 0; i < 17; i++){
-		var dot = new Digit(this, 118+18*i, -18, 'ghoul', 1);
+		var dot = new Digit(this, 118+18*i, -18, this.game.banditColors.GHOUL_DIGIT, 1);
 		dot.animation.play('dot');
 		this.ghoulKillCountGroup[0].addChild(dot);
 	}		
@@ -217,7 +217,7 @@ gameState.create = function(){
 		//skull.animation.play('skull');
 		//this.ghoulKillCountGroup[1].addChild(skull);	
 		for(var i = 0; i < 17; i++){
-			var dot = new Digit(this, 866-18*i, -18, 'ghoul', 1);
+			var dot = new Digit(this, 866-18*i, -18, this.game.banditColors.GHOUL_DIGIT, 1);
 			dot.animation.play('dot');
 			this.ghoulKillCountGroup[1].addChild(dot);
 		}			
@@ -226,9 +226,9 @@ gameState.create = function(){
 	if(this.numPlayers==1){
 		for (var i = 0; i<4; i++){
 			if(i<2){
-				var digit = new Digit(this, (i*18), -18,'red',i+1);
+				var digit = new Digit(this, (i*18), -18, this.game.banditColors.RED, i+1);
 			}else{
-				var digit = new Digit(this, 6+(i*18), -18,'red',i+1);			
+				var digit = new Digit(this, 6+(i*18), -18, this.game.banditColors.RED, i+1);			
 			}
 			digit.animation.play('0');
 			this.timerDigitGroup.addChild(digit);
@@ -236,23 +236,23 @@ gameState.create = function(){
 	}
 
 	for (var i = 0; i<3; i++){
-		var digit = new Digit(this, 10+(i*18),-18,'red', 3-i);
+		var digit = new Digit(this, 10+(i*18),-18, this.game.banditColors.RED, 3-i);
 		digit.animation.play('0');
 		this.digitGroup.addChild(digit);
 	}
 	for (var i = 0; i<3; i++){
-		var bomb = new Digit(this, 10+((3+i)*18),-18,'red', i+7);
+		var bomb = new Digit(this, 10+((3+i)*18),-18, this.game.banditColors.RED, i+7);
 		bomb.animation.play('bomb');
 		this.bombIconGroup.addChild(bomb);
 	}
 	if(this.numPlayers == 2){
 		for (var i = 0; i<3; i++){
-			var digit = new Digit(this, 938+(i*18),-18,'blue', 3-i);
+			var digit = new Digit(this, 938+(i*18),-18, this.game.banditColors.BLUE, 3-i);
 			digit.animation.play('0');
 			this.digitGroup.addChild(digit);
 		}	
 		for (var i = 0; i<3; i++){
-			var bomb = new Digit(this, 938-(18*(i+1)),-18,'blue', i+7);
+			var bomb = new Digit(this, 938-(18*(i+1)),-18, this.game.banditColors.BLUE, i+7);
 			bomb.animation.play('bomb');
 			this.bombIconGroup.addChild(bomb);
 		}
@@ -311,24 +311,24 @@ gameState.create = function(){
 
 	this.banditGroup = new Kiwi.Group(this);
 
-	this.red = new Bandit(this,-(this.bps),-(this.bps),'red');
+	this.red = new Bandit(this,-(this.bps),-(this.bps), this.game.banditColors.RED);
 	this.red.animation.play('idleleft');
 	this.banditGroup.addChild(this.red);
 	this.redHeartsGroup = new Kiwi.Group(this);
 
 	if(this.numPlayers == 2){
-		this.blue = new Bandit(this,-(this.bps),-(this.bps),'blue');
+		this.blue = new Bandit(this,-(this.bps),-(this.bps), this.game.banditColors.BLUE);
 		this.blue.animation.play('idleleft');
 		this.banditGroup.addChild(this.blue);
 		this.blueHeartsGroup = new Kiwi.Group(this);	
 	}
 
 	for(var i =1; i<=3; i++){
-		var redHeart = new Heart(this, 'red', i);
+		var redHeart = new Heart(this, this.game.banditColors.RED, i);
 		this.redHeartsGroup.addChild(redHeart);
 		
 		if(this.numPlayers == 2){
-			var blueHeart = new Heart(this, 'blue', i);
+			var blueHeart = new Heart(this, this.game.banditColors.BLUE, i);
 			this.blueHeartsGroup.addChild(blueHeart);
 		}
 	}
@@ -441,16 +441,16 @@ gameState.create = function(){
 	this.pointThresholds = [
 	[
 		[100, 600, 750], //  1
-		[100, 400, 740], //
+		[100, 400, 735], //
 		[100, 400, 719], //
-		[100, 400, 800], 
+		[100, 400, 730], 
+		[100, 400, 900], 
+		[100, 400, 750], //  6
+		[100, 400, 780], 
+		[100, 400, 785], 
 		[100, 400, 920], 
-		[100, 400, 800], //  6
-		[100, 400, 800], 
-		[100, 400, 800], 
-		[100, 400, 800], 
-		[100, 400, 800], 
-		[100, 400, 800], //  11
+		[100, 400, 960], 
+		[100, 400, 900], //  11
 		[100, 400, 1000], 
 		[100, 400, 680], 
 		[100, 400, 800], 
@@ -922,10 +922,10 @@ gameState.resetClouds = function(){
 
 gameState.addGhoulKill = function(bandit){
 	switch(bandit){
-		case 'red':
+		case this.game.banditColors.RED:
 			var index = 0;
 			break;
-		case 'blue':
+		case this.game.banditColors.BLUE:
 			var index = 1;
 			break;
 	}		
@@ -1290,11 +1290,11 @@ gameState.checkGhoulCollision = function(){
 
 gameState.showHearts = function(color){
 	switch(color){
-		case 'red':
+		case this.game.banditColors.RED:
 			var heartsGroup = this.redHeartsGroup;
 			var numberOfHearts = this.red.numberOfHearts;
 			break;
-		case 'blue':
+		case this.game.banditColors.BLUE:
 			var heartsGroup = this.blueHeartsGroup;
 			var numberOfHearts = this.blue.numberOfHearts;
 			break;
@@ -2150,12 +2150,12 @@ gameState.moveBanditsOffscreen = function(){
 
 gameState.destroyEverything = function(removeBackground){
 	this.destroyingNow = true;
-	this.destroyAllMembersOfGroup('ghoul');
-	this.destroyAllMembersOfGroup('coin');
-	this.destroyAllMembersOfGroup('potion');
-	this.destroyAllMembersOfGroup('bomb');
-	this.destroyAllMembersOfGroup('hiddenBlock');
-	this.destroyAllMembersOfGroup('cracks');
+	this.destroyAllMembersOfGroup(this.game.banditColors.GROUP_GHOUL);
+	this.destroyAllMembersOfGroup(this.game.banditColors.GROUP_COIN);
+	this.destroyAllMembersOfGroup(this.game.banditColors.GROUP_POTION);
+	this.destroyAllMembersOfGroup(this.game.banditColors.GROUP_BOMB);
+	this.destroyAllMembersOfGroup(this.game.banditColors.GROUP_HIDDENBLOCK);
+	this.destroyAllMembersOfGroup(this.game.banditColors.GROUP_CRACKS);
 	if(removeBackground){
 		this.removeBackgroundImages(false);	
 	}else{
@@ -2181,28 +2181,28 @@ gameState.removeBackgroundImages = function(leaveBackground){
 
 gameState.destroyAllMembersOfGroup = function(group){
 	switch(group){
-		case 'ghoul':
+		case this.game.banditColors.GROUP_GHOUL:
 			var members = this.ghoulGroup.members;
 			break;
-		case 'coin':
+		case this.game.banditColors.GROUP_COIN:
 			var members = this.coinGroup.members;
 			break;
-		case 'bomb':
+		case this.game.banditColors.GROUP_BOMB:
 			var members = this.bombGroup.members;
 			break;
-		case 'hiddenBlock':
+		case this.game.banditColors.GROUP_HIDDENBLOCK:
 			var members = this.hiddenBlockGroup.members;
 			break;
-		case 'cracks':
+		case this.game.banditColors.GROUP_CRACKS:
 			var members = this.cracksGroup.members;	
 			break;
-		case 'potion':
+		case this.game.banditColors.GROUP_POTION:
 			var members = this.potionGroup.members;
 			break;
-		case 'redHearts':
+		case this.game.banditColors.GROUP_REDHEARTS:
 			var members = this.redHeartsGroup.members;
 			break;
-		case 'blueHearts':
+		case this.game.banditColors.GROUP_BLUEHEARTS:
 			var members = this.blueHeartsGroup.members;
 			break;
 	}
@@ -3079,9 +3079,9 @@ gameState.buttonOnUp1 = function( button ){
 
 
 gameState.checkController = function(bandit){
-	if(bandit.color == 'red'){
+	if(bandit.color == this.game.banditColors.RED){
 		var index = 0;
-	}else if(bandit.color =='blue'){
+	}else if(bandit.color == this.game.banditColors.BLUE){
 		var index = 1;
 	}
 	var leftright = this.game.gamepads.gamepads[index].axis0;

@@ -4,7 +4,7 @@ var Bandit = function(state, x, y, color){
 	this.color = color; 
 	this.bombsCollected = 0;
 	this.bombs = [];
-	this.bombClock = this.state.game.time.addClock(color+'BombClock', 250);
+	this.bombClock = this.state.game.time.addClock('BombClock' + color, 250);
 	this.bombClock.start();
 	this.bombIconGroup = this.state.bombIconGroup;
 	this.isAlive = true;
@@ -36,7 +36,7 @@ var Bandit = function(state, x, y, color){
 	this.box.hitbox = new Kiwi.Geom.Rectangle(banditHitboxX, banditHitboxY, this.state.bps-2*banditHitboxX,this.state.bps-2*banditHitboxY);
 
 	switch(color){
-		case 'blue':
+		case this.state.game.banditColors.BLUE:
 			this.animation.add('climb',[53,54],0.1,true);
 			this.animation.add('idleleft',[33],0.1,false);
 			this.animation.add('idleright',[25],0.1,false);
@@ -52,7 +52,7 @@ var Bandit = function(state, x, y, color){
 			this.downKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.S);
 			this.fireKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SHIFT);
 			break;
-		case 'red':
+		case this.state.game.banditColors.RED:
 			this.animation.add('climb',[81,82],0.1,true);
 			this.animation.add('idleleft',[15],0.1,false);
 			this.animation.add('idleright',[0],0.1,false);
@@ -81,10 +81,10 @@ Bandit.prototype.deathCount = function(){
 	if(this.deathCounter < 100){
 		if(this.deathCounter == 1){
 			switch(this.color){
-				case 'red':
+				case this.state.game.banditColors.RED:
 					var heartGroup = this.state.redHeartsGroup;
 					break;
-				case 'blue':
+				case this.state.game.banditColors.BLUE:
 					var heartGroup = this.state.blueHeartsGroup;
 					break;
 			}
@@ -225,7 +225,6 @@ Bandit.prototype.update = function(){
 		}
 		if(this.isAlive){
 		 	if(this.fireKey.isDown || this.goFire){
-		 		console.log('goFiring ' + this.color + ' ' + this.fireKey.isDown);
 				this.animation.play('fire' + this.facing);
 			}
 			else if(this.upKey.isDown || this.goUp){
@@ -336,7 +335,6 @@ Bandit.prototype.gravity = function(southGridPosition){
 Bandit.prototype.placeBomb = function(){
 	if(this.bombsCollected > 0){
 		this.bombClock.start();
-		console.log('start' + this.bombClock.elapsed());
 		var bomb = this.bombs.pop();
 		bomb.x = this.state.getPixelNumberForGridPosition(this.state.getGridPosition(this.x, this.y,'middle'),'west');
 		bomb.y = this.state.getPixelNumberForGridPosition(this.state.getGridPosition(this.x, this.y,'middle'),'north');	
@@ -376,13 +374,20 @@ Bandit.prototype.resetPropertiesAtBeginningOfLevel = function(){
 }
 
 var Flash = function(state, bandit){
-	Kiwi.GameObjects.StaticImage.call(this, state, state.textures[bandit.color+'Flash'], bandit.x, bandit.y);
-	
+	switch(bandit.color){
+		case state.game.banditColors.RED:
+			Kiwi.GameObjects.StaticImage.call(this, state, state.textures['redFlash'], bandit.x, bandit.y);		
+			break;
+		case state.game.banditColors.BLUE:
+			Kiwi.GameObjects.StaticImage.call(this, state, state.textures['blueFlash'], bandit.x, bandit.y);
+			break;		
+	}
+
 	this.state = state;
 	this.bandit = bandit;
 	this.visible = false;
 	
-	this.timer = this.state.game.time.clock.createTimer(this.bandit.color + 'FlashTimer', 0.1 , 1, false);
+	this.timer = this.state.game.time.clock.createTimer('FlashTimer' + this.bandit.color, 0.1 , 1, false);
 	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.disappear, this);
 }
 Kiwi.extend(Flash, Kiwi.GameObjects.StaticImage);
@@ -421,6 +426,7 @@ var HiddenBlock = function(state, x, y){
 	this.tileType = 0;
 	this.tileTypeAboveFront = 0;
 	this.tileTypeAboveBack = 0;
+	this.blastedBy = null;
 
 	this.hiddenBlockTime = 5;
 
@@ -433,10 +439,10 @@ Kiwi.extend(HiddenBlock, Kiwi.GameObjects.Sprite);
 
 HiddenBlock.prototype.hiddenBlockTimer = function(){
 	switch(this.blastedBy){
-		case 'red':
+		case this.state.game.banditColors.RED:
 			var banditToAddGhoulKillTo = this.state.banditGroup.members[0];
 			break;
-		case 'blue':
+		case this.state.game.banditColors.BLUE:
 			var banditToAddGhoulKillTo = this.state.banditGroup.members[1];
 			break;
 	}
@@ -526,23 +532,23 @@ HiddenBlock.prototype.destroy = function(immediate){
 	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
 }
 
-var Heart = function(state, bandit, number){
+var Heart = function(state, color, number){
 	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], 2000, 0, false);
 	this.state = state;
-	this.bandit = bandit;
+	this.color = color;
 	this.number = number;
 	this.timerStarted = false;
 	this.shouldBeGone = false;
 	this.banditX = 2000;
 	this.banditY = 2000;
 
-	switch(this.bandit){
-		case 'red':
+	switch(this.color){
+		case this.state.game.banditColors.RED:
 			this.animation.add('heart', [84], 0.1, false);
 			this.animation.add('blink', [84, 17], 0.2, true);
 			this.animation.play('heart');
 			break;
-		case 'blue':
+		case this.state.game.banditColors.BLUE:
 			this.animation.add('heart', [56], 0.2, false);			
 			this.animation.add('blink', [56, 17], 0.2, true);
 			this.animation.play('heart');
@@ -560,8 +566,8 @@ Heart.prototype.update = function(){
 			if(this.animation.currentAnimation.name != 'heart'){
 				this.animation.play('heart');
 			}
-			switch(this.bandit){
-				case 'red':
+			switch(this.color){
+				case this.state.game.banditColors.RED:
 					if(this.state.red.x != this.banditX || this.state.red.y != this.banditY){
 						if(this.timerStarted == false){
 							this.timer.start();
@@ -569,7 +575,7 @@ Heart.prototype.update = function(){
 						this.timerStarted = true;
 					}
 					break;
-				case 'blue':
+				case this.state.game.banditColors.BLUE:
 					if(this.state.blue.x != this.banditX || this.state.blue.y != this.banditY){
 						if(this.timerStarted == false){
 							this.timer.start();
@@ -591,13 +597,13 @@ Heart.prototype.disappear = function(){
 
 Heart.prototype.showSelf = function(){
 	var banditX = null;
-	switch(this.bandit){
-		case 'red':
+	switch(this.color){
+		case this.state.game.banditColors.RED:
 			banditX = this.state.red.x;
 			this.y = this.state.red.y - 35;
 			break;
 
-		case 'blue':
+		case this.state.game.banditColors.BLUE:
 			banditX = this.state.blue.x;
 			this.y = this.state.blue.y - 35;
 			break;
@@ -750,6 +756,9 @@ var Bomb = function(state, x, y){
 	this.colPlaced = -1;
 
 	this.timerStarted = false; 
+	
+	this.placedBy = null;
+	this.placedByBandit = null;
 
 	this.animation.add('idle',[57],0.1,false);
 	this.animation.add('idleground',[60],0.1,false);
@@ -844,7 +853,7 @@ var Digit = function(state, x, y, color, index){
 	this.originaly = y;
 
 	switch(color){
-		case 'blue':
+		case this.state.game.banditColors.BLUE:
 			this.animation.add('0',[0],0.1,false);
 			this.animation.add('1',[1],0.1,false); 
 			this.animation.add('2',[2],0.1,false);
@@ -857,7 +866,7 @@ var Digit = function(state, x, y, color, index){
 			this.animation.add('9',[9],0.1,false); 	
 			this.animation.add('bomb',[10],0.1,false);											
 			break;
-		case 'red':
+		case this.state.game.banditColors.RED:
 			this.animation.add('0',[11],0.1,false);
 			this.animation.add('1',[12],0.1,false); 
 			this.animation.add('2',[13],0.1,false);
@@ -870,7 +879,7 @@ var Digit = function(state, x, y, color, index){
 			this.animation.add('9',[20],0.1,false); 	
 			this.animation.add('bomb',[10],0.1,false);																									
 			break;
-		case 'ghoul':
+		case this.state.game.banditColors.GHOUL_DIGIT:
 			this.animation.add('skull',[21],0.1,false);
 			this.animation.add('dot',[22],0.1,false);
 			break;
@@ -907,7 +916,7 @@ var BigDigit = function(state, x, y, color, index, type){
 	this.originaly = y;
 
 	switch(color){
-		case 'blue':
+		case this.state.game.banditColors.BLUE:
 			this.animation.add('0',[152],0.1,false);
 			this.animation.add('1',[153],0.1,false); 
 			this.animation.add('2',[154],0.1,false);
@@ -921,7 +930,7 @@ var BigDigit = function(state, x, y, color, index, type){
 			this.animation.add('cycle',[152,153,154,155,156,157,158,159,160,161],0.06,true);
 			this.animation.add('bomb',[10],0.1,false);											
 			break;
-		case 'red':
+		case this.state.game.banditColors.RED:
 			this.animation.add('0',[170],0.1,false);
 			this.animation.add('1',[171],0.1,false); 
 			this.animation.add('2',[172],0.1,false);
@@ -935,7 +944,7 @@ var BigDigit = function(state, x, y, color, index, type){
 			this.animation.add('cycle',[170,171,172,173,174,175,176,177,178,179],0.06,true);	
 			this.animation.add('bomb',[10],0.1,false);																									
 			break;
-		case 'black':
+		case this.state.game.banditColors.BLACK:
 			this.animation.add('0',[188],0.1,false);
 			this.animation.add('1',[189],0.1,false); 
 			this.animation.add('2',[190],0.1,false);
