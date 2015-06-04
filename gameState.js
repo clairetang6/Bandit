@@ -673,6 +673,7 @@ gameState.createLevel = function(){
 	this.red.resetPropertiesAtBeginningOfLevel();
 	this.updateCoinCounter(this.red);
 	this.updateBombCounter(this.red);
+	this.addGhoulKill(this.red.color); //reseting ghoul kill counter.
 	for(var i = 0; i < this.redHeartsGroup.members.length; i++){
 		this.redHeartsGroup.members[i].banditX = this.red.startingPixelLocations[0];
 		this.redHeartsGroup.members[i].banditY = this.red.startingPixelLocations[1];
@@ -685,6 +686,7 @@ gameState.createLevel = function(){
 		this.blue.resetPropertiesAtBeginningOfLevel();
 		this.updateCoinCounter(this.blue);
 		this.updateBombCounter(this.blue);
+		this.addGhoulKill(this.blue.color); //reseting ghoul kill counter.
 		for(var i = 0; i < this.blueHeartsGroup.members.length; i++){
 			this.blueHeartsGroup.members[i].banditX = this.blue.startingPixelLocations[0];
 			this.blueHeartsGroup.members[i].banditY = this.blue.startingPixelLocations[1];	
