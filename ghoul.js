@@ -242,19 +242,33 @@ Ghouliath.prototype.checkClimbOut = function(){
 					this.resumeBlocksTimer.start();
 				}
 			}
+		}else{
+			if(this.state.onBlockType(this.state.groundBlocks, checkEmptyBlock1)){
+				if(this.fallen){
+					this.animation.play('die');
+					this.facing = 'die';
+					this.addToOccupiedBy();
+				}
+			}
 		}
 	}
 }
 
 Ghouliath.prototype.addToOccupiedBy = function(){
+	var addedToHiddenBlock = false;
 	var gridPosition = this.state.getGridPosition(this.x, this.y);
 	for(var i = 0; i < this.state.hiddenBlockGroup.members.length; i++){
 		var hiddenBlock = this.state.hiddenBlockGroup.members[i];
 		if(hiddenBlock.row == gridPosition[0] || hiddenBlock.row == gridPosition[0]+1){
 			if(hiddenBlock.col == gridPosition[1] || hiddenBlock.col == gridPosition[1]+1){
 				hiddenBlock.occupiedBy.push(this);
+				addedToHiddenBlock = true;
 			}
 		}
+	}
+	if(!addedToHiddenBlock){
+		this.animation.play('explode');
+		this.explodeTimer.start();
 	}
 }
 
@@ -262,7 +276,8 @@ Ghouliath.prototype.destroy = function(immediate){
 	this.resumeHiddenBlocks();
 	if(this.state.soundOptions.soundsOn && this.state.destroyingNow === false){
 		this.state.bombSound.play('start', true);	
-	}	
+	}
+	this.explodeTimer.removeTimerEvent(this.explodeTimerEvent);
 	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
 }
 
@@ -276,10 +291,10 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 	this.shouldFall = false;
 	this.isInHole = false;
 	this.isInHiddenBlock = false;
-	this.testvar = 0;
 	this.state = state;
 	this.shouldCheckDirection = true;
 	this.ghoulType = ghoulType;
+	this.bombed = false;
 
 	var ghoulHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
 	var ghoulHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);	
@@ -329,7 +344,7 @@ var Ghoul = function(state, x, y, facing, ghoulType){
 			this.animation.add('upright',[144],0.1,false);
 			this.animation.add('dieright',[144,139],0.1,true);
 			this.animation.add('dieleft',[134,128],0.1,true);
-			this.animation.add('diestaticright',[144],0.1,false);
+			this.animation.add('diestaticright',[139],0.1,false);
 			this.animation.add('diestaticleft',[134],0.1,false);			
 			this.animation.add('climb',[127,138],0.1,true);
 			this.animation.add('disappear',[129,130,131,132,133],0.1,false);
@@ -356,16 +371,6 @@ Ghoul.prototype.objType = function(){
 
 Ghoul.prototype.update = function(){
 	Kiwi.GameObjects.Sprite.prototype.update.call(this);
-	if(this.facing == 'left'){
-		var gridPosition = this.state.getGridPosition(this.x, this.y, 'east');
- 	    var topGridPosition = this.state.getGridPosition(this.x, this.y+15, 'north');
-	}else if(this.facing == 'right'){
-		var gridPosition = this.state.getGridPosition(this.x, this.y, 'west');
-  	  	var topGridPosition = this.state.getGridPosition(this.x, this.y+15, 'north');
-	}else{
-		var gridPosition = this.state.getGridPosition(this.x, this.y, 'center');
-		var topGridPosition = this.state.getGridPosition(this.x, this.y+15, 'north');
-	}
 
 	//If the ghoul is in a hole, play the die animation, otherwise
 	//do everything else. 
@@ -381,6 +386,13 @@ Ghoul.prototype.update = function(){
 			//below makes ghouls change facing as they fall. 
 			//and dictates their facing after landing onto the ground
 			if(!(this.y>this.state.bps*(this.state.GRID_ROWS-1))){
+				if(this.facing == 'left'){
+					var gridPosition = this.state.getGridPosition(this.x, this.y, 'east');
+				}else if(this.facing == 'right'){
+					var gridPosition = this.state.getGridPosition(this.x, this.y, 'west');
+				}else{
+					var gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
+				}
 				var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];
 				switch(this.facing){
 					case 'left':
@@ -397,11 +409,9 @@ Ghoul.prototype.update = function(){
 						break;
 				}
 			}
-		}
-
-		if(!this.shouldFall){
+		}else{
 			if(this.facing == 'left' || this.facing == 'right'){
-				this.checkForHiddenBlock(gridPosition, topGridPosition);
+				this.checkForHiddenBlock();
 			}
 			if(this.shouldCheckDirection){
 				//checkDirection sets the facing.
@@ -438,10 +448,23 @@ Ghoul.prototype.update = function(){
 	}
 }
 
-Ghoul.prototype.checkForHiddenBlock = function(gridPosition, topGridPosition){
+Ghoul.prototype.checkForHiddenBlock = function(){
+	if(this.objType() == 'KingGhoul'){
+		var gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
+		var topGridPosition = this.state.getGridPosition(this.x, this.y+15, 'north');		
+	}else if(this.facing == 'left'){
+		var gridPosition = this.state.getGridPosition(this.x, this.y, 'east');
+ 	    var topGridPosition = this.state.getGridPosition(this.x, this.y+15, 'north');
+	}else if(this.facing == 'right'){
+		var gridPosition = this.state.getGridPosition(this.x, this.y, 'west');
+  	  	var topGridPosition = this.state.getGridPosition(this.x, this.y+15, 'north');
+	}else{
+		var gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
+		var topGridPosition = this.state.getGridPosition(this.x, this.y+15, 'north');
+	}
 	var checkForHiddenBlockPosition = [gridPosition[0]+1, gridPosition[1]];
 	var hiddenBlock = null;
-	var hiddenBlockToPushTo = null;
+	
 	for (var i = 0; i < this.state.hiddenBlockGroup.members.length; i++){
 		hiddenBlock = this.state.hiddenBlockGroup.members[i];
 		if(this.state.permBlocks[hiddenBlock.row][hiddenBlock.col] != 1){
@@ -451,8 +474,15 @@ Ghoul.prototype.checkForHiddenBlock = function(gridPosition, topGridPosition){
 				if(hiddenBlock.row == topGridPosition[0] && hiddenBlock.col == topGridPosition[1]){
 					if(this.shouldFall == false){
 						this.isInHole = true;
-						hiddenBlock.occupiedBy.push(this);
-						this.isInHiddenBlock = true;
+						if(this.objType() == 'BlackGhoul'){
+							if(this.lives < 1){
+								hiddenBlock.occupiedBy.push(this);
+								this.isInHiddenBlock = true;
+							}
+						}else{
+							hiddenBlock.occupiedBy.push(this);
+							this.isInHiddenBlock = true;
+						}
 					}
 				}
 			}
@@ -488,6 +518,7 @@ Ghoul.prototype.gravity = function(){
 			var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];	
 			if(ghoulCode % 2 != 0 && ghoulCode % 3 != 0){
 				this.isInHole = true;
+				this.checkForHiddenBlock();
 				Ghoul.prototype.singleBlockDeath.call(this);
 			}
 			if(this.objType() == 'BlackGhoul'){
@@ -520,9 +551,16 @@ Ghoul.prototype.singleBlockDeath = function(speed){
 
 Ghoul.prototype.checkSingleBlockDeath = function(){
 	if(!this.isInHiddenBlock){
-		this.destroy(false);
+		if(this.objType() == 'BlackGhoul'){
+			if(this.bombed){
+				this.destroy(false);
+			}
+		}else{
+			this.destroy(false);
+		}
 	}else{
 		this.isInHiddenBlock = true;
+		
 	}
 }
 
@@ -717,10 +755,6 @@ Ghoul.prototype.reappear = function(){
 			this.facing = 'right';
 		}
 		this.isInHole = false;
-		//BlackGhouls only teleport when they are supposed to die.
-		if(this.objType() == 'BlackGhoul'){
-			this.lives--;
-		}
 	}
 }
 
@@ -764,10 +798,11 @@ Kiwi.extend(BlackGhoul, BlueGhoul);
 Kiwi.extend(BlackGhoul, RedGhoul);
 
 BlackGhoul.prototype.inHole = function(){
-	if(this.lives < 2 && this.facing != 'teleport'){
+	if(this.lives < 1 && this.facing != 'teleport'){
 		Ghoul.prototype.playDieAnimation.call(this);
 	}else{	
 		if(this.facing != 'teleport'){
+			this.lives--;
 			this.teleport();
 		}
 	}
@@ -785,26 +820,30 @@ BlackGhoul.prototype.objType = function(){
 }
 
 BlackGhoul.prototype.findPathToBandit = function(){
-	var graph = new Graph(this.state.ghoulBlocks);
-	var gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
-	var start = graph.grid[gridPosition[0]][gridPosition[1]];
-	
-	if(this.state.numPlayers == 2){
-		if(this.distanceToBandit(this.state.blue) < this.distanceToBandit(this.state.red)){
-    		var banditPosition = this.state.getGridPosition(this.state.blue.x, this.state.blue.y, 'middle');
+	if(!this.state.gameIsOver){
+		var graph = new Graph(this.state.ghoulBlocks);
+		var gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
+		var start = graph.grid[gridPosition[0]][gridPosition[1]];
+		
+		if(this.state.numPlayers == 2){
+			if(this.distanceToBandit(this.state.blue) < this.distanceToBandit(this.state.red)){
+	    		var banditPosition = this.state.getGridPosition(this.state.blue.x, this.state.blue.y, 'middle');
+			}else{
+	    		var banditPosition = this.state.getGridPosition(this.state.red.x, this.state.red.y, 'middle');			
+			}
 		}else{
-    		var banditPosition = this.state.getGridPosition(this.state.red.x, this.state.red.y, 'middle');			
-		}
+	    	var banditPosition = this.state.getGridPosition(this.state.red.x, this.state.red.y, 'middle');
+	    }
+	    
+	    var end = graph.grid[banditPosition[0]][banditPosition[1]];
+	    var result = astar.search(graph, start, end);	
+	    if(result.length > 0){
+	    	//console.log('pathfinding success');
+	    }
+	   	return result;
 	}else{
-    	var banditPosition = this.state.getGridPosition(this.state.red.x, this.state.red.y, 'middle');
-    }
-    
-    var end = graph.grid[banditPosition[0]][banditPosition[1]];
-    var result = astar.search(graph, start, end);	
-    if(result.length > 0){
-    	//console.log('pathfinding success');
-    }
-   	return result;
+		return [];
+	}
 }
 
 BlackGhoul.prototype.checkDirectionAndSetFacing = function(){
@@ -904,8 +943,7 @@ KingGhoul.prototype.update = function(){
 		}else if(this.shouldFall){
 			Ghoul.prototype.gravity.call(this);
 		}else{
-	  		var topGridPosition = this.state.getGridPosition(this.x, this.y+15, 'north');
-	  		Ghoul.prototype.checkForHiddenBlock.call(this, this.gridPosition, topGridPosition);
+	  		Ghoul.prototype.checkForHiddenBlock.call(this);
 	  	}
 
 		for(var i = 0; i<this.bandits.length; i++){
@@ -941,6 +979,10 @@ KingGhoul.prototype.laugh = function(){
 		//this.state.kingGhoulLaughSound.play('start',false);
 		this.laughOverTimer.start();
 	}	
+}
+
+KingGhoul.prototype.objType = function(){
+	return "KingGhoul";
 }
 
 var Bullet = function(state){
@@ -1016,7 +1058,6 @@ var TurboKingGhoul = function(state, x, y, facing){
 	this.facing = facing;
 	this.state = state;
 	this.climbingOut = false;
-	console.log(this.banditInRange);
 
 	this.animation.add('idleleft',[16],0.2,false);
 	this.animation.add('dieleft',[16,17],0.1,true);

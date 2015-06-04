@@ -445,16 +445,16 @@ gameState.create = function(){
 		[100, 400, 719], //
 		[100, 400, 730], 
 		[100, 400, 900], 
-		[100, 400, 750], //  6
-		[100, 400, 780], 
+		[100, 400, 780], //  6
+		[100, 400, 830], 
 		[100, 400, 785], 
 		[100, 400, 920], 
 		[100, 400, 960], 
-		[100, 400, 900], //  11
+		[100, 400, 920], //  11
 		[100, 400, 1000], 
-		[100, 400, 680], 
-		[100, 400, 800], 
-		[100, 400, 800], 
+		[100, 400, 980], 
+		[100, 400, 1000], 
+		[100, 400, 1110], 
 		[100, 400, 930], //  16
 		[100, 400, 800], 
 		[100, 400, 800], 
@@ -1567,7 +1567,7 @@ gameState.getGridPosition = function(x,y,cardinal){
 		case 'south':
 			return [Math.floor((y+this.bps-1)/this.bps), Math.floor((x+this.bps/2)/this.bps)];
 		case 'east':
-			return [Math.floor((y+this.bps-1)/this.bps), Math.floor((x+this.bps)/this.bps)];
+			return [Math.floor((y+this.bps-1)/this.bps), Math.floor((x+this.bps-2)/this.bps)];
 		case 'west':
 			return [Math.floor((y+this.bps-1)/this.bps), Math.floor((x+1)/this.bps)];
 		case 'middle':
