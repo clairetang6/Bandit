@@ -715,7 +715,7 @@ Cloud.prototype.update = function(){
 	this.x += this.speed * this.direction;
 
 	if(this.direction < 0){
-		if(this.x < -1 * this.width * this.scaleX){
+		if(this.x < -1.2 * this.width * this.scaleX){
 			this.randomSpeedAndY();
 			this.randomScale();
 			this.x = 1200;
@@ -724,7 +724,7 @@ Cloud.prototype.update = function(){
 		if(this.x > 1100){
 			this.randomSpeedAndY();
 			this.randomScale();
-			this.x = -1000 * this.scaleX;
+			this.x = -1.2 * this.width * this.scaleX;
 		}
 	}
 }
