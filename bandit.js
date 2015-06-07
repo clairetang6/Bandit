@@ -45,7 +45,7 @@ var Bandit = function(state, x, y, color){
 			this.animation.add('fireleft',[26],0.1,false);
 			this.animation.add('fireright',[18],0.1,false);
 			this.animation.add('idleclimb',[53],0.1,false);
-			this.animation.add('die',[55],0.1,false);
+			this.animation.add('die',[323],0.1,false); //old is 55
 			this.leftKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.A);
 			this.rightKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.D);
 			this.upKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.W);
@@ -61,7 +61,7 @@ var Bandit = function(state, x, y, color){
 			this.animation.add('fireright',[7],0.1,false);
 			this.animation.add('fireleft',[8],0.1,false);
 			this.animation.add('idleclimb',[81],0.1,false);
-			this.animation.add('die',[83],0.1,false);
+			this.animation.add('die',[322],0.1,false); // 83
 			this.leftKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.LEFT);
 			this.rightKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.RIGHT);
 			this.upKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.UP);
