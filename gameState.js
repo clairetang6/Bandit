@@ -3158,6 +3158,21 @@ gameState.checkController = function(bandit){
 	}
 }
 
+gameState.changeToHappyMusic = function(){
+	if(this.currentMusic.isPlaying){
+		this.musicTween = this.game.tweens.create(this.currentMusic);
+		this.musicTween.onComplete(this.changeToHappyMusic2, this);
+		this.musicTween.to({volume: 0}, 600, Kiwi.Animations.Tweens.Easing.Linear.In, true);
+	}
+}
+
+gameState.changeToHappyMusic2 = function(){
+	if(this.soundOptions.musicOn){
+		this.currentMusic = this.musicSoundList[0];
+		this.currentMusic.play();
+	}
+}
+
 gameState.shutDown = function(){
 	var removingHeartTimers = true;
 	while(removingHeartTimers){

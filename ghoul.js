@@ -932,6 +932,10 @@ KingGhoul.prototype.destroy = function(immediate){
 	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
 }
 
+KingGhoul.prototype.checkForHiddenBlock = function(){
+	Ghoul.prototype.checkForHiddenBlock.call(this);
+}
+
 KingGhoul.prototype.update = function(){
 	Kiwi.GameObjects.Sprite.prototype.update.call(this);
 
@@ -1089,6 +1093,7 @@ TurboKingGhoul.prototype.destroy = function(immediate){
 	this.delayTimer.clear(0);
 	this.bulletTimer.clear(0);
 	this.stopLaughTimer.clear(0);
+	this.state.changeToHappyMusic();
 	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
 }
 
