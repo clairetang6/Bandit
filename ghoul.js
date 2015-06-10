@@ -465,6 +465,7 @@ Ghoul.prototype.checkForHiddenBlock = function(){
 	var checkForHiddenBlockPosition = [gridPosition[0]+1, gridPosition[1]];
 	var hiddenBlock = null;
 	
+	var addedToHiddenBlock = false;
 	for (var i = 0; i < this.state.hiddenBlockGroup.members.length; i++){
 		hiddenBlock = this.state.hiddenBlockGroup.members[i];
 		if(this.state.permBlocks[hiddenBlock.row][hiddenBlock.col] != 1){
@@ -478,16 +479,19 @@ Ghoul.prototype.checkForHiddenBlock = function(){
 							if(this.lives < 1){
 								hiddenBlock.occupiedBy.push(this);
 								this.isInHiddenBlock = true;
+								addedToHiddenBlock = true;
 							}
 						}else{
 							hiddenBlock.occupiedBy.push(this);
 							this.isInHiddenBlock = true;
+							addedToHiddenBlock = true;
 						}
 					}
 				}
 			}
 		}
 	}	
+	return addedToHiddenBlock;
 }
 
 Ghoul.prototype.inHole = function(){
@@ -518,7 +522,14 @@ Ghoul.prototype.gravity = function(){
 			var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];	
 			if(ghoulCode % 2 != 0 && ghoulCode % 3 != 0){
 				this.isInHole = true;
-				this.checkForHiddenBlock();
+				var addedToHiddenBlock = this.checkForHiddenBlock();
+				if(!addedToHiddenBlock){
+					if(this.objType() == 'BlackGhoul'){
+						if(this.lives < 1){
+							this.bombed = true;
+						}
+					}
+				}
 				Ghoul.prototype.singleBlockDeath.call(this);
 			}
 			if(this.objType() == 'BlackGhoul'){
@@ -546,7 +557,7 @@ Ghoul.prototype.singleBlockDeath = function(speed){
 	if(this.objType() == 'BlueGhoul'){
 		this.teleportTimer.stop();
 	}
-	this.timer.start();	
+	this.timer.start();
 }
 
 Ghoul.prototype.checkSingleBlockDeath = function(){
