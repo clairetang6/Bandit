@@ -33751,3 +33751,11685 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 (function(e){"use strict";var t={};typeof exports=="undefined"?typeof define=="function"&&typeof define.amd=="object"&&define.amd?(t.exports={},define(function(){return t.exports})):t.exports=typeof window!="undefined"?window:e:t.exports=exports,function(e){if(!t)var t=1e-6;if(!n)var n=typeof Float32Array!="undefined"?Float32Array:Array;if(!r)var r=Math.random;var i={};i.setMatrixArrayType=function(e){n=e},typeof e!="undefined"&&(e.glMatrix=i);var s={};s.create=function(){var e=new n(2);return e[0]=0,e[1]=0,e},s.clone=function(e){var t=new n(2);return t[0]=e[0],t[1]=e[1],t},s.fromValues=function(e,t){var r=new n(2);return r[0]=e,r[1]=t,r},s.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e},s.set=function(e,t,n){return e[0]=t,e[1]=n,e},s.add=function(e,t,n){return e[0]=t[0]+n[0],e[1]=t[1]+n[1],e},s.subtract=function(e,t,n){return e[0]=t[0]-n[0],e[1]=t[1]-n[1],e},s.sub=s.subtract,s.multiply=function(e,t,n){return e[0]=t[0]*n[0],e[1]=t[1]*n[1],e},s.mul=s.multiply,s.divide=function(e,t,n){return e[0]=t[0]/n[0],e[1]=t[1]/n[1],e},s.div=s.divide,s.min=function(e,t,n){return e[0]=Math.min(t[0],n[0]),e[1]=Math.min(t[1],n[1]),e},s.max=function(e,t,n){return e[0]=Math.max(t[0],n[0]),e[1]=Math.max(t[1],n[1]),e},s.scale=function(e,t,n){return e[0]=t[0]*n,e[1]=t[1]*n,e},s.scaleAndAdd=function(e,t,n,r){return e[0]=t[0]+n[0]*r,e[1]=t[1]+n[1]*r,e},s.distance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1];return Math.sqrt(n*n+r*r)},s.dist=s.distance,s.squaredDistance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1];return n*n+r*r},s.sqrDist=s.squaredDistance,s.length=function(e){var t=e[0],n=e[1];return Math.sqrt(t*t+n*n)},s.len=s.length,s.squaredLength=function(e){var t=e[0],n=e[1];return t*t+n*n},s.sqrLen=s.squaredLength,s.negate=function(e,t){return e[0]=-t[0],e[1]=-t[1],e},s.normalize=function(e,t){var n=t[0],r=t[1],i=n*n+r*r;return i>0&&(i=1/Math.sqrt(i),e[0]=t[0]*i,e[1]=t[1]*i),e},s.dot=function(e,t){return e[0]*t[0]+e[1]*t[1]},s.cross=function(e,t,n){var r=t[0]*n[1]-t[1]*n[0];return e[0]=e[1]=0,e[2]=r,e},s.lerp=function(e,t,n,r){var i=t[0],s=t[1];return e[0]=i+r*(n[0]-i),e[1]=s+r*(n[1]-s),e},s.random=function(e,t){t=t||1;var n=r()*2*Math.PI;return e[0]=Math.cos(n)*t,e[1]=Math.sin(n)*t,e},s.transformMat2=function(e,t,n){var r=t[0],i=t[1];return e[0]=n[0]*r+n[2]*i,e[1]=n[1]*r+n[3]*i,e},s.transformMat2d=function(e,t,n){var r=t[0],i=t[1];return e[0]=n[0]*r+n[2]*i+n[4],e[1]=n[1]*r+n[3]*i+n[5],e},s.transformMat3=function(e,t,n){var r=t[0],i=t[1];return e[0]=n[0]*r+n[3]*i+n[6],e[1]=n[1]*r+n[4]*i+n[7],e},s.transformMat4=function(e,t,n){var r=t[0],i=t[1];return e[0]=n[0]*r+n[4]*i+n[12],e[1]=n[1]*r+n[5]*i+n[13],e},s.forEach=function(){var e=s.create();return function(t,n,r,i,s,o){var u,a;n||(n=2),r||(r=0),i?a=Math.min(i*n+r,t.length):a=t.length;for(u=r;u<a;u+=n)e[0]=t[u],e[1]=t[u+1],s(e,e,o),t[u]=e[0],t[u+1]=e[1];return t}}(),s.str=function(e){return"vec2("+e[0]+", "+e[1]+")"},typeof e!="undefined"&&(e.vec2=s);var o={};o.create=function(){var e=new n(3);return e[0]=0,e[1]=0,e[2]=0,e},o.clone=function(e){var t=new n(3);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t},o.fromValues=function(e,t,r){var i=new n(3);return i[0]=e,i[1]=t,i[2]=r,i},o.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e},o.set=function(e,t,n,r){return e[0]=t,e[1]=n,e[2]=r,e},o.add=function(e,t,n){return e[0]=t[0]+n[0],e[1]=t[1]+n[1],e[2]=t[2]+n[2],e},o.subtract=function(e,t,n){return e[0]=t[0]-n[0],e[1]=t[1]-n[1],e[2]=t[2]-n[2],e},o.sub=o.subtract,o.multiply=function(e,t,n){return e[0]=t[0]*n[0],e[1]=t[1]*n[1],e[2]=t[2]*n[2],e},o.mul=o.multiply,o.divide=function(e,t,n){return e[0]=t[0]/n[0],e[1]=t[1]/n[1],e[2]=t[2]/n[2],e},o.div=o.divide,o.min=function(e,t,n){return e[0]=Math.min(t[0],n[0]),e[1]=Math.min(t[1],n[1]),e[2]=Math.min(t[2],n[2]),e},o.max=function(e,t,n){return e[0]=Math.max(t[0],n[0]),e[1]=Math.max(t[1],n[1]),e[2]=Math.max(t[2],n[2]),e},o.scale=function(e,t,n){return e[0]=t[0]*n,e[1]=t[1]*n,e[2]=t[2]*n,e},o.scaleAndAdd=function(e,t,n,r){return e[0]=t[0]+n[0]*r,e[1]=t[1]+n[1]*r,e[2]=t[2]+n[2]*r,e},o.distance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1],i=t[2]-e[2];return Math.sqrt(n*n+r*r+i*i)},o.dist=o.distance,o.squaredDistance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1],i=t[2]-e[2];return n*n+r*r+i*i},o.sqrDist=o.squaredDistance,o.length=function(e){var t=e[0],n=e[1],r=e[2];return Math.sqrt(t*t+n*n+r*r)},o.len=o.length,o.squaredLength=function(e){var t=e[0],n=e[1],r=e[2];return t*t+n*n+r*r},o.sqrLen=o.squaredLength,o.negate=function(e,t){return e[0]=-t[0],e[1]=-t[1],e[2]=-t[2],e},o.normalize=function(e,t){var n=t[0],r=t[1],i=t[2],s=n*n+r*r+i*i;return s>0&&(s=1/Math.sqrt(s),e[0]=t[0]*s,e[1]=t[1]*s,e[2]=t[2]*s),e},o.dot=function(e,t){return e[0]*t[0]+e[1]*t[1]+e[2]*t[2]},o.cross=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=n[0],u=n[1],a=n[2];return e[0]=i*a-s*u,e[1]=s*o-r*a,e[2]=r*u-i*o,e},o.lerp=function(e,t,n,r){var i=t[0],s=t[1],o=t[2];return e[0]=i+r*(n[0]-i),e[1]=s+r*(n[1]-s),e[2]=o+r*(n[2]-o),e},o.random=function(e,t){t=t||1;var n=r()*2*Math.PI,i=r()*2-1,s=Math.sqrt(1-i*i)*t;return e[0]=Math.cos(n)*s,e[1]=Math.sin(n)*s,e[2]=i*t,e},o.transformMat4=function(e,t,n){var r=t[0],i=t[1],s=t[2];return e[0]=n[0]*r+n[4]*i+n[8]*s+n[12],e[1]=n[1]*r+n[5]*i+n[9]*s+n[13],e[2]=n[2]*r+n[6]*i+n[10]*s+n[14],e},o.transformMat3=function(e,t,n){var r=t[0],i=t[1],s=t[2];return e[0]=r*n[0]+i*n[3]+s*n[6],e[1]=r*n[1]+i*n[4]+s*n[7],e[2]=r*n[2]+i*n[5]+s*n[8],e},o.transformQuat=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=n[0],u=n[1],a=n[2],f=n[3],l=f*r+u*s-a*i,c=f*i+a*r-o*s,h=f*s+o*i-u*r,p=-o*r-u*i-a*s;return e[0]=l*f+p*-o+c*-a-h*-u,e[1]=c*f+p*-u+h*-o-l*-a,e[2]=h*f+p*-a+l*-u-c*-o,e},o.forEach=function(){var e=o.create();return function(t,n,r,i,s,o){var u,a;n||(n=3),r||(r=0),i?a=Math.min(i*n+r,t.length):a=t.length;for(u=r;u<a;u+=n)e[0]=t[u],e[1]=t[u+1],e[2]=t[u+2],s(e,e,o),t[u]=e[0],t[u+1]=e[1],t[u+2]=e[2];return t}}(),o.str=function(e){return"vec3("+e[0]+", "+e[1]+", "+e[2]+")"},typeof e!="undefined"&&(e.vec3=o);var u={};u.create=function(){var e=new n(4);return e[0]=0,e[1]=0,e[2]=0,e[3]=0,e},u.clone=function(e){var t=new n(4);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t},u.fromValues=function(e,t,r,i){var s=new n(4);return s[0]=e,s[1]=t,s[2]=r,s[3]=i,s},u.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e},u.set=function(e,t,n,r,i){return e[0]=t,e[1]=n,e[2]=r,e[3]=i,e},u.add=function(e,t,n){return e[0]=t[0]+n[0],e[1]=t[1]+n[1],e[2]=t[2]+n[2],e[3]=t[3]+n[3],e},u.subtract=function(e,t,n){return e[0]=t[0]-n[0],e[1]=t[1]-n[1],e[2]=t[2]-n[2],e[3]=t[3]-n[3],e},u.sub=u.subtract,u.multiply=function(e,t,n){return e[0]=t[0]*n[0],e[1]=t[1]*n[1],e[2]=t[2]*n[2],e[3]=t[3]*n[3],e},u.mul=u.multiply,u.divide=function(e,t,n){return e[0]=t[0]/n[0],e[1]=t[1]/n[1],e[2]=t[2]/n[2],e[3]=t[3]/n[3],e},u.div=u.divide,u.min=function(e,t,n){return e[0]=Math.min(t[0],n[0]),e[1]=Math.min(t[1],n[1]),e[2]=Math.min(t[2],n[2]),e[3]=Math.min(t[3],n[3]),e},u.max=function(e,t,n){return e[0]=Math.max(t[0],n[0]),e[1]=Math.max(t[1],n[1]),e[2]=Math.max(t[2],n[2]),e[3]=Math.max(t[3],n[3]),e},u.scale=function(e,t,n){return e[0]=t[0]*n,e[1]=t[1]*n,e[2]=t[2]*n,e[3]=t[3]*n,e},u.scaleAndAdd=function(e,t,n,r){return e[0]=t[0]+n[0]*r,e[1]=t[1]+n[1]*r,e[2]=t[2]+n[2]*r,e[3]=t[3]+n[3]*r,e},u.distance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1],i=t[2]-e[2],s=t[3]-e[3];return Math.sqrt(n*n+r*r+i*i+s*s)},u.dist=u.distance,u.squaredDistance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1],i=t[2]-e[2],s=t[3]-e[3];return n*n+r*r+i*i+s*s},u.sqrDist=u.squaredDistance,u.length=function(e){var t=e[0],n=e[1],r=e[2],i=e[3];return Math.sqrt(t*t+n*n+r*r+i*i)},u.len=u.length,u.squaredLength=function(e){var t=e[0],n=e[1],r=e[2],i=e[3];return t*t+n*n+r*r+i*i},u.sqrLen=u.squaredLength,u.negate=function(e,t){return e[0]=-t[0],e[1]=-t[1],e[2]=-t[2],e[3]=-t[3],e},u.normalize=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n*n+r*r+i*i+s*s;return o>0&&(o=1/Math.sqrt(o),e[0]=t[0]*o,e[1]=t[1]*o,e[2]=t[2]*o,e[3]=t[3]*o),e},u.dot=function(e,t){return e[0]*t[0]+e[1]*t[1]+e[2]*t[2]+e[3]*t[3]},u.lerp=function(e,t,n,r){var i=t[0],s=t[1],o=t[2],u=t[3];return e[0]=i+r*(n[0]-i),e[1]=s+r*(n[1]-s),e[2]=o+r*(n[2]-o),e[3]=u+r*(n[3]-u),e},u.random=function(e,t){return t=t||1,e[0]=r(),e[1]=r(),e[2]=r(),e[3]=r(),u.normalize(e,e),u.scale(e,e,t),e},u.transformMat4=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3];return e[0]=n[0]*r+n[4]*i+n[8]*s+n[12]*o,e[1]=n[1]*r+n[5]*i+n[9]*s+n[13]*o,e[2]=n[2]*r+n[6]*i+n[10]*s+n[14]*o,e[3]=n[3]*r+n[7]*i+n[11]*s+n[15]*o,e},u.transformQuat=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=n[0],u=n[1],a=n[2],f=n[3],l=f*r+u*s-a*i,c=f*i+a*r-o*s,h=f*s+o*i-u*r,p=-o*r-u*i-a*s;return e[0]=l*f+p*-o+c*-a-h*-u,e[1]=c*f+p*-u+h*-o-l*-a,e[2]=h*f+p*-a+l*-u-c*-o,e},u.forEach=function(){var e=u.create();return function(t,n,r,i,s,o){var u,a;n||(n=4),r||(r=0),i?a=Math.min(i*n+r,t.length):a=t.length;for(u=r;u<a;u+=n)e[0]=t[u],e[1]=t[u+1],e[2]=t[u+2],e[3]=t[u+3],s(e,e,o),t[u]=e[0],t[u+1]=e[1],t[u+2]=e[2],t[u+3]=e[3];return t}}(),u.str=function(e){return"vec4("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+")"},typeof e!="undefined"&&(e.vec4=u);var a={};a.create=function(){var e=new n(4);return e[0]=1,e[1]=0,e[2]=0,e[3]=1,e},a.clone=function(e){var t=new n(4);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t},a.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e},a.identity=function(e){return e[0]=1,e[1]=0,e[2]=0,e[3]=1,e},a.transpose=function(e,t){if(e===t){var n=t[1];e[1]=t[2],e[2]=n}else e[0]=t[0],e[1]=t[2],e[2]=t[1],e[3]=t[3];return e},a.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n*s-i*r;return o?(o=1/o,e[0]=s*o,e[1]=-r*o,e[2]=-i*o,e[3]=n*o,e):null},a.adjoint=function(e,t){var n=t[0];return e[0]=t[3],e[1]=-t[1],e[2]=-t[2],e[3]=n,e},a.determinant=function(e){return e[0]*e[3]-e[2]*e[1]},a.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=n[0],a=n[1],f=n[2],l=n[3];return e[0]=r*u+i*f,e[1]=r*a+i*l,e[2]=s*u+o*f,e[3]=s*a+o*l,e},a.mul=a.multiply,a.rotate=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=Math.sin(n),a=Math.cos(n);return e[0]=r*a+i*u,e[1]=r*-u+i*a,e[2]=s*a+o*u,e[3]=s*-u+o*a,e},a.scale=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=n[0],a=n[1];return e[0]=r*u,e[1]=i*a,e[2]=s*u,e[3]=o*a,e},a.str=function(e){return"mat2("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+")"},typeof e!="undefined"&&(e.mat2=a);var f={};f.create=function(){var e=new n(6);return e[0]=1,e[1]=0,e[2]=0,e[3]=1,e[4]=0,e[5]=0,e},f.clone=function(e){var t=new n(6);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t[4]=e[4],t[5]=e[5],t},f.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[4]=t[4],e[5]=t[5],e},f.identity=function(e){return e[0]=1,e[1]=0,e[2]=0,e[3]=1,e[4]=0,e[5]=0,e},f.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=n*s-r*i;return a?(a=1/a,e[0]=s*a,e[1]=-r*a,e[2]=-i*a,e[3]=n*a,e[4]=(i*u-s*o)*a,e[5]=(r*o-n*u)*a,e):null},f.determinant=function(e){return e[0]*e[3]-e[1]*e[2]},f.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=n[0],l=n[1],c=n[2],h=n[3],p=n[4],d=n[5];return e[0]=r*f+i*c,e[1]=r*l+i*h,e[2]=s*f+o*c,e[3]=s*l+o*h,e[4]=f*u+c*a+p,e[5]=l*u+h*a+d,e},f.mul=f.multiply,f.rotate=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=Math.sin(n),l=Math.cos(n);return e[0]=r*l+i*f,e[1]=-r*f+i*l,e[2]=s*l+o*f,e[3]=-s*f+l*o,e[4]=l*u+f*a,e[5]=l*a-f*u,e},f.scale=function(e,t,n){var r=n[0],i=n[1];return e[0]=t[0]*r,e[1]=t[1]*i,e[2]=t[2]*r,e[3]=t[3]*i,e[4]=t[4]*r,e[5]=t[5]*i,e},f.translate=function(e,t,n){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[4]=t[4]+n[0],e[5]=t[5]+n[1],e},f.str=function(e){return"mat2d("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+", "+e[4]+", "+e[5]+")"},typeof e!="undefined"&&(e.mat2d=f);var l={};l.create=function(){var e=new n(9);return e[0]=1,e[1]=0,e[2]=0,e[3]=0,e[4]=1,e[5]=0,e[6]=0,e[7]=0,e[8]=1,e},l.fromMat4=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[4],e[4]=t[5],e[5]=t[6],e[6]=t[8],e[7]=t[9],e[8]=t[10],e},l.clone=function(e){var t=new n(9);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t[4]=e[4],t[5]=e[5],t[6]=e[6],t[7]=e[7],t[8]=e[8],t},l.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[4]=t[4],e[5]=t[5],e[6]=t[6],e[7]=t[7],e[8]=t[8],e},l.identity=function(e){return e[0]=1,e[1]=0,e[2]=0,e[3]=0,e[4]=1,e[5]=0,e[6]=0,e[7]=0,e[8]=1,e},l.transpose=function(e,t){if(e===t){var n=t[1],r=t[2],i=t[5];e[1]=t[3],e[2]=t[6],e[3]=n,e[5]=t[7],e[6]=r,e[7]=i}else e[0]=t[0],e[1]=t[3],e[2]=t[6],e[3]=t[1],e[4]=t[4],e[5]=t[7],e[6]=t[2],e[7]=t[5],e[8]=t[8];return e},l.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8],c=l*o-u*f,h=-l*s+u*a,p=f*s-o*a,d=n*c+r*h+i*p;return d?(d=1/d,e[0]=c*d,e[1]=(-l*r+i*f)*d,e[2]=(u*r-i*o)*d,e[3]=h*d,e[4]=(l*n-i*a)*d,e[5]=(-u*n+i*s)*d,e[6]=p*d,e[7]=(-f*n+r*a)*d,e[8]=(o*n-r*s)*d,e):null},l.adjoint=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8];return e[0]=o*l-u*f,e[1]=i*f-r*l,e[2]=r*u-i*o,e[3]=u*a-s*l,e[4]=n*l-i*a,e[5]=i*s-n*u,e[6]=s*f-o*a,e[7]=r*a-n*f,e[8]=n*o-r*s,e},l.determinant=function(e){var t=e[0],n=e[1],r=e[2],i=e[3],s=e[4],o=e[5],u=e[6],a=e[7],f=e[8];return t*(f*s-o*a)+n*(-f*i+o*u)+r*(a*i-s*u)},l.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=t[6],l=t[7],c=t[8],h=n[0],p=n[1],d=n[2],v=n[3],m=n[4],g=n[5],y=n[6],b=n[7],w=n[8];return e[0]=h*r+p*o+d*f,e[1]=h*i+p*u+d*l,e[2]=h*s+p*a+d*c,e[3]=v*r+m*o+g*f,e[4]=v*i+m*u+g*l,e[5]=v*s+m*a+g*c,e[6]=y*r+b*o+w*f,e[7]=y*i+b*u+w*l,e[8]=y*s+b*a+w*c,e},l.mul=l.multiply,l.translate=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=t[6],l=t[7],c=t[8],h=n[0],p=n[1];return e[0]=r,e[1]=i,e[2]=s,e[3]=o,e[4]=u,e[5]=a,e[6]=h*r+p*o+f,e[7]=h*i+p*u+l,e[8]=h*s+p*a+c,e},l.rotate=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=t[6],l=t[7],c=t[8],h=Math.sin(n),p=Math.cos(n);return e[0]=p*r+h*o,e[1]=p*i+h*u,e[2]=p*s+h*a,e[3]=p*o-h*r,e[4]=p*u-h*i,e[5]=p*a-h*s,e[6]=f,e[7]=l,e[8]=c,e},l.scale=function(e,t,n){var r=n[0],i=n[1];return e[0]=r*t[0],e[1]=r*t[1],e[2]=r*t[2],e[3]=i*t[3],e[4]=i*t[4],e[5]=i*t[5],e[6]=t[6],e[7]=t[7],e[8]=t[8],e},l.fromMat2d=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=0,e[3]=t[2],e[4]=t[3],e[5]=0,e[6]=t[4],e[7]=t[5],e[8]=1,e},l.fromQuat=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n+n,u=r+r,a=i+i,f=n*o,l=n*u,c=n*a,h=r*u,p=r*a,d=i*a,v=s*o,m=s*u,g=s*a;return e[0]=1-(h+d),e[3]=l+g,e[6]=c-m,e[1]=l-g,e[4]=1-(f+d),e[7]=p+v,e[2]=c+m,e[5]=p-v,e[8]=1-(f+h),e},l.normalFromMat4=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8],c=t[9],h=t[10],p=t[11],d=t[12],v=t[13],m=t[14],g=t[15],y=n*u-r*o,b=n*a-i*o,w=n*f-s*o,E=r*a-i*u,S=r*f-s*u,x=i*f-s*a,T=l*v-c*d,N=l*m-h*d,C=l*g-p*d,k=c*m-h*v,L=c*g-p*v,A=h*g-p*m,O=y*A-b*L+w*k+E*C-S*N+x*T;return O?(O=1/O,e[0]=(u*A-a*L+f*k)*O,e[1]=(a*C-o*A-f*N)*O,e[2]=(o*L-u*C+f*T)*O,e[3]=(i*L-r*A-s*k)*O,e[4]=(n*A-i*C+s*N)*O,e[5]=(r*C-n*L-s*T)*O,e[6]=(v*x-m*S+g*E)*O,e[7]=(m*w-d*x-g*b)*O,e[8]=(d*S-v*w+g*y)*O,e):null},l.str=function(e){return"mat3("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+", "+e[4]+", "+e[5]+", "+e[6]+", "+e[7]+", "+e[8]+")"},typeof e!="undefined"&&(e.mat3=l);var c={};c.create=function(){var e=new n(16);return e[0]=1,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=1,e[6]=0,e[7]=0,e[8]=0,e[9]=0,e[10]=1,e[11]=0,e[12]=0,e[13]=0,e[14]=0,e[15]=1,e},c.clone=function(e){var t=new n(16);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t[4]=e[4],t[5]=e[5],t[6]=e[6],t[7]=e[7],t[8]=e[8],t[9]=e[9],t[10]=e[10],t[11]=e[11],t[12]=e[12],t[13]=e[13],t[14]=e[14],t[15]=e[15],t},c.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[4]=t[4],e[5]=t[5],e[6]=t[6],e[7]=t[7],e[8]=t[8],e[9]=t[9],e[10]=t[10],e[11]=t[11],e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15],e},c.identity=function(e){return e[0]=1,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=1,e[6]=0,e[7]=0,e[8]=0,e[9]=0,e[10]=1,e[11]=0,e[12]=0,e[13]=0,e[14]=0,e[15]=1,e},c.transpose=function(e,t){if(e===t){var n=t[1],r=t[2],i=t[3],s=t[6],o=t[7],u=t[11];e[1]=t[4],e[2]=t[8],e[3]=t[12],e[4]=n,e[6]=t[9],e[7]=t[13],e[8]=r,e[9]=s,e[11]=t[14],e[12]=i,e[13]=o,e[14]=u}else e[0]=t[0],e[1]=t[4],e[2]=t[8],e[3]=t[12],e[4]=t[1],e[5]=t[5],e[6]=t[9],e[7]=t[13],e[8]=t[2],e[9]=t[6],e[10]=t[10],e[11]=t[14],e[12]=t[3],e[13]=t[7],e[14]=t[11],e[15]=t[15];return e},c.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8],c=t[9],h=t[10],p=t[11],d=t[12],v=t[13],m=t[14],g=t[15],y=n*u-r*o,b=n*a-i*o,w=n*f-s*o,E=r*a-i*u,S=r*f-s*u,x=i*f-s*a,T=l*v-c*d,N=l*m-h*d,C=l*g-p*d,k=c*m-h*v,L=c*g-p*v,A=h*g-p*m,O=y*A-b*L+w*k+E*C-S*N+x*T;return O?(O=1/O,e[0]=(u*A-a*L+f*k)*O,e[1]=(i*L-r*A-s*k)*O,e[2]=(v*x-m*S+g*E)*O,e[3]=(h*S-c*x-p*E)*O,e[4]=(a*C-o*A-f*N)*O,e[5]=(n*A-i*C+s*N)*O,e[6]=(m*w-d*x-g*b)*O,e[7]=(l*x-h*w+p*b)*O,e[8]=(o*L-u*C+f*T)*O,e[9]=(r*C-n*L-s*T)*O,e[10]=(d*S-v*w+g*y)*O,e[11]=(c*w-l*S-p*y)*O,e[12]=(u*N-o*k-a*T)*O,e[13]=(n*k-r*N+i*T)*O,e[14]=(v*b-d*E-m*y)*O,e[15]=(l*E-c*b+h*y)*O,e):null},c.adjoint=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8],c=t[9],h=t[10],p=t[11],d=t[12],v=t[13],m=t[14],g=t[15];return e[0]=u*(h*g-p*m)-c*(a*g-f*m)+v*(a*p-f*h),e[1]=-(r*(h*g-p*m)-c*(i*g-s*m)+v*(i*p-s*h)),e[2]=r*(a*g-f*m)-u*(i*g-s*m)+v*(i*f-s*a),e[3]=-(r*(a*p-f*h)-u*(i*p-s*h)+c*(i*f-s*a)),e[4]=-(o*(h*g-p*m)-l*(a*g-f*m)+d*(a*p-f*h)),e[5]=n*(h*g-p*m)-l*(i*g-s*m)+d*(i*p-s*h),e[6]=-(n*(a*g-f*m)-o*(i*g-s*m)+d*(i*f-s*a)),e[7]=n*(a*p-f*h)-o*(i*p-s*h)+l*(i*f-s*a),e[8]=o*(c*g-p*v)-l*(u*g-f*v)+d*(u*p-f*c),e[9]=-(n*(c*g-p*v)-l*(r*g-s*v)+d*(r*p-s*c)),e[10]=n*(u*g-f*v)-o*(r*g-s*v)+d*(r*f-s*u),e[11]=-(n*(u*p-f*c)-o*(r*p-s*c)+l*(r*f-s*u)),e[12]=-(o*(c*m-h*v)-l*(u*m-a*v)+d*(u*h-a*c)),e[13]=n*(c*m-h*v)-l*(r*m-i*v)+d*(r*h-i*c),e[14]=-(n*(u*m-a*v)-o*(r*m-i*v)+d*(r*a-i*u)),e[15]=n*(u*h-a*c)-o*(r*h-i*c)+l*(r*a-i*u),e},c.determinant=function(e){var t=e[0],n=e[1],r=e[2],i=e[3],s=e[4],o=e[5],u=e[6],a=e[7],f=e[8],l=e[9],c=e[10],h=e[11],p=e[12],d=e[13],v=e[14],m=e[15],g=t*o-n*s,y=t*u-r*s,b=t*a-i*s,w=n*u-r*o,E=n*a-i*o,S=r*a-i*u,x=f*d-l*p,T=f*v-c*p,N=f*m-h*p,C=l*v-c*d,k=l*m-h*d,L=c*m-h*v;return g*L-y*k+b*C+w*N-E*T+S*x},c.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=t[6],l=t[7],c=t[8],h=t[9],p=t[10],d=t[11],v=t[12],m=t[13],g=t[14],y=t[15],b=n[0],w=n[1],E=n[2],S=n[3];return e[0]=b*r+w*u+E*c+S*v,e[1]=b*i+w*a+E*h+S*m,e[2]=b*s+w*f+E*p+S*g,e[3]=b*o+w*l+E*d+S*y,b=n[4],w=n[5],E=n[6],S=n[7],e[4]=b*r+w*u+E*c+S*v,e[5]=b*i+w*a+E*h+S*m,e[6]=b*s+w*f+E*p+S*g,e[7]=b*o+w*l+E*d+S*y,b=n[8],w=n[9],E=n[10],S=n[11],e[8]=b*r+w*u+E*c+S*v,e[9]=b*i+w*a+E*h+S*m,e[10]=b*s+w*f+E*p+S*g,e[11]=b*o+w*l+E*d+S*y,b=n[12],w=n[13],E=n[14],S=n[15],e[12]=b*r+w*u+E*c+S*v,e[13]=b*i+w*a+E*h+S*m,e[14]=b*s+w*f+E*p+S*g,e[15]=b*o+w*l+E*d+S*y,e},c.mul=c.multiply,c.translate=function(e,t,n){var r=n[0],i=n[1],s=n[2],o,u,a,f,l,c,h,p,d,v,m,g;return t===e?(e[12]=t[0]*r+t[4]*i+t[8]*s+t[12],e[13]=t[1]*r+t[5]*i+t[9]*s+t[13],e[14]=t[2]*r+t[6]*i+t[10]*s+t[14],e[15]=t[3]*r+t[7]*i+t[11]*s+t[15]):(o=t[0],u=t[1],a=t[2],f=t[3],l=t[4],c=t[5],h=t[6],p=t[7],d=t[8],v=t[9],m=t[10],g=t[11],e[0]=o,e[1]=u,e[2]=a,e[3]=f,e[4]=l,e[5]=c,e[6]=h,e[7]=p,e[8]=d,e[9]=v,e[10]=m,e[11]=g,e[12]=o*r+l*i+d*s+t[12],e[13]=u*r+c*i+v*s+t[13],e[14]=a*r+h*i+m*s+t[14],e[15]=f*r+p*i+g*s+t[15]),e},c.scale=function(e,t,n){var r=n[0],i=n[1],s=n[2];return e[0]=t[0]*r,e[1]=t[1]*r,e[2]=t[2]*r,e[3]=t[3]*r,e[4]=t[4]*i,e[5]=t[5]*i,e[6]=t[6]*i,e[7]=t[7]*i,e[8]=t[8]*s,e[9]=t[9]*s,e[10]=t[10]*s,e[11]=t[11]*s,e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15],e},c.rotate=function(e,n,r,i){var s=i[0],o=i[1],u=i[2],a=Math.sqrt(s*s+o*o+u*u),f,l,c,h,p,d,v,m,g,y,b,w,E,S,x,T,N,C,k,L,A,O,M,_;return Math.abs(a)<t?null:(a=1/a,s*=a,o*=a,u*=a,f=Math.sin(r),l=Math.cos(r),c=1-l,h=n[0],p=n[1],d=n[2],v=n[3],m=n[4],g=n[5],y=n[6],b=n[7],w=n[8],E=n[9],S=n[10],x=n[11],T=s*s*c+l,N=o*s*c+u*f,C=u*s*c-o*f,k=s*o*c-u*f,L=o*o*c+l,A=u*o*c+s*f,O=s*u*c+o*f,M=o*u*c-s*f,_=u*u*c+l,e[0]=h*T+m*N+w*C,e[1]=p*T+g*N+E*C,e[2]=d*T+y*N+S*C,e[3]=v*T+b*N+x*C,e[4]=h*k+m*L+w*A,e[5]=p*k+g*L+E*A,e[6]=d*k+y*L+S*A,e[7]=v*k+b*L+x*A,e[8]=h*O+m*M+w*_,e[9]=p*O+g*M+E*_,e[10]=d*O+y*M+S*_,e[11]=v*O+b*M+x*_,n!==e&&(e[12]=n[12],e[13]=n[13],e[14]=n[14],e[15]=n[15]),e)},c.rotateX=function(e,t,n){var r=Math.sin(n),i=Math.cos(n),s=t[4],o=t[5],u=t[6],a=t[7],f=t[8],l=t[9],c=t[10],h=t[11];return t!==e&&(e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15]),e[4]=s*i+f*r,e[5]=o*i+l*r,e[6]=u*i+c*r,e[7]=a*i+h*r,e[8]=f*i-s*r,e[9]=l*i-o*r,e[10]=c*i-u*r,e[11]=h*i-a*r,e},c.rotateY=function(e,t,n){var r=Math.sin(n),i=Math.cos(n),s=t[0],o=t[1],u=t[2],a=t[3],f=t[8],l=t[9],c=t[10],h=t[11];return t!==e&&(e[4]=t[4],e[5]=t[5],e[6]=t[6],e[7]=t[7],e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15]),e[0]=s*i-f*r,e[1]=o*i-l*r,e[2]=u*i-c*r,e[3]=a*i-h*r,e[8]=s*r+f*i,e[9]=o*r+l*i,e[10]=u*r+c*i,e[11]=a*r+h*i,e},c.rotateZ=function(e,t,n){var r=Math.sin(n),i=Math.cos(n),s=t[0],o=t[1],u=t[2],a=t[3],f=t[4],l=t[5],c=t[6],h=t[7];return t!==e&&(e[8]=t[8],e[9]=t[9],e[10]=t[10],e[11]=t[11],e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15]),e[0]=s*i+f*r,e[1]=o*i+l*r,e[2]=u*i+c*r,e[3]=a*i+h*r,e[4]=f*i-s*r,e[5]=l*i-o*r,e[6]=c*i-u*r,e[7]=h*i-a*r,e},c.fromRotationTranslation=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=r+r,a=i+i,f=s+s,l=r*u,c=r*a,h=r*f,p=i*a,d=i*f,v=s*f,m=o*u,g=o*a,y=o*f;return e[0]=1-(p+v),e[1]=c+y,e[2]=h-g,e[3]=0,e[4]=c-y,e[5]=1-(l+v),e[6]=d+m,e[7]=0,e[8]=h+g,e[9]=d-m,e[10]=1-(l+p),e[11]=0,e[12]=n[0],e[13]=n[1],e[14]=n[2],e[15]=1,e},c.fromQuat=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n+n,u=r+r,a=i+i,f=n*o,l=n*u,c=n*a,h=r*u,p=r*a,d=i*a,v=s*o,m=s*u,g=s*a;return e[0]=1-(h+d),e[1]=l+g,e[2]=c-m,e[3]=0,e[4]=l-g,e[5]=1-(f+d),e[6]=p+v,e[7]=0,e[8]=c+m,e[9]=p-v,e[10]=1-(f+h),e[11]=0,e[12]=0,e[13]=0,e[14]=0,e[15]=1,e},c.frustum=function(e,t,n,r,i,s,o){var u=1/(n-t),a=1/(i-r),f=1/(s-o);return e[0]=s*2*u,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=s*2*a,e[6]=0,e[7]=0,e[8]=(n+t)*u,e[9]=(i+r)*a,e[10]=(o+s)*f,e[11]=-1,e[12]=0,e[13]=0,e[14]=o*s*2*f,e[15]=0,e},c.perspective=function(e,t,n,r,i){var s=1/Math.tan(t/2),o=1/(r-i);return e[0]=s/n,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=s,e[6]=0,e[7]=0,e[8]=0,e[9]=0,e[10]=(i+r)*o,e[11]=-1,e[12]=0,e[13]=0,e[14]=2*i*r*o,e[15]=0,e},c.ortho=function(e,t,n,r,i,s,o){var u=1/(t-n),a=1/(r-i),f=1/(s-o);return e[0]=-2*u,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=-2*a,e[6]=0,e[7]=0,e[8]=0,e[9]=0,e[10]=2*f,e[11]=0,e[12]=(t+n)*u,e[13]=(i+r)*a,e[14]=(o+s)*f,e[15]=1,e},c.lookAt=function(e,n,r,i){var s,o,u,a,f,l,h,p,d,v,m=n[0],g=n[1],y=n[2],b=i[0],w=i[1],E=i[2],S=r[0],x=r[1],T=r[2];return Math.abs(m-S)<t&&Math.abs(g-x)<t&&Math.abs(y-T)<t?c.identity(e):(h=m-S,p=g-x,d=y-T,v=1/Math.sqrt(h*h+p*p+d*d),h*=v,p*=v,d*=v,s=w*d-E*p,o=E*h-b*d,u=b*p-w*h,v=Math.sqrt(s*s+o*o+u*u),v?(v=1/v,s*=v,o*=v,u*=v):(s=0,o=0,u=0),a=p*u-d*o,f=d*s-h*u,l=h*o-p*s,v=Math.sqrt(a*a+f*f+l*l),v?(v=1/v,a*=v,f*=v,l*=v):(a=0,f=0,l=0),e[0]=s,e[1]=a,e[2]=h,e[3]=0,e[4]=o,e[5]=f,e[6]=p,e[7]=0,e[8]=u,e[9]=l,e[10]=d,e[11]=0,e[12]=-(s*m+o*g+u*y),e[13]=-(a*m+f*g+l*y),e[14]=-(h*m+p*g+d*y),e[15]=1,e)},c.str=function(e){return"mat4("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+", "+e[4]+", "+e[5]+", "+e[6]+", "+e[7]+", "+e[8]+", "+e[9]+", "+e[10]+", "+e[11]+", "+e[12]+", "+e[13]+", "+e[14]+", "+e[15]+")"},typeof e!="undefined"&&(e.mat4=c);var h={};h.create=function(){var e=new n(4);return e[0]=0,e[1]=0,e[2]=0,e[3]=1,e},h.rotationTo=function(){var e=o.create(),t=o.fromValues(1,0,0),n=o.fromValues(0,1,0);return function(r,i,s){var u=o.dot(i,s);return u<-0.999999?(o.cross(e,t,i),o.length(e)<1e-6&&o.cross(e,n,i),o.normalize(e,e),h.setAxisAngle(r,e,Math.PI),r):u>.999999?(r[0]=0,r[1]=0,r[2]=0,r[3]=1,r):(o.cross(e,i,s),r[0]=e[0],r[1]=e[1],r[2]=e[2],r[3]=1+u,h.normalize(r,r))}}(),h.setAxes=function(){var e=l.create();return function(t,n,r,i){return e[0]=r[0],e[3]=r[1],e[6]=r[2],e[1]=i[0],e[4]=i[1],e[7]=i[2],e[2]=n[0],e[5]=n[1],e[8]=n[2],h.normalize(t,h.fromMat3(t,e))}}(),h.clone=u.clone,h.fromValues=u.fromValues,h.copy=u.copy,h.set=u.set,h.identity=function(e){return e[0]=0,e[1]=0,e[2]=0,e[3]=1,e},h.setAxisAngle=function(e,t,n){n*=.5;var r=Math.sin(n);return e[0]=r*t[0],e[1]=r*t[1],e[2]=r*t[2],e[3]=Math.cos(n),e},h.add=u.add,h.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=n[0],a=n[1],f=n[2],l=n[3];return e[0]=r*l+o*u+i*f-s*a,e[1]=i*l+o*a+s*u-r*f,e[2]=s*l+o*f+r*a-i*u,e[3]=o*l-r*u-i*a-s*f,e},h.mul=h.multiply,h.scale=u.scale,h.rotateX=function(e,t,n){n*=.5;var r=t[0],i=t[1],s=t[2],o=t[3],u=Math.sin(n),a=Math.cos(n);return e[0]=r*a+o*u,e[1]=i*a+s*u,e[2]=s*a-i*u,e[3]=o*a-r*u,e},h.rotateY=function(e,t,n){n*=.5;var r=t[0],i=t[1],s=t[2],o=t[3],u=Math.sin(n),a=Math.cos(n);return e[0]=r*a-s*u,e[1]=i*a+o*u,e[2]=s*a+r*u,e[3]=o*a-i*u,e},h.rotateZ=function(e,t,n){n*=.5;var r=t[0],i=t[1],s=t[2],o=t[3],u=Math.sin(n),a=Math.cos(n);return e[0]=r*a+i*u,e[1]=i*a-r*u,e[2]=s*a+o*u,e[3]=o*a-s*u,e},h.calculateW=function(e,t){var n=t[0],r=t[1],i=t[2];return e[0]=n,e[1]=r,e[2]=i,e[3]=-Math.sqrt(Math.abs(1-n*n-r*r-i*i)),e},h.dot=u.dot,h.lerp=u.lerp,h.slerp=function(e,t,n,r){var i=t[0],s=t[1],o=t[2],u=t[3],a=n[0],f=n[1],l=n[2],c=n[3],h,p,d,v,m;return p=i*a+s*f+o*l+u*c,p<0&&(p=-p,a=-a,f=-f,l=-l,c=-c),1-p>1e-6?(h=Math.acos(p),d=Math.sin(h),v=Math.sin((1-r)*h)/d,m=Math.sin(r*h)/d):(v=1-r,m=r),e[0]=v*i+m*a,e[1]=v*s+m*f,e[2]=v*o+m*l,e[3]=v*u+m*c,e},h.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n*n+r*r+i*i+s*s,u=o?1/o:0;return e[0]=-n*u,e[1]=-r*u,e[2]=-i*u,e[3]=s*u,e},h.conjugate=function(e,t){return e[0]=-t[0],e[1]=-t[1],e[2]=-t[2],e[3]=t[3],e},h.length=u.length,h.len=h.length,h.squaredLength=u.squaredLength,h.sqrLen=h.squaredLength,h.normalize=u.normalize,h.fromMat3=function(){var e=typeof Int8Array!="undefined"?new Int8Array([1,2,0]):[1,2,0];return function(t,n){var r=n[0]+n[4]+n[8],i;if(r>0)i=Math.sqrt(r+1),t[3]=.5*i,i=.5/i,t[0]=(n[7]-n[5])*i,t[1]=(n[2]-n[6])*i,t[2]=(n[3]-n[1])*i;else{var s=0;n[4]>n[0]&&(s=1),n[8]>n[s*3+s]&&(s=2);var o=e[s],u=e[o];i=Math.sqrt(n[s*3+s]-n[o*3+o]-n[u*3+u]+1),t[s]=.5*i,i=.5/i,t[3]=(n[u*3+o]-n[o*3+u])*i,t[o]=(n[o*3+s]+n[s*3+o])*i,t[u]=(n[u*3+s]+n[s*3+u])*i}return t}}(),h.str=function(e){return"quat("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+")"},typeof e!="undefined"&&(e.quat=h)}(t.exports)})(this);
+
+/**
+* Contains the Fullscreen Plugin.
+*
+* @module Kiwi
+* @submodule Plugins
+* @namespace Kiwi.Plugins
+* @class Fullscreen
+*/
+Kiwi.Plugins.Fullscreen = {
+  
+
+  /**
+  * The name of this plugin.
+  * @property name
+  * @type String
+  * @default 'Fullscreen'
+  * @public
+  */
+  name:'Fullscreen',
+
+
+  /**
+  * The version of this plugin.
+  * @property version
+  * @type String
+  * @default '1.0.0'
+  * @public
+  */
+  version:'1.0.0',
+   
+
+  /**
+  * The minimum version of Kiwi.js required to run this plugin in semver (semantic versioning) format
+  * @property minimumKiwiVersion
+  * @type String
+  * @public
+  */
+  minimumKiwiVersion:'1.1.0'
+
+
+};
+
+
+
+//Registers this plugin with the Global Kiwi Plugins Manager if it is avaiable.
+Kiwi.PluginManager.register(Kiwi.Plugins.Fullscreen);
+
+
+
+/**
+* This create method is executed when Kiwi Game that has been told to use this plugin reaches the boot stage of the game loop.
+* @method create
+* @param game {Kiwi.Game} The game that is current in the boot stage.
+* @private 
+*/
+Kiwi.Plugins.Fullscreen.create = function( game ) {
+      	
+  game.fullscreen = new Kiwi.Plugins.Fullscreen.Main( game );
+
+  return game.fullscreen;
+}
+
+
+
+/**
+* 
+* @module Plugins
+* @submodule Fullscreen
+* @class Main
+* @constructor
+* @param game {Kiwi.Game} The game that this 
+*/
+Kiwi.Plugins.Fullscreen.Main = function( game ) {
+
+
+
+  /**
+  * The game that this Fullscreen Plugin current exists on. 
+  * @property game
+  * @type Kiwi.Game
+  * @public
+  */
+  this.game = game;
+
+
+
+  /**
+  * If the Fullscreen API is support
+  * @property supported
+  * @type boolean
+  * @public
+  */
+  this.supported = false;
+
+
+
+  /**
+  * Used when checking to see if the Fullscreen API is supported.
+  * If support is found, then this will maintain a reference to the correct method for requesting fullscreen. 
+  * @property _requestFullscreen
+  * @type string
+  * @private
+  */
+  this._requestFullscreen = null;
+
+
+
+  /**
+  * Used when checking to see if the Fullscreen API is supported.
+  * If support is found, then this will maintain a reference to the correct method for canceling fullscreen.
+  * @property _cancelFullscreen
+  * @type string
+  * @private
+  */
+  this._cancelFullscreen = null;
+
+
+
+  /**
+  * When set to true, this will force Kiwi to recalculate the offset/scale of the container. 
+  * Implemented currently as a fix, since changing css styles do not take effect immediately.
+  * @property _updateStage
+  * @type booleab
+  * @private
+  */
+  this._updateScale = false;
+
+
+
+  /**
+  * Dispatches events when the game enters fullscreen.
+  * @property onEnter
+  * @type Kiwi.Signal
+  * @public
+  */
+  this.onEnter = new Kiwi.Signal();
+
+
+
+  /**
+  * Dispatches events when the game leaves fullscreen.
+  * @property onLeave
+  * @type Kiwi.Signal
+  * @public
+  */
+  this.onLeave = new Kiwi.Signal();
+
+
+}
+
+
+
+/**
+* If the game is currently in fullscreen mode or not. This is READ ONLY.
+* @property isFullscreen
+* @type boolean
+* @public
+*/ 
+Object.defineProperty( Kiwi.Plugins.Fullscreen.Main.prototype, "isFullscreen", {
+    get: function () {
+        if (  document['fullscreenElement'] || 
+              document['mozFullScreenElement'] || 
+              document['webkitFullscreenElement'] || 
+              document['msFullscreenElement'] ) {
+
+          return true;
+
+        } else {
+
+          return false;
+
+        }
+    },
+    enumerable: true,
+    configurable: true
+});
+
+
+
+/**
+* Returns the width of the window. This is the innerWidth/Height of the browser.
+* READ ONLY.
+* @property width
+* @type boolean
+* @public
+*/ 
+Object.defineProperty(Kiwi.Plugins.Fullscreen.Main.prototype, "width", {
+    get: function () {
+        return window.innerWidth;
+    },
+    enumerable: true,
+    configurable: true
+});
+
+
+
+/**
+* Returns the height of the window. This is the innerWidth/Height of the browser.
+* READ ONLY.
+* @property height
+* @type boolean
+* @public
+*/ 
+Object.defineProperty(Kiwi.Plugins.Fullscreen.Main.prototype, "height", {
+    get: function () {
+        return window.innerHeight;
+    },
+    enumerable: true,
+    configurable: true
+});
+
+
+
+/**
+* Executed when the DOM and all core Game managers have been loaded.
+* Checks for support of the fullscreen API.
+* @method boot
+* @private
+*/
+Kiwi.Plugins.Fullscreen.Main.prototype.boot = function() {
+  
+  /**
+  * A reference back to the container element that the game currently exists inside.
+  * @property container
+  * @type HTMLElement
+  * @public
+  */
+  this.container = this.game.stage.container;
+
+
+  /**
+  * The targeted element that the fullScreen API will apply to. 
+  * This will only take affect when the fullScreen API is supported, and if you change the targetted element then the game will not be constraited to the browser window.
+  * @property targetElement
+  * @type HTMLElement
+  * @public
+  */
+  this.targetElement = this.container;
+
+
+  //No fullscreen support in CocoonJS, because CocoonJS already can go fullscreen through use of the Stage/ScaleManager
+  if ( this.game.deviceTargetOption === Kiwi.TARGET_COCOON ) { 
+    this.supported = false;
+    return;
+  }
+
+
+  // Checks to see if the fullscreen API is supported and then gets the correct events.
+  this.checkSupport();
+
+
+  var that = this;
+
+  //Add Events for fullscreen changing.
+  document.addEventListener( 'webkitfullscreenchange', function ( event ) {
+      return that._onChange(event);
+  }, false);
+
+  document.addEventListener( 'mozfullscreenchange', function ( event ) {
+      return that._onChange(event);
+  }, false);
+
+  document.addEventListener( "MSFullscreenChange", function ( event ) {
+      return that._onChange(event);
+  }, false);
+
+  document.addEventListener( 'fullscreenchange', function ( event ) {
+      return that._onChange(event);
+  }, false);
+
+  //Events for when the game/window is resized.
+  this.game.stage.onResize.add( this._checkPositionChanges, this );
+  this.game.stage.onWindowResize.add( this._checkPositionChanges, this );
+
+}
+
+
+/**
+* Launches the game into Fullscreen mode.
+* @method launchFullscreen
+* @public
+*/ 
+Kiwi.Plugins.Fullscreen.Main.prototype.launchFullscreen = function( ) {
+
+  if ( this.supported ) {
+
+    if (this.fullscreenKeyboard ) {
+      this.targetElement[ this._requestFullscreen ]( Element.ALLOW_KEYBOARD_INPUT );
+    } else {
+      this.targetElement[ this._requestFullscreen ]();
+    }
+
+  } 
+
+}
+
+
+/**
+* Exits the game from Fullscreen mode. 
+* @method exitFullscreen
+* @public
+*/ 
+Kiwi.Plugins.Fullscreen.Main.prototype.exitFullscreen = function() {
+  
+  if ( !this.isFullscreen ) return;
+
+  if ( this.supported ) {
+    document[ this._cancelFullscreen ]();
+
+  } 
+
+}
+
+
+/**
+* Toggles the FullScreen state.
+* @method toggleFullscreen
+* @public
+*/
+Kiwi.Plugins.Fullscreen.Main.prototype.toggleFullscreen = function( ) {
+
+  if ( this.isFullscreen ) {
+    this.exitFullscreen();
+
+  } else {
+    this.launchFullscreen( );
+
+  }
+
+}
+
+
+/**
+* Executed when the fullscreen state changes. 
+* This method is excuted by change events of the browser and should as such should not be called directly.
+* @method _onChange
+* @param event {Event}
+* @private
+*/
+Kiwi.Plugins.Fullscreen.Main.prototype._onChange = function( event ) {
+  
+  if ( this.isFullscreen ) {
+    this._recalculateStyles();
+    this.onEnter.dispatch(); 
+  
+  } else {
+    this._removeStyles();
+    this.onLeave.dispatch();
+
+  }
+
+  this._updateScale = true;
+
+}
+
+
+/**
+* Called when an event that has affected the sizing of the Game during fullscreen has occured. 
+* This method is charged with recalcuating any coordinates/styles needed.
+* @method _checkPositionChanges
+* @private
+*/
+Kiwi.Plugins.Fullscreen.Main.prototype._checkPositionChanges = function() {
+
+  if ( this.isFullscreen ) {
+    this._recalculateStyles();
+  } 
+
+}
+
+
+/**
+* Recalculates and applys styles that need to occur onto the targetElement (only if the targetElement is the game container).
+* Note that it is assumed that the browser is in fullscreen mode when this method is called. 
+* Method used for internal calls only.
+* @method _recalculateStyles
+* @private
+*/
+Kiwi.Plugins.Fullscreen.Main.prototype._recalculateStyles = function() {
+
+  if ( this.targetElement === this.game.stage.container ) {
+
+    this.targetElement.style.margin = '0 auto';
+
+    //Makes sure the height does not extend past the windows. 
+    if ( this.game.stage.scaleType === Kiwi.Stage.SCALE_FIT ) {
+
+      //Is the height greater than the window?
+      var ch = parseInt( this.targetElement.style.height );
+
+      if ( ch > this.height ) {
+
+        this.targetElement.style.maxHeight = this.height + 'px';
+
+        //Calculate how wide the container needs to be 
+        this.targetElement.style.minWidth = String( this.game.stage.width * ( this.height / this.game.stage.height ) ) + 'px'; 
+
+        this._updateStageScale();
+
+      }
+
+
+    }
+
+
+  }
+
+}
+
+/**
+* Recalculates the scale on the stage, which is used by the Pointer.
+* This is a workaround.
+* @method _updateStageScale
+* @private
+*/
+Kiwi.Plugins.Fullscreen.Main.prototype._updateStageScale = function() {
+
+  this.game.stage.offset = this.game.stage.getOffsetPoint(this.container);
+
+  this.game.stage._scale.x = this.game.stage._width / this.container.clientWidth;
+  this.game.stage._scale.y = this.game.stage._height / this.container.clientHeight;
+
+}
+
+
+/**
+* Removes all styles that may have been applied because of going into fullscreen mode. 
+* @method _removeStyles
+* @private
+*/
+Kiwi.Plugins.Fullscreen.Main.prototype._removeStyles = function() {
+  this.targetElement.style.maxHeight = '';
+  this.targetElement.style.margin = '';
+}
+
+
+/**
+* The update loop for this Plugin. 
+* @method update
+* @private
+*/
+Kiwi.Plugins.Fullscreen.Main.prototype.update = function() {
+
+  if ( this._updateScale ) {
+    this.game.stage._calculateContainerScale(); 
+    this._updateScale = false;
+
+  }
+
+}
+
+
+
+/**
+* Checks support of the fullscreen API. 
+* If support is found, then it maintains the correct methods for enabling/disabling FullScreen.
+* @method checkSupport
+* @public
+*/
+Kiwi.Plugins.Fullscreen.Main.prototype.checkSupport = function() {
+
+  var fs = [
+      'requestFullscreen',
+      'requestFullScreen',
+      'webkitRequestFullscreen',
+      'webkitRequestFullScreen',
+      'msRequestFullscreen',
+      'msRequestFullScreen',
+      'mozRequestFullScreen',
+      'mozRequestFullscreen'
+  ];
+
+  for ( var i = 0;  i < fs.length;  i++ ) {
+      if ( this.container[ fs[ i ] ] ) {
+          this.supported = true;
+          this._requestFullscreen = fs[i];
+          break;
+      }
+  }
+
+  var cfs = [
+      'cancelFullScreen',
+      'exitFullscreen',
+      'webkitCancelFullScreen',
+      'webkitExitFullscreen',
+      'msCancelFullScreen',
+      'msExitFullscreen',
+      'mozCancelFullScreen',
+      'mozExitFullscreen'
+  ];
+
+  if ( this.supported ) {
+      for ( var i = 0;  i < cfs.length;  i++ ) {
+          if ( document[ cfs[ i ] ] ) {
+              this._cancelFullscreen = cfs[i];
+              break;
+          }
+      }
+  }
+
+  //  Keyboard Input?
+  if ( window['Element'] && Element['ALLOW_KEYBOARD_INPUT'] ) {
+      this.fullscreenKeyboard = true;
+  }
+
+}
+/**
+* The Gamepad plugin brings the features of Gamepad.js to Kiwi.js.
+* For more information look here: https://dvcs.w3.org/hg/gamepad/raw-file/default/gamepad.html
+* @module Kiwi
+* @submodule Plugins
+* @class Gamepad
+*/
+
+Kiwi.Plugins.Gamepad = {
+	/**
+    * The name of this plugin.
+    * @property name
+    * @default "Gamepad"
+    * @public
+    */
+	name:"Gamepad",
+	/**
+    * The version of this plugin.
+    * @property version
+    * @default "1.0.0"
+    */
+	version:"1.0.0",
+	minimumKiwiVersion: "1.0.0"
+};
+Kiwi.PluginManager.register(Kiwi.Plugins.Gamepad);
+
+
+/**
+* Called when the plugin is properly created.
+* @method create
+* @param game {Kiwi.Game} Game in which the gamepad is used
+* @public
+* @return Kiwi.Plugins.Gamepad.Manager
+*/
+
+/**
+*
+* @method create
+* @param game {Kiwi.Game} The game that is current in the boot stage.
+* @private 
+*/
+
+Kiwi.Plugins.Gamepad.create = function( game ) {
+	var support = Kiwi.Plugins.Gamepad.supportsGamepad();
+	if( !support ) {
+		console.error ( "Your browser / platform does not support Gamepad Controllers" );
+	}
+	game.gamepads = new Kiwi.Plugins.Gamepad.Manager( game );
+	return game.gamepads;
+};
+
+
+/**
+* Returns whether the browser supports gamepads.
+* @method supportsGamepad
+* @public
+* @return Boolean
+*/
+Kiwi.Plugins.Gamepad.supportsGamepad = function() {
+	return "getGamepads" in navigator;
+};
+
+
+/**
+* Manages all gamepads in the game.
+* @module Kiwi.Plugins
+* @submodule Gamepad
+* @class Manager
+* @constructor
+* @param game {Kiwi.Game} Game in which the gamepad is used
+*/
+Kiwi.Plugins.Gamepad.Manager = function( game ) {
+	this.game = game;
+	var gamepads = [],
+		gamepadLength = navigator.getGamepads().length;
+
+	for (var i = gamepadLength - 1; i >= 0; i--) {
+		var tempController = new Kiwi.Plugins.Gamepad.Controller( this, 0.25, 0.25 );
+		gamepads.push( tempController );
+	}
+
+	this.gamepads = gamepads;
+
+	this.gamepadConnected = new Kiwi.Signal();
+	this.gamepadDisconnected = new Kiwi.Signal();
+
+	var self = this;
+	window.addEventListener("gamepadconnected", function( event ) {
+		// console.log( "connected" );
+		self.gamepadConnected.dispatch( event.gamepad );
+	});
+	window.addEventListener("gamepaddisconnected", function( event ) {
+		// console.log( "disconnected" );
+		self.gamepadDisconnected.dispatch( event.gamepad);
+	});
+
+};
+
+
+/**
+* THis method Updates all gamepads connected to computer.
+* @method update
+* @private
+*/
+Kiwi.Plugins.Gamepad.Manager.prototype.update = function( ) {
+	var i,
+		gamepads = navigator.getGamepads();
+
+	for ( i = 0; i < gamepads.length; i++ ) {
+		if ( gamepads[ i ] ) {
+			this.gamepads[ i ].checkButtons( gamepads[ i ]);
+			this.gamepads[ i ].checkAxes( gamepads[ i ] );
+		}
+	}
+};
+
+
+/*
+* Controls an individual gamepad.
+*
+* @class Controller
+* @constructor
+* @param parent {Kiwi.Plugins.Gamepad.Manager} Gamepad manager
+* @param [axesThreshold] {Number} Between 0 - 1.
+*	This sets the threshold that a thumbstick must exceed
+*	before it is considered hit.
+* @param [triggerThreshold] {Number} Between 0 - 1.
+*	This sets the threshold that a button must exceed
+*	before it is considered hit.
+*/
+Kiwi.Plugins.Gamepad.Controller = function ( parent, axesThreshold, triggerThreshold ) {
+	this.parent = parent;
+	this.axesThreshold = axesThreshold;
+	this.triggerThreshold = triggerThreshold;
+	this.createButtons();
+	this.createAxes();
+
+	this.threshold = axesThreshold;
+
+	this.buttonOnUp = new Kiwi.Signal();
+	this.buttonIsDown = new Kiwi.Signal();
+	this.buttonOnDownOnce = new Kiwi.Signal();
+	this.justReleased = new Kiwi.Signal();
+
+	this.thumbstickOnUp = new Kiwi.Signal();
+	this.thumbstickIsDown = new Kiwi.Signal();
+	this.thumbstickOnDownOnce = new Kiwi.Signal();
+	// this.justReleased = new Kiwi.Signal();
+};
+
+
+/*
+* This method creates all of the buttons that a Controller will use and assigns names.
+* @method createButtons
+* @private
+*/
+Kiwi.Plugins.Gamepad.Controller.prototype.createButtons = function() {
+
+	this.button0 = new Kiwi.Plugins.Gamepad.Button( 0, "XBOX_A");
+	this.button1 = new Kiwi.Plugins.Gamepad.Button( 0, "XBOX_B");
+	this.button2 = new Kiwi.Plugins.Gamepad.Button( 0, "XBOX_X");
+	this.button3 = new Kiwi.Plugins.Gamepad.Button( 0, "XBOX_Y");
+
+	this.button4 = new Kiwi.Plugins.Gamepad.Button( 0, "XBOX_LEFT_BUMPER");
+	this.button5 = new Kiwi.Plugins.Gamepad.Button( 0, "XBOX_RIGHT_BUMPER");
+	this.button6 = new Kiwi.Plugins.Gamepad.Button( 0, "XBOX_LEFT_TRIGGER", 0.2);
+	this.button7 = new Kiwi.Plugins.Gamepad.Button( 0, "XBOX_RIGHT_TRIGGER", 0.2);
+
+	this.button8 = new Kiwi.Plugins.Gamepad.Button( 0, "XBOX_BACK");
+	this.button9 = new Kiwi.Plugins.Gamepad.Button( 0, "XBOX_START");
+
+	this.button10 = new Kiwi.Plugins.Gamepad.Button( 0, "XBOX_LEFT_STICK");
+	this.button11 = new Kiwi.Plugins.Gamepad.Button( 0, "XBOX_RIGHT_STICK");
+
+	this.button12 = new Kiwi.Plugins.Gamepad.Button( 0, "XBOX_DPAD_UP");
+	this.button13 = new Kiwi.Plugins.Gamepad.Button( 0, "XBOX_DPAD_DOWN");
+	this.button14 = new Kiwi.Plugins.Gamepad.Button( 0, "XBOX_DPAD_LEFT");
+	this.button15 = new Kiwi.Plugins.Gamepad.Button( 0, "XBOX_DPAD_RIGHT");
+
+	// this.button16 = new Kiwi.Plugins.Gamepad.Button( 0, "XBOX_MIDDLE_BUTTON");
+
+	this.rightButtons = [ this.button0, this.button1, this.button2, this.button3 ];
+	this.bumpers = [ this.button4, this.button5 ];
+	this.trigers = [ this.button6, this.button7 ];
+	this.thumbsticks = [ this.button10, this.button11 ];
+	this.dpad = [ this.button12, this.button13, this.button14, this.button15 ];
+	this.optionButtons = [  this.button8, this.button9,  this.button16 ];
+
+	this.buttons = [ this.button0, this.button1, this.button2, this.button3,
+		this.button4, this.button5, this.button6, this.button7,
+		this.button8, this.button9, this.button10, this.button11,
+		this.button12, this.button13, this.button14, this.button15 ];
+
+};
+
+
+/*
+* Create all of the axes that a Controller will use and assigns names.
+* @method createAxes
+* @private
+*/
+Kiwi.Plugins.Gamepad.Controller.prototype.createAxes = function() {
+	this.axis0 = new Kiwi.Plugins.Gamepad.Thumbstick( 0, "XBOX_LEFT_HORZ", 0.1);
+	this.axis1 = new Kiwi.Plugins.Gamepad.Thumbstick( 0, "XBOX_LEFT_VERT", 0.1);
+	this.axis2 = new Kiwi.Plugins.Gamepad.Thumbstick( 0, "XBOX_RIGHT_HORZ", 0.1);
+	this.axis3 = new Kiwi.Plugins.Gamepad.Thumbstick( 0, "XBOX_RIGHT_VERT", 0.1);
+
+	this.axes = [ this.axis0, this.axis1, this.axis2, this.axis3 ];
+	this.leftAxis = [ this.axis0, this.axis1 ];
+	this.rightAxis = [ this.axis2, this.axis3 ];
+};
+
+
+/*
+* Check to see if the state of a button has changed and fire the appropriate signal
+* @method checkButtons
+* @param gamepad {Kiwi.Plugins.Gamepad.Controller} Gamepad to check
+* @private
+*/
+Kiwi.Plugins.Gamepad.Controller.prototype.checkButtons = function( gamepad ) {
+	for (var i = this.buttons.length - 1; i >= 0; i--) {
+		if ( this.buttons[ i ].pressed ===  gamepad.buttons[ i ].pressed ){
+			if ( this.buttons[ i ].pressed === true ){
+				this.buttons[ i ].isDown( gamepad.buttons[ i ] );
+				this.buttonIsDown.dispatch( this.buttons[ i ] );
+			}
+		} else if ( this.buttons[ i ].pressed !==  gamepad.buttons[ i ].pressed ) {
+			if ( gamepad.buttons[ i ].pressed === true ) {
+				this.buttons[ i ].press( gamepad.buttons[ i ] );
+				this.buttonIsDown.dispatch( this.buttons[ i ] );
+				this.buttonOnDownOnce.dispatch( this.buttons[ i ] );
+			} else if ( gamepad.buttons[ i ].pressed === false ) {
+				this.buttons[ i ].release();
+				this.buttonOnUp.dispatch( this.buttons[ i ] );
+			}
+		}
+	}
+};
+
+
+/*
+* Check to see if the state of axes has changed and fire the appropriate signal
+* @method checkAxes
+* @param gamepad {Kiwi.Plugins.Gamepad.Controller} Gamepad to check
+* @private
+*/
+Kiwi.Plugins.Gamepad.Controller.prototype.checkAxes = function( gamepad ) {
+	var i;
+
+	for ( i = this.axes.length - 1; i >= 0; i-- ) {
+		if ( Math.abs( this.axes[ i ].value ) > this.threshold &&  Math.abs( gamepad.axes[ i ] ) > this.threshold ) {
+			if ( Math.abs( this.axes[ i ].value ) > this.threshold ) {
+				////////////////////
+				//FIRE IS DOWN SIGNAL
+				this.axes[ i ].isDown( gamepad.axes[ i ] );
+
+				this.thumbstickIsDown.dispatch( this.axes[ i ] );
+
+			}
+		} else if ( Math.abs( this.axes[ i ].value ) > this.threshold ||  Math.abs( gamepad.axes[ i ] ) > this.threshold ) {
+			if ( Math.abs( this.axes[ i ].value ) > this.threshold ) {
+				this.axes[ i ].press( gamepad.axes[ i ] );
+
+				this.thumbstickIsDown.dispatch( this.axes[ i ] );
+				this.thumbstickOnDownOnce.dispatch( this.axes[ i ] );
+
+			} else if ( Math.abs( this.axes[ i ].value ) < this.threshold ) {
+				this.axes[ i ].release();
+				this.thumbstickOnUp.dispatch( this.axes[ i ] );
+			}
+
+		}
+		this.axes[i].value = gamepad.axes[i];
+
+	}
+};
+
+
+/**
+* The Button class is used to keep track of each button. Currently it only
+* tracks index, value, and the pressed boolean. In future we are hoping to add 
+* functionality such as duration and more
+* @class Button
+* @constructor
+* @param index {Number} Index of the button mapped out on the controller
+* @param name {String} Name that we give the button, based on the Xbox 360 controller
+* @param [threshold] {Number} Between 0 - 1.
+*	This sets the threshold that a button must exceed
+*	before it is considered hit. Only works for triggers.
+*/
+Kiwi.Plugins.Gamepad.Button = function ( index, name, threshold ) {
+	this.index = index;
+	this.name = name;
+	this.threshold = threshold || 0;
+
+	this.value = 0;
+	this.pressed = false;
+
+	// this.startDown;
+	// this.startUp;
+	this.pressed = false;
+};
+
+
+/**
+* Switches the button to the released state
+* @method release
+* @private
+*/
+Kiwi.Plugins.Gamepad.Button.prototype.release = function() {
+	this.pressed = false;
+	this.value = 0;
+};
+
+
+/**
+* Switches the button to the press state
+* @method press
+* @private
+*/
+Kiwi.Plugins.Gamepad.Button.prototype.press = function( button ) {
+	this.pressed = true;
+	this.value = button.value;
+};
+
+
+/**
+* Switches the button to the isDown state
+* @method isDown
+* @private
+*/
+Kiwi.Plugins.Gamepad.Button.prototype.isDown = function( button ) {
+	this.pressed = true;
+	this.value = button.value;
+};
+
+
+/**
+* The Thumbstick class is used to keep track of each thumbstick. Currently it only
+* tracks index and value. In future we are hoping to add functionality such as 
+* duration and more
+* @class Thumbstick
+* @constructor
+* @param index {Number} This is the index of the axis mapped out on the controller. 
+* @param name {String} The name that we give the button. We have based these off the Xbox 360 controller
+* @param [threshold] {Number} Between 0 - 1.
+*	This sets the threshold that a button must exceed
+*	before it is considered hit. Only works for triggers.
+*/
+Kiwi.Plugins.Gamepad.Thumbstick = function( index, name, threshold ) {
+	this.threshold = threshold;
+	this.name = name;
+	this.index = index;
+	this.threshold = threshold || 0.25;
+	this.value = 0;
+};
+
+
+/**
+* Switches the Thumbstick to the release state
+* @method release
+* @private
+*/
+Kiwi.Plugins.Gamepad.Thumbstick.prototype.release = function () {
+	this.value = 0;
+};
+
+
+/**
+* Switches the Thumbstick to the press state
+* @method press
+* @param axis {Number}
+* @private
+*/
+Kiwi.Plugins.Gamepad.Thumbstick.prototype.press = function ( axis ) {
+	this.value = axis;
+};
+
+
+/**
+* Switches the Thumbstick to the isDown state
+* @method isDown
+* @param axis {Number}
+* @private
+*/
+Kiwi.Plugins.Gamepad.Thumbstick.prototype.isDown = function ( axis ) {
+	this.value = axis;
+};
+
+Kiwi.Plugins.SaveGame = {
+
+    name: 'SaveGame',
+    version: '1.0.1'
+    
+};
+
+Kiwi.PluginManager.register(Kiwi.Plugins.SaveGame);
+
+
+/** 
+* The create method that the plugin manager will execute when the game this plugin is on is created.
+* @method SaveGame.create
+* @param game {Game} The game that this Plugin is being created on/should be created on.
+* @return SaveManager
+*/
+Kiwi.Plugins.SaveGame.create = function(game) {
+    
+    var saveManager = new Kiwi.Plugins.SaveGame.SaveManager(game);
+    game.saveManager = saveManager;
+
+    //Tells the Plugin Manager to execute the boot method that is on the saveManager that was just created.
+    return game.saveManager;	
+}
+
+/**
+* Is the section of the Plugins that holds the various ways that deal with the saving of information. 
+* The area in the information is stored can be a varierty of places (e.t.c LocalStorage, on a Server)
+* and as such when saving you have to go through the SaveManager first
+* 
+* @module Plugins
+* @submodule SaveGame
+* @main SaveGame
+*/
+
+/**
+* Is responsible for the storage and management of the various ways a Developer can save game information.
+* This is useful as in the future there will be a variety of different ways/locations you can save information in. 
+* Example: You may want to save information locally so you would use the localStorage area on this saveManager but if you wanted the information saved on a server then you would use a different 'plugin' that would save it onto a server. 
+* 
+* @class SaveManager
+* @constructor
+* @param game {Game}
+* @return SaveManager
+*/
+Kiwi.Plugins.SaveGame.SaveManager = function(game) {
+
+    /**
+    * The game that this SaveManager belongs to.
+    * @property game
+    * @type Game
+    * @public
+    */
+	this.game = game;
+}
+
+
+/**
+* Returns the type of object that this is.
+* @method objType
+* @return string
+* @public
+*/
+Kiwi.Plugins.SaveGame.SaveManager.prototype.objType = function() {
+    return 'SaveManager';
+}
+
+/**
+* The boot method for this SaveManager is executed when the game is in the process of starting up.
+* This is an internal method used by Kiwi and as such a Dev should not need to use it.
+* @method boot
+* @protected
+*/
+Kiwi.Plugins.SaveGame.SaveManager.prototype.boot = function() {
+
+    /**
+    * Contains the object that handles localStorage saving of data for this game. 
+    * @property localStorage 
+    * @public
+    */
+    this.localStorage = new Kiwi.Plugins.SaveGame.LocalStorage(this.game);
+
+    /**
+    * Refer's to the current saving 'method' that is being. More useful if you have multiple different ways of saving information and you want to switch between them. 
+    * @property current
+    * @public
+    */
+    this.current = this.localStorage;
+
+}
+
+/**
+* Switches the current method of saving that being used to a different one based on the type passed. 
+* @method switchCurrent
+* @param type {Number}
+* @public
+*/
+Kiwi.Plugins.SaveGame.SaveManager.prototype.switchCurrent = function(type) {
+    if(typeof type === "undefined") return;
+
+    switch(type) {
+
+        case Kiwi.Plugins.SaveGame.SaveManager.LOCAL_STORAGE:
+            this.current = this.localStorage;
+            break;
+    
+    }
+
+}
+
+/**
+* Returns add method on the current saving method that is being used. 
+* @method add
+* @param key {String}
+* @param data {Any}
+* @param save {Boolean}
+* @return {Boolean}
+* @public
+*/
+Object.defineProperty(Kiwi.Plugins.SaveGame.SaveManager.prototype, "add", {
+    get: function () {
+        return this.current.add.bind(this.current);
+    },
+    enumerable: true,
+    configurable: true
+});
+
+/**
+* Returns edit method on the current saving method that is being used.
+* @method edit
+* @param key {String}
+* @param data {Any}
+* @param save {Boolean}
+* @return {Boolean}
+* @public
+*/
+Object.defineProperty(Kiwi.Plugins.SaveGame.SaveManager.prototype, "edit", {
+    get: function () {
+        return this.current.edit.bind(this.current);
+    },
+    enumerable: true,
+    configurable: true
+});
+
+/**
+* Returns remove method on the current saving method that is being used.
+* @method remove
+* @param key {String}
+* @param save {Boolean}
+* @return {Boolean}
+* @public
+*/
+Object.defineProperty(Kiwi.Plugins.SaveGame.SaveManager.prototype, "remove", {
+    get: function () {
+        return this.current.delete.bind(this.current);
+    },
+    enumerable: true,
+    configurable: true
+});
+
+/**
+* Returns getData method on the current saving method that is being used.
+* @method getData
+* @param key {String}
+* @return {Boolean}
+* @public
+*/   
+Object.defineProperty(Kiwi.Plugins.SaveGame.SaveManager.prototype, "getData", {
+    get: function () {
+        return this.current.getData.bind(this.current);
+    },
+    enumerable: true,
+    configurable: true
+});
+
+/**
+* Returns save method on the current saving method that is being used.
+* @method save
+* @return {Boolean}
+* @public
+*/
+Object.defineProperty(Kiwi.Plugins.SaveGame.SaveManager.prototype, "save", {
+    get: function () {
+        return this.current.save.bind(this.current);
+    },
+    enumerable: true,
+    configurable: true
+});
+
+/**
+* Returns the exists method on the current saving method that is being used.
+* @method exists
+* @return {Boolean}
+* @public
+*/
+Object.defineProperty(Kiwi.Plugins.SaveGame.SaveManager.prototype, "exists", {
+    get: function () {
+        return this.current.exists.bind(this.current);
+    },
+    enumerable: true,
+    configurable: true
+});
+
+/**
+* A Static property with the number associated with the used of localstorage method.
+* @property LOCAL_STORAGE
+* @type number
+* @static
+* @default 1
+* @public
+*/
+Kiwi.Plugins.SaveGame.SaveManager.LOCAL_STORAGE = 1;
+
+/**
+* 
+* @module Plugins
+* @submodules SaveGame 
+* 
+*/
+
+/**
+* Handles the saving of information through localStorage for a Kiwi Game.
+* All of the information that is saved using this object is stored based on the name of the Game.
+* So be careful when dealing with multiple games of the same name, as the data can conflict. 
+* 
+* @class LocalStorage
+* @param game {Game}
+* @return LocalStorage
+*/
+Kiwi.Plugins.SaveGame.LocalStorage = function(game) {
+    this.game = game;
+
+    /**
+    * Holds all of the data that is currently in OR that is to be saved in localStorage. Private modification only.
+    * @property _data
+    * @type Object
+    * @private
+    */
+    this._data = {};
+
+    /**
+    * If the localStorage method of saving is supported on this game or not.
+    * This can be due to the browser not supporting localStorage or localStorage being full when the game was loading.
+    * @property _supported
+    * @type Boolean
+    * @private
+    */
+    this._supported = Kiwi.DEVICE.localStorage;
+
+    if(this.supported) 
+        this._retrieveData();
+}
+
+/**
+* Returns the data object, note that this is a READ only property. 
+* @property data
+* @type Object
+* @public
+*/
+Object.defineProperty(Kiwi.Plugins.SaveGame.LocalStorage.prototype, "data", {
+    get: function () {
+        return this._data;
+    },
+    enumerable: true,
+    configurable: true
+});
+
+/**
+* Returns whether or not the localStorage method of saving information is supported or not.
+* @property supported
+* @type Boolean
+* @public
+*/
+Object.defineProperty(Kiwi.Plugins.SaveGame.LocalStorage.prototype, "supported", {
+    get: function () {
+        return this._supported;
+    },
+    enumerable: true,
+    configurable: true
+});
+
+/**
+* Returns the type of object that this is.
+* @method objType
+* @return String
+* @public
+*/
+Kiwi.Plugins.SaveGame.LocalStorage.prototype.objType = function() {
+    return 'LocalStorage';
+}
+
+/**
+* This method is executed upon the creation of the localStorage object and is used internall only!
+* @method _retrieveData
+* @private
+*/
+Kiwi.Plugins.SaveGame.LocalStorage.prototype._retrieveData = function() {
+
+    if (localStorage.getItem(this.game.stage.name) !== null) {
+        var temp = localStorage.getItem(this.game.stage.name);
+        this._data = JSON.parse(temp);
+
+    } else {
+        this._create();
+    }
+
+}
+
+/**
+* Creates (or tried to create) a new localStroage object for this game. If it fails it is due to lack of memory.
+* @method _create
+* @Private
+*/
+Kiwi.Plugins.SaveGame.LocalStorage.prototype._create = function() {
+    try {
+        this._data = {name: this.game.stage.name};
+        localStorage.setItem(this.game.stage.name, JSON.stringify(this._data));
+    
+    } catch (e) {
+
+        console.log('Can not use localstorage due to memory limitations.');
+        this._supported = false;
+    }    
+}
+
+/**
+* Adds a new piece of data/information to the data object to be saved. 
+* Note: Does not check to see if the information already exists, so if it does that information is overriden. 
+* @method add
+* @param key {String} The key for the piece of information you want to save. So that you can access it later.
+* @param data {Any} The data that you want to save.
+* @param save {Boolean} If you want to save the information immediately.
+* @return {Boolean} Whether the information was successfully added or not. 
+* @public
+*/
+Kiwi.Plugins.SaveGame.LocalStorage.prototype.add = function(key, data, save) {
+    if(typeof save == "undefined") save = false;
+
+    if (this.supported === true) {
+        
+        this._data[key] = data;
+        
+        if(save === true) {
+            this.save();
+        } else {
+            return true;
+        }
+        
+    }
+
+    return false;
+}
+
+/**
+* Edits a currently existing piece of information that has been saved. 
+* @method edit
+* @param key {String} The piece of information you want to edit.
+* @param data {Any} The new information to save.
+* @param save {Boolean} If the information should be immediately saved or not.
+* @return {Boolean} A boolean indicating whether or not the information was succesfully modified or not.
+* @public
+*/
+Kiwi.Plugins.SaveGame.LocalStorage.prototype.edit = function(key, data, save) {
+    if(typeof save == "undefined") save = false;
+
+    if (this.supported === true) {
+        if (this._data[key] !== null) {
+            this._data[key] = data;
+            
+            if(save === true) {
+                this.save();
+            } else {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+/**
+* Returns a piece of information/data that is stored based on the key that is provided. 
+* If that key does not exist then null is returned.
+* @method getData
+* @param key {String} The key for the piece of information you want to retrieve.
+* @return {Boolean}
+* @public
+*/        
+Kiwi.Plugins.SaveGame.LocalStorage.prototype.getData = function(key) {
+    if (this.supported === true) {
+        if (this._data[key]) {
+            return this._data[key];
+        }
+    }
+    return null;
+}
+
+/**
+* Returns a boolean indicating whether or a piece of information exists (has been saved or will be saved) based on a key that is provided.
+* @method exists
+* @param key {String} The key for the piece of information you want to check.
+* @return {Boolean}
+* @public
+*/
+Kiwi.Plugins.SaveGame.LocalStorage.prototype.exists = function(key) {
+    return (this._data[key] !== undefined);
+}
+
+/**
+* Removes/deletes a piece of information.  
+* @method remove
+* @param key {String} The key of the information you want to remove.
+* @param save {Boolean} If the save method should be executed right away or not.
+* @return {Boolean} If it was successful.
+* @public
+*/
+Kiwi.Plugins.SaveGame.LocalStorage.prototype.remove = function(key, save) {
+    if(typeof save == "undefined") save = false;
+
+    if (this.supported === true) {
+        if (this._data[key] !== null) {
+            delete this._data[key];
+            
+            if(save === true) {
+                this.save();
+            } else {
+                return true;
+            }
+        }
+    }
+}
+
+/**
+* Used to remove all developer saved values from localStorage. 
+* @method clear
+* @param save {Boolean} If the save method should be executed or not.
+* @public
+*/
+Kiwi.Plugins.SaveGame.LocalStorage.prototype.clear = function(save) {
+    if(typeof save == "undefined") save = false;
+
+    if (this.supported === true) {
+        this._data = {};
+        if(save === true) this.save();
+    }
+}
+
+/**
+* Saves the information that is stored in the _data property into localStorage. 
+* Returns a boolean indicating whether or not the save was successful. 
+* If it was unsuccessful then localStorage is full and cannot be used until cleared.
+* @method save
+* @return {Boolean} If the saving was successful
+* @public
+*/
+Kiwi.Plugins.SaveGame.LocalStorage.prototype.save = function() {
+
+    //Try to save the information in localStorage. 
+    try {
+
+        //Using setItem as it is more persistent in Cocoon.
+        localStorage.setItem([this.game.stage.name], JSON.stringify(this._data));
+        return true;
+
+    } catch (e) {
+        console.log('Localstorage is full. Could not update.');
+        return false;
+    }
+
+}
+
+/**
+* Loads all of the information from LocalStorage. 
+* Note: Reset's all of the information currently saved in the _data object to the information saved in localStorage.  
+* @method load
+* @return {Boolean} If the loading was succesful or not.
+* @public
+*/
+Kiwi.Plugins.SaveGame.LocalStorage.prototype.load = function() {
+
+    if(this.supported === true) {
+
+        this._data = JSON.parse(localStorage.getItem(this.game.stage.name));
+        
+        return true;
+    }
+
+    return false;
+}
+
+/**
+* Primitive Gameobjects plugin, providing geometric objects to the designer.
+*
+* @module Kiwi
+* @submodule Plugins
+* @namespace Kiwi.Plugins
+* @class Primitives
+*/
+Kiwi.Plugins.Primitives = {
+
+	/**
+	* The name of this plugin.
+	* @property name
+	* @type String
+	* @default "Primitives"
+	* @public
+	*/
+	name:"Primitives",
+
+	/**
+	* The version of this plugin.
+	* @property version
+	* @type String
+	* @public
+	*/
+	version:"1.0.2",
+
+	minimumKiwiVersion:"1.1.0"
+
+};
+
+/**
+* Registers this plugin with the Global Kiwi Plugins Manager if it is avaiable.
+* 
+*/
+Kiwi.PluginManager.register(Kiwi.Plugins.Primitives);
+
+/**
+* This create method is executed when Kiwi Game that has been told to
+* use this plugin reaches the boot stage of the game loop.
+* @method create
+* @param game{Kiwi.Game} The game that is current in the boot stage.
+* @private 
+*/
+Kiwi.Plugins.Primitives.create = function(game) {
+	console.log( "Hello " + game.name );
+};
+
+
+/**
+* Polygon Gameobject
+* <br><br>
+* This is the master system which handles all primitives. When you create
+* another primitive (Ellipse, Line, Rectangle, Star or Triangle) you are
+* really creating a Polygon with some options pre-set. All primitives
+* inherit parameters and methods from Polygon.
+* <br><br>
+* Polygons are defined with a params object. This must contain the non-optional
+* parameter "state", which is a reference to the current state. It also contains
+* optional transform and style information.
+* <br><br>
+* You may specify common transform options in the params of any primitive.
+* This includes alpha, visible, x, y, rotation, scale, scaleX, scaleY,
+* anchorPointX, and anchorPointY. If not specified, these default to alpha = 1,
+* visible = true, x = 0, y = 0, rotation = 0, scale = 1, and the anchorPoint
+* defaults to the geometric center of the object.
+* <br><br>
+* All primitives contain both a fill and a stroke. You may style these
+* separately and enable or disable rendering of either. Available style options
+* include color (the color with which the primitive is filled; an array of 3
+* normalized values, from black [ 0, 0, 0 ] to white [ 1, 1, 1 ] ), drawFill
+* (whether to render the fill), strokeColor (as color, but for the stroke),
+* drawStroke (whether to render the stroke), and strokeWidth (the width of the
+* stroke line, in pixels).
+* <br><br>
+* If the default primitives do not meet your requirements, you can define your
+* own by using the Polygon. You will need to provide the params object with
+* arrays of vertices, indices, and strokeIndices.
+* <br><br>
+* new Kiwi.Plugins.Primitives.Polygon( {<br>
+*	state: MyGame.state,<br>
+*	indices: [ 0, 1, 2, 3 ],<br>
+*	vertices: [[ 0, 0 ], [ 100, 100 ], [ 200, 0 ], [ 300, 100 ] ],<br>
+*	strokeIndices: [ 0, 1, 2, 0 ]<br>
+* } );
+* <br><br>
+* All three arrays are processed to create new internal representations.
+* Two Polygons created from the same arrays will not contain the same data.
+* This prevents unexpected modifications from one object affecting another.
+* <br><br>
+* The "vertices" param is a list of points, each defined as an array of two
+* points. The order of vertices does not matter for rendering, but you must be
+* aware of it. A simple vertices array might read [ [ 0, 0 ], [ 100, 100 ],
+* [ 200, 0 ], [ 300, 100 ] ]. Each is an XY coordinate.
+* <br><br>
+* The "indices" param is a list of references to vertices. It is processed
+* using a TRIANGLE_STRIP procedure. This means that every three consecutive
+* values on the list define a new triangle. You can add new triangles simply
+* by appending a single new index. Each index is the array position of a vertex.
+* For example, to draw a single triangle you could pass [ 0, 1, 2 ]. To draw two
+* triangles, you could pass [ 0, 1, 2, 3 ].
+* <br><br>
+* The TRIANGLE_STRIP procedure is very succinct, but it doesn't allow for every
+* desirable form of geometry. If you need to stop positioning triangles in one
+* place and start adding them elsewhere, you can't skip over empty space.
+* Fortunately, you can use a concept called "degenerate triangles" to cheat.
+* <br><br>
+* A degenerate triangle is one with zero area. It is formed when a triangle has
+* two or three vertices in the same place. It is very easy to simply not draw a
+* degenerate triangle. We can use these to connect disparate triangles. (In
+* fact, the renderer uses these behind the scenes to efficiently render numerous
+* primitives at once.)
+* <br><br>
+* To create degenerate triangles, just double up an index on either side of the
+* gap. For example, if you want to draw triangles at indices [ 0, 1, 2 ] and
+* [ 8, 9, 10 ], you can combine them into one with the indices
+* [ 0, 1, 2, 2, 8, 8, 9, 10 ]. This creates the degenerate triangles
+* [ 1, 2, 2 ], [ 2, 2, 8 ], [ 2, 8, 8 ] and [ 8, 8, 9 ]. Although this
+* introduces some overhead, it is often quicker than rendering them as separate
+* objects.
+* <br><br>
+* You may reduce the degenerate data to a single index if you know what you're
+* doing with winding orders. This is left as an exercise for the user.
+* <br><br>
+* The "strokeIndices" param is used to create a stroke. This is usually a line
+* around the edge of a polygon, but it can be any sort of line. It is, like the
+* indices param, a list of array positions in the vertices param. Unlike
+* indices, strokeIndices does not use TRIANGLE_STRIP. It just connects points in
+* order.
+* <br><br>
+* Technically, the stroke is itself a series of triangles, a sort of
+* mini-polygon. It will usually have more triangles than the fill. For this
+* reason, you should be careful about overusing stroke.
+* <br><br>
+* You may also construct polygons by building several objects and combining
+* them using the ".combine()" method. This may not be as efficient as
+* defining a polygon by hand, and will introduce several degenerate triangles,
+* but for large-scale constructions it is very convenient.
+*
+* @class Polygon
+* @constructor
+* @namespace Kiwi.Plugins.Primitives
+* @extends Kiwi.Entity
+* @param params {Object} The parameter object.
+* @param params.state {Kiwi.State} Context state
+*	@param [params.color=[0.5,0.5,0.5]] {array} RGB normalized color
+*	@param [params.drawFill=true] {boolean} Whether to fill the polygon
+*	@param [params.drawStroke=true] {boolean} Whether to draw the stroke
+*	@param [params.enableInput=false] {Boolean} Whether to enable input
+*	@param [params.indices] {array} Array of vertices for triangle strips
+*	@param [params.strokeColor=[0.5,0.5,0.5]] {array} RGB normalized color
+*	@param [params.strokeWidth=1] {number} Width of stroke in pixels
+*	@param [params.strokeIndices] {array} Array of vertices for strokes
+*	@param [params.vertices] {array} Array of vertex coordinates
+*		array pairs ([ [ x1, y1 ], [x2, y2 ] ] etc).
+* @since 0.1.0
+*/
+Kiwi.Plugins.Primitives.Polygon = function( params ) {
+
+	var state = params.state;
+
+	this._initProperties();
+
+	// Super
+	Kiwi.Entity.call( this, state, 0, 0 );
+
+	this.parseParams( params );
+
+	// Create WebGL renderer
+	if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
+		this.glRenderer =
+			this.game.renderer.requestSharedRenderer( "PrimitiveRenderer" );
+		this.atlas = this.glRenderer.getAtlas();
+	}
+
+	this.rebuildBounds();
+};
+Kiwi.extend( Kiwi.Plugins.Primitives.Polygon, Kiwi.Entity );
+
+/**
+* Index of pointers to vertices. The sequence of points
+* which constructs the poly.
+* @property indices
+* @type {array}
+* @public
+* @since 0.3.0
+*/
+Object.defineProperty( Kiwi.Plugins.Primitives.Polygon.prototype, "indices", {
+	get: function() {
+		return this._indices;
+	},
+	set: function( value ) {
+		var i;
+		this._indices = [];
+
+		if ( value.length > 2 ) {
+			for ( i = 0; i < value.length; i++ ) {
+				this._indices.push( value[ i ] );
+			}
+		}
+	}
+} );
+
+/**
+* Index of vertices.
+* @property vertices
+* @type {array}
+* @public
+* @since 0.3.0
+*/
+Object.defineProperty( Kiwi.Plugins.Primitives.Polygon.prototype, "vertices", {
+	get: function() {
+		return this._vertices;
+	},
+	set: function( value ) {
+		var i;
+		this._vertices = [];
+		for ( i = 0; i < value.length; i++ ) {
+			this._vertices.push( [
+				value[ i ][ 0 ],
+				value[ i ][ 1 ]
+			] );
+		}
+	}
+} );
+
+/**
+* Index of pointers to vertices. The sequence of points which
+* constructs the stroke. To be distinguished from the strokePolyIndices,
+* which define the actual shape of the stroke.
+* @property strokeIndices
+* @type {array}
+* @public
+* @since 0.3.0
+*/
+Object.defineProperty(
+		Kiwi.Plugins.Primitives.Polygon.prototype, "strokeIndices", {
+	get: function() {
+		return this._strokeIndices;
+	},
+	set: function( value ) {
+		var i;
+		this._strokeIndices = [];
+
+		if ( value.length > 1 ) {
+			for ( i = 0; i < value.length; i++ ) {
+				this._strokeIndices.push( value[ i ] );
+			}
+			this.createstroke( this._strokeIndices, this._vertices );
+		}
+	}
+} );
+
+/**
+* Index of pointers to vertices. The sequence of points which
+* make up the stroke. To be distinguished from the strokeIndices,
+* which define the construction of the stroke.
+* @property strokePolyIndices
+* @type {array}
+* @public
+* @since 0.3.0
+*/
+Object.defineProperty(
+		Kiwi.Plugins.Primitives.Polygon.prototype, "strokePolyIndices", {
+	get: function() {
+		return this._strokePolyIndices;
+	},
+	set: function( value ) {
+		var i;
+		this._strokePolyIndices = [];
+
+		if ( value.length > 2 ) {
+
+			// Double up the first index to prevent strip connexion
+			if ( value.length === 3 ) {
+				this._strokePolyIndices.push( value[ 0 ] );
+			}
+
+			for ( i = 0; i < value.length; i++ ) {
+				this._strokePolyIndices.push( value[ i ] );
+			}
+		}
+	}
+} );
+
+/**
+* Index of vertices for stroke shape.
+* @property strokePolyVertices
+* @type {array}
+* @public
+* @since 0.3.0
+*/
+Object.defineProperty(
+		Kiwi.Plugins.Primitives.Polygon.prototype, "strokePolyVertices", {
+	get: function() {
+		return this._strokePolyVertices;
+	},
+	set: function( value ) {
+		var i;
+		this._strokePolyVertices = [];
+		for ( i = 0; i < value.length; i++ ) {
+			this._strokePolyVertices.push( [
+				value[ i ][ 0 ],
+				value[ i ][ 1 ]
+			] );
+		}
+	}
+} );
+
+/**
+* Constructs a miter, a building block for strokes.
+* Miters sit atop vertices and form the endpoints for two stroke segments.
+* @method _buildMiter
+* @param line1 {Array} The first line, an array of 2 Points
+* @param line2 {Array} The second line, an array of 2 Points;
+* the first point on line2 is the actual position of the miter
+* @return {object}
+* @private
+* @since 0.3.0
+*/
+Kiwi.Plugins.Primitives.Polygon.prototype._buildMiter =
+		function( line1, line2) {
+	var angle, angleDiffHalf, dx, dy, innerDist, line1Angle, line2Angle,
+		line1Length, line2Length, lineMinLength, pointA, pointB,
+		indices = [],
+		vertices = [],
+		pointN = line2[ 0 ];
+
+	// Compute the length of the two lines
+	line1Length = line1[0].distanceTo( line1[1] );
+	line2Length = line2[0].distanceTo( line2[1] );
+	lineMinLength = Math.min( line1Length, line2Length );
+
+	// Compute the angles of the two lines
+	line1Angle = Math.atan2(
+		line1[ 1 ].y - line1[ 0 ].y,
+		line1[ 1 ].x - line1[ 0 ].x );
+	line2Angle = Math.atan2(
+		line2[ 1 ].y - line2[ 0 ].y,
+		line2[ 1 ].x - line2[ 0 ].x );
+	line1Angle = Kiwi.Utils.GameMath.normalizeAngle( line1Angle );
+	line2Angle = Kiwi.Utils.GameMath.normalizeAngle( line2Angle );
+
+	// Compute the angle between the lines, then halve it for future use
+	angleDiffHalf = line2Angle - line1Angle;
+	if ( angleDiffHalf > Math.PI ) {
+		angleDiffHalf = Math.PI * 2 - angleDiffHalf;
+	} else if ( angleDiffHalf < -Math.PI ) {
+		angleDiffHalf = -Math.PI * 2 - angleDiffHalf;
+	}
+	angleDiffHalf *= 0.5;
+
+	// Compute the average angle of the two lines
+	if ( Math.abs( line1Angle - line2Angle ) > Math.PI ) {
+		if ( line1Angle < line2Angle ) {
+			line1Angle += Math.PI * 2;
+		} else {
+			line2Angle += Math.PI * 2;
+		}
+	}
+	angle = Kiwi.Utils.GameMath.normalizeAngle(
+		( line1Angle + line2Angle ) * 0.5 );
+
+	// Cache some trig
+	dx = Math.cos( angle );
+	dy = -Math.sin( angle );
+
+	// Compute the distance to the inner corner, where two miter points overlap
+	innerDist = this.strokeWidth / ( 2 * Math.cos( angleDiffHalf ) );
+	if ( innerDist > lineMinLength ) {
+		innerDist = lineMinLength;
+	}
+
+	// Create sharp miters
+	pointA = new Kiwi.Geom.Point(
+		dy * innerDist,
+		dx * innerDist
+	);
+	pointB = new Kiwi.Geom.Point(
+		dy * -innerDist,
+		dx * -innerDist
+	);
+	pointA.x += pointN.x;
+	pointA.y += pointN.y;
+	pointB.x += pointN.x;
+	pointB.y += pointN.y;
+
+	indices = [ 0, 1, 0, 1 ];
+	vertices = [ [ pointA.x, pointA.y ], [ pointB.x, pointB.y ] ];
+
+	return { indices: indices, vertices: vertices };
+};
+
+/**
+* Construct a stroke by tracing a connection through all vertices.
+* @method _buildStroke
+* @param srcIndices {array} List of points to connect in order.
+* @param srcVertices {array} Definition of points.
+* @private
+* @since 0.3.0
+*/
+Kiwi.Plugins.Primitives.Polygon.prototype._buildStroke =
+		function( srcIndices, srcVertices ) {
+	var dx, dy, end, i, j, miter, point1, point2, point3,
+		inds = [],
+		offset = 0,
+		vertLen = srcIndices.length,
+		verts = [];
+
+	if ( vertLen > 1 ) {
+
+		// Begin with a double-up on vertex 0
+		point1 = new Kiwi.Geom.Point(
+			srcVertices[ srcIndices[ 0 ] ][ 0 ],
+			srcVertices[ srcIndices[ 0 ] ][ 1 ]
+		);
+		point2 = new Kiwi.Geom.Point(
+			srcVertices[ srcIndices[ 1 ] ][ 0 ],
+			srcVertices[ srcIndices[ 1 ] ][ 1 ]
+		);
+		miter = this._buildMiter( [ point1, point2 ], [ point1, point2 ] );
+		inds = inds.concat( miter.indices );
+		verts = verts.concat( miter.vertices );
+		offset += miter.vertices.length;
+
+		// Connect all additional vertices
+		for ( i = 1; i < vertLen - 1; i++ ) {
+			point1 = new Kiwi.Geom.Point(
+				srcVertices[ srcIndices[ i - 1 ] ][ 0 ],
+				srcVertices[ srcIndices[ i - 1 ] ][ 1 ]
+			);
+			point2 = new Kiwi.Geom.Point(
+				srcVertices[ srcIndices[ i ] ][ 0 ],
+				srcVertices[ srcIndices[ i ] ][ 1 ]
+			);
+			point3 = new Kiwi.Geom.Point(
+				srcVertices[ srcIndices[ i + 1 ] ][ 0 ],
+				srcVertices[ srcIndices[ i + 1 ] ][ 1 ]
+			);
+			miter = this._buildMiter( [ point1, point2 ], [ point2, point3 ] );
+			for ( j = 0; j < miter.indices.length; j++ ) {
+				miter.indices[ j ] += offset;
+			}
+			inds = inds.concat( miter.indices );
+			verts = verts.concat( miter.vertices );
+			offset += miter.vertices.length;
+		}
+
+		// Finish with a double-up on the last vertex
+		// We must first construct an extension of the last line segment
+		end = srcIndices.length - 1;
+		dx = srcVertices[ srcIndices[ end ] ][ 0 ] -
+			srcVertices[ srcIndices[ end - 1 ] ][ 0 ];
+		dy = srcVertices[ srcIndices[ end ] ][ 1 ] -
+			srcVertices[ srcIndices[ end - 1 ] ][ 1 ];
+		point1 = new Kiwi.Geom.Point(
+			srcVertices[ srcIndices[ end ] ][ 0 ],
+			srcVertices[ srcIndices[ end ] ][ 1 ]
+		);
+		point2 = new Kiwi.Geom.Point(
+			srcVertices[ srcIndices[ end ] ][ 0 ] + dx,
+			srcVertices[ srcIndices[ end ] ][ 1 ] + dy
+		);
+		miter = this._buildMiter( [ point1, point2 ], [ point1, point2 ] );
+		for ( j = 0; j < miter.indices.length; j++ ) {
+			miter.indices[ j ] += offset;
+		}
+		inds = inds.concat( miter.indices );
+		verts = verts.concat( miter.vertices );
+
+		return { indices: inds, vertices: verts };
+	}
+
+	return null;
+};
+
+/**
+* Creates a copy of this polygon.
+* @method clone
+* @return {Kiwi.Plugins.Primitives.Polygon}
+* @public
+* @since 0.3.0
+*/
+Kiwi.Plugins.Primitives.Polygon.prototype.clone = function() {
+	var params = {
+			color: this.color,
+			indices: this._indices,
+			state: this.state,
+			strokeColor: this.strokeColor,
+			strokeIndices: this._strokeIndices,
+			vertices: this._vertices,
+
+			x: this.x,
+			y: this.y,
+			rotation: this.rotation,
+			scaleX: this.scaleX,
+			scaleY: this.scaleY,
+			anchorPointX: this.anchorPointX,
+			anchorPointY: this.anchorPointY,
+			alpha: this.alpha,
+			visible: this.visible
+		};
+
+	return (new Kiwi.Plugins.Primitives.Polygon( params ) );
+};
+
+/**
+* Determines the min and max x and y coordinates from an array.
+* @method computeMinMaxXY
+* @param array {array} Array of points, defined as arrays [ x, y ]
+* @return object
+* @public
+* @since 0.1.0
+*/
+Kiwi.Plugins.Primitives.Polygon.prototype.computeMinMaxXY = function( array ) {
+	var i, vert,
+		vertLen = array.length,
+		maxX = 0,
+		maxY = 0,
+		minX = 0,
+		minY = 0;
+
+	for ( i = 0; i < vertLen; i++ ) {
+		vert = array[ i ];
+		if ( vert[0] < minX ) {
+			minX = vert[0];
+		}
+		if ( vert[0] > maxX ) {
+			maxX = vert[0];
+		}
+		if ( vert[1] < minY ) {
+			minY = vert[1];
+		}
+		if ( vert[1] > maxY ) {
+			maxY = vert[1];
+		}
+	}
+
+	return {
+		maxX: maxX,
+		maxY: maxY,
+		minX: minX,
+		minY: minY
+	};
+};
+
+/**
+* Adds another poly to this.
+* @method combine
+* @param poly {Kiwi.Plugins.Primitives.Polygon} Primitive to combine.
+* @param [discard=true] {boolean} Discard the combination source?
+* @return {boolean}
+* @public
+* @since 0.3.0
+*/
+Kiwi.Plugins.Primitives.Polygon.prototype.combine = function( poly, discard ) {
+	if ( typeof discard === "undefined" ) {
+		discard = true;
+	}
+
+	// Do not self-combine
+	if ( this.poly === this ) {
+		return false;
+	}
+
+	var indexOffset,
+		inverseMatrix = this.transform.getConcatenatedMatrix().invert(),
+		matrix = poly.transform.getConcatenatedMatrix(),
+		point = new Kiwi.Geom.Point( 0, 0 ),
+		polyIndicesLen = poly.indices.length,
+		polyVerticesLen = poly.vertices.length,
+		polyStrokeIndicesLen = poly.strokePolyIndices.length,
+		polyStrokeVerticesLen = poly.strokePolyVertices.length;
+
+
+	// Attach fill
+	if ( polyIndicesLen > 2 ) {
+		indexOffset = this._vertices.length;
+
+		// Create degenerate attachment
+		if ( this._indices.length > 0 ) {
+			this._indices.push( this._indices[ this._indices.length - 1 ] );
+			this._indices.push( poly.indices[ 0 ] + indexOffset );
+		}
+
+		// Add vertices and indices
+		for ( i = 0; i < polyIndicesLen; i++ ) {
+			this._indices.push( poly.indices[ i ] + indexOffset );
+		}
+		for ( i = 0; i < polyVerticesLen; i++ ) {
+			point.setTo(
+				poly.vertices[ i ][ 0 ] - poly.anchorPointX,
+				poly.vertices[ i ][ 1 ] - poly.anchorPointY
+			);
+
+			point = matrix.transformPoint( point );
+			point = inverseMatrix.transformPoint( point );
+
+			this._vertices.push( [
+				point.x + this.anchorPointX,
+				point.y + this.anchorPointY
+			] );
+		}
+	}
+	
+
+	// Attach stroke
+	if ( polyStrokeIndicesLen > 2 ) {
+		indexOffset = this._strokePolyVertices.length;
+
+		// Create degenerate attachment
+		if ( this._strokePolyIndices.length > 0 ) {
+			this._strokePolyIndices.push(
+				this._strokePolyIndices[ this._strokePolyIndices.length - 1 ] );
+			this._strokePolyIndices.push(
+				poly.strokePolyIndices[ 0 ] + indexOffset );
+		}
+
+		// Add vertices and indices
+		for ( i = 0; i < polyStrokeIndicesLen; i++ ) {
+			this._strokePolyIndices.push(
+				poly.strokePolyIndices[ i ] + indexOffset );
+		}
+		for ( i = 0; i < polyStrokeVerticesLen; i++ ) {
+			point.setTo(
+				poly.strokePolyVertices[ i ][ 0 ] - poly.anchorPointX,
+				poly.strokePolyVertices[ i ][ 1 ] - poly.anchorPointY
+			);
+
+			point = matrix.transformPoint( point );
+			point = inverseMatrix.transformPoint( point );
+
+			this._strokePolyVertices.push( [
+				point.x + this.anchorPointX,
+				point.y + this.anchorPointY
+			] );
+		}
+	}
+
+	
+
+	// Discard source
+	if ( discard ) {
+		poly.destroy();
+	}
+
+	return true;
+};
+
+/**
+* Reports an error message.
+* @method complain
+* @param string {string} Text to report
+* @public
+* @since 0.4.0
+*/
+Kiwi.Plugins.Primitives.Polygon.prototype.complain = function( string ) {
+	console.log(
+		"Primitive Error encountered:",
+		string
+	);
+};
+
+/**
+* Put a stroke on this Polygon, following the strokeIndices vertex list.
+* You should not need to do this manually.
+* @method createstroke
+* @public
+* @return boolean
+* @since 0.3.0
+*/
+Kiwi.Plugins.Primitives.Polygon.prototype.createstroke = function() {
+	var strokeData = this._buildStroke( this.strokeIndices, this.vertices );
+
+	if ( strokeData ) {
+		this.strokePolyIndices = strokeData.indices;
+		this.strokePolyVertices = strokeData.vertices;
+	}
+};
+
+/**
+* Initialise internal properties
+* @method _initProperties
+* @private
+* @since 0.1.0
+*/
+Kiwi.Plugins.Primitives.Polygon.prototype._initProperties = function() {
+	/**
+	* Part of the WebGL rendering pipeline
+	* @property glRenderer
+	* @type Kiwi.Renderers.Renderer
+	* @public
+	* @since 0.1.0
+	*/
+	this.glRenderer = undefined;
+
+	// Mirror properties: private data accessed by getters/setters
+	this._indices = null;
+	this._vertices = null;
+	this._strokeIndices = null;
+	this._strokePolyIndices = null;
+	this._strokePolyVertices = null;
+};
+
+/**
+* Returns the type of object that this is.
+* @method objType
+* @return {string}
+* @public
+*/
+Kiwi.Plugins.Primitives.Polygon.prototype.objType = function() {
+	return "Primitive Polygon";
+};
+
+/**
+* Sets default parameters on primitive. Note that this will redefine the
+* entire primitive. If you call parseParams after creation, you will have to
+* take steps to preserve any shape, style, or transform data you wish to keep.
+* @method parseParams
+* @param params {object} The param objects
+* @return boolean
+* @public
+* @since 0.1.0
+*/
+Kiwi.Plugins.Primitives.Polygon.prototype.parseParams = function( params ) {
+
+	/**
+	* RGB color triplet, normalized to the range 0-1
+	* @property color
+	* @type {array} 
+	* @public
+	*/
+	this.color = params.color || [ 0.5, 0.5, 0.5 ];
+
+	/**
+	* Whether the fill will draw
+	* @property drawFill
+	* @type {boolean}
+	* @public
+	*/
+	this.drawFill = ( typeof params.drawFill !== "undefined" ) ?
+		params.drawFill :
+		true;
+
+	/**
+	* Whether the stroke will draw
+	* @property drawFill
+	* @type {boolean}
+	* @public
+	*/
+	this.drawStroke = ( typeof params.drawStroke !== "undefined" ) ?
+		params.drawStroke :
+		true;
+
+	/**
+	* Whether to enable input
+	* @property enableInput
+	* @type {Boolean}
+	* @public
+	* @since 1.0.1
+	*/
+	this.enableInput = params.enableInput === true;
+
+	this.indices = params.indices || [];
+	this.vertices = params.vertices || [];
+
+	// These stroke properties must be defined
+	// after base vertices and in unique order
+
+	/**
+	* RGB color triplet, normalized to the range 0-1
+	* @property strokeColor
+	* @type {array}
+	* @public
+	*/
+	this.strokeColor = params.strokeColor || [ 0, 0, 0 ];
+
+	/**
+	* Width of the stroke, in pixels. If the primitive is scaled, the stroke
+	* will also change size.
+	* @property strokeWidth
+	* @type {number}
+	* @public
+	*/
+	this.strokeWidth = typeof params.strokeWidth === "number" ?
+		params.strokeWidth : 1;
+
+	this.strokeIndices = params.strokeIndices || [];
+	this.strokePolyIndices = this._strokePolyIndices || [];
+	this.strokePolyVertices = this._strokePolyVertices || [];
+
+	// Universal entity params
+	this.alpha = typeof params.alpha === "number" ?
+		params.alpha : 1;
+	this.anchorPointX = typeof params.anchorPointX === "number" ?
+		params.anchorPointX : undefined;
+	this.anchorPointY = typeof params.anchorPointY === "number" ?
+		params.anchorPointY : undefined;
+	this.rotation = typeof params.rotation === "number" ?
+		params.rotation : 0;
+	if (
+			typeof params.scaleX === "undefined" &&
+			typeof params.scaleY === "undefined" ) {
+		this.scale = typeof params.scale === "number" ?
+			params.scale : 1;
+	} else {
+		this.scaleX = typeof params.scaleX === "number" ?
+			params.scaleX : 1;
+		this.scaleY = typeof params.scaleY === "number" ?
+			params.scaleY : 1;
+	}
+	this.visible = typeof params.visible === "boolean" ?
+		params.visible : true;
+	this.x = typeof params.x === "number" ?
+		params.x : 0;
+	this.y = typeof params.y === "number" ?
+		params.y : 0;
+
+	return this.parseStrict();
+};
+
+/**
+* Perform a strict compliance check on data. If this fails,
+* it's because somebody passed bad data.
+* @method parseStrict
+* @return boolean
+* @public
+* @since 0.4.0
+*/
+Kiwi.Plugins.Primitives.Polygon.prototype.parseStrict = function() {
+	var i;
+
+	// Check stroke width
+	if ( isNaN( this.strokeWidth ) ) {
+		this.complain( "strokeWidth is not a number" );
+		return false;
+	}
+
+	// Check color values
+	if ( Kiwi.Utils.Common.isArray( this.color ) ) {
+		for ( i = 0; i < 3; i++ ) {
+			if ( isNaN( this.color[ i ] ) ) {
+				this.complain(
+					"Could not parse color: Non-numeric color channel " + i );
+				return false;
+			}
+		}
+	} else {
+		this.complain( "Could not parse color: Color is not an array" );
+		return false;
+	}
+
+	// Check stroke color values
+	if ( Kiwi.Utils.Common.isArray( this.strokeColor ) ) {
+		for ( i = 0; i < 3; i++ ) {
+			if ( isNaN( this.strokeColor[ i ] ) ) {
+				this.complain(
+					"Could not parse strokeColor: Non-numeric color channel " +
+					i );
+				return false;
+			}
+		}
+	} else {
+		this.complain( "Could not parse strokeColor: Color is not an array" );
+		return false;
+	}
+
+	// Check indices
+	if ( Kiwi.Utils.Common.isArray( this.indices ) ) {
+		for ( i = 0; i < this.indices.length; i++ ) {
+			if ( isNaN( this.indices[ i ] ) ) {
+				this.complain( "Index " + i + " is not a number" );
+				return false;
+			}
+			if ( this.indices[ i ] % 1 !== 0 ) {
+				this.complain( "Index" + i + " is not an integer" );
+				return false;
+			}
+		}
+	} else {
+		this.complain( "Could not parse indices: Not an array" );
+		return false;
+	}
+
+	// Check stroke indices
+	if ( Kiwi.Utils.Common.isArray( this.strokeIndices ) ) {
+		for ( i = 0; i < this.strokeIndices.length; i++ ) {
+			if ( isNaN( this.strokeIndices[ i ] ) ) {
+				this.complain( "Stroke Index " + i + " is not a number" );
+				return false;
+			}
+			if ( this.strokeIndices[ i ] % 1 !== 0 ) {
+				this.complain( "Stroke Index" + i + " is not an integer" );
+				return false;
+			}
+		}
+	} else {
+		this.complain( "Could not parse strokeIndices: Not an array" );
+		return false;
+	}
+
+	// Check vertices
+	if ( Kiwi.Utils.Common.isArray( this.vertices ) ) {
+		for ( i = 0; i < this.vertices.length; i++ ) {
+			if ( Kiwi.Utils.Common.isArray( this.vertices[ i ] ) ) {
+				if ( isNaN( this.vertices[ i ][ 0 ] ) ) {
+					this.complain( "Vertex " + i + ".x is not a number" );
+					return false;
+				}
+				if ( isNaN( this.vertices[ i ][ 1 ] ) ) {
+					this.complain( "Vertex " + i + ".y is not a number" );
+					return false;
+				}
+			} else {
+				this.complain( "Vertex " + i + " is not an array" );
+				return false;
+			}
+		}
+	} else {
+		this.complain( "Could not parse indices: Not an array" );
+		return false;
+	}
+
+	// We can't find anything wrong with it
+	return true;
+};
+
+/**
+* Compute width, height, box, anchor points etc
+* @method rebuildBounds
+* @public
+* @since 0.1.0
+*/
+Kiwi.Plugins.Primitives.Polygon.prototype.rebuildBounds = function() {
+
+	// Compute width, height, and anchor points
+	var bounds = this.computeMinMaxXY( this._vertices );
+	this.width = bounds.maxX - bounds.minX;
+	this.height = bounds.maxY - bounds.minY;
+	if ( typeof this.anchorPointX === "undefined" ) {
+		this.anchorPointX = bounds.maxX - 0.5 * this.width;
+	}
+	if ( typeof this.anchorPointY === "undefined" ) {
+		this.anchorPointY = bounds.maxY - 0.5 * this.height;
+	}
+
+	// Compute box
+	this.box = this.components.add( new Kiwi.Components.Box(
+		this, this.x + bounds.minX, this.x + bounds.minY,
+		this.width, this.height ) );
+	this.box.hitbox = new Kiwi.Geom.Rectangle( 0, 0, this.width, this.height );
+
+	// Create input
+	this.input = this.components.add( new Kiwi.Components.Input(
+		this, this.box, this.enableInput ) );
+
+	// Set dummy cell data for use in hitboxes
+	if ( this.atlas ) {
+		this.atlas.cells[0].hitboxes[0] = {
+			x: 0,
+			y: 0,
+			w: this.width,
+			h: this.height
+		};
+	}
+};
+
+/**
+* Software rendering method
+* @method render
+* @param {Kiwi.Camera} camera
+* @public
+*/
+Kiwi.Plugins.Primitives.Polygon.prototype.render = function( camera ) {
+
+	var ctx, i, pTemp,
+		indicesLen = this._indices.length,
+		p0 = new Kiwi.Geom.Point( 0, 0 ),
+		p1 = new Kiwi.Geom.Point( 0, 0 ),
+		p2 = new Kiwi.Geom.Point( 0, 0 );
+
+	Kiwi.Entity.prototype.render.call( this, camera );
+	if ( this.alpha > 0 ) {
+		ctx = this.game.stage.ctx;
+		ctx.save();
+
+		if ( this.alpha <= 1 ) {
+			ctx.globalAlpha = this.alpha;
+		}
+
+		var t = this.transform;
+		var m = t.getConcatenatedMatrix();
+		ctx.transform( m.a, m.b, m.c, m.d, m.tx, m.ty );
+
+
+		// Draw fill
+		if ( this.drawFill && this._indices.length > 3 ) {
+			ctx.fillStyle = "rgb(" + Math.round( this.color[ 0 ] * 255 ) + "," +
+				Math.round( this.color[ 1 ] * 255 ) + "," +
+				Math.round( this.color[ 2 ] * 255 ) + ")";
+
+			p1.setTo(
+				this._vertices[ this._indices[ 1 ] ][ 0 ] - t.anchorPointX,
+				this._vertices[ this._indices[ 1 ] ][ 1 ] - t.anchorPointY
+			);
+			p2.setTo(
+				this._vertices[ this._indices[ 0 ] ][ 0 ] - t.anchorPointX,
+				this._vertices[ this._indices[ 0 ] ][ 1 ] - t.anchorPointY
+			);
+
+			for ( i = 2; i < indicesLen; i++ ) {
+
+				// Overwrite start point
+				p0.setTo(
+					this._vertices[ this._indices[ i ] ][ 0 ] - t.anchorPointX,
+					this._vertices[ this._indices[ i ] ][ 1 ] - t.anchorPointY
+				);
+
+				// Draw
+				ctx.beginPath();
+				ctx.moveTo( p0.x, p0.y );
+				ctx.lineTo( p1.x, p1.y );
+				ctx.lineTo( p2.x, p2.y );
+				ctx.closePath();
+				ctx.fill();
+
+				// Cycle points
+				pTemp = p2;
+				p2 = p1;
+				p1 = p0;
+				p0 = pTemp;
+			}
+		}
+
+
+		// Draw stroke
+		if ( this.drawStroke && this._strokePolyIndices.length > 3 ) {
+			indicesLen = this._strokePolyIndices.length;
+
+			ctx.fillStyle =
+				"rgb(" + Math.round( this.strokeColor[ 0 ] * 255 ) + "," +
+				Math.round( this.strokeColor[ 1 ] * 255 ) + "," +
+				Math.round( this.strokeColor[ 2 ] * 255 ) + ")";
+
+			p1.setTo(
+				this._strokePolyVertices[
+					this._strokePolyIndices[ 1 ] ][ 0 ] - t.anchorPointX,
+				this._strokePolyVertices[
+					this._strokePolyIndices[ 1 ] ][ 1 ] - t.anchorPointY
+			);
+			p2.setTo(
+				this._strokePolyVertices[
+					this._strokePolyIndices[ 0 ] ][ 0 ] - t.anchorPointX,
+				this._strokePolyVertices[
+					this._strokePolyIndices[ 0 ] ][ 1 ] - t.anchorPointY
+			);
+
+			for ( i = 2; i < indicesLen; i++ ) {
+
+				// Overwrite start point
+				p0.setTo(
+					this._strokePolyVertices[
+						this._strokePolyIndices[ i ] ][ 0 ] - t.anchorPointX,
+					this._strokePolyVertices[
+						this._strokePolyIndices[ i ] ][ 1 ] - t.anchorPointY
+				);
+
+				// Draw
+				ctx.beginPath();
+				ctx.moveTo( p0.x, p0.y );
+				ctx.lineTo( p1.x, p1.y );
+				ctx.lineTo( p2.x, p2.y );
+				ctx.closePath();
+				ctx.fill();
+
+				// Cycle points
+				pTemp = p2;
+				p2 = p1;
+				p1 = p0;
+				p0 = pTemp;
+			}
+		}
+		
+
+
+		// Clean up context
+		ctx.restore();
+	}
+};
+
+
+
+/**
+* Hardware rendering method using WebGL
+* @method renderGL
+* @param gl {WebGLRenderingContext}
+* @param camera {Kiwi.Camera}
+* @param params {object}
+*/
+Kiwi.Plugins.Primitives.Polygon.prototype.renderGL =
+		function( gl ) {
+	if ( this.alpha > 0 ) {
+		if ( this.drawFill ) {
+			this.glRenderer.addToBatch( gl, this,
+				this._indices, this._vertices, this.color
+			);
+		}
+		if ( this.drawStroke ) {
+			this.glRenderer.addToBatch( gl, this,
+				this._strokePolyIndices, this._strokePolyVertices,
+				this.strokeColor
+			);
+		}
+	}
+};
+
+/**
+* Decompose a polygon into its constituent triangles.
+* This will destroy the original polygon and substitute a group
+* containing the triangles.
+* @method shatter
+* @return {Kiwi.Group}
+* @public
+* @since 0.3.0
+*/
+Kiwi.Plugins.Primitives.Polygon.prototype.shatter = function() {
+	var dVert12, dVert13, dVert23, i, params, tri, vert1, vert2, vert3,
+		indices = [ 0, 1, 2 ],
+		group = new Kiwi.Group( this.state );
+
+	for ( i = 0; i < this._indices.length - 2; i++ ) {
+
+		vert1 = this._vertices[ this._indices[ i ] ];
+		vert2 = this._vertices[ this._indices[ i + 1 ] ];
+		vert3 = this._vertices[ this._indices[ i + 2 ] ];
+
+		dVert12 = Math.sqrt(
+			Math.pow( vert1[ 0 ] - vert2[ 0 ], 2 ) +
+			Math.pow( vert1[ 1 ] - vert2[ 1 ], 2 )
+		);
+		dVert13 = Math.sqrt(
+			Math.pow( vert1[ 0 ] - vert3[ 0 ], 2 ) +
+			Math.pow( vert1[ 1 ] - vert3[ 1 ], 2 )
+		);
+		dVert23 = Math.sqrt(
+			Math.pow( vert2[ 0 ] - vert3[ 0 ], 2 ) +
+			Math.pow( vert2[ 1 ] - vert3[ 1 ], 2 )
+		);
+
+		// Avoid degenerate triangles
+		if ( dVert12 !== 0 && dVert13 !== 0 && dVert23 !== 0 ) {
+			params = {
+				indices: indices,
+				vertices: [ vert1, vert2, vert3 ],
+				state: this.state,
+				color: this.color,
+				x: this.x,
+				y: this.y,
+				rotation: this.rotation,
+				scaleX: this.scaleX,
+				scaleY: this.scaleY,
+				anchorPointX: this.anchorPointX,
+				anchorPointY: this.anchorPointY
+			};
+			tri = (new Kiwi.Plugins.Primitives.Polygon( params ) ).clone();
+			group.addChild( tri );
+		}
+	}
+
+	// Eliminate original
+	if ( this.parent ) {
+		this.parent.addChildBefore( group, this );
+	}
+	this.destroy();
+
+	return group;
+};
+
+
+/**
+* Automatically called once per update loop.
+* Handles input. If you override this, make sure to call the prototype:
+* <code>Kiwi.Plugins.prototype.update.calL( this );</code>
+* @method update
+* @public
+* @since 1.0.1
+*/
+Kiwi.Plugins.Primitives.Polygon.prototype.update = function() {
+	Kiwi.Entity.prototype.update.call( this );
+
+	this.input.update();
+};
+
+
+/**
+* Ellipse Primitive
+* <br><br>
+* Create a ellipse primitive. Define a params object including a reference
+* to the current state. You may also add style parameters from the Polygon.
+* <br><br>
+* You may draw regular polygons by reducing the segments. For example,
+* to draw a hexagon:
+* <br><br>
+* new Kiwi.Plugins.Primitives.Ellipse( {<br>
+*	drawStroke: false,<br>
+*	radius: 32,<br>
+*	state: MyGame.state,<br>
+*	segments: 6<br>
+* } );
+* @class Ellipse
+* @constructor
+* @extends Kiwi.Plugins.Primitives.Polygon
+* @namespace Kiwi.Plugins.Primitives
+* @param params {object} Parameter object
+* @param params.state {Kiwi.State} Current state
+* @param [params.centerOnTransform=false] {boolean} If true, ellipse is centered
+*	on transform; if false, ellipse has top left corner on transform
+* @param [params.height=8] {number} Height of the ellipse
+* @param [params.radius] {number} Radius of a circle; overide width and height
+* @param [params.radiusPointer=false] {boolean} Whether to draw the radius,
+*	useful for debugging rotation on circles.
+* @param [params.segments=32] {number} Number of radial segments; detail.
+* @param [params.width=8] {number} Width of the ellipse
+* @since 0.4.0
+*/
+Kiwi.Plugins.Primitives.Ellipse = function( params ) {
+	var angle, i,
+		defaultDimension = 8,
+		offsetX = 0,
+		offsetY = 0;
+
+	// Create elliptical geometry data
+	if ( typeof params.segments === "undefined" ) {
+		params.segments = 32;
+	}
+	if ( typeof params.radius !== "undefined" ) {
+		params.width = params.radius * 2;
+		params.height = params.radius * 2;
+	}
+	if ( typeof params.width !== "number" ) {
+		params.width = defaultDimension;
+	}
+	if ( typeof params.height !== "number" ) {
+		params.height = defaultDimension;
+	}
+	if ( !params.centerOnTransform ) {
+		offsetX = params.width * 0.5;
+		offsetY = params.height * 0.5;
+	}
+	params.indices = [];
+	params.vertices = [];
+	params.strokeIndices = [];
+	for ( i = 0; i < params.segments; i++ ) {
+
+		// Define indices, looping from the middle
+		params.indices.push( i );
+		params.indices.push( params.segments );
+		params.indices.push( ( i + 1 ) % params.segments );
+
+		// Define vertices
+		angle = Math.PI * 2 * i / params.segments;
+		params.vertices.push( [
+			params.width * 0.5 * Math.cos( angle ) + offsetX,
+			params.height * 0.5 * Math.sin( angle ) + offsetY
+		] );
+
+		// Define stroke
+		params.strokeIndices.push( i );
+	}
+
+	// Define central vertex
+	params.vertices.push( [ offsetX, offsetY ] );
+
+	// Complete stroke
+	params.strokeIndices.push( 0 );
+
+	// Add radius pointer
+	if ( params.radiusPointer ) {
+		params.strokeIndices.push( params.segments );
+	}
+
+	Kiwi.Plugins.Primitives.Polygon.call( this, params );
+};
+Kiwi.extend( Kiwi.Plugins.Primitives.Ellipse,
+	Kiwi.Plugins.Primitives.Polygon );
+
+/**
+* Line Primitive
+* <br><br>
+* Create a line primitive. Define a params object including a reference
+* to the current state. You may also add style parameters from the Polygon.
+* For example:
+* <br><br>
+* new Kiwi.Plugins.Primitives.Line( {<br>
+*	points: [ [ 0, 0 ], [ 100, 100 ], [ 200, 0 ] ],<br>
+*	state: MyGame.state,<br>
+*	strokeColor: [ 1, 0.1, 1 ],<br>
+*	strokeWidth: 4<br>
+* } );
+* @class Line
+* @constructor
+* @extends Kiwi.Plugins.Primitives.Polygon
+* @namespace Kiwi.Plugins.Primitives
+* @param params {object} Parameter object
+* @param params.state {Kiwi.State} Current state
+* @param [params.points] {array} Array of x,y points to connect with lines
+* @since 0.4.0
+*/
+Kiwi.Plugins.Primitives.Line = function( params ) {
+	var i;
+
+	params.vertices = [];
+	params.strokeIndices = [];
+	params.drawFill = false;
+	params.drawStroke = true;
+	if ( params.points ) {
+		for ( i = 0; i < params.points.length; i++ ) {
+			params.vertices.push( params.points[ i ] );
+			params.strokeIndices.push( i );
+		}
+	}
+
+	Kiwi.Plugins.Primitives.Polygon.call( this, params );
+};
+Kiwi.extend( Kiwi.Plugins.Primitives.Line,
+	Kiwi.Plugins.Primitives.Polygon );
+
+
+/**
+* Rectangle Primitive
+* <br><br>
+* Create a rectangular primitive. Define a params object including a reference
+* to the current state. You may also add style parameters from the Polygon.
+* For example:
+* <br><br>
+* new Kiwi.Plugins.Primitives.Rectangle( {<br>
+*	state: MyGame.state,<br>
+*	color: [ 0.9, 0.3, 0.7 ],<br>
+*	strokeWidth: 4,<br>
+*	width: 32,<br>
+*	height: 16<br>
+* } );
+* @class Rectangle
+* @constructor
+* @extends Kiwi.Plugins.Primitives.Polygon
+* @namespace Kiwi.Plugins.Primitives
+* @param params {object} Parameter object
+* @param params.state {Kiwi.State} Current state
+* @param [params.centerOnTransform=true] {boolean} If true, rectangle is centered
+*	on transform; if false, rectangle has top left corner on transform
+* @param [params.height=8] {number} Height of the rectangle
+* @param [params.width=8] {number} Width of the rectangle
+* @since 0.4.0
+*/
+Kiwi.Plugins.Primitives.Rectangle = function( params ) {
+	var defaultDimension = 8;
+
+	// Create rectangle geometry data
+	params.indices = [ 0, 1, 2, 3 ];
+	params.strokeIndices = [ 0, 1, 3, 2, 0 ];
+	if ( typeof params.width === "undefined" ) {
+		params.width = defaultDimension;
+	}
+	if ( typeof params.height === "undefined" ) {
+		params.height = defaultDimension;
+	}
+
+	// Position rectangle relative to transform
+	if ( params.centerOnTransform ) {
+		params.vertices = [
+			[ -params.width * 0.5, -params.height * 0.5 ],
+			[ params.width * 0.5, -params.height * 0.5 ],
+			[ -params.width * 0.5, params.height * 0.5 ],
+			[ params.width * 0.5, params.height * 0.5 ]
+		];
+	} else {
+		params.vertices = [
+			[ 0, 0 ],
+			[ params.width, 0 ],
+			[ 0, params.height ],
+			[ params.width, params.height ]
+		];
+	}
+
+	Kiwi.Plugins.Primitives.Polygon.call ( this, params );
+};
+Kiwi.extend( Kiwi.Plugins.Primitives.Rectangle,
+	Kiwi.Plugins.Primitives.Polygon );
+
+
+/**
+* Star Primitive
+* <br><br>
+* Create a star primitive. Define a params object including a reference
+* to the current state. You may also add style parameters from the Polygon.
+* <br><br>
+* You may draw semi-random stars. For example, to draw a cartoon impact flare:
+* <br><br>
+* new Kiwi.Plugins.Primitives.Star( {<br>
+*	centerOnTransform: true,<br>
+*	color: [ 1, 0.01, 1 ],<br>
+*	drawStroke: false,<br>
+*	radius: 32,<br>
+*	spikeRandom: 1,<br>
+*	state: MyGame.state,<br>
+*	segments: 16<br>
+* } );
+* @class Star
+* @constructor
+* @extends Kiwi.Plugins.Primitives.Polygon
+* @namespace Kiwi.Plugins.Primitives
+* @param params {object} Parameter object
+* @param params.state {Kiwi.State} Current state
+* @param [params.centerOnTransform=false] {boolean} If true, star is centered
+*	on transform; if false star has top left corner on transform
+* @param [params.height=8] {number} Height of the star
+* @param [params.spikeLength=1] {number} Length of spikes relative to radius
+* @param [params.spikeRandom=0] {number} Randomness of star spikes, where 0 is
+*	no randomness and 1 will make some spikes up to twice as long;
+*	there is no cap.
+* @param [params.radius] {number} Radius of a star; overide width and height
+* @param [params.segments=32] {number} Number of points
+* @param [params.width=8] {number} Width of the star
+* @since 0.4.0
+*/
+Kiwi.Plugins.Primitives.Star = function( params ) {
+	var angle, i, spikiness,
+		defaultDimension = 8,
+		offsetX = 0,
+		offsetY = 0;
+
+	// Create stellar geometry data
+	if ( typeof params.segments === "undefined" ) {
+		params.segments = 32;
+	}
+	if ( typeof params.radius !== "undefined" ) {
+		params.width = params.radius * 2;
+		params.height = params.radius * 2;
+	}
+	if ( typeof params.width !== "number" ) {
+		params.width = defaultDimension;
+	}
+	if ( typeof params.height !== "number" ) {
+		params.height = defaultDimension;
+	}
+	if ( !params.centerOnTransform ) {
+		offsetX = params.width * 0.5;
+		offsetY = params.height * 0.5;
+	}
+	if( typeof params.spikeLength !== "number" ) {
+		params.spikeLength = 1;
+	}
+	if( typeof params.spikeRandom !== "number" ) {
+		params.spikeRandom = 0;
+	}
+
+
+	params.indices = [];
+	params.vertices = [];
+	params.strokeIndices = [];
+
+	for ( i = 0; i < params.segments; i++ ) {
+
+		// Define indices, looping from the middle
+		params.indices.push( i );
+		params.indices.push( params.segments );
+		params.indices.push( ( i + 1 ) % params.segments );
+
+		// Define vertices
+		angle = Math.PI * 2 * i / params.segments;
+		params.vertices.push( [
+			params.width * 0.5 * Math.cos( angle ) + offsetX,
+			params.height * 0.5 * Math.sin( angle ) + offsetY
+		] );
+
+		// Define stroke
+		params.strokeIndices.push( i, i + 1 + params.segments );
+	}
+
+	// Define central vertex
+	params.vertices.push( [ offsetX, offsetY ] );
+
+	// Define stellar spikes
+	for ( i = 0; i < params.segments; i++ ) {
+		params.indices.push( i );
+		params.indices.push( params.segments + i + 1 );
+		params.indices.push( ( i + 1) % params.segments );
+
+		// Define vertices
+		angle = Math.PI * 2 * ( i + 0.5 ) / params.segments;
+		spikiness = ( 1 + Math.random() * params.spikeRandom ) *
+			( params.spikeLength + 1 ) * 0.5;
+		params.vertices.push( [
+			params.width * Math.cos( angle ) * spikiness + offsetX,
+			params.height * Math.sin( angle ) * spikiness + offsetY
+		] );
+	}
+
+	// Complete stroke
+	params.strokeIndices.push( 0 );
+
+
+	Kiwi.Plugins.Primitives.Polygon.call( this, params );
+
+
+	// Reset anchor point to middle of core circle.
+	// This compensates for random spike lengths.
+	this.anchorPointX = params.anchorPointX || offsetX;
+	this.anchorPointY = params.anchorPointY || offsetY;
+};
+Kiwi.extend( Kiwi.Plugins.Primitives.Star,
+	Kiwi.Plugins.Primitives.Polygon );
+
+
+/**
+* Triangle Primitive
+* <br><br>
+* Create a triangle primitive. Define a params object including a reference
+* to the current state. You may also add style parameters from the Polygon.
+* For example:
+* <br><br>
+* new Kiwi.Plugins.Primitives.Triangle( {<br>
+*	points: [ [ 0, 0 ], [ 100, 100 ], [ 200, 0 ] ],<br>
+*	state: MyGame.state,<br>
+*	x: 10,<br>
+*	y: 10,<br>
+*	scale: 2<br>
+* } );
+* <br><br>
+* If you do not specify points in the param object, the Triangle will default to
+* [ [ 0, 0 ], [ 0, 8 ], [ 8, 0 ] ]
+* @class Triangle
+* @constructor
+* @extends Kiwi.Plugins.Primitives.Polygon
+* @namespace Kiwi.Plugins.Primitives
+* @param params {object} Parameter object
+* @param params.state {Kiwi.State} Current state
+* @param [params.points] {array} Array of x,y pairs to form triangle's corners.
+* @since 0.4.0
+*/
+Kiwi.Plugins.Primitives.Triangle = function( params ) {
+	var i,
+		defaultDimension = 8;
+
+	params.indices = [ 0, 1, 2 ];
+	params.strokeIndices = [ 0, 1, 2, 0 ];
+	params.vertices = [];
+	
+	// Create triangle geometry data
+	if ( params.points ) {
+		for ( i = 0; i < 3; i++ ) {
+			if ( params.points[ i ] ) {
+				params.vertices.push( params.points[ i ] );
+			} else {
+				params.vertices.push( [ 0, 0 ] );
+			}
+		}
+	} else {
+		params.vertices.push(
+			[ 0, 0 ],
+			[ 0, defaultDimension ],
+			[ defaultDimension, 0 ]
+		);
+	}
+	
+	Kiwi.Plugins.Primitives.Polygon.call( this, params );
+};
+Kiwi.extend( Kiwi.Plugins.Primitives.Triangle,
+	Kiwi.Plugins.Primitives.Polygon );
+
+
+/**
+* Null Texture Atlas interfaces with KiwiJS rendering system
+* which expects a texture atlas, and provides it with an atlas
+* that has no texture.
+*
+* @class NullAtlas
+* @constructor
+* @namespace Kiwi.Plugins.Primitives
+* @since 0.1.0
+*/
+Kiwi.Plugins.Primitives.NullAtlas = function() {
+	this.cells = [ { hitboxes: [] } ];
+};
+
+/** Dummy texture enable method, doing the bare minimum to satisfy the
+* texture manager requirements. Parameters don't matter.
+* @method enableGL
+* @public
+* @since 0.1.0
+*/
+Kiwi.Plugins.Primitives.NullAtlas.prototype.enableGL = function() {};
+
+
+
+/**
+* Primitive Renderer
+* <br><br>
+* This renders primitives using triangle strips.
+* @class PrimitiveRenderer
+* @constructor
+* @namespace Kiwi.Renderers
+* @param gl {WebGLRenderingContext} The WebGL rendering context in use.
+* @param shaderManager {Kiwi.Renderers.ShaderManager} The Kiwi shader manager.
+* @since 0.1.0
+*/
+Kiwi.Renderers.PrimitiveRenderer = function( gl, shaderManager ) {
+	this.bufferItemSize = 6;
+	this.indices = [];
+	this.nullAtlas = new Kiwi.Plugins.Primitives.NullAtlas();
+	this._tempPoint = new Kiwi.Geom.Point( 0, 0 );
+	this._maxItems = 1000;
+	this._vertexBuffer =
+		new Kiwi.Renderers.GLArrayBuffer( gl, this.bufferItemSize );
+	this._indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer( gl, 1, [] );
+
+	// Perform super functionality
+	Kiwi.Renderers.Renderer.call( this, gl, shaderManager, true );
+
+	this.setShaderPair( "PrimitiveShader" );
+};
+Kiwi.extend( Kiwi.Renderers.PrimitiveRenderer, Kiwi.Renderers.Renderer );
+
+/**
+* Returns a null atlas so that all primitives share a texture object.
+* @method getAtlas
+* @return Kiwi.Plugins.Primitives.NullAtlas
+* @public
+* @since 0.3.0
+*/
+Kiwi.Renderers.PrimitiveRenderer.prototype.getAtlas = function() {
+	return this.nullAtlas;
+};
+
+/**
+* Enables the renderer for drawing
+* @method enable
+* @param gl {WebGLRenderingContext}
+* @param [params=null] {object}
+* @public
+*/
+Kiwi.Renderers.PrimitiveRenderer.prototype.enable = function( gl, params ) {
+	// Boilerplate extension
+	Kiwi.Renderers.Renderer.
+		prototype.enable.call( this, gl, params );
+
+	this.shaderPair = this.shaderManager.requestShader(gl,
+		this._shaderPairName, true);
+
+	gl.uniform2fv( this.shaderPair.uniforms.uResolution.location,
+		params.stageResolution );
+	gl.uniformMatrix3fv( this.shaderPair.uniforms.uCamMatrix.location,
+		false, params.camMatrix );
+};
+
+/**
+* Disables the renderer
+* @method disable
+* @param gl {WebGLRenderingContext}
+* @public
+*/
+Kiwi.Renderers.PrimitiveRenderer.prototype.disable = function( gl ) {
+	gl.disableVertexAttribArray( this.shaderPair.attributes.aXY );
+	gl.disableVertexAttribArray( this.shaderPair.attributes.aRGBA );
+};
+
+/**
+* Clears the vertex buffer
+* @method clear
+* @param gl {WebGLRenderingContext}
+* @public
+*/
+Kiwi.Renderers.PrimitiveRenderer.prototype.clear = function( gl, params ) {
+	this._vertexBuffer.clear();
+	gl.uniformMatrix3fv( this.shaderPair.uniforms.uCamMatrix.location,
+		false, params.camMatrix );
+};
+
+/**
+* Updates the stage resolution uniforms
+* @method updateStageResolution
+* @param gl {WebGLRenderingContext}
+* @param res {Float32Array}
+* @public
+*/
+Kiwi.Renderers.PrimitiveRenderer.prototype.updateStageResolution =
+		function( gl, res ) {
+	gl.uniform2fv(this.shaderPair.uniforms.uResolution.location, res);
+};
+
+/**
+* Sets shader pair by name
+* @method setShaderPair
+* @param shaderPair {String}
+* @public
+*/
+Kiwi.Renderers.PrimitiveRenderer.prototype.setShaderPair =
+		function( shaderPair ) {
+	if ( typeof shaderPair === "string" ) {
+		this._shaderPairName = shaderPair;
+	}
+};
+
+/**
+* Collates all xy and uv coordinates into a buffer
+* ready for upload to video memory
+* @method _collateVertexAttributeArrays
+* @param gl {WebGLRenderingContext}
+* @param entity {Kiwi.Entity}
+* @param camera {Camera}
+* @public
+*/
+Kiwi.Renderers.PrimitiveRenderer.prototype.addToBatch =
+		function( gl, entity, indices, vertices, color ) {
+
+	var i,
+		indexLen = indices.length,
+		indexOffset = this._vertexBuffer.items.length / this.bufferItemSize,
+		vertLen = vertices.length;
+
+	var t = entity.transform;
+	var m = t.getConcatenatedMatrix();
+
+	for ( i = 0; i < vertLen; i++ ) {
+		this._tempPoint.setTo(
+			vertices[ i ][ 0 ] - t.anchorPointX,
+			vertices[ i ][ 1 ] - t.anchorPointY );
+
+		this._tempPoint = m.transformPoint( this._tempPoint );
+
+		this._vertexBuffer.items.push(
+			this._tempPoint.x, this._tempPoint.y,
+			color[ 0 ], color[ 1 ], color[ 2 ],
+			entity.alpha
+		);
+	}
+
+	// Append indices
+
+	// Because we cannot guarantee winding order, we must always assume
+	// that we will require two connectors, except for the first triangle.
+	if ( this.indices.length > 0 ) {
+		this.indices.push( this.indices[ this.indices.length - 1 ] );
+		this.indices.push( indices[ 0 ] + indexOffset );
+	}
+
+	for ( i = 0; i < indexLen; i++ ) {
+		this.indices.push( indices[ i ] + indexOffset );
+	}
+};
+
+/**
+* Makes a draw call. This is where things actually
+* get rendered to the draw buffer (or a framebuffer).
+* @method draw
+* @param gl {WebGLRenderingContext}
+* @public
+*/
+Kiwi.Renderers.PrimitiveRenderer.prototype.draw = function( gl ) {
+	var byteHead = 0,
+		bytesPerF32 = 4,
+		bytes = this.bufferItemSize * bytesPerF32;
+
+	this._vertexBuffer.uploadBuffer( gl, this._vertexBuffer.items );
+
+	gl.enableVertexAttribArray( this.shaderPair.attributes.aXY );
+	gl.vertexAttribPointer( this.shaderPair.attributes.aXY,
+		bytesPerF32, gl.FLOAT, false, bytes, byteHead );
+	byteHead += 2 * bytesPerF32;
+
+	gl.enableVertexAttribArray( this.shaderPair.attributes.aRGBA );
+	gl.vertexAttribPointer( this.shaderPair.attributes.aRGBA,
+		bytesPerF32, gl.FLOAT, false, bytes, byteHead );
+	// byteHead += 4 * bytesPerF32;
+
+	// Generate vertex index strip
+	this._indexBuffer.indices = this.indices;
+	this._indexBuffer.refresh( gl );
+
+	// Render
+	gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, this._indexBuffer.buffer );
+	gl.drawElements( gl.TRIANGLE_STRIP,
+		this._indexBuffer.numItems,
+		gl.UNSIGNED_SHORT, 0 );
+
+	// Clear index buffer
+	this.indices = [];
+};
+
+
+/**
+* Primitive Shader Pair
+* @class PrimitiveShader
+* @constructor
+* @namespace Kiwi.Shaders
+* @since 0.1.0
+*/
+Kiwi.Shaders.PrimitiveShader = function() {
+
+	// Super call
+	Kiwi.Shaders.ShaderPair.call( this );
+
+	// Extended functionality
+	this.attributes = {
+		aXY: null,
+		aRGBA: null
+	};
+
+	// Configure uniforms
+	this.uniforms = {
+		uCamMatrix: {
+			type: "mat3",
+		},
+		uResolution: {
+			type: "2fv",
+		}
+	};
+
+	// Declare shaders
+	this.vertSource = [
+		"attribute vec2 aXY;",
+		"attribute vec4 aRGBA;",
+		"uniform mat3 uCamMatrix;",
+		"uniform vec2 uResolution;",
+		"varying vec4 vRGBA;",
+		"void main(void) {",
+		"	vec2 pos = ( uCamMatrix * vec3( aXY, 1 ) ).xy; ",
+		"	gl_Position = vec4( ( pos / uResolution * 2.0 - 1.0 ) *",
+		"		vec2(1 , -1 ), 0, 1 );",
+		"	vRGBA = aRGBA;",
+		"}"
+	];
+
+	this.fragSource = [
+		"precision mediump float;",
+		"varying vec4 vRGBA;",
+		"void main(void) {",
+		"  gl_FragColor = vRGBA;",
+		"}"
+	];
+};
+Kiwi.extend( Kiwi.Shaders.PrimitiveShader, Kiwi.Shaders.ShaderPair );
+
+Kiwi.Shaders.PrimitiveShader.prototype.init = function( gl ) {
+	Kiwi.Shaders.ShaderPair.prototype.init.call( this, gl );
+
+	this.attributes.aXY = gl.getAttribLocation(this.shaderProgram, "aXY");
+	this.attributes.aRGBA = gl.getAttribLocation(this.shaderProgram, "aRGBA");
+
+	this.initUniforms(gl);
+};
+
+/**
+* The Kiwi.JS Preloader is a custom State, that is used wanting to load in any assets for a game.  
+* Using this Class is very easy. 
+* All you have to do to use it is:
+* 1 - Instantiate this Class instead of a State and pass a few extra parameters.
+* 2 - Create a preload method on the new Object (that extends the class) BUT make sure you call the preload method on this class!!!
+* 3 - Switch to it (like you would anyway) 
+* 4 - And DONE!
+* 
+*
+* @class KiwiLoadingScreen
+* @constructor
+* @extends Kiwi.State
+* @param name {String} Name of this state.
+* @param stateToSwitch {String} Name of the state to switch to AFTER all the assets have loaded. Note: The state you want to switch to should already have been added to the game.
+* @param subfolder {String} The folder that the loading graphics are located at. 
+* @param dimensions {Object} A Object containing the width/height that the game is to be. For example {width: 1024, height: 768}. Defaults to the stages width/height if not passed.
+* @return {KiwiLoadingScreen}
+*/
+
+
+var KiwiLoadingScreen = function(name, stateToSwitch,subfolder, dimensions) {
+
+	//Call the Super
+	Kiwi.State.call(this, name);
+
+	//Check the width/height
+	if(dimensions !== undefined && dimensions.width !== undefined && dimensions.height != undefined) {
+		this.newDimensions = dimensions;
+	} else {
+		this.newDimensions = null;
+	}
+
+	//Save the state to load afterwards
+	this.afterState = stateToSwitch;
+	
+	this.kiwiAlpha = 0;
+
+	//The Loading children we are going to make
+	//this.html5Logo = null;
+	this.rydaire = null;
+	this.games = null;
+
+	//Splash
+	//this.kiwijsLogo = null;
+	//this.kiwijsText = null;
+	//this.radial = null;
+	//this.madeWith = null;
+	//this.loadingBar = null;
+	this.banditBanner = null;
+	this.loadingBar = null;
+	this.loadingBarContainer = null;
+
+	//The subfolder where everything will be saved
+	this.subfolder = subfolder;
+
+	this.finishedLoading = false;
+
+}
+
+//Extend the State
+Kiwi.extend(KiwiLoadingScreen, Kiwi.State);
+
+KiwiLoadingScreen.prototype.init = function() {
+ 	
+ 	Kiwi.State.prototype.init.call(this);
+
+ 	if(this.newDimensions !== null) {
+ 		this.game.stage.resize( this.newDimensions.width, this.newDimensions.height );
+ 	}
+
+}
+
+/** 
+* Preload Method. This is the method you override when you are wanting to load in your assets. 
+* Note: Make sure you call this method! Otherwise the loading graphics will never load and this state won't work!!! Also best to call it at the start of the PRELOAD.
+* @method preload
+* @public
+*/
+KiwiLoadingScreen.prototype.preload = function() {
+
+	//BackgroundColour
+	this.game.stage.color = '000000';
+
+	//New Dimensions
+	var shortest = (this.game.stage.width > this.game.stage.height) ? this.game.stage.height : this.game.stage.width;
+
+	if(shortest < 600) {
+		this.scaled = shortest / 600;
+	} else {
+		this.scaled = 1;
+	}
+
+
+	//Should combine into a texture atlas...
+	this.currentSplashState = 0;	// 0 = HTML 5 LOGO FADING IN         RYDAIRE GAMES SNAPPING TOGETHER
+									// 1 = KIWIJS READY TO APPEAR        DONE SNAPPING TOGETHER
+									// 2 = KIWIJS FADING In              BANNER FADING IN
+									// 3 = LOADING WITH KIWIJS THERE     LOADING 
+									// 4 = DONE. SWITCHING TO NEXT STATE
+
+	this.addTextureAtlas('loadingGraphic', this.subfolder + 'bandit_loading.png', 'loadingJSON', this.subfolder + 'bandit_loading.json', false);
+
+	//Information about the files we need to load
+	this.loadingData = {toLoad: 0, loaded: 0};
+	this.percentLoaded = 0;
+}
+
+
+/**
+* Start Loading everything in. 
+* @method loadProgress
+* @public
+*/
+KiwiLoadingScreen.prototype.loadProgress = function (percent, bytesLoaded, file) {
+
+	this.percentLoaded = percent;
+
+
+	if(this.currentSplashState == 3) {
+		this.loadingBar.scaleX =  this.percentLoaded / 100 * this.scaled;
+		this.finishLoading();
+	}
+
+
+	if(file == null || file == undefined) return;
+
+	if(file.key === 'loadingJSON') {
+		//Add to the Library
+		this.game.states.rebuildLibraries();
+
+
+        //Create the StaticImage
+        /*
+		this.html5Logo = new Kiwi.GameObjects.StaticImage(this, this.textures['loadingGraphic'], this.game.stage.width / 2, this.game.stage.height / 2);
+		this.html5Logo.cellIndex = 0;
+		this.html5Logo.scaleX = this.scaled;
+		this.html5Logo.scaleY = this.scaled;
+		this.html5Logo.x -= this.html5Logo.box.bounds.width / 2;
+		this.html5Logo.y -= this.html5Logo.box.bounds.height / 2;
+		this.html5Logo.alpha = 0;
+		this.html5Logo.rotPointX = 0;
+		this.html5Logo.rotPointY = 0;
+		this.addChild(this.html5Logo);
+		*/
+
+
+		this.rydaire = new Kiwi.GameObjects.StaticImage(this, this.textures['loadingGraphic'], -50, -100);
+		this.rydaire.cellIndex = 4;
+		this.games = new Kiwi.GameObjects.StaticImage(this, this.textures['loadingGraphic'], 370, 800);
+		this.games.cellIndex = 3;
+		this.addChild(this.rydaire);
+		this.addChild(this.games);
+
+		//Tween
+		/*
+		this.loadingTween = this.game.tweens.create(this.html5Logo);
+		this.loadingTween.onComplete(this.fadeInHTML5, this);
+		this.loadingTween.to({ alpha: 1 }, 500, Kiwi.Animations.Tweens.Easing.Linear.None);
+        this.loadingTween._onCompleteCalled = false;
+	    this.loadingTween.start();
+	    */
+
+	    this.rydaireTween = this.game.tweens.create(this.rydaire);
+	    this.rydaireTween.onComplete(this.fadeInHTML5, this);
+	    this.rydaireTween.to({x: 160, y: 250}, 1200, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+	    this.rydaireTween._onCompleteCalled = false;
+
+	    this.gamesTween = this.game.tweens.create(this.games);
+	    this.gamesTween.to({x: 170, y: 380}, 1200, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+
+	    this.rydaireTween.start();
+	    this.gamesTween.start();
+
+	    //Don't need to do anything else
+	    return;
+	}
+
+	if(this.currentSplashState <= 1 && this.loadingData.loaded == this.loadingData.toLoad) {
+		
+		//So the HTML 5 logo was waiting for the KIWI splash assets to load.
+		if( this.currentSplashState == 1 ) {
+			//Play the tween. No delay because there most likely already was one
+       	 	this.rydaireTween._onCompleteCalled = false;
+			this.rydaireTween.start();
+			this.gamesTween.start();
+			this.currentSplashState = 2; 
+
+		//Still waiting for the logo to fade in? Tell it to fade out when its done.
+		} else {
+			this.currentSplashState = 1;
+		}
+
+	}
+
+}
+
+
+/**
+* Create: rebuild html5Logo
+**/
+KiwiLoadingScreen.prototype.create = function(){
+	Kiwi.State.prototype.create.call( this );
+	
+	// Reassign texture atlas to html5Logo, as it has just been rebuilt and WebGL may have lost track of it
+	this.rydaire.atlas = this.textures.loadingGraphic;
+	this.games.atlas = this.textures.loadingGraphic;
+}
+
+
+/**
+* Called when the fading in of the HTML5 logo is completed. Makes the HTML5 logo fade out oafter a period of time.
+* @method fadeInHTML5
+* 
+*/
+KiwiLoadingScreen.prototype.fadeInHTML5 = function() {
+	this.rydaireTween.to({ alpha: 0 }, 500, Kiwi.Animations.Tweens.Easing.Linear.None);
+	this.gamesTween.to({alpha: 0}, 500, Kiwi.Animations.Tweens.Easing.Linear.None);
+	this.rydaireTween.onComplete(this.fadeOutHTML5, this);
+
+	//Have all the assets for the next splash screen loaded in the time it has taken us to fade the logo in?
+	if( this.currentSplashState >= 1) { 
+		//Start the fadeout tween after a delay
+        this.rydaireTween._onCompleteCalled = false;
+		this.rydaireTween.start();
+		this.gamesTween.start();
+		this.currentSplashState = 2; 
+
+	//Otherwise say we are ready.
+	} else {
+		this.currentSplashState = 1;  
+	}
+}
+
+
+/**
+* Called when the HTML5 logo has fulled faded in. Creates/fades in the KIWI.
+* @method fadeOutHTML5
+* 
+* 
+*/
+KiwiLoadingScreen.prototype.fadeOutHTML5 = function() {
+
+	this.currentSplashState = 3;
+
+	//Remove the logo
+	this.rydaire.exists = false;
+	this.games.exists = false;
+
+	//Create all the HTML 5 assets
+	this.banditBanner = new Kiwi.GameObjects.StaticImage(this, this.textures['loadingGraphic'], this.game.stage.width / 2, this.game.stage.height / 2);
+	this.loadingBarContainer = new Kiwi.GameObjects.StaticImage(this, this.textures['loadingGraphic'], this.game.stage.width / 2, this.game.stage.height /2);
+	this.loadingBar = new Kiwi.GameObjects.StaticImage(this, this.textures['loadingGraphic'], 0, 0);
+
+	this.banditBanner.cellIndex = 0;
+	this.loadingBarContainer.cellIndex = 2;
+	this.loadingBar.cellIndex = 1;
+
+	//Adjust Coordinates
+
+	this.banditBanner.x -= this.banditBanner.box.bounds.width / 2;
+	this.banditBanner.y -= this.banditBanner.box.bounds.height / 2;
+
+	this.loadingBarContainer.x -= this.loadingBarContainer.box.bounds.width /2;
+	this.loadingBarContainer.y -= this.loadingBarContainer.box.bounds.height /2 - 250;
+
+	this.loadingBar.x = this.loadingBarContainer.x +18;
+	this.loadingBar.y = this.loadingBarContainer.y;
+
+
+	this.loadingBar.rotPointX = 0;
+	this.loadingBar.rotPointY = 0;
+
+
+	//Alpha
+	this.banditBanner.alpha = 0;
+	this.loadingBarContainer.alpha = 0;
+	this.loadingBar.alpha = 0;
+
+
+	//Add then in the right order
+	this.addChild(this.banditBanner);
+	this.addChild(this.loadingBarContainer);
+	this.addChild(this.loadingBar);
+
+
+	//Scale the LoadingBar
+	this.loadingBar.scaleX = (this.percentLoaded / 100) * this.scaled;	
+
+
+	//Start the Tween
+	this.loadingTween = this.game.tweens.create(this);
+	this.loadingTweenLast = this.game.tweens.create(this);
+	this.loadingTweenLast.onUpdate(this.updatedAlpha, this);
+
+	
+	this.loadingTween.to({ kiwiAlpha : 1 }, 300, Kiwi.Animations.Tweens.Easing.Linear.None);
+	this.loadingTween.onComplete(null, null);
+	this.loadingTween.onUpdate(this.updatedAlpha, this);
+	this.loadingTween.onComplete(this.finishLoading, this);
+    this.loadingTween._onCompleteCalled = false;
+	this.loadingTween.start();
+
+	this.finishLoading();
+
+
+}
+
+
+/**
+* Checks to see if all the assets have loaded. Fades out the Kiwi.
+* @method finishLoading
+* 
+*/
+KiwiLoadingScreen.prototype.finishLoading = function() {
+	if(this.percentLoaded == 100 && this.finishedLoading == false) {
+		this.finishedLoading = true;
+		this.loadingTweenLast.to({ kiwiAlpha : 0 }, 500, Kiwi.Animations.Tweens.Easing.Linear.None);
+		this.loadingTweenLast.onComplete(this.completed, this);
+    	this.loadingTweenLast._onCompleteCalled = false;
+    	this.loadingTween.to({ kiwiAlpha: 1}, 300, Kiwi.Animations.Tweens.Easing.Linear.None);
+		this.loadingTween.chain(this.loadingTweenLast);
+		
+		this.loadingTween.start(); 
+		this.loadingBar.atlas = this.textures.loadingGraphic;
+	}
+}
+
+// Updates/Fade in and out the alpha
+KiwiLoadingScreen.prototype.updatedAlpha = function(obj, val) {
+
+	this.banditBanner.alpha = this.kiwiAlpha;
+	this.loadingBarContainer.alpha = this.kiwiAlpha;
+	this.loadingBar.alpha = this.kiwiAlpha;
+
+}
+
+KiwiLoadingScreen.prototype.loadUpdate = function(){
+	Kiwi.State.prototype.loadUpdate.call(this);
+	if(this.banditBanner){
+	}
+
+}
+
+
+KiwiLoadingScreen.prototype.postRender = function() {
+}
+
+KiwiLoadingScreen.prototype.preRender = function() {
+	if(this.loadingBar){
+		this.loadingBar.atlas = this.textures.loadingGraphic;
+	}
+	if(this.banditBanner){
+		this.banditBanner.atlas = this.textures.loadingGraphic;		
+	}
+	if(this.loadingBarContainer){
+		this.loadingBarContainer.atlas = this.textures.loadingGraphic;
+	}
+}
+
+/**
+* Called when the game is ready, so we can switch to the next state now.
+* 
+*/
+KiwiLoadingScreen.prototype.completed = function() {
+
+	this.currentSplashState = 4;
+	this.banditBanner.atlas = this.textures.loadingGraphic;
+
+	//Switch States
+	this.game.states.switchState(this.afterState);
+
+}	
+
+
+KiwiLoadingScreen.prototype.shutDown = function() {
+	this.game.tweens.removeAll();
+	delete this.loadingTween;
+	delete this.rydaireTween;
+	delete this.gamesTween;
+}
+var loadingState = new KiwiLoadingScreen('loadingState', 'inputState', 'loading/',{width: 1024, height: 768});
+
+loadingState.preload = function(){
+	KiwiLoadingScreen.prototype.preload.call(this);
+
+	this.addImage('title','assets/bandit_title_1.png');
+	this.addImage('lose','assets/gameover.png');
+	this.addImage('win','assets/bandit_win.png');
+	this.addImage('controls','assets/controls_1.png');
+	this.addImage('controlsGamepad','assets/controls_1gamepad.png');
+
+	this.addImage('cloud1','assets/clouds/cloud_0.png');
+	this.addImage('cloud2','assets/clouds/cloud_1.png');
+	this.addImage('cloud3','assets/clouds/cloud_2.png');
+	this.addImage('cloud4','assets/clouds/cloud_3.png');
+	this.addImage('cloud5','assets/clouds/cloud_4.png');
+	this.addImage('cloud6','assets/clouds/cloud_5.png');
+	this.addImage('cloud7','assets/clouds/cloud_6.png');
+	this.addImage('cloud8','assets/clouds/cloud_7.png');
+	this.addImage('cloud9','assets/clouds/cloud_8.png');
+	this.addImage('cloud10','assets/clouds/cloud_9.png');
+	
+	this.addImage('blueFlash', 'assets/bandit_blue_flash.png');
+	this.addImage('redFlash', 'assets/bandit_red_flash.png');
+
+	this.addAudio('bombSound','sounds/bombExplosion.wav');
+	this.addAudio('coinSound','sounds/coin.wav');
+	this.addAudio('gunSound','sounds/gunshot.wav');
+	this.addAudio('blockReappearSound','sounds/blockappear.wav');
+	this.addAudio('banditDeathSound','sounds/death_1.wav');
+	this.addAudio('diamondSound','sounds/diamond_1.wav');
+	this.addAudio('shotgunSound','sounds/shotgun.wav');
+	this.addAudio('voicesSound','sounds/bandit_voices.wav');
+	this.addAudio('musicSound1','sounds/level1.ogg');
+	this.addAudio('musicSound2', 'sounds/level_4.ogg');
+	this.addAudio('musicSound3', 'sounds/level_7.ogg');
+	this.addAudio('bossMusicSound', 'sounds/level_bandit_boss_3.ogg');
+
+	this.addAudio('ghoulTeleportOutSound','sounds/ghoul_teleport.wav');
+	this.addAudio('ghoulTeleportInSound','sounds/ghoul_teleport_in.wav');
+	this.addAudio('ghoulDeathSound', 'sounds/ghoul_death.wav');
+	this.addAudio('wagonSound', 'sounds/wagon_fade.wav');
+	this.addAudio('horseGallopSound', 'sounds/horse_gallop.wav');
+	this.addAudio('flipSound', 'sounds/flip.wav');
+	this.addAudio('dingSound', 'sounds/ding.wav');
+	this.addAudio('starSound', 'sounds/star.wav');
+	this.addAudio('starDingSound', 'sounds/pickup_star.wav');
+	this.addAudio('whiskeySound', 'sounds/whiskey.wav');
+	this.addAudio('clickOn1Sound', 'sounds/clickon1.wav');
+	this.addAudio('clickOff1Sound', 'sounds/clickoff1.wav');
+	this.addAudio('clickOn2Sound', 'sounds/clickon2.wav');
+	this.addAudio('clickOff2Sound', 'sounds/clickoff2.wav');
+	this.addAudio('clickOn3Sound', 'sounds/clickon3.wav');
+	this.addAudio('clickOff3Sound', 'sounds/clickoff3.wav');
+	this.addAudio('evilLaughSound', 'sounds/evil_laugh.wav');
+
+	this.addSpriteSheet('menu','assets/menu_spritesheet.png',500,50);	
+	this.addSpriteSheet('quit', 'assets/quit_spritesheet.png',150,50);
+	this.addImage('quitDialog', 'assets/quit_dialog.png');
+	this.BLOCK_PIXEL_SIZE = 50; 
+	this.bps = this.BLOCK_PIXEL_SIZE; 
+	this.MULTIPLIER = 1; 
+
+	this.addSpriteSheet('sprites','assets/bandit_spritesheet.png',this.bps,this.bps);
+	this.addSpriteSheet('ghouliath','assets/ghouliath_spritesheet.png',this.bps*2, this.bps*2);
+	this.numberOfLevels = 21;
+
+	for (var i = 1; i<=this.numberOfLevels; i++){
+		this.addImage('level'+i,'assets/level_screens/level'+i+'_screen.png',true);
+	}		
+
+	for (var i = 1; i<=this.numberOfLevels; i++){
+		this.addImage('background'+i,'assets/canvases/canvas'+i+'.png',true);
+		this.addSpriteSheet('backgroundSpriteSheet'+i,'assets/canvases/canvas'+i+'.png',this.bps,this.bps);
+		this.addJSON('level_tilemap'+i,'level'+i+'.json');		
+	}
+	this.addSpriteSheet('digits','assets/digits.png',18*this.MULTIPLIER,18*this.MULTIPLIER);	
+	this.addSpriteSheet('level_selection','assets/level_selection_spritesheet.png',132,132);
+	this.addSpriteSheet('betweenScreen','assets/between_screen_spritesheet.png',75,75);
+	this.addSpriteSheet('icons', 'assets/icon_spritesheet.png', 100, 100);
+	this.addSpriteSheet('bullet','assets/bullet_spritesheet.png', 150, 75);
+	
+	this.addImage('tutorial1', 'assets/sign_1.png');
+	this.addImage('tutorial2', 'assets/sign_2.png');
+	this.addImage('tutorial3', 'assets/sign_3.png');
+	this.addImage('tutorial2gamepad', 'assets/sign_2gamepad.png');
+	this.addImage('tutorial3gamepad', 'assets/sign_3gamepad.png');
+	this.addImage('pressup', 'assets/push_up.png');
+	this.addImage('levelSelectionBackground','assets/level_select_1.png',0,0);
+	this.addImage('menuBackground','assets/menu_up_bandit.png',250,0);
+	this.addImage('menuArrow','assets/menu_arrow.png',469,0);
+	this.addSpriteSheet('horses','assets/bandit_horse.png',200,200);
+	this.addSpriteSheet('stagecoach','assets/stagecoach.png',500,250);
+	this.addSpriteSheet('banditStagecoach','assets/bandit_stagecoach.png',500,250);
+
+	this.addImage('curtain', 'assets/redside.png');
+	this.addImage('alphaBox', 'assets/betweenscreen_alpha.png');
+
+	this.addImage('pressa', 'assets/press_a_space.png');
+
+
+}
+
+
+loadingState.postRender = function(){
+	KiwiLoadingScreen.prototype.postRender.call(this);
+}
+var inputState = new Kiwi.State('inputState');
+
+inputState.preload = function(){
+	Kiwi.State.prototype.preload.call(this);
+}
+
+inputState.create = function(){
+	Kiwi.State.prototype.create.call(this);
+
+	this.STAGE_WIDTH = 1024;
+	this.STAGE_HEIGHT = 768;
+	myGame.stage.color = '000000';
+	myGame.stage.resize(this.STAGE_WIDTH, this.STAGE_HEIGHT);
+
+	this.pressa = new Kiwi.GameObjects.StaticImage(this, this.textures['pressa'], this.STAGE_WIDTH/2, this.STAGE_HEIGHT/2);
+
+	this.pressa.x -= this.pressa.box.bounds.width /2;
+	this.pressa.y -= this.pressa.box.bounds.height /2;
+
+	this.tween = this.game.tweens.create(this.pressa);
+
+	this.addChild(this.pressa);
+
+	if(this.game.gamepads){
+		this.game.gamepads.gamepadConnected.add(this.gamepadConnected, this);
+		this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp, this);
+	}
+
+	this.game.input.keyboard.onKeyDown.add(this.onKeyDown, this);
+	this.game.input.mouse.onUp.add(this.mouseClicked, this);
+}
+
+inputState.mouseClicked = function(){
+	this.game.states.switchState('titleState');
+}
+
+inputState.gamepadConnected = function(){
+	this.game.inputOptions.gamepad = true;
+	this.game.states.switchState('titleState');
+}
+
+inputState.buttonOnUp = function(button){
+	switch( button.name ){
+		case "XBOX_A":
+			this.gamepadConnected();
+			break;
+		default:	
+			this.gamepadConnected();
+	}
+}
+
+inputState.onKeyDown = function(keyCode){
+	if(keyCode == Kiwi.Input.Keycodes.ENTER || keyCode == Kiwi.Input.Keycodes.SPACEBAR){
+		this.game.states.switchState('titleState');
+	}else if (keyCode == Kiwi.Input.Keycodes.ESC){
+		//quit game.
+	}
+}
+
+inputState.update = function(){
+	Kiwi.State.prototype.update.call(this);
+}
+
+inputState.shutDown = function(){
+	this.removeAllGamepadSignals();
+	this.game.input.keyboard.onKeyDown.removeAll();
+}
+
+inputState.removeAllGamepadSignals = function(){
+	this.game.gamepads.gamepadConnected.removeAll();
+	this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
+	this.game.input.mouse.onUp.removeAll();
+}
+var levelSelectionState = new Kiwi.State('levelSelectionState');
+
+levelSelectionState.preload = function(){
+	Kiwi.State.prototype.preload.call(this);
+	this.addImage('levelSelectionBackground','assets/level_select_1.png',0,0);
+
+	this.BLOCK_PIXEL_SIZE = 50; 
+	this.bps = this.BLOCK_PIXEL_SIZE; 
+	this.MULTIPLIER = 1; 
+	this.numberOfLevels = 21;	
+
+}
+
+levelSelectionState.create = function(){
+	Kiwi.State.prototype.create.call(this);
+
+	myGame.stage.color = '000000';
+	
+	this.mouse = this.game.input.mouse;
+	this.game.input.keyboard.onKeyDown.add(this.onPress, this);
+	this.game.input.keyboard.onKeyUp.add(this.onKeyUpCallback, this);
+
+	if(this.game.saveManager.localStorage.exists('levelsData')){
+		this.game.levelsData = this.game.saveManager.localStorage.getData('levelsData');
+	}else{
+		this.createLevelsData();
+	}
+
+	this.random = new Kiwi.Utils.RandomDataGenerator();
+
+	this.map = [
+		[1, 2, 3, 4, 5],
+		[6, 7, 8, 9, 10],
+		[11, 12, 13, 14, 15],
+		[16, 17, 18, 19, 20]
+		];
+
+	this.levelSelectionScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['levelSelectionBackground'],12 * this.MULTIPLIER, 0);
+	this.levelSelectionGroup = new Kiwi.Group(this);
+	for (var i = 1; i<=20; i++){
+		var row = Math.floor((i-1)/5.0);
+		var col = i%5; 
+		if(col == 0){
+			col = 5;
+		}
+		var icon = new LevelSelectionIcon(this, 165*col-60, 55+150*row, i);	
+		if(this.game.levelsData[i-1][this.game.numPlayers-1].unlocked){
+			var stars = this.game.levelsData[i-1][this.game.numPlayers-1].stars;		
+			icon.animation.play('on' + stars);
+			icon.addHovering();
+			icon.addClicking();
+		}else{
+			icon.animation.play('off');
+		}
+		this.levelSelectionGroup.addChild(icon);
+	}
+
+	this.backButton = new MenuIcon(this, 30, 665, 'backLevelSelection');
+	this.levelSelectionGroup.addChild(this.backButton);
+
+	this.levelSelectionGroup.active = true;
+	this.addChild(this.levelSelectionScreen);
+	this.addChild(this.levelSelectionGroup);	
+
+	var rowcol = this.getRowColOfHighestUnlockedLevel();
+	this.availableIcons = [];
+
+	//availableIcons goes from level 1 to highest level unlocked PLUS 1 for the back button. 
+	for(var i = 0; i <= this.map[rowcol[0]][rowcol[1]]; i++){
+		this.availableIcons.push(i);
+	}
+
+	this.selectedIconRow = rowcol[0];
+	this.selectedIconCol = rowcol[1];
+	this.selectedIcon = this.levelSelectionGroup.members[this.map[this.selectedIconRow][this.selectedIconCol]-1];
+	this.selectedIcon.playHover();
+
+	//index into the members array, which is 1 less than the level number. 
+	this.availableIconsIndex = this.map[this.selectedIconRow][this.selectedIconCol] - 1;
+	
+	if(this.game.gamepads){
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce, this);
+		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce, this);
+		this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp, this);	
+	}
+
+	this.debounce = 0;
+}
+
+levelSelectionState.update = function(){
+	Kiwi.State.prototype.update.call(this);
+	this.checkController();
+}
+
+levelSelectionState.onPress = function(keyCode){
+	if(keyCode == Kiwi.Input.Keycodes.LEFT){
+		this.tryDirection('left');
+	}else if(keyCode == Kiwi.Input.Keycodes.RIGHT){
+		this.tryDirection('right');
+	}else if(keyCode == Kiwi.Input.Keycodes.UP){
+		this.tryDirection('up');
+	}else if(keyCode == Kiwi.Input.Keycodes.DOWN){
+		this.tryDirection('down');
+	}else if(keyCode == Kiwi.Input.Keycodes.TAB){
+		this.changeSelectedIconByTab();
+	}else if(keyCode == Kiwi.Input.Keycodes.ENTER || keyCode == Kiwi.Input.Keycodes.SPACEBAR){
+		this.selectedIcon.playDown();
+	}else if(keyCode == Kiwi.Input.Keycodes.I){
+		console.log(this.selectedIcon.type + ' row:' + this.selectedIconRow + ' col:' + this.selectedIconCol);
+
+	}
+}
+
+levelSelectionState.onKeyUpCallback = function(keyCode){
+	if(keyCode == Kiwi.Input.Keycodes.ENTER || keyCode == Kiwi.Input.Keycodes.SPACEBAR){
+		if(this.selectedIcon.number){
+			this.selectedIcon.startStartLevelTimer();
+		}else{
+			this.selectedIcon.mouseClicked();
+		}
+	}	
+}
+
+levelSelectionState.createLevelsData = function(){
+	var levelsData = [];
+	for(var i = 0; i <= 21; i++){
+		var levelData = [{
+			unlocked: false,
+			highScore: 0, 
+			stars: 0
+		},{
+			unlocked: false,
+			highScore1: 0,
+			highScore2: 0,
+			stars: 0
+		}];
+		levelsData.push(levelData);
+	}
+	levelsData[0][0].unlocked = true;
+	levelsData[0][1].unlocked = true;
+	this.game.saveManager.localStorage.add('levelsData', levelsData, true);
+	this.game.levelsData = levelsData; 	
+}
+
+levelSelectionState.getRowColOfHighestUnlockedLevel = function(){
+	var highestUnlockedLevel = 0;
+	for (var i = 1; i <= 20; i++){
+		if(this.game.levelsData[i-1][this.game.numPlayers-1].unlocked == true){
+			highestUnlockedLevel = i;
+		}else{
+			break;
+		}
+	}
+	var row = 0;
+	var col = 0;
+	for (var i = 0; i < this.map.length; i++){
+		for (var j = 0; j < this.map[0].length; j++){
+			if(this.map[i][j] == highestUnlockedLevel){
+				row = i;
+				col = j;
+			}
+		}
+	}
+	return [row, col];
+}
+
+levelSelectionState.startGame = function(levelSelected){
+	this.game.currentLevel = levelSelected;
+	if(this.game.gamepads){
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
+	}
+	this.game.states.switchState('gameState');
+}
+
+levelSelectionState.changeSelectedIconByTab = function(){
+	if(this.selectedIcon.objType() == "LevelSelectionIcon"){
+		this.selectedIcon.playOn();
+	}else{
+		this.selectedIcon.playOff();
+	}	
+
+	if(this.availableIconsIndex == this.availableIcons.length){
+		this.availableIconsIndex = 0;
+	}else{
+		this.availableIconsIndex++;
+	}
+
+	this.changeSelectedIconByLevel(this.availableIconsIndex + 1);
+	this.selectedIcon.playHover();	
+}
+
+levelSelectionState.changeSelectedIconByLevel = function(level){
+	var index = level - 1; 
+	if(index == this.availableIcons.length){
+		this.selectedIcon = this.backButton;
+		this.selectedIconRow = 4;
+		this.selectedIconCol = 0;
+	}else{
+		this.selectedIcon = this.levelSelectionGroup.members[index];
+		var row = 0;
+		var col = 0;
+		for (var i = 0; i < this.map.length; i++){
+			for (var j = 0; j < this.map[0].length; j++){
+				if(this.map[i][j] == index + 1){
+					row = i;
+					col = j;
+				}
+			}
+		}
+		this.selectedIconRow = row;
+		this.selectedIconCol = col;
+	}
+}
+
+levelSelectionState.changeSelectedIcon = function(row, col){
+	if(this.selectedIcon.objType() == "LevelSelectionIcon"){
+		this.selectedIcon.playOn();
+	}else{
+		this.selectedIcon.playOff();
+	}
+	this.selectedIconRow = row;
+	this.selectedIconCol = col;
+	if(row < 4){
+		this.selectedIcon = this.levelSelectionGroup.members[this.map[this.selectedIconRow][this.selectedIconCol]-1];
+		this.availableIconsIndex = this.map[this.selectedIconRow][this.selectedIconCol] - 1;
+	}else{
+		this.selectedIcon = this.backButton;
+		this.availableIconsIndex = this.availableIcons.length - 1;
+	}
+	this.selectedIcon.playHover();
+}
+
+levelSelectionState.getIncreasedRow = function(){
+	var row = this.selectedIconRow + 1;
+	if(row > 4){
+		row = 0;
+	}
+	return row;
+}
+
+levelSelectionState.getDecreasedRow = function(){
+	var row = this.selectedIconRow - 1;
+	if(row < 0){
+		row = 4;
+	}
+	return row;
+}
+
+levelSelectionState.getIncreasedCol = function(){
+	var col = this.selectedIconCol + 1;
+	if(col > 4){
+		col = 0;
+	}
+	return col;
+}
+
+levelSelectionState.getDecreasedCol = function(){
+	var col = this.selectedIconCol - 1;
+	if(col < 0){
+		col = 4;
+	}
+	return col;
+}
+
+levelSelectionState.tryDirection = function(direction){
+	switch(direction){
+		case 'left':
+			var tryRow = this.selectedIconRow;
+			var tryCol = this.getDecreasedCol();
+			if(tryRow < 4){
+				if(this.game.levelsData[this.map[tryRow][tryCol]-1][this.game.numPlayers-1].unlocked){
+					this.changeSelectedIcon(tryRow, tryCol);
+				}					
+			}else{
+				this.changeSelectedIcon(tryRow, 0);
+			}
+	
+			break;
+		case 'right':
+			var tryRow = this.selectedIconRow;
+			var tryCol = this.getIncreasedCol();
+			if(tryRow < 4){
+				if(this.game.levelsData[this.map[tryRow][tryCol]-1][this.game.numPlayers-1].unlocked){
+					this.changeSelectedIcon(tryRow, tryCol);
+				}					
+			}else{
+				this.changeSelectedIcon(tryRow, 0);
+			}	
+			break;
+		case 'up':
+			var tryRow = this.getDecreasedRow();
+			var tryCol = this.selectedIconCol;
+			if(tryRow < 4){
+				if(this.game.levelsData[this.map[tryRow][tryCol]-1][this.game.numPlayers-1].unlocked){
+					this.changeSelectedIcon(tryRow, tryCol);
+				}else{
+					this.changeSelectedIcon(0, 0);
+				}					
+			}else{
+				this.changeSelectedIcon(tryRow, 0);
+			}		
+			break;
+		case 'down':
+			var tryRow = this.getIncreasedRow();
+			var tryCol = this.selectedIconCol;
+			if(tryRow < 4){
+				if(this.game.levelsData[this.map[tryRow][tryCol]-1][this.game.numPlayers-1].unlocked){
+					this.changeSelectedIcon(tryRow, tryCol);
+				}else{
+					this.changeSelectedIcon(4, 0);
+				}					
+			}else{
+				this.changeSelectedIcon(tryRow, 0);
+			}		
+			break;						
+	}
+}
+
+levelSelectionState.buttonOnDownOnce = function(button){
+	switch( button.name ){
+		case "XBOX_A":
+			this.selectedIcon.playDown();
+			break;
+		case "XBOX_B":
+			break;
+		case "XBOX_X":
+			break;
+		case "XBOX_Y":
+
+			break;
+		case "XBOX_START":
+			this.selectedIcon.playDown();
+			break;			
+		case "XBOX_DPAD_LEFT":
+			this.tryDirection('left');
+			break;
+		case "XBOX_DPAD_RIGHT":
+			this.tryDirection('right');
+			break;
+		case "XBOX_DPAD_UP":
+			this.tryDirection('up');
+			break;
+		case "XBOX_DPAD_DOWN":
+			this.tryDirection('down');
+			break;
+		default:		
+	}
+}
+
+levelSelectionState.buttonOnUp = function(button){
+	switch( button.name ){
+		case "XBOX_A":
+			if(this.selectedIcon.objType() == 'LevelSelectionIcon'){
+				this.selectedIcon.startStartLevelTimer();
+			}else{
+				this.selectedIcon.mouseClicked();
+			}
+			break;
+		case "XBOX_B":
+			break;
+		case "XBOX_X":
+			break;
+		case "XBOX_Y":
+
+			break;
+		case "XBOX_START":
+			if(this.selectedIcon.objType() == 'LevelSelectionIcon'){
+				this.selectedIcon.startStartLevelTimer();
+			}else{
+				this.selectedIcon.mouseClicked();
+			}
+			break;				
+		case "XBOX_DPAD_LEFT":
+
+			break;
+		case "XBOX_DPAD_RIGHT":
+
+			break;
+		case "XBOX_DPAD_UP":
+			break;
+		case "XBOX_DPAD_DOWN":
+			break;
+		default:		
+	}
+}
+
+levelSelectionState.thumbstickOnDownOnce = function(stick){
+	var leftright = this.game.gamepads.gamepads[0].axis0;
+	var updown = this.game.gamepads.gamepads[0].axis1;
+	switch ( stick.name ) {
+		case "XBOX_LEFT_HORZ":
+			if(Math.abs(updown.value)<0.25){
+				if(stick.value < 0){
+					this.tryDirection('left');
+					this.debounce = 0;
+				}else if (stick.value > 0){
+					this.tryDirection('right');
+					this.debounce = 0;
+				}
+			}		
+			break;
+		case "XBOX_LEFT_VERT":
+			if(Math.abs(leftright.value)<0.25){
+				if(stick.value < 0){
+					this.tryDirection('up');
+					this.debounce = 0;
+				}else if (stick.value > 0){
+					this.tryDirection('down');
+					this.debounce = 0;
+				}
+			}
+			break;
+	}	
+}
+
+levelSelectionState.checkController = function(){
+	var leftright = this.game.gamepads.gamepads[0].axis0;
+	var updown = this.game.gamepads.gamepads[0].axis1;
+
+	if(leftright.value < -0.5){
+		if(Math.abs(updown.value) < 0.5){
+			if(this.checkDebounce()){
+				this.tryDirection('left');
+			}
+		}
+	}else if(leftright.value > 0.5){
+		if(Math.abs(updown.value) < 0.5){
+			if(this.checkDebounce()){
+				this.tryDirection('right');
+			}
+		}
+	}else if(updown.value < -0.5){
+		if(this.checkDebounce()){
+			this.tryDirection('up');
+		}
+	}else if(updown.value > 0.5){
+		if(this.checkDebounce()){
+			this.tryDirection('down');
+		}
+	}
+}
+
+levelSelectionState.checkDebounce = function(){
+	if(this.debounce == 15){
+		this.debounce = 0;
+		return true;
+	}else{
+		this.debounce++;
+		return false;
+	}
+}
+
+levelSelectionState.removeAllGamepadSignals = function(){
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
+	this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
+	this.game.gamepads.gamepads[0].buttonIsDown.removeAll();
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.removeAll();
+}
+
+
+levelSelectionState.shutDown = function(){
+	this.removeAllGamepadSignals();
+	this.selectedIcon = null;
+	this.game.input.keyboard.onKeyDown.removeAll();
+	this.game.input.keyboard.onKeyUp.removeAll();
+}
+var creditsState = new Kiwi.State('creditsState');
+
+creditsState.preload = function(){
+	Kiwi.State.prototype.preload.call(this);
+
+	this.numPlayers = this.game.numPlayers;
+
+	this.addImage('parallaxBackground', 'assets/endless/parallax_canvas_1.png');
+	this.addImage('parallaxMountain', 'assets/endless/parallax_mountains.png');
+	this.addImage('parallaxMesa', 'assets/endless/parallax_mesa.png');
+	this.addImage('parallaxGrass', 'assets/endless/parallax_grass_1.png');
+	this.addImage('hills', 'assets/endless/parallax_greenhills.png');
+	
+	
+	this.addImage('creditCloud1', 'assets/endless/cloud_3.png');
+	this.addImage('creditCloud2', 'assets/endless/cloud_nimbus.png');
+	this.addImage('creditCloud3', 'assets/endless/cloud_nimbus1.png');
+	this.addImage('banditForLifeCloud', 'assets/endless/bandit_4_life_cloud.png');
+	this.addImage('creditClaire', 'assets/endless/bandit_credit_claire.png');
+	this.addImage('creditRyder', 'assets/endless/bandit_credit_rider.png');
+	this.addImage('creditRivers', 'assets/endless/bandit_credit_rivers.png');
+	this.addImage('creditLogo', 'assets/endless/RYDAIRE_LOGO_ENDLESS.png');
+	this.addImage('creditCombo', 'assets/endless/bandit_rydaire_combo.png');
+	
+}
+
+creditsState.create = function(){
+	Kiwi.State.prototype.create.call(this);
+	
+	this.mouse = this.game.input.mouse;
+	this.game.input.keyboard.onKeyDown.add(this.onKeyDownCallback, this);
+	this.game.input.keyboard.onKeyUp.add(this.onKeyUpCallback, this);
+	if(this.game.gamepads){
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce, this);
+		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce, this);
+		this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp, this);			
+	}
+	this.debounce = 0;
+	
+	this.game.setUpQuitDialog.call(this);
+
+	this.parallaxBackground = new Kiwi.GameObjects.StaticImage(this, this.textures['parallaxBackground'],0,0);
+	
+	this.parallaxMountain = new Kiwi.GameObjects.StaticImage(this, this.textures['parallaxMountain'],0,180);
+	this.parallaxMesa = new Kiwi.GameObjects.StaticImage(this, this.textures['parallaxMesa'],0,400);
+	this.parallaxGrass = new Kiwi.GameObjects.StaticImage(this, this.textures['parallaxGrass'],0,0);
+	this.hills = new Kiwi.GameObjects.StaticImage(this, this.textures['hills'],0,750);
+
+	this.parallaxMountain2 = new Kiwi.GameObjects.StaticImage(this, this.textures['parallaxMountain'],3000,180);
+	this.parallaxMesa2 = new Kiwi.GameObjects.StaticImage(this, this.textures['parallaxMesa'],3000,400);
+	this.parallaxGrass2 = new Kiwi.GameObjects.StaticImage(this, this.textures['parallaxGrass'],3000,0);
+	this.hills2 = new Kiwi.GameObjects.StaticImage(this, this.textures['hills'],3000,750);
+
+	this.cloudGroup = new Kiwi.Group(this);
+	this.cloudGroup2 = new Kiwi.Group(this);
+
+	var gameWidth = this.game.stage.container.clientHeight * 1.333;
+
+
+	this.banditLife = new Kiwi.GameObjects.StaticImage(this, this.textures['banditForLifeCloud'], 1200, 110);
+	this.cloudClaire = new Kiwi.GameObjects.StaticImage(this, this.textures['creditClaire'],1200, 180);
+	this.cloudRyder = new Kiwi.GameObjects.StaticImage(this, this.textures['creditRyder'], 1200, 180);	
+	this.cloudRivers = new Kiwi.GameObjects.StaticImage(this, this.textures['creditRivers'], 1200, 180);
+	this.creditLogo = new Kiwi.GameObjects.StaticImage(this, this.textures['creditLogo'], 1200, 100);
+	this.creditCombo = new Kiwi.GameObjects.StaticImage(this, this.textures['creditCombo'], 1200, 10);
+	
+	this.nameClouds = [this.banditLife, this.cloudRyder, this.cloudClaire,  this.cloudRivers, this.creditLogo];
+	this.numberOfNameClouds = 4;
+	this.cloudIndex = 0;
+	this.cloudIsPassed = false;
+	this.currentCloud = this.nameClouds[this.cloudIndex];
+	
+	this.cloudGroup.addChild(this.cloudClaire);
+	this.cloudGroup.addChild(this.cloudRyder);
+	this.cloudGroup.addChild(this.cloudRivers);
+	this.cloudGroup.addChild(this.creditLogo);
+	this.cloudGroup.addChild(this.banditLife);
+	this.cloudGroup.addChild(this.creditCombo);
+	
+	for (var i = 1; i <= 8; i++){
+		this.cloudGroup2.addChild(new Cloud(this, i));
+	}
+	this.cloudGroup2.visible = false;
+	
+	this.horseGroup = new Kiwi.Group(this);
+	this.redHorse = new Horse(this, 510, 595);
+	this.redHorse.animation.play('redrun');
+	this.blueHorse = new Horse(this, 300, 595);
+	this.blueHorse.animation.play('bluerun');
+	//this.horseGroup.addChild(this.redHorse);
+	//if(this.numPlayers == 2){
+	//	this.horseGroup.addChild(this.blueHorse);
+	//}
+
+	this.banditStagecoach = new BanditStageCoach(this, 275, 500);
+
+	this.horseGroup.addChild(this.banditStagecoach);
+
+	this.horseGallopSound = new Kiwi.Sound.Audio(this.game, 'horseGallopSound', 1, false);
+	this.horseGallopSound.addMarker('start', 0, 8, false);
+	this.horseGallopSound2 = new Kiwi.Sound.Audio(this.game, 'horseGallopSound', 1, false);
+	this.horseGallopSound2.addMarker('start', 0, 8, false);
+	
+	var fadeOutParams = {state: this, width: this.game.stage.width, height: this.game.stage.height, x: 0, y: 0, color: [0,0,0]};
+	this.blackBox = new Kiwi.Plugins.Primitives.Rectangle(fadeOutParams);
+	this.blackBox.alpha = 0;
+	this.blackBoxTween = this.game.tweens.create(this.blackBox);
+	var fadeInParams = {state: this, width: this.game.stage.width, height: this.game.stage.height, x: 0, y: 0, color: [0,0,0]};
+	this.whiteBox = new Kiwi.Plugins.Primitives.Rectangle(fadeInParams);
+	this.whiteBox.alpha = 1;
+	this.whiteBoxTween = this.game.tweens.create(this.whiteBox);
+
+	this.addChild(this.parallaxBackground);
+	this.addChild(this.cloudGroup2);
+	this.addChild(this.parallaxMountain);
+	this.addChild(this.parallaxMountain2);
+	this.addChild(this.parallaxMesa);
+	this.addChild(this.parallaxMesa2);
+	this.addChild(this.hills);
+	this.addChild(this.hills2);
+	
+	this.addChild(this.horseGroup);
+	
+	this.addChild(this.parallaxGrass);
+	this.addChild(this.parallaxGrass2);
+	this.addChild(this.cloudGroup);
+	
+	this.addChild(this.blackBox);
+	this.addChild(this.whiteBox);
+	
+	this.game.addQuitDialog.call(this);
+
+	this.grassIndex = 0;
+	this.mountainIndex = 0;
+	this.mesaIndex = 0;
+	this.hillsIndex = 0;
+
+	this.mountainSpeed = 0.2;
+	this.mesaSpeed = 1;
+	this.hillsSpeed =10;
+	this.grassSpeed = 10;
+	
+	this.random = new Kiwi.Utils.RandomDataGenerator();
+	this.showingNameClouds = true;
+
+	this.hasFadedIn = false;
+}
+
+creditsState.fadeOut = function(){
+	this.blackBoxTween.onComplete(function(){this.game.states.switchState('titleState')}, this);
+	this.blackBoxTween.to({alpha: 1}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+}
+
+creditsState.showQuitDialog = function(){
+	this.isPaused = true;
+	this.quitButtonGroup.active = true;
+	this.selectedQuitIcon.playHover();
+
+	this.quitTween.to({y: 300}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+	this.quitTween2.to({y: 300}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);    
+	
+}
+
+creditsState.closeQuitDialog = function(){
+	this.isPaused = false;
+	this.quitButtonGroup.active = false;
+	
+	this.quitTween.to({y: -500}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	
+	this.quitTween2.to({y: -500}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	
+}
+
+creditsState.quitGame = function(){
+	this.game.quitGame.call(this);
+}
+
+creditsState.forwardQuitIcon = function(){
+	this.quitButtonGroup.members[this.quitIndex].playOff();
+	if(this.quitIndex == 0){
+		this.quitIndex = 1;
+	}else{
+		this.quitIndex = 0;
+	}
+	this.selectedQuitIcon = this.quitButtonGroup.members[this.quitIndex];
+	this.selectedQuitIcon.playHover();
+}
+
+creditsState.update = function(){
+	if(this.hasFadedIn == false){
+		this.whiteBoxTween.to({alpha: 0}, 1400, Kiwi.Animations.Tweens.Easing.Cubic.In, true);
+		this.hasFadedIn = true;
+	}
+	if(this.isPaused == false){
+		Kiwi.State.prototype.update.call(this);
+		this.parallaxMountain.x -= this.mountainSpeed;
+		this.parallaxMountain2.x -= this.mountainSpeed;
+		this.parallaxMesa.x -= this.mesaSpeed;
+		this.parallaxMesa2.x -= this.mesaSpeed;
+		this.parallaxGrass.x -= this.grassSpeed;
+		this.parallaxGrass2.x -= this.grassSpeed;
+		this.hills.x -= this.hillsSpeed;
+		this.hills2.x -= this.hillsSpeed;
+		
+		if(this.showingNameClouds){
+			this.updateCloud();
+		}
+	
+		this.hillsIndex = this.updateParallax(this.hills, this.hills2, this.hillsIndex);
+		this.mesaIndex = this.updateParallax(this.parallaxMesa, this.parallaxMesa2, this.mesaIndex);
+		this.mountainIndex = this.updateParallax(this.parallaxMountain, this.parallaxMountain2, this.mountainIndex);
+		this.grassIndex = this.updateParallax(this.parallaxGrass, this.parallaxGrass2, this.grassIndex);
+	}else{
+		Kiwi.Group.prototype.update.call(this.quitButtonGroup);
+	}
+	
+	this.checkController();
+}
+
+creditsState.updateParallax = function(p1, p2, index){
+	switch (index) {
+		case 0:
+			if(p2.x < 0){
+				p1.x = p2.x + 2999;
+				return 1;
+			}else{
+				return 0;
+			}
+			break;
+		case 1:
+			if(p1.x < 0){
+				p2.x = p1.x + 2999;
+				return 0;
+			}else{
+				return 1;
+			}
+			break;
+	}
+
+}
+
+creditsState.updateCloud = function(){
+
+	if(this.cloudIsPassed === false){
+		this.currentCloud.x -= 3; 
+		
+		if(this.currentCloud.x < -1.2 * this.currentCloud.width){
+			this.cloudIsPassed = true;
+			if(this.cloudIndex < this.nameClouds.length){	
+				this.currentCloud.y = -1000;
+			}
+		}
+	}else{
+		this.cloudIndex += 1; 
+		if(this.cloudIndex >= this.nameClouds.length){
+			this.showingNameClouds = false;
+			this.setUpClouds();
+		}else{
+			this.currentCloud = this.nameClouds[this.cloudIndex];
+			this.cloudIsPassed = false;
+		}
+	}
+}
+
+creditsState.setUpClouds = function(){
+	this.cloudGroup2.visible = true;
+	for(var i = 0; i < this.cloudGroup2.members.length; i++){
+		this.cloudGroup2.members[i].randomXToRight();
+		this.cloudGroup2.members[i].randomSpeedAndY();
+	}
+}
+
+creditsState.onKeyDownCallback = function(keyCode){
+	if(keyCode == Kiwi.Input.Keycodes.ESC){
+		if(this.quitButtonGroup.active){
+			this.quitGame();
+		}else{
+			this.showQuitDialog();
+		}
+	}else if(keyCode == Kiwi.Input.Keycodes.LEFT | keyCode == Kiwi.Input.Keycodes.RIGHT){
+		if(this.quitButtonGroup.active){
+			this.forwardQuitIcon();
+		}
+	}else if(keyCode == Kiwi.Input.Keycodes.ENTER | keyCode == Kiwi.Input.Keycodes.SPACEBAR){
+		if(this.quitButtonGroup.active){
+			if(this.selectedQuitIcon){
+				this.selectedQuitIcon.playDown();
+			}
+		}else{
+			this.fadeOut();
+		}
+	}else{
+		if(this.quitButtonGroup.active == false){
+			this.fadeOut();
+		}
+	}
+}
+
+creditsState.onKeyUpCallback = function(keyCode){
+	if(this.quitButtonGroup.active){
+		if(keyCode == Kiwi.Input.Keycodes.ENTER | keyCode == Kiwi.Input.Keycodes.SPACEBAR){
+			if(this.selectedQuitIcon){
+				this.selectedQuitIcon.mouseClicked();	
+			}
+		}
+	}
+}
+
+creditsState.buttonOnDownOnce = function(button){
+	switch( button.name ){
+		case "XBOX_A":
+		case "XBOX_B":
+		case "XBOX_X":
+		case "XBOX_Y":
+		case "XBOX_START":
+			if(this.quitButtonGroup.active){
+				this.selectedQuitIcon.playDown();	
+			}else{
+				this.fadeOut();
+			}
+			break;			
+		case "XBOX_BACK":
+			if(this.quitButtonGroup.active){
+				this.closeQuitDialog();
+			}else{
+				this.showQuitDialog();
+			}
+			break;
+		default:		
+	}
+}
+
+creditsState.buttonOnUp = function(button){
+	switch( button.name ){
+		case "XBOX_A":
+		case "XBOX_B":
+		case "XBOX_X":
+		case "XBOX_Y":
+		case "XBOX_START":
+			if(this.quitButtonGroup.active){
+				this.selectedQuitIcon.mouseClicked();
+			}
+			break;				
+		case "XBOX_DPAD_LEFT":
+		case "XBOX_DPAD_RIGHT":
+		case "XBOX_DPAD_UP":
+		case "XBOX_DPAD_DOWN":
+			if(this.quitButtonGroup.active){
+				this.forwardQuitIcon();
+			}
+			break;
+		default:		
+	}
+}
+
+creditsState.thumbstickOnDownOnce = function(stick){
+	var updown = this.game.gamepads.gamepads[0].axis1;
+	switch ( stick.name ) {
+		case "XBOX_LEFT_HORZ":
+			if(Math.abs(updown.value)<0.25){
+				this.forwardQuitIcon();
+				this.debounce = 0;
+			}		
+			break;
+	}	
+}
+
+creditsState.checkController = function(){
+	var leftright = this.game.gamepads.gamepads[0].axis0;
+	var updown = this.game.gamepads.gamepads[0].axis1;
+
+	if(leftright.value < -0.5 | leftright.value > 0){
+		if(Math.abs(updown.value) < 0.5){
+			if(this.checkDebounce()){
+				this.forwardQuitIcon();
+				this.debounce = 0;
+			}
+		}
+	}
+}
+
+creditsState.checkDebounce = function(){
+	if(this.debounce == 15){
+		this.debounce = 0;
+		return true;
+	}else{
+		this.debounce++;
+		return false;
+	}
+}
+
+creditsState.removeAllGamepadSignals = function(){
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
+	this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.removeAll();
+}
+
+creditsState.shutDown = function(){
+	this.removeAllGamepadSignals();
+	this.game.input.keyboard.onKeyDown.removeAll();
+	this.game.input.keyboard.onKeyUp.removeAll();
+	if(this.game.currentMusic.isPlaying){
+		this.game.currentMusic.stop();
+	}
+	this.game.tweens.removeAll();
+}
+function pathTo(node){
+    var curr = node,
+        path = [];
+    while(curr.parent) {
+        path.push(curr);
+        curr = curr.parent;
+    }
+    return path;
+}
+
+function getHeap() {
+    return new BinaryHeap(function(node) {
+        return node.f;
+    });
+}
+
+var astar = {
+    init: function(graph) {
+        for (var i = 0, len = graph.nodes.length; i < len; ++i) {
+            var node = graph.nodes[i];
+            node.f = 0;
+            node.g = 0;
+            node.h = 0;
+            node.visited = false;
+            node.closed = false;
+            node.parent = null;
+        }
+    },
+	search: function(graph, start, end) {
+        astar.init(graph);
+
+        var step = 1; 
+
+        var heuristic = astar.manhattan,
+            closest = false;
+
+        var openHeap = getHeap(),
+            closestNode = start; // set the start node to be the closest if required
+
+        start.h = heuristic(start, end);
+
+        openHeap.push(start);
+
+        while(openHeap.size() > 0) {
+
+            // Grab the lowest f(x) to process next.  Heap keeps this sorted for us.
+            var currentNode = openHeap.pop();
+
+            // End case -- result has been found, return the traced path.
+            if(currentNode === end) {
+                return pathTo(currentNode);
+            }
+
+            // Normal case -- move currentNode from open to closed, process each of its neighbors.
+            currentNode.closed = true;
+
+            // Find all neighbors for the current node.
+            var neighbors = graph.neighbors(currentNode);
+
+            for (var i = 0; i < neighbors.length; ++i) {
+                var neighbor = neighbors[i];
+
+                if (neighbor.closed || neighbor.isWall()) {
+                    // Not a valid node to process, skip to next neighbor.
+                    continue;
+                }
+
+                // The g score is the shortest distance from start to current node.
+                // We need to check if the path we have arrived at this neighbor is the shortest one we have seen yet.
+                var gScore = currentNode.g + 1,
+                    beenVisited = neighbor.visited;
+
+                if (!beenVisited || gScore < neighbor.g) {
+
+                    // Found an optimal (so far) path to this node.  Take score for node to see how good it is.
+                    neighbor.visited = true;
+                    neighbor.parent = currentNode;
+                    neighbor.h = neighbor.h || heuristic(neighbor, end);
+                    neighbor.g = gScore;
+                    neighbor.f = neighbor.g + neighbor.h;
+
+                    if (closest) {
+                        // If the neighbour is closer than the current closestNode or if it's equally close but has
+                        // a cheaper path than the current closest node then it becomes the closest node
+                        if (neighbor.h < closestNode.h || (neighbor.h === closestNode.h && neighbor.g < closestNode.g)) {
+                            closestNode = neighbor;
+                        }
+                    }
+
+                    if (!beenVisited) {
+                        // Pushing to heap will put it in proper place based on the 'f' value.
+                        openHeap.push(neighbor);
+                    }
+                    else {
+                        // Already seen the node, but since it has been rescored we need to reorder it in the heap
+                        openHeap.rescoreElement(neighbor);
+                    }
+                }
+            }
+            step ++;
+        }
+
+        if (closest) {
+            return pathTo(closestNode);
+        }
+
+        // No result was found - empty array signifies failure to find path.
+        return [];
+    },
+
+    manhattan: function(pos0, pos1) {
+        var d1 = Math.abs(pos1.x - pos0.x);
+        var d2 = Math.abs(pos1.y - pos0.y);
+        return d1 + d2;
+    },    
+	
+};
+
+function Graph(gridIn) {
+    this.nodes = [];
+    this.grid = [];
+    for (var x = 0; x < gridIn.length; x++) {
+        this.grid[x] = [];
+
+        for (var y = 0, row = gridIn[x]; y < row.length; y++) {
+            var node = new GridNode(x, y, row[y]);
+            this.grid[x][y] = node;
+            this.nodes.push(node);
+        }
+    }
+}
+
+Graph.prototype.neighbors = function(node) {
+    var ret = [],
+        x = node.x,
+        y = node.y,
+        grid = this.grid;
+
+    // North
+    if(node.canGoUp()){
+	    if(grid[x-1] && grid[x-1][y]) {
+	        ret.push(grid[x-1][y]);
+	    }
+	}
+
+    // Down
+    if(node.canGoDown()){	
+	    if(grid[x+1] && grid[x+1][y]) {
+	        ret.push(grid[x+1][y]);
+	    }
+	}
+
+    // West
+    if(node.canGoLeft()){
+	    if(grid[x] && grid[x][y-1]) {
+	        ret.push(grid[x][y-1]);
+	    }
+	}
+
+    // East
+    if(node.canGoRight()){
+	    if(grid[x] && grid[x][y+1]) {
+	        ret.push(grid[x][y+1]);
+	    }
+	}
+
+    return ret;
+};
+
+Graph.prototype.toString = function() {
+    var graphString = [],
+        nodes = this.grid, // when using grid
+        rowDebug, row, y, l;
+    for (var x = 0, len = nodes.length; x < len; x++) {
+        rowDebug = [];
+        row = nodes[x];
+        for (y = 0, l = row.length; y < l; y++) {
+            rowDebug.push(row[y].ghoulCode);
+        }
+        graphString.push(rowDebug.join(" "));
+    }
+    return graphString.join("\n");
+};
+
+function GridNode(x, y, ghoulCode) {
+    this.x = x;
+    this.y = y;
+    this.ghoulCode = ghoulCode;
+}
+
+GridNode.prototype.toString = function() {
+    return "[" + this.x + " " + this.y + "]";
+};
+
+GridNode.prototype.canGoRight = function() {
+    return this.ghoulCode % 2 == 0;
+};
+
+GridNode.prototype.canGoLeft = function() {
+    return this.ghoulCode % 3 == 0;
+};
+
+GridNode.prototype.canGoUp = function() {
+    return this.ghoulCode % 5 == 0;
+};
+
+GridNode.prototype.canGoDown = function() {
+    return this.ghoulCode % 7 == 0;
+};
+
+GridNode.prototype.isWall = function() {
+    return this.ghoulCode === 1;
+};
+
+function BinaryHeap(scoreFunction){
+    this.content = [];
+    this.scoreFunction = scoreFunction;
+}
+
+BinaryHeap.prototype = {
+    push: function(element) {
+        // Add the new element to the end of the array.
+        this.content.push(element);
+
+        // Allow it to sink down.
+        this.sinkDown(this.content.length - 1);
+    },
+    pop: function() {
+        // Store the first element so we can return it later.
+        var result = this.content[0];
+        // Get the element at the end of the array.
+        var end = this.content.pop();
+        // If there are any elements left, put the end element at the
+        // start, and let it bubble up.
+        if (this.content.length > 0) {
+            this.content[0] = end;
+            this.bubbleUp(0);
+        }
+        return result;
+    },
+    remove: function(node) {
+        var i = this.content.indexOf(node);
+
+        // When it is found, the process seen in 'pop' is repeated
+        // to fill up the hole.
+        var end = this.content.pop();
+
+        if (i !== this.content.length - 1) {
+            this.content[i] = end;
+
+            if (this.scoreFunction(end) < this.scoreFunction(node)) {
+                this.sinkDown(i);
+            }
+            else {
+                this.bubbleUp(i);
+            }
+        }
+    },
+    size: function() {
+        return this.content.length;
+    },
+    rescoreElement: function(node) {
+        this.sinkDown(this.content.indexOf(node));
+    },
+    sinkDown: function(n) {
+        // Fetch the element that has to be sunk.
+        var element = this.content[n];
+
+        // When at 0, an element can not sink any further.
+        while (n > 0) {
+
+            // Compute the parent element's index, and fetch it.
+            var parentN = ((n + 1) >> 1) - 1,
+                parent = this.content[parentN];
+            // Swap the elements if the parent is greater.
+            if (this.scoreFunction(element) < this.scoreFunction(parent)) {
+                this.content[parentN] = element;
+                this.content[n] = parent;
+                // Update 'n' to continue at the new position.
+                n = parentN;
+            }
+            // Found a parent that is less, no need to sink any further.
+            else {
+                break;
+            }
+        }
+    },
+    bubbleUp: function(n) {
+        // Look up the target element and its score.
+        var length = this.content.length,
+            element = this.content[n],
+            elemScore = this.scoreFunction(element);
+
+        while(true) {
+            // Compute the indices of the child elements.
+            var child2N = (n + 1) << 1,
+                child1N = child2N - 1;
+            // This is used to store the new position of the element, if any.
+            var swap = null,
+                child1Score;
+            // If the first child exists (is inside the array)...
+            if (child1N < length) {
+                // Look it up and compute its score.
+                var child1 = this.content[child1N];
+                child1Score = this.scoreFunction(child1);
+
+                // If the score is less than our element's, we need to swap.
+                if (child1Score < elemScore){
+                    swap = child1N;
+                }
+            }
+
+            // Do the same checks for the other child.
+            if (child2N < length) {
+                var child2 = this.content[child2N],
+                    child2Score = this.scoreFunction(child2);
+                if (child2Score < (swap === null ? elemScore : child1Score)) {
+                    swap = child2N;
+                }
+            }
+
+            // If the element needs to be moved, swap it, and continue.
+            if (swap !== null) {
+                this.content[n] = this.content[swap];
+                this.content[swap] = element;
+                n = swap;
+            }
+            // Otherwise, we are done.
+            else {
+                break;
+            }
+        }
+    }
+};
+
+
+var Ghouliath = function(state, x, y, facing){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['ghouliath'], x, y, false);
+	this.facing = facing;
+	this.state = state;
+	this.shouldFall = false;
+	this.moveUp = 0;
+	this.movingUp = false;
+	this.fallen = false;
+	this.hiddenBlocksPaused = [];
+
+	this.resumeBlocksTimer = this.state.game.time.clock.createTimer('resumeBlocksTimer',2,0,false);
+	this.resumeBlocksTimerEvent = this.resumeBlocksTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.resumeHiddenBlocks, this);
+
+	this.explodeTimer = this.state.game.time.clock.createTimer('explodeTimer',0.5,0,false);
+	this.explodeTimerEvent = this.explodeTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.destroy, this);
+
+	this.animation.add('moveright',[3,4,5,6,7,8,9,1,0,2],0.2,true);
+	this.animation.add('moveleft',[3,4,5,6,7,8,9,1,0,2],0.2,true);
+	this.animation.add('climbright',[10,11,12,2],0.125,false);
+	this.animation.add('climbleft',[10,11,12,2],0.125,false);
+	this.animation.add('die',[13,14],0.1,true);
+	this.animation.add('explode',[15],0.2,false);
+
+	this.animation.play('climbright');
+}
+Kiwi.extend(Ghouliath, Kiwi.GameObjects.Sprite);
+
+Ghouliath.prototype.update = function(){
+	Kiwi.GameObjects.Sprite.prototype.update.call(this);
+	this.shouldCheckDirection = (this.x % this.state.bps == 0 && this.y % this.state.bps == 0); 	
+	this.shouldCheckForHiddenBlock = (this.x % (this.state.bps/10) == 0);
+	this.justTurned = false;
+
+	if(this.fallen && !this.movingUp && this.shouldCheckDirection){
+		this.checkClimbOut();
+	}
+	
+	if(this.shouldFall){
+		if(!this.movingUp){
+			this.gravity();
+		}
+	}else{
+		if(this.shouldCheckForHiddenBlock){
+			this.checkForHiddenBlock();
+		}
+
+		if(this.shouldCheckDirection && !this.climbingOut){
+			this.gridPosition = this.state.getGridPosition(this.x, this.y);
+			switch(this.facing){
+				case 'left':
+					if(this.x <= 0){
+						this.facing = 'right';
+						this.justTurned = true;
+					}else{
+						var checkGroundBlock1 = [this.gridPosition[0], this.gridPosition[1]-1];
+						var checkGroundBlock2 = [this.gridPosition[0] + 1, this.gridPosition[1]-1];
+						if(this.state.onBlockType(this.state.originalGroundBlocks, checkGroundBlock1) || this.state.onBlockType(this.state.groundBlocks, checkGroundBlock2)){
+							this.facing = 'right';
+							this.justTurned = true;
+						}
+					}
+					break;
+				case 'right':
+					if(this.x + 100 >= this.state.bps*this.state.GRID_COLS){
+						this.facing = 'left';
+						this.justTurned = true;
+					}else{
+						var checkGroundBlock1 = [this.gridPosition[0], this.gridPosition[1]+2];
+						var checkGroundBlock2 = [this.gridPosition[0] + 1, this.gridPosition[1]+2];
+						if(this.state.onBlockType(this.state.originalGroundBlocks, checkGroundBlock1) || this.state.onBlockType(this.state.groundBlocks, checkGroundBlock2)){
+							this.facing = 'left';
+							this.justTurned = true;
+						}
+					}	
+					break;	
+			}
+		}
+	}
+	if(!this.justTurned){
+		switch(this.facing){
+			case 'left':
+				if(this.movingUp){
+					this.x -= 0.5;
+					this.scaleX = -1;
+				}else{
+					if(this.animation.currentAnimation.name != 'moveleft'){
+						this.animation.playAt(0,'moveleft');
+					}
+					this.x -= 0.5;
+					this.scaleX = -1;					
+				}
+				break;
+			case 'right':
+				if(this.movingUp){
+					this.x += 0.5;
+					this.scaleX = 1;
+				}else{
+					if(this.animation.currentAnimation.name != 'moveright'){
+						this.animation.playAt(0,'moveright');
+					}
+					this.x += 0.5;
+					this.scaleX = 1;					
+				}
+				break;
+		}
+	}
+	if(this.moveUp > 0){
+		if(this.moveUp < this.state.bps+50.5){
+			if(this.moveUp>50){
+				if(this.animation.currentAnimation.name != 'climb' + this.facing){
+					this.animation.playAt(0,'climb' + this.facing);
+				}
+			}
+			if(this.moveUp>50){
+				if(this.moveUp == 51 || this.moveUp == 53){
+					this.y -= 5;
+					if(this.facing == "right"){
+						this.x += 2;
+					}else if(this.facing == "left"){
+						this.x -= 2;
+					}
+				}else if(this.moveUp > 53 && this.moveUp < 67){
+					this.y -= 1;
+					if(this.facing == "right"){
+						this.x += 0.5;
+					}else if(this.facing == "left"){
+						this.x -= 0.5;
+					}				
+				}else{
+					this.y -= 2;
+				}
+			}
+			this.moveUp += 2; 
+			this.movingUp = true;
+		}else{
+			this.moveUp = 0;
+			this.movingUp = false;
+			this.fallen = false;
+			this.climbingOut = false;
+			this.resumeBlocksTimer.start();
+		}
+	}
+}
+
+Ghouliath.prototype.resumeHiddenBlocks = function(){
+	var hiddenBlock = null;
+	while(hiddenBlock = this.hiddenBlocksPaused.pop()){
+		hiddenBlock.timer.resume();
+	}
+}
+Ghouliath.prototype.checkForHiddenBlock = function(){
+	var checkForHiddenBlockPosition1 = this.state.getGridPosition(this.x, this.y+this.state.bps*2, 'middle');
+	var checkForHiddenBlockPosition2 = this.state.getGridPosition(this.x + this.state.bps, this.y + this.state.bps*2, 'middle');
+	var hiddenBlock = null;
+	var check1 = false;
+	var check2 = false;
+	var hiddenBlock1 = null;
+	var hiddenBlock2 = null;
+	for (var i = 0; i < this.state.hiddenBlockGroup.members.length; i++){
+		hiddenBlock = this.state.hiddenBlockGroup.members[i];	
+		if(hiddenBlock.row == checkForHiddenBlockPosition1[0] && hiddenBlock.col == checkForHiddenBlockPosition1[1]){
+			check1 = true;
+			hiddenBlock1 = hiddenBlock;
+		}else if(hiddenBlock.row == checkForHiddenBlockPosition2[0] && hiddenBlock.col == checkForHiddenBlockPosition2[1]){
+			check2 = true;
+			hiddenBlock2 = hiddenBlock;
+		}
+	}
+	if(hiddenBlock1){
+		//if(!hiddenBlock1._isPaused){		
+		//	hiddenBlock1.timer.pause();
+		//	this.hiddenBlocksPaused.push(hiddenBlock1);
+		//}
+	}
+	if(hiddenBlock2){
+		//if(!hiddenBlock2._isPaused){
+		//	hiddenBlock2.timer.pause();
+		//	this.hiddenBlocksPaused.push(hiddenBlock2);
+		//}
+	}
+	if(!this.state.onBlockType(this.state.originalGroundBlocks, checkForHiddenBlockPosition1)){
+		check1 = true;
+	}
+	if(!this.state.onBlockType(this.state.originalGroundBlocks, checkForHiddenBlockPosition2)){
+		check2 = true;
+	}	
+	if(check1 && check2){
+		if(!this.climbingOut){
+			this.shouldFall = true;
+		}
+	}
+}
+
+Ghouliath.prototype.gravity = function(){
+	this.fallen = true;
+	var southGridPosition1 = this.state.getGridPosition(this.x, this.y + this.state.bps, 'south');
+	var southGridPosition2 = this.state.getGridPosition(this.x + this.state.bps, this.y + this.state.bps, 'south');
+	if(this.state.onBlockType(this.state.topGroundBlocks, southGridPosition1) || this.state.onBlockType(this.state.topGroundBlocks, southGridPosition2)){
+		var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition1, 'south');
+		if(this.y + this.state.bps * 2 < pixelNum - 10){
+			this.y += 10;
+		}else{
+			this.y = pixelNum-(2*this.state.bps)+1;
+			this.shouldFall = false;
+			//this.checkDeath();
+		}
+	}else{
+		this.y+= 10;
+	}
+	if(this.y > this.state.bps * this.state.GRID_ROWS){
+		this.isInHole = true;
+		this.destroy();
+	}
+}
+
+Ghouliath.prototype.checkClimbOut = function(){
+	switch(this.animation.currentAnimation.name){
+		case 'moveright':
+			var checkGroundBlock1 = this.state.getGridPosition(this.x+2*this.state.bps, this.y+this.state.bps);
+			var checkEmptyBlock1 = this.state.getGridPosition(this.x+2*this.state.bps, this.y);	
+			var checkEmptyBlock2 = this.state.getGridPosition(this.x+2*this.state.bps, this.y-this.state.bps);
+			break;
+		case 'moveleft':
+			var checkGroundBlock1 = this.state.getGridPosition(this.x-1, this.y+this.state.bps);
+			var checkEmptyBlock1 = this.state.getGridPosition(this.x-1, this.y);
+			var checkEmptyBlock2 = this.state.getGridPosition(this.x-1, this.y-this.state.bps);
+			break;
+	}
+	if(this.facing!='die'){
+		if(this.state.onBlockType(this.state.groundBlocks, checkGroundBlock1)){
+			if(!this.state.onBlockType(this.state.groundBlocks, checkEmptyBlock1)){
+				if(!this.state.onBlockType(this.state.groundBlocks, checkEmptyBlock2)){
+					this.justTurned = false;
+					this.moveUp++; 
+					this.climbingOut = true;
+				}
+			}else{
+				if(this.fallen){
+					this.animation.play('die');
+					this.facing = 'die';
+					this.addToOccupiedBy();
+					this.resumeBlocksTimer.start();
+				}
+			}
+		}else{
+			if(this.state.onBlockType(this.state.groundBlocks, checkEmptyBlock1)){
+				if(this.fallen){
+					this.animation.play('die');
+					this.facing = 'die';
+					this.addToOccupiedBy();
+				}
+			}
+		}
+	}
+}
+
+Ghouliath.prototype.addToOccupiedBy = function(){
+	var addedToHiddenBlock = false;
+	var gridPosition = this.state.getGridPosition(this.x, this.y);
+	for(var i = 0; i < this.state.hiddenBlockGroup.members.length; i++){
+		var hiddenBlock = this.state.hiddenBlockGroup.members[i];
+		if(hiddenBlock.row == gridPosition[0] || hiddenBlock.row == gridPosition[0]+1){
+			if(hiddenBlock.col == gridPosition[1] || hiddenBlock.col == gridPosition[1]+1){
+				hiddenBlock.occupiedBy.push(this);
+				addedToHiddenBlock = true;
+			}
+		}
+	}
+	if(!addedToHiddenBlock){
+		this.animation.play('explode');
+		this.explodeTimer.start();
+	}
+}
+
+Ghouliath.prototype.destroy = function(immediate){
+	this.resumeHiddenBlocks();
+	if(this.state.soundOptions.soundsOn && this.state.destroyingNow === false){
+		this.state.bombSound.play('start', true);	
+	}
+	this.explodeTimer.removeTimerEvent(this.explodeTimerEvent);
+	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
+}
+
+Ghouliath.prototype.objType = function(){
+	return 'Ghouliath';
+}
+
+var Ghoul = function(state, x, y, facing, ghoulType){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
+	this.facing = facing; 
+	this.shouldFall = false;
+	this.isInHole = false;
+	this.isInHiddenBlock = false;
+	this.state = state;
+	this.shouldCheckDirection = true;
+	this.ghoulType = ghoulType;
+	this.bombed = false;
+
+	var ghoulHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
+	var ghoulHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);	
+ 
+	this.box.hitbox = new Kiwi.Geom.Rectangle(ghoulHitboxX,ghoulHitboxY,this.state.bps-2*ghoulHitboxX,this.state.bps-2*ghoulHitboxY);
+
+	switch(ghoulType){
+		case 'gray':
+			this.animation.add('idleleft',[70],0.1,false);
+			this.animation.add('idleright',[73],0.1,false);
+			this.animation.add('upright',[75],0.1,false);
+			this.animation.add('upleft',[72],0.1,false);
+			this.animation.add('dieright',[74,75],0.1,true);
+			this.animation.add('dieleft',[71,72],0.1,true);
+			this.animation.add('diestaticright',[74],0.1,false);
+			this.animation.add('diestaticleft',[71],0.1,false);			
+			break;
+		case 'red':
+			this.animation.add('idleleft',[90],0.1,false);
+			this.animation.add('idleright',[106],0.1,false);
+			this.animation.add('upright',[99],0.1,false);
+			this.animation.add('upleft',[102],0.1,false);
+			this.animation.add('dieright',[95,106],0.1,true);
+			this.animation.add('dieleft',[98,102],0.1,true);
+			this.animation.add('diestaticright',[95],0.1,false);
+			this.animation.add('diestaticleft',[98],0.1,false);				
+			this.animation.add('climb',[91,94],0.1,true);	
+			break;
+		case 'blue':
+			this.animation.add('idleleft',[103],0.1,false);
+			this.animation.add('idleright',[96],0.1,false);
+			this.animation.add('upright',[104],0.1,false);
+			this.animation.add('upleft',[92],0.1,false);
+			this.animation.add('dieright',[100,104],0.1,true);
+			this.animation.add('dieleft',[107,92],0.1,true);
+			this.animation.add('diestaticright',[100],0.1,false);
+			this.animation.add('diestaticleft',[107],0.1,false);
+			this.animation.add('disappear',[93,97,101,105,113],0.1,false);		
+			this.animation.add('orb',[113],0.1,false);
+			this.animation.add('reappear',[113,105,101,97,93],0.15,false);
+			break;
+		case 'black':
+			this.animation.add('idleleft',[126],0.1,false);
+			this.animation.add('idleright',[137],0.1,false);
+			this.animation.add('swingleft',[126,135,136,135],0.1,true);
+			this.animation.add('swingright',[137,145,146,145],0.1,true);
+			this.animation.add('upright',[144],0.1,false);
+			this.animation.add('dieright',[144,139],0.1,true);
+			this.animation.add('dieleft',[134,128],0.1,true);
+			this.animation.add('diestaticright',[139],0.1,false);
+			this.animation.add('diestaticleft',[134],0.1,false);			
+			this.animation.add('climb',[127,138],0.1,true);
+			this.animation.add('disappear',[129,130,131,132,133],0.1,false);
+			this.animation.add('orb',[133],0.1,false);
+			this.animation.add('reappear',[133,132,131,130,129],0.1,false);
+			break;	
+		case 'king':
+			this.animation.add('idleleft',[166],0.1,false);
+			this.animation.add('dieleft',[162,163],0.1,true);
+			this.animation.add('laugh',[164,165],0.1,true);
+			this.animation.add('shoot',[166,167,166,168,165,166],0.1,false);
+			this.animation.add('explode',[169],0.1,false);
+			break;
+	}
+
+	this.animation.play('idleleft');	
+
+}
+Kiwi.extend(Ghoul, Kiwi.GameObjects.Sprite);
+
+Ghoul.prototype.objType = function(){
+	return 'Ghoul';
+}
+
+Ghoul.prototype.update = function(){
+	Kiwi.GameObjects.Sprite.prototype.update.call(this);
+
+	//If the ghoul is in a hole, play the die animation, otherwise
+	//do everything else. 
+	if(this.isInHole){
+		//Ghoul = playDieAnimation
+		//BlackGhoul = teleport or playDieAnimation.
+		this.inHole();
+	}else{
+		this.shouldCheckDirection = (this.x % this.state.bps == 0 && this.y % this.state.bps == 0); 	
+
+		if(this.shouldFall){
+			this.gravity();
+			//below makes ghouls change facing as they fall. 
+			//and dictates their facing after landing onto the ground
+			if(!(this.y>this.state.bps*(this.state.GRID_ROWS-1))){
+				if(this.facing == 'left'){
+					var gridPosition = this.state.getGridPosition(this.x, this.y, 'east');
+				}else if(this.facing == 'right'){
+					var gridPosition = this.state.getGridPosition(this.x, this.y, 'west');
+				}else{
+					var gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
+				}
+				var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];
+				switch(this.facing){
+					case 'left':
+						if(ghoulCode % 3 != 0){
+							this.facing = 'right';
+							this.animation.play('idleright');
+						}
+						break;
+					case 'right':
+						if(ghoulCode % 2 != 0){
+							this.facing = 'left';
+							this.animation.play('idleleft');
+						}					
+						break;
+				}
+			}
+		}else{
+			if(this.facing == 'left' || this.facing == 'right'){
+				this.checkForHiddenBlock();
+			}
+			if(this.shouldCheckDirection){
+				//checkDirection sets the facing.
+				this.checkDirectionAndSetFacing();	
+			}		
+		}
+
+		switch(this.facing){
+			case 'left':
+				this.x -= 1;
+				if(this.animation.currentAnimation.name != 'idleleft'){
+					this.animation.play('idleleft');
+				}
+				break;
+			case 'right':
+				this.x += 1;
+				if(this.animation.currentAnimation.name != 'idleright'){
+					this.animation.play('idleright');
+				}
+				break;
+			case 'up':
+				this.y -= 1;
+				if(this.animation.currentAnimation.name != 'climb'){
+					this.animation.play('climb');
+				}
+				break;
+			case 'down':
+				this.y += 1;
+				if(this.animation.currentAnimation.name != 'climb'){
+					this.animation.play('climb');
+				}
+				break;
+		}		
+	}
+}
+
+Ghoul.prototype.checkForHiddenBlock = function(){
+	if(this.objType() == 'KingGhoul'){
+		var gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
+		var topGridPosition = this.state.getGridPosition(this.x, this.y+15, 'north');		
+	}else if(this.facing == 'left'){
+		var gridPosition = this.state.getGridPosition(this.x, this.y, 'east');
+ 	    var topGridPosition = this.state.getGridPosition(this.x, this.y+15, 'north');
+	}else if(this.facing == 'right'){
+		var gridPosition = this.state.getGridPosition(this.x, this.y, 'west');
+  	  	var topGridPosition = this.state.getGridPosition(this.x, this.y+15, 'north');
+	}else{
+		var gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
+		var topGridPosition = this.state.getGridPosition(this.x, this.y+15, 'north');
+	}
+	var checkForHiddenBlockPosition = [gridPosition[0]+1, gridPosition[1]];
+	var hiddenBlock = null;
+	
+	var addedToHiddenBlock = false;
+	for (var i = 0; i < this.state.hiddenBlockGroup.members.length; i++){
+		hiddenBlock = this.state.hiddenBlockGroup.members[i];
+		if(this.state.permBlocks[hiddenBlock.row][hiddenBlock.col] != 1){
+			if(hiddenBlock.row == checkForHiddenBlockPosition[0] && hiddenBlock.col == checkForHiddenBlockPosition[1]){
+				this.shouldFall = true;
+			}else{
+				if(hiddenBlock.row == topGridPosition[0] && hiddenBlock.col == topGridPosition[1]){
+					if(this.shouldFall == false){
+						this.isInHole = true;
+						if(this.objType() == 'BlackGhoul'){
+							if(this.lives < 1){
+								hiddenBlock.occupiedBy.push(this);
+								this.isInHiddenBlock = true;
+								addedToHiddenBlock = true;
+							}
+						}else{
+							hiddenBlock.occupiedBy.push(this);
+							this.isInHiddenBlock = true;
+							addedToHiddenBlock = true;
+						}
+					}
+				}
+			}
+		}
+	}	
+	return addedToHiddenBlock;
+}
+
+Ghoul.prototype.inHole = function(){
+	this.playDieAnimation();
+}
+
+Ghoul.prototype.playDieAnimation = function(){
+	if(this.animation.currentAnimation.name != 'die' + this.facing){
+		this.animation.play('die' + this.facing);
+		if(this.state.soundOptions.soundsOn){
+			this.state.ghoulDeathSound.play('start', true);
+		}
+	}
+}
+
+Ghoul.prototype.gravity = function(){
+	this.shouldCheckDirection = false;	
+	var southGridPosition = this.state.getGridPosition(this.x, this.y, 'south');
+	//if in stopping block
+	if(this.state.onBlockType(this.state.topGroundBlocks, southGridPosition)){
+		var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition, 'south');
+		if(this.y + this.state.bps < pixelNum-10){
+			this.y += 10;
+		}else{
+			this.y = pixelNum-this.state.bps+1;
+			this.shouldFall = false;
+			var gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
+			var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];	
+			if(ghoulCode % 2 != 0 && ghoulCode % 3 != 0){
+				this.isInHole = true;
+				var addedToHiddenBlock = this.checkForHiddenBlock();
+				if(!addedToHiddenBlock){
+					if(this.objType() == 'BlackGhoul'){
+						if(this.lives < 1){
+							this.bombed = true;
+						}
+					}
+				}
+				Ghoul.prototype.singleBlockDeath.call(this);
+			}
+			if(this.objType() == 'BlackGhoul'){
+				this.findPathCount = 4;
+				this.path = [];
+			}		
+		}
+	}else{
+		this.y+=10;
+	}
+	//if fallen off bottom of the stage. 
+	if(this.y > this.state.bps * this.state.GRID_ROWS){
+		this.isInHole = true;		
+		this.destroy();
+	}
+}
+
+Ghoul.prototype.singleBlockDeath = function(speed){
+	if(speed == 'fast'){
+		this.timer = this.state.game.time.clock.createTimer('singleBlockDeathTimer',1,0,false);
+	}else{
+		this.timer = this.state.game.time.clock.createTimer('singleBlockDeathTimer',3,0,false);
+	}
+	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.checkSingleBlockDeath, this);
+	if(this.objType() == 'BlueGhoul'){
+		this.teleportTimer.stop();
+	}
+	this.timer.start();
+}
+
+Ghoul.prototype.checkSingleBlockDeath = function(){
+	if(!this.isInHiddenBlock){
+		if(this.objType() == 'BlackGhoul'){
+			if(this.bombed){
+				this.destroy(false);
+			}
+		}else{
+			this.destroy(false);
+		}
+	}else{
+		this.isInHiddenBlock = true;
+		
+	}
+}
+
+Ghoul.prototype.checkDirectionAndSetFacing = function(){
+	var gridPosition = this.state.getGridPosition(this.x, this.y);		
+	var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];	
+
+	switch(this.facing){
+		case 'left':
+			if(ghoulCode % 3 != 0){
+				this.facing = 'right';
+				this.animation.play('idleright');
+			}
+
+		break;
+		case 'right':
+			if(ghoulCode % 2 != 0){
+				this.facing = 'left';
+				this.animation.play('idleleft');
+			}
+		break;
+	}	
+}
+
+var RedGhoul = function(state, x, y, facing){
+	Ghoul.call(this, state, x, y, facing, 'red');
+
+	RedGhoul.prototype.update = function(){
+		Ghoul.prototype.update.call(this);
+	}
+}
+Kiwi.extend(RedGhoul, Ghoul);
+
+RedGhoul.prototype.objType = function(){
+	return 'RedGhoul';
+}
+
+RedGhoul.prototype.checkDirectionAndSetFacing = function(){
+	if(this.shouldCheckDirection){
+		var gridPosition = this.state.getGridPosition(this.x, this.y);		
+		var ghoulCode = this.state.ghoulBlocks[gridPosition[0]][gridPosition[1]];	
+
+		switch(this.facing){
+			case 'left':
+				var moveOptions = [];
+				if(ghoulCode % 3 != 0){
+					moveOptions.push('right');
+				}else{
+					moveOptions.push('left');
+				}
+				if(ghoulCode % 5 == 0){
+					moveOptions.push('up');
+				} 
+				if(ghoulCode % 7 == 0){
+					moveOptions.push('down');
+				}
+				this.facing = moveOptions[this.state.random.integerInRange(0,moveOptions.length)];
+	
+				break;
+			case 'right':
+				var moveOptions = [];
+				if(ghoulCode % 2 != 0){
+					moveOptions.push('left');
+				}else{
+					moveOptions.push('right');
+				}
+				if(ghoulCode % 5 == 0){
+					moveOptions.push('up');
+				} 
+				if(ghoulCode % 7 == 0){
+					moveOptions.push('down');
+				}
+				this.facing = moveOptions[this.state.random.integerInRange(0,moveOptions.length)];
+				
+				break;
+			case 'up':
+				var moveOptions = [];
+				if(ghoulCode % 5 == 0){
+					moveOptions.push('up');
+				}
+				if(ghoulCode % 2 == 0){
+					moveOptions.push('right');
+				} 
+				if(ghoulCode % 3 == 0){
+					moveOptions.push('left');
+				}
+				this.facing = moveOptions[this.state.random.integerInRange(0,moveOptions.length)];
+				
+				if(moveOptions.length == 0){
+					this.facing = 'down';
+				}
+				
+				break;
+			case 'down':
+				var moveOptions = [];
+				if(ghoulCode % 7 == 0){
+					moveOptions.push('down');
+				}
+				if(ghoulCode % 2 == 0){
+					moveOptions.push('right');
+				} 
+				if(ghoulCode % 3 == 0){
+					moveOptions.push('left');
+				}
+				this.facing = moveOptions[this.state.random.integerInRange(0,moveOptions.length)];
+				
+				if(moveOptions.length == 0){
+					this.facing = 'up';
+				}
+				
+				break;						
+
+		}
+
+	}
+}
+
+
+var BlueGhoul = function(state, x, y, facing){
+	Ghoul.call(this, state, x, y, facing, 'blue');
+	this.nextRow = 0;
+	this.nextCol = 0;
+	
+	
+	this.ghoulHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
+	this.ghoulHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);	
+
+	this.box.hitbox = new Kiwi.Geom.Rectangle(this.ghoulHitboxX,this.ghoulHitboxY,this.state.bps-2*this.ghoulHitboxX,this.state.bps-2*this.ghoulHitboxY);
+	var randTime = this.state.random.integerInRange(10,20);
+
+	this.teleportTimer = this.state.game.time.clock.createTimer('teleportTimer',randTime, -1, false);
+	this.teleportTimerEvent = this.teleportTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.teleport, this);
+
+	this.orbTimer = this.state.game.time.clock.createTimer('orbTimer',1.4,0,false);
+	this.orbTimerEvent = this.orbTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.showOrb, this);
+	
+	this.orbTimer2 = this.state.game.time.clock.createTimer('orbTimer2',.6,0,false);
+	this.orbTimerEvent2 = this.orbTimer2.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.reappearAnimation, this);
+
+	this.reappearTimer = this.state.game.time.clock.createTimer('reappearTimer',.6,0,false);
+	this.reappearTimerEvent = this.reappearTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.reappear, this);
+
+	this.teleportTimer.start();
+
+}
+Kiwi.extend(BlueGhoul, Ghoul);
+
+Ghoul.prototype.teleport = function(){
+	if(typeof this != 'undefined'){
+		this.facing = 'teleport';
+		this.animation.play('disappear');
+		if(this.state.soundOptions.soundsOn){
+			this.state.ghoulTeleportOutSound.play('start', true);
+		}
+		this.box.hitbox = new Kiwi.Geom.Rectangle(0,0,0,0);		
+
+		do{
+			this.nextRow = this.state.random.integerInRange(0,this.state.GRID_ROWS);
+			this.nextCol = this.state.random.integerInRange(0,this.state.GRID_COLS);
+		}
+		while(this.state.ghoulBlocks[this.nextRow][this.nextCol] % 6 != 0);
+		this.orbTimer.start();
+	}
+}
+
+Ghoul.prototype.showOrb = function(){
+	if(typeof this != 'undefined'){
+		this.animation.play('orb');
+		var pixels = this.state.getPixelPositionFromRowCol(this.nextRow, this.nextCol);
+		this.x = pixels[0];
+		this.y = pixels[1];
+		if(this.state.soundOptions.soundsOn){
+			this.state.ghoulTeleportInSound.play('start', true);
+		}				
+		this.orbTimer2.start();	
+	}
+}
+
+Ghoul.prototype.reappearAnimation = function(){
+	if(typeof this != 'undefined'){
+		this.animation.play('reappear');
+		this.reappearTimer.start();
+	}	
+}
+
+Ghoul.prototype.reappear = function(){
+	if(typeof this != 'undefined'){
+		this.box.hitbox = new Kiwi.Geom.Rectangle(this.ghoulHitboxX,this.ghoulHitboxY,this.state.bps-2*this.ghoulHitboxX,this.state.bps-2*this.ghoulHitboxY);
+		if(this.state.random.integerInRange(0,2) == 0){
+			this.facing = 'left';
+		}else{
+			this.facing = 'right';
+		}
+		this.isInHole = false;
+	}
+}
+
+BlueGhoul.prototype.destroy = function(immediate){
+	this.teleportTimer.removeTimerEvent(this.teleportTimerEvent);
+	this.orbTimer.removeTimerEvent(this.orbTimerEvent);
+	this.orbTimer2.removeTimerEvent(this.orbTimerEvent2);
+	this.reappearTimer.removeTimerEvent(this.reappearTimerEvent);
+	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
+}
+
+BlueGhoul.prototype.objType = function(){
+	return 'BlueGhoul';
+}
+
+var BlackGhoul = function(state, x, y, facing){
+	Ghoul.call(this, state, x, y, facing, 'black');
+	this.originalFindPathCount = 4 + this.state.random.integerInRange(1,20);
+	this.findPathCount = 4;
+	this.path = [];
+	this.nextNode = undefined;
+	this.lives = 3;
+
+	this.ghoulHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
+	this.ghoulHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);	
+
+	this.orbTimer = this.state.game.time.clock.createTimer('orbTimer',1.4,0,false);
+	this.orbTimerEvent = this.orbTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.showOrb, this);
+	
+	this.orbTimer2 = this.state.game.time.clock.createTimer('orbTimer2',.6,0,false);
+	this.orbTimerEvent2 = this.orbTimer2.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.reappearAnimation, this);
+
+	this.reappearTimer = this.state.game.time.clock.createTimer('reappearTimer',.6,0,false);
+	this.reappearTimerEvent = this.reappearTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.reappear, this);
+
+	this.distanceToBandit = function(bandit){
+		return Math.sqrt(Math.pow(Math.abs(this.x-bandit.x),2) + Math.pow(Math.abs(this.y-bandit.y),2));
+	}
+}
+Kiwi.extend(BlackGhoul, BlueGhoul);
+Kiwi.extend(BlackGhoul, RedGhoul);
+
+BlackGhoul.prototype.inHole = function(){
+	if(this.lives < 1 && this.facing != 'teleport'){
+		Ghoul.prototype.playDieAnimation.call(this);
+	}else{	
+		if(this.facing != 'teleport'){
+			this.lives--;
+			this.teleport();
+		}
+	}
+}
+
+BlackGhoul.prototype.destroy = function(immediate){
+	this.orbTimer.removeTimerEvent(this.orbTimerEvent);
+	this.orbTimer2.removeTimerEvent(this.orbTimerEvent2);
+	this.reappearTimer.removeTimerEvent(this.reappearTimerEvent);
+	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
+}
+
+BlackGhoul.prototype.objType = function(){
+	return 'BlackGhoul';
+}
+
+BlackGhoul.prototype.findPathToBandit = function(){
+	if(!this.state.gameIsOver){
+		var graph = new Graph(this.state.ghoulBlocks);
+		var gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
+		var start = graph.grid[gridPosition[0]][gridPosition[1]];
+		
+		if(this.state.numPlayers == 2){
+			if(this.distanceToBandit(this.state.blue) < this.distanceToBandit(this.state.red)){
+	    		var banditPosition = this.state.getGridPosition(this.state.blue.x, this.state.blue.y, 'middle');
+			}else{
+	    		var banditPosition = this.state.getGridPosition(this.state.red.x, this.state.red.y, 'middle');			
+			}
+		}else{
+	    	var banditPosition = this.state.getGridPosition(this.state.red.x, this.state.red.y, 'middle');
+	    }
+	    
+	    var end = graph.grid[banditPosition[0]][banditPosition[1]];
+	    var result = astar.search(graph, start, end);	
+	    if(result.length > 0){
+	    	//console.log('pathfinding success');
+	    }
+	   	return result;
+	}else{
+		return [];
+	}
+}
+
+BlackGhoul.prototype.checkDirectionAndSetFacing = function(){
+	if(this.shouldCheckDirection){
+	var gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
+
+		if(this.findPathCount == this.originalFindPathCount){
+			this.findPathCount = 0;
+			this.path = this.findPathToBandit();
+		}else{
+			this.findPathCount ++;
+		}		
+		
+		this.nextNode = this.path.pop();
+		if(this.nextNode !== undefined){
+			if(this.nextNode.x === gridPosition[0] && this.nextNode.y === gridPosition[1]){
+				//console.log('bfore: ' + this.nextNode.x + ' ' + this.nextNode.y);
+				this.nextNode = this.path.pop();
+			}
+			if(this.nextNode !== undefined){
+				//console.log(gridPosition[0] + ' ' + gridPosition[1] + ' ghoul pos');
+				//console.log(this.nextNode.x + ' ' + this.nextNode.y);
+				if(this.nextNode.x < gridPosition[0]){
+					//console.log('moving up to ' + this.nextNode.x + ' ' + this.nextNode.y);
+					this.facing = 'up';
+				}else if(this.nextNode.x > gridPosition[0]){
+					//console.log('moving down to ' + this.nextNode.x);
+					this.facing = 'down';
+				}else if(this.nextNode.y < gridPosition[1]){
+					//console.log('moving left to ' + this.nextNode.x + ' ' + this.nextNode.y);
+
+					this.facing = 'left';
+				}else if(this.nextNode.y > gridPosition[1]){
+					this.facing = 'right';
+				}
+			}else{
+				RedGhoul.prototype.checkDirectionAndSetFacing.call(this);
+			}
+		}else{
+			RedGhoul.prototype.checkDirectionAndSetFacing.call(this);
+		}
+	}
+}
+
+var KingGhoul = function(state, x, y, facing){
+	Ghoul.call(this, state, x, y, facing, 'king');
+	this.setupActions();
+
+}
+Kiwi.extend(KingGhoul, Kiwi.GameObjects.Sprite);
+
+KingGhoul.prototype.setupActions = function(){
+	this.isAlive = true;
+
+	this.laughTimer = this.state.game.time.clock.createTimer('laughTimer',0.5,0,false);
+	this.laughTimerEvent = this.laughTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.laugh, this);
+
+	this.laughOverTimer = this.state.game.time.clock.createTimer('laughOverTimer',3,0,false);
+	this.laughOverTimerEvent = this.laughOverTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.laughOver, this);
+
+	this.explodeTimer = this.state.game.time.clock.createTimer('explodeTimer',3,0,false);
+	this.explodeTimerEvent = this.explodeTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.explode, this);
+
+	this.destroyTimer = this.state.game.time.clock.createTimer('destroyTimer',0.5,0,false);
+	this.destroyTimerEvent = this.destroyTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.destroy, this);
+
+	this.gridPosition = this.state.getGridPosition(this.x, this.y, 'middle');
+	this.banditInRange = [this.gridPosition[0], this.gridPosition[1]-3];
+
+	this.bandits = this.state.banditGroup.members;
+	this.banditDeathCount = 0;	
+}
+
+KingGhoul.prototype.explode = function(){
+	this.isInHole = false;
+	this.animation.play('explode');
+	if(this.state.soundOptions.soundsOn){
+		this.state.bombSound.play('start', true);
+	}		
+	this.destroyTimer.start();
+}
+
+KingGhoul.prototype.destroy = function(immediate){
+	this.laughTimer.removeTimerEvent(this.laughTimerEvent);
+	this.laughOverTimer.removeTimerEvent(this.laughOverTimerEvent);
+	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
+}
+
+KingGhoul.prototype.checkForHiddenBlock = function(){
+	Ghoul.prototype.checkForHiddenBlock.call(this);
+}
+
+KingGhoul.prototype.update = function(){
+	Kiwi.GameObjects.Sprite.prototype.update.call(this);
+
+ 	if(this.isAlive){
+	 	if(this.isInHole){
+			Ghoul.prototype.playDieAnimation.call(this);
+			this.isAlive = false;
+			this.explodeTimer.start();
+		}else if(this.shouldFall){
+			Ghoul.prototype.gravity.call(this);
+		}else{
+	  		Ghoul.prototype.checkForHiddenBlock.call(this);
+	  	}
+
+		for(var i = 0; i<this.bandits.length; i++){
+			var banditGridPosition = this.state.getGridPosition(this.bandits[i].x, this.bandits[i].y, 'middle');
+			if(banditGridPosition[0] == this.banditInRange[0] && banditGridPosition[1] == this.banditInRange[1]){
+				if(this.bandits[i].isAlive){
+					if(this.animation.currentAnimation.name != 'shoot' && this.animation.currentAnimation.name != 'laugh'){
+						this.animation.play('shoot');
+						this.state.shotgunSound.play('start');
+					}
+					if(this.banditDeathCount > 7){
+						this.bandits[i].isAlive = false;
+						this.banditDeathCount = 0;
+					}else{
+						if(this.banditDeathCount == 0){
+							this.laughTimer.start();
+						}
+						this.banditDeathCount ++;
+					}
+				}
+			}
+		}
+	}
+}
+
+KingGhoul.prototype.laughOver = function(){
+	this.animation.play('idleleft');
+}
+
+KingGhoul.prototype.laugh = function(){
+	if(this.animation.currentAnimation.name!='laugh'){
+		this.animation.play('laugh');
+		//this.state.kingGhoulLaughSound.play('start',false);
+		this.laughOverTimer.start();
+	}	
+}
+
+KingGhoul.prototype.objType = function(){
+	return "KingGhoul";
+}
+
+var Bullet = function(state){
+	this.yPixels = [5, 255+20, 505+20];	
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['bullet'], 720, this.yPixels[0], false);
+	this.state = state;
+
+	this.animation.add('fly', [1], 0.1, false);
+	this.animation.add('explode', [0], 0.1, false);
+	this.animation.play('fly');
+	this.directions = [-1, 1, -1];
+	this.row = 0; 
+	this.exploding = false;
+	
+	//x offset, y offset, width, height.
+	this.box.hitbox = new Kiwi.Geom.Rectangle(10, 20, 30, 35);
+
+	this.timer = this.state.game.time.clock.createTimer('explodeTimerBullet', 0.2, 0, false);
+	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.destroy, this);
+}
+Kiwi.extend(Bullet, Kiwi.GameObjects.Sprite);
+
+Bullet.prototype.objType = function(){
+	return 'Bullet';
+}
+
+Bullet.prototype.singleBlockDeath = function(speed){
+	if(speed == 'fast'){
+		this.explode();
+	}
+}
+
+Bullet.prototype.explode = function(){
+	this.exploding = true;
+	this.animation.play('explode');
+	if(this.state.soundOptions.soundsOn){
+		this.state.bombSound.play('start', true);
+	}
+	this.timer.start();
+}
+
+Bullet.prototype.update = function(){
+	Kiwi.GameObjects.Sprite.prototype.update.call(this);
+
+	if(!this.exploding){
+		this.x += this.directions[this.row] * 2;
+
+		if(this.row == 0){
+			if(this.x < -100){
+				this.row++;
+				this.y = this.yPixels[this.row];
+				this.scaleX = -1;
+			}
+		}else if(this.row == 1){
+			if(this.x > 1100){
+				this.row++;
+				this.y = this.yPixels[this.row];
+				this.scaleX = 1;
+			}
+		}else if(this.row == 2){
+			if(this.x < -100){
+				this.timer.removeTimerEvent(this.timerEvent);
+				this.destroy();
+			}
+		}
+	}
+}
+
+var TurboKingGhoul = function(state, x, y, facing){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['ghouliath'], x, y, false);
+	KingGhoul.prototype.setupActions.call(this);
+	this.banditInRange = [this.gridPosition[0]+1, this.gridPosition[1]-3];
+	this.facing = facing;
+	this.state = state;
+	this.climbingOut = false;
+
+	this.animation.add('idleleft',[16],0.2,false);
+	this.animation.add('dieleft',[16,17],0.1,true);
+	this.animation.add('laugh',[16,20],0.1,true);
+	this.animation.add('shoot',[16,18,18,16],0.1,false);
+	this.animation.add('shootBullet', [16,19,19,16],0.1,false);
+	this.animation.add('explode',[15],0.1,false);
+	this.animation.play('idleleft');
+
+	this.timer = this.state.game.time.clock.createTimer('fireBulletTimer', 10, -1, false);
+	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.fireBullet, this);
+
+	this.delayTimer = this.state.game.time.clock.createTimer('delayTimer', 20, -1, false);
+	this.delayTimerEvent = this.delayTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.changeBulletTimerDelay, this);
+
+	this.bulletTimer = this.state.game.time.clock.createTimer('bulletTimer', 0.2, 0, false);
+	this.bulletTimerEvent = this.bulletTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.addBullet, this);
+
+	this.stopLaughTimer = this.state.game.time.clock.createTimer('stopLaughTimer', 3, 0, false);
+	this.stopLaughTimerEvent = this.stopLaughTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.stopLaughing, this);
+
+	this.delayTimer.start();
+	this.timer.start();
+}
+Kiwi.extend(TurboKingGhoul, KingGhoul);
+
+TurboKingGhoul.prototype.destroy = function(immediate){
+	this.timer.clear(0);
+	this.delayTimer.clear(0);
+	this.bulletTimer.clear(0);
+	this.stopLaughTimer.clear(0);
+	this.state.changeToHappyMusic();
+	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
+}
+
+TurboKingGhoul.prototype.changeBulletTimerDelay = function(){
+	this.timer.delay = this.state.random.integerInRange(6,20);
+}
+
+TurboKingGhoul.prototype.stopLaughing = function(){
+	this.animation.play('idleleft');
+}
+
+TurboKingGhoul.prototype.fireBullet = function(){
+	this.animation.play('shootBullet');
+	if(this.state.soundOptions.soundsOn){
+		this.state.shotgunSound.play('start', true);
+	}
+	this.bulletTimer.start();
+}
+
+TurboKingGhoul.prototype.addBullet = function(){
+	this.state.ghoulGroup.addChild(new Bullet(this.state));	
+	this.animation.play('laugh');
+	if(this.state.soundOptions.soundsOn){
+		this.state.evilLaughSound.play();
+	}
+	this.stopLaughTimer.start();
+}
+
+TurboKingGhoul.prototype.update = function(){
+	Kiwi.GameObjects.Sprite.prototype.update.call(this);
+
+	if(this.isAlive){
+		if(this.isInHole){
+			Ghoul.prototype.playDieAnimation.call(this);
+			this.isAlive = false;
+			this.explodeTimer.start();
+		}else if(this.shouldFall){
+			this.gravity();
+		}else{
+			Ghouliath.prototype.checkForHiddenBlock.call(this);
+		}
+
+		for(var i = 0; i<this.bandits.length; i++){
+			var banditGridPosition = this.state.getGridPosition(this.bandits[i].x, this.bandits[i].y, 'middle');
+			if(banditGridPosition[0] == this.banditInRange[0] && banditGridPosition[1] == this.banditInRange[1]){
+				if(this.bandits[i].isAlive){
+					if(this.animation.currentAnimation.name != 'shoot' && this.animation.currentAnimation.name != 'laugh'){
+						this.animation.play('shoot');
+						this.state.shotgunSound.play('start');
+					}
+					if(this.banditDeathCount > 7){
+						this.bandits[i].isAlive = false;
+						this.banditDeathCount = 0;
+					}else{
+						if(this.banditDeathCount == 0){
+							this.laughTimer.start();
+						}
+						this.banditDeathCount ++;
+					}
+				}
+			}			
+		}
+	}
+
+}
+
+TurboKingGhoul.prototype.gravity = function(){
+	this.fallen = true;
+	var southGridPosition1 = this.state.getGridPosition(this.x, this.y + this.state.bps, 'south');
+	var southGridPosition2 = this.state.getGridPosition(this.x + this.state.bps, this.y + this.state.bps, 'south');
+	if(this.state.onBlockType(this.state.topGroundBlocks, southGridPosition1) || this.state.onBlockType(this.state.topGroundBlocks, southGridPosition2)){
+		var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition1, 'south');
+		if(this.y + this.state.bps * 2 < pixelNum - 10){
+			this.y += 10;
+		}else{
+			this.y = pixelNum-(2*this.state.bps)+1;
+			this.shouldFall = false;
+			this.isInHole = true;
+		}
+	}else{
+		this.y+= 10;
+	}
+}
+
+var Bandit = function(state, x, y, color){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
+	this.state = state; 
+	this.color = color; 
+	this.bombsCollected = 0;
+	this.bombs = [];
+	this.bombClock = this.state.game.time.addClock('BombClock' + color, 250);
+	this.bombClock.start();
+	this.bombIconGroup = this.state.bombIconGroup;
+	this.isAlive = true;
+	this.isDeadAndOnGround = false;
+	this.facing = 'left';
+	this.canShoot = true; 
+	this.numberOfHearts = 3;
+	this.deathCounter = 0;
+	this.startingPixelLocations = null;
+	this.coinsCollected = 0;
+	this.totalCoinsCollected = 0;
+	this.bps = this.state.bps;
+	this.grayGhoulsKilled = 0;
+	this.redGhoulsKilled = 0;
+	this.blueGhoulsKilled = 0;
+	this.blackGhoulsKilled = 0;
+	this.ghouliathsKilled = 0;
+	this.goUp = false;
+	this.goDown = false;
+	this.goLeft = false;
+	this.goRight = false;
+	this.goFire = false;
+	this.goBomb = false;
+	this.flash = null;
+
+	var banditHitboxX = Math.round(this.state.bps*this.state.BANDIT_HITBOX_X_PERCENTAGE);
+	var banditHitboxY = Math.round(this.state.bps*this.state.BANDIT_HITBOX_Y_PERCENTAGE);
+
+	this.box.hitbox = new Kiwi.Geom.Rectangle(banditHitboxX, banditHitboxY, this.state.bps-2*banditHitboxX,this.state.bps-2*banditHitboxY);
+
+	switch(color){
+		case this.state.game.banditColors.BLUE:
+			this.animation.add('climb',[53,54],0.1,true);
+			this.animation.add('idleleft',[33],0.1,false);
+			this.animation.add('idleright',[25],0.1,false);
+			this.animation.add('moveright',[19,20,21,22,23,24],0.1,true);
+			this.animation.add('moveleft',[32,31,30,29,28,27],0.1,true);
+			this.animation.add('fireleft',[26],0.1,false);
+			this.animation.add('fireright',[18],0.1,false);
+			this.animation.add('idleclimb',[53],0.1,false);
+			this.animation.add('die',[323],0.1,false); //old is 55
+			this.leftKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.A);
+			this.rightKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.D);
+			this.upKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.W);
+			this.downKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.S);
+			this.fireKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SHIFT);
+			break;
+		case this.state.game.banditColors.RED:
+			this.animation.add('climb',[81,82],0.1,true);
+			this.animation.add('idleleft',[15],0.1,false);
+			this.animation.add('idleright',[0],0.1,false);
+			this.animation.add('moveright',[1,2,3,4,5,6],0.1,true);
+			this.animation.add('moveleft',[14,13,12,11,10,9],0.1,true);
+			this.animation.add('fireright',[7],0.1,false);
+			this.animation.add('fireleft',[8],0.1,false);
+			this.animation.add('idleclimb',[81],0.1,false);
+			this.animation.add('die',[322],0.1,false); // 83
+			this.leftKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.LEFT);
+			this.rightKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.RIGHT);
+			this.upKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.UP);
+			this.downKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.DOWN);
+			this.fireKey = this.state.game.input.keyboard.addKey(Kiwi.Input.Keycodes.SPACEBAR);
+
+			break;
+	}
+}
+Kiwi.extend(Bandit, Kiwi.GameObjects.Sprite);
+
+Bandit.prototype.totalGhoulKills = function(){
+	return this.grayGhoulsKilled + this.blueGhoulsKilled + this.redGhoulsKilled + this.blackGhoulsKilled + this.ghouliathsKilled;
+}
+
+Bandit.prototype.deathCount = function(){
+	if(this.deathCounter < 100){
+		if(this.deathCounter == 1){
+			switch(this.color){
+				case this.state.game.banditColors.RED:
+					var heartGroup = this.state.redHeartsGroup;
+					break;
+				case this.state.game.banditColors.BLUE:
+					var heartGroup = this.state.blueHeartsGroup;
+					break;
+			}
+			var hearts = heartGroup.members;
+			for(var i = 0; i<hearts.length; i++){
+				hearts[i].disappear();
+			}
+		}
+		this.deathCounter++;
+		this.animation.play('die');
+	}else{
+		this.numberOfHearts--;
+		if(this.numberOfHearts>0){
+			this.x = this.startingPixelLocations[0];
+			this.y = this.startingPixelLocations[1];
+			this.isAlive = true;
+			this.isDeadAndOnGround = false;
+			this.animation.play('idleleft');
+			this.state.showHearts(this.color);
+			this.deathCounter = 0;
+		}else{
+			this.numberOfHearts = 0;
+		}
+	}
+}
+
+Bandit.prototype.moveUp = function(){
+	var gridPosition = this.state.getGridPosition(this.x, this.y, 'north');
+	var ladderPixelNum = this.state.getPixelNumberForGridPosition(gridPosition,'west') + this.bps/2;
+	if(this.x+this.bps/2>ladderPixelNum-35 && this.x+this.bps/2<ladderPixelNum+35){	
+		if(this.state.onBlockType(this.state.topLadderBlocks, gridPosition)){
+			if(this.x + this.bps/2 < ladderPixelNum -15){
+				this.x = ladderPixelNum - 15 - this.bps/2;
+			}else if (this.x + this.bps/2 > ladderPixelNum + 15){
+				this.x = ladderPixelNum + 15 - this.bps/2;
+			}			
+			var pixelNum = this.state.getPixelNumberForGridPosition(gridPosition,'north');
+			if(this.y>6+pixelNum){
+				this.y -= 3;
+				if(this.animation.currentAnimation.name!='climb'){
+					this.animation.play('climb');
+				}				
+			}else{
+				this.y=pixelNum;
+				this.animation.play('idle'+this.facing);			
+			}
+		}else if(this.state.onBlockType(this.state.ladderBlocks, gridPosition)){
+			if(this.x + this.bps/2 < ladderPixelNum -10){
+				this.x = ladderPixelNum - 10 - this.bps/2;
+			}else if (this.x + this.bps/2 > ladderPixelNum + 10){
+				this.x = ladderPixelNum + 10 - this.bps/2;
+			}				
+			if(this.y>3){
+				this.y -= Math.round(3 * this.state.game.time.rate);
+			}
+			if(this.animation.currentAnimation.name != 'climb'){
+				this.animation.play('climb');
+			}
+		}
+	}	
+}
+
+Bandit.prototype.moveDown = function(southGridPosition){
+	//return true if should then check downKey for bomb placement
+	var ladderPixelNum = this.state.getPixelNumberForGridPosition(southGridPosition,'west') + this.bps/2;
+	var belowFeetPosition = this.state.getGridPosition(this.x, this.y+this.bps,'south');				
+	if(this.x+this.bps/2>ladderPixelNum-35 && this.x+this.bps/2<ladderPixelNum+35){	
+		if(this.state.onBlockType(this.state.firstLadderBlocks, southGridPosition)){
+			var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition,'south');
+			if(!this.state.onBlockType(this.state.groundBlocks, belowFeetPosition)){
+				//this if block for falling off edge of ladder. 
+				if(this.x + this.bps/2 < ladderPixelNum -10){
+					this.x = ladderPixelNum - 10 - this.bps/2;
+				}else if (this.x + this.bps/2 > ladderPixelNum + 10){
+					this.x = ladderPixelNum + 10 - this.bps/2;
+				}				
+				this.y += Math.round(3 * this.state.game.time.rate);
+			}else{
+				if(this.y+this.bps<pixelNum-5){
+					if(this.x + this.bps/2 < ladderPixelNum -10){
+						this.x = ladderPixelNum - 10 - this.bps/2;
+					}else if (this.x + this.bps/2 > ladderPixelNum + 10){
+						this.x = ladderPixelNum + 10 - this.bps/2;
+					}	
+					this.y += Math.round(3 * this.state.game.time.rate);
+					if(this.animation.currentAnimation.name!='climb'){
+						this.animation.play('climb');
+					}				
+				}else{
+					this.y=pixelNum-this.bps+1; 
+					this.animation.play('idle'+this.facing);
+				}
+			}
+			return false;
+		}else if(this.state.onBlockType(this.state.ladderBlocks, belowFeetPosition)){
+			if(this.y<this.bps*this.state.GRID_ROWS){
+				if(this.x + this.bps/2 < ladderPixelNum -10){
+					this.x = ladderPixelNum - 10 - this.bps/2;
+				}else if (this.x + this.bps/2 > ladderPixelNum + 10){
+					this.x = ladderPixelNum + 10 - this.bps/2;
+				}				
+				this.y += Math.round(5 * this.state.game.time.rate);
+			}else{
+				this.y = this.bps*this.state.GRID_ROWS;
+			}
+			if(this.animation.currentAnimation.name != 'climb')
+				this.animation.play('climb');
+			return false;
+		}else{
+			return true;
+		}
+	}
+	return false;
+}
+
+Bandit.prototype.blastBlock = function(){
+	var blastedBlockPosition = this.state.getBlastedBlockPosition(this.state.getGridPosition(this.x, this.y, 'middle'), this.facing);
+	this.flash.appear();
+	this.state.blastBlock(blastedBlockPosition, this.color);
+}
+
+Bandit.prototype.update = function(){
+	Kiwi.GameObjects.Sprite.prototype.update.call(this);
+	if(this.state.showingLevelScreen == false){
+		this.state.checkController(this);
+		if(!this.isDeadAndOnGround){
+			var southGridPosition = this.state.getGridPosition(this.x, this.y, 'south');
+		 	if(this.isAlive){
+			 	if(!(this.state.onBlockType(this.state.ladderBlocks,southGridPosition) || this.state.onBlockType(this.state.groundBlocks, southGridPosition))){
+			 		this.gravity(southGridPosition);
+			 		southGridPosition = this.state.getGridPosition(this.x, this.y, 'south');
+			 	}
+			}else{
+				if(this.state.onBlockType(this.state.ladderBlocks,southGridPosition) || !this.state.onBlockType(this.state.groundBlocks, southGridPosition)){
+					this.gravity(southGridPosition);
+				}
+			}
+		}
+		if(this.isAlive){
+		 	if(this.fireKey.isDown || this.goFire){
+				this.animation.play('fire' + this.facing);
+			}
+			else if(this.upKey.isDown || this.goUp){
+				this.moveUp();
+				if(this.state.currentLevel <= 3){
+					if(this.state.checkIfOnSign(southGridPosition) && this.state.showingTutorial == false){
+						if(this.state.rideOutPlayed == false){
+							this.state.openTutorial();
+						}
+					}
+				}
+			}
+			else if(this.rightKey.isDown || this.goRight){
+				this.facing = 'right';
+				if(this.state.onBlockType(this.state.rightBlockedBlocks, southGridPosition)){
+					var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition,'east');
+					if(this.x+this.bps<pixelNum-6){
+						this.x += Math.round(5 * this.state.game.time.rate);
+					}else{
+						this.x = pixelNum-this.bps+1;
+						this.animation.play('idle'+this.facing);
+					}
+				}
+				else{
+					if(!this.state.onBlockType(this.state.groundBlocks, southGridPosition)){
+						this.x += Math.round(5 * this.state.game.time.rate);
+						if(this.animation.currentAnimation.name != 'moveright')
+							this.animation.play('moveright');
+					}
+				}
+			}
+			else if(this.leftKey.isDown || this.goLeft){
+				this.facing = 'left';
+				if(this.state.onBlockType(this.state.leftBlockedBlocks, southGridPosition)){
+					var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition,'west');
+					if(this.x>pixelNum+6){
+						this.x -= Math.round(5 * this.state.game.time.rate);
+					}else{
+						this.x = pixelNum;
+						this.animation.play('idle'+this.facing);
+					}
+				}else{
+					if(!this.state.onBlockType(this.state.groundBlocks, southGridPosition)){
+						this.x -= Math.round(5 * this.state.game.time.rate);
+						if(this.animation.currentAnimation.name != 'moveleft')
+							this.animation.play('moveleft');
+					}
+				}
+			}
+			else if(this.downKey.isDown || this.goDown){
+				if(this.moveDown(southGridPosition)){
+					if(this.downKey.justPressed(30)){
+						this.tryPlacingBomb(southGridPosition);
+					}
+				}
+			}
+			else {
+		 		var belowFeetPosition = this.state.getGridPosition(this.x, this.y+1,'south');
+				if(this.state.onBlockType(this.state.ladderBlocks, belowFeetPosition) && !this.state.onBlockType(this.state.topLadderBlocks,southGridPosition)){
+					if(this.animation.currentAnimation.name != 'idleclimb')
+						this.animation.play('idleclimb');
+				}		
+				else if(this.animation.currentAnimation.name != 'idle' + this.facing)
+					this.animation.play('idle' + this.facing);	
+				if(this.goBomb){
+					this.tryPlacingBomb(southGridPosition);
+				}
+			}
+		}
+		else{
+			this.deathCount();
+		}
+	}
+}
+
+Bandit.prototype.tryPlacingBomb = function(southGridPosition){
+	if(this.state.onBlockType(this.state.topGroundBlocks, southGridPosition)){
+		if(this.bombClock.elapsed() > 5){
+			this.placeBomb();
+		}
+	}	
+}
+
+Bandit.prototype.gravity = function(southGridPosition){
+	if(this.state.onBlockType(this.state.topGroundBlocks,southGridPosition)){
+		var pixelNum = this.state.getPixelNumberForGridPosition(southGridPosition,'south');
+		if(this.y+this.bps<pixelNum-26){
+			this.y+=13;
+		}else{
+			this.y=pixelNum-this.bps+1;
+			if(!this.isAlive){
+				this.isDeadAndOnGround = true;
+			}
+		}
+	}else{
+		if(this.y+this.bps<this.bps*this.state.GRID_ROWS-26){
+			this.y+=13;
+		}else{
+			this.y=this.bps*this.state.GRID_ROWS-this.bps;
+			if(!this.isAlive){
+				this.isDeadAndOnGround = true;
+			}
+		}
+	}		
+}
+
+Bandit.prototype.placeBomb = function(){
+	if(this.bombsCollected > 0){
+		this.bombClock.start();
+		var bomb = this.bombs.pop();
+		bomb.x = this.state.getPixelNumberForGridPosition(this.state.getGridPosition(this.x, this.y,'middle'),'west');
+		bomb.y = this.state.getPixelNumberForGridPosition(this.state.getGridPosition(this.x, this.y,'middle'),'north');	
+		var bombGridPosition = this.state.getGridPosition(bomb.x,bomb.y);
+		bomb.rowPlaced = bombGridPosition[0];
+		bomb.colPlaced = bombGridPosition[1]; 
+		bomb.animation.play('idleground');
+		bomb.startTimer();
+		bomb.placedBy = this.color;
+		bomb.placedByBandit = this;
+		if(this.state.soundOptions.soundsOn){
+			if(this.state.random.integerInRange(0,2)==0){
+				this.state.voicesSound.play('bombPlace',true);
+			}else{
+				this.state.voicesSound.play('bombPlace2',true);
+			}
+		}
+		this.bombsCollected--;
+		this.state.updateBombCounter(this);			
+	}
+}
+
+Bandit.prototype.resetPropertiesAtBeginningOfLevel = function(){
+	this.coinsCollected = 0; 
+	this.totalCoinsCollected = 0; //this is really total level points;
+	this.bombsCollected = 0;
+	this.numberOfHearts = 3;
+	this.isAlive = true;
+	this.isDeadAndOnGround = false;
+	this.x = this.startingPixelLocations[0];
+	this.y = this.startingPixelLocations[1];
+	this.grayGhoulsKilled = 0;
+	this.redGhoulsKilled = 0;
+	this.blueGhoulsKilled = 0;
+	this.blackGhoulsKilled = 0;
+	this.ghouliathsKilled = 0;
+}
+
+var Flash = function(state, bandit){
+	switch(bandit.color){
+		case state.game.banditColors.RED:
+			Kiwi.GameObjects.StaticImage.call(this, state, state.textures['redFlash'], bandit.x, bandit.y);		
+			break;
+		case state.game.banditColors.BLUE:
+			Kiwi.GameObjects.StaticImage.call(this, state, state.textures['blueFlash'], bandit.x, bandit.y);
+			break;		
+	}
+
+	this.state = state;
+	this.bandit = bandit;
+	this.visible = false;
+	
+	this.timer = this.state.game.time.clock.createTimer('FlashTimer' + this.bandit.color, 0.1 , 1, false);
+	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.disappear, this);
+}
+Kiwi.extend(Flash, Kiwi.GameObjects.StaticImage);
+
+Flash.prototype.appear = function(){
+	this.visible = true;
+	this.timer.start();
+}
+
+Flash.prototype.disappear = function(){
+	this.visible = false;
+}
+
+Flash.prototype.update = function(){
+	Kiwi.GameObjects.StaticImage.prototype.update.call(this);
+	
+	if(this.bandit.facing == 'right'){
+		this.scaleX = -1;
+	}else if (this.bandit.facing == 'left'){
+		this.scaleX = 1;
+	}
+	this.x = this.bandit.x;
+	this.y = this.bandit.y;
+}
+
+
+var HiddenBlock = function(state, x, y){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['backgroundSpriteSheet'+state.currentLevel], x, y, false);
+	this.occupiedBy = []; //array of Ghouls 
+	this.gridPosition = state.getGridPosition(x,y);
+	this.row = this.gridPosition[0];
+	this.col = this.gridPosition[1];
+	this.state = state;
+	this.isBreaking = false;
+	this.visible = false;
+	this.tileType = 0;
+	this.tileTypeAboveFront = 0;
+	this.tileTypeAboveBack = 0;
+	this.blastedBy = null;
+
+	this.hiddenBlockTime = 5;
+
+	this.timer = state.game.time.clock.createTimer('hiddenBlockTimer',this.hiddenBlockTime,0,false);
+	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.hiddenBlockTimer, this);
+	
+	this.timer.start();
+}
+Kiwi.extend(HiddenBlock, Kiwi.GameObjects.Sprite);
+
+HiddenBlock.prototype.hiddenBlockTimer = function(){
+	switch(this.blastedBy){
+		case this.state.game.banditColors.RED:
+			var banditToAddGhoulKillTo = this.state.banditGroup.members[0];
+			break;
+		case this.state.game.banditColors.BLUE:
+			var banditToAddGhoulKillTo = this.state.banditGroup.members[1];
+			break;
+	}
+	var numberOfGhouls = this.occupiedBy.length;
+	for(var i =0; i < numberOfGhouls; i++){
+		var ghoul = this.occupiedBy.pop();
+		if(ghoul.objType() == 'BlackGhoul'){
+			if(ghoul.lives < 2){
+				ghoul.destroy(false);
+				banditToAddGhoulKillTo.blackGhoulsKilled++;
+				this.state.addGhoulKill(banditToAddGhoulKillTo.color);
+			}
+		}else if(ghoul.objType() == 'Ghouliath'){
+			if(ghoul.exists == true){
+				ghoul.animation.play('explode');
+				ghoul.explodeTimer.start();
+				banditToAddGhoulKillTo.ghouliathsKilled++;
+				this.state.addGhoulKill(banditToAddGhoulKillTo.color);
+			}
+		}else{
+			if(ghoul.objType() == 'Ghoul'){
+				banditToAddGhoulKillTo.grayGhoulsKilled++;
+			}else if(ghoul.objType() == 'BlueGhoul'){
+				banditToAddGhoulKillTo.blueGhoulsKilled++;
+			}else if(ghoul.objType() == 'RedGhoul'){
+				banditToAddGhoulKillTo.redGhoulsKilled++;
+			}
+			this.state.addGhoulKill(banditToAddGhoulKillTo.color);
+			ghoul.destroy(false);
+		}
+	}
+	if(this.state.soundOptions.soundsOn){
+		if(numberOfGhouls>1){
+			if(numberOfGhouls>3){
+				this.state.voicesSound.play('hotDamnSon',true);
+			}else{
+				this.state.voicesSound.play('ghoulKiller',true);
+			}
+		}else if(numberOfGhouls>0){
+			if(this.state.random.frac() <= 0.05){
+				this.state.voicesSound.play('restInPieces',true);
+			}
+		}
+	}
+
+	if(this.state.permBlocks[this.row][this.col] != 1){
+		if(this.state.soundOptions.soundsOn){
+			this.state.blockReappearSound.play('start',true);
+		}		
+
+		this.state.addToBlocks(this.row, this.col, this.state.groundBlocks);
+		this.state.updateTopGroundBlocks();
+		this.state.updateBlockedBlocks();
+
+		var bandits = this.state.banditGroup.members;
+
+		for(var i = 0; i<bandits.length; i++){
+			var gridPosition = this.state.getGridPosition(bandits[i].x, bandits[i].y, 'middle');
+			if(gridPosition[0] == this.row && gridPosition[1] == this.col){	
+				bandits[i].isAlive = false;
+			}		
+		}	
+	}
+
+	this.destroy();	
+}
+
+HiddenBlock.prototype.destroy = function(immediate){
+	this.timer.removeTimerEvent(this.timerEvent);
+	if(this.state.permBlocks[this.row][this.col] != 1){
+		if(this.tileTypeAboveFront){
+			var index = this.state.getArrayIndexForTilemapFromRowCol(this.row - 1, this.col);
+			this.state.tilemap.layers[5].setTileByIndex(index, this.tileTypeAboveFront);
+			this.state.tilemap.layers[5].dirty = true;
+		}
+		if(this.tileTypeAboveBack){
+			var index = this.state.getArrayIndexForTilemapFromRowCol(this.row - 1, this.col);
+			this.state.tilemap.layers[2].setTileByIndex(index, this.tileTypeAboveBack);
+			this.state.tilemap.layers[2].dirty = true;
+		}
+		if(this.tileType){
+			var index = this.state.getArrayIndexForTilemapFromRowCol(this.row, this.col);
+			this.state.tilemap.layers[0].setTileByIndex(index, this.tileType);
+			this.state.tilemap.layers[0].dirty = true;
+		}
+	}
+	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
+}
+
+var Heart = function(state, color, number){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], 2000, 0, false);
+	this.state = state;
+	this.color = color;
+	this.number = number;
+	this.timerStarted = false;
+	this.shouldBeGone = false;
+	this.banditX = 2000;
+	this.banditY = 2000;
+
+	switch(this.color){
+		case this.state.game.banditColors.RED:
+			this.animation.add('heart', [84], 0.1, false);
+			this.animation.add('blink', [84, 17], 0.2, true);
+			this.animation.play('heart');
+			break;
+		case this.state.game.banditColors.BLUE:
+			this.animation.add('heart', [56], 0.2, false);			
+			this.animation.add('blink', [56, 17], 0.2, true);
+			this.animation.play('heart');
+	}
+
+	this.timer = this.state.game.time.clock.createTimer('heartTimer',3,0,false);
+	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.disappear, this);
+}
+Kiwi.extend(Heart, Kiwi.GameObjects.Sprite);
+
+Heart.prototype.update = function(){
+	Kiwi.GameObjects.Sprite.prototype.update.call(this);
+	if(!this.state.showingLevelScreen){
+		if(!this.shouldBeGone){
+			if(this.animation.currentAnimation.name != 'heart'){
+				this.animation.play('heart');
+			}
+			switch(this.color){
+				case this.state.game.banditColors.RED:
+					if(this.state.red.x != this.banditX || this.state.red.y != this.banditY){
+						if(this.timerStarted == false){
+							this.timer.start();
+						}
+						this.timerStarted = true;
+					}
+					break;
+				case this.state.game.banditColors.BLUE:
+					if(this.state.blue.x != this.banditX || this.state.blue.y != this.banditY){
+						if(this.timerStarted == false){
+							this.timer.start();
+						}
+						this.timerStarted = true;
+					}
+					break;			
+			}		
+			this.showSelf();
+		}
+	}
+}
+
+Heart.prototype.disappear = function(){
+	this.x = 2000;
+	this.shouldBeGone = true;
+	this.timer.stop();
+}
+
+Heart.prototype.showSelf = function(){
+	var banditX = null;
+	switch(this.color){
+		case this.state.game.banditColors.RED:
+			banditX = this.state.red.x;
+			this.y = this.state.red.y - 35;
+			break;
+
+		case this.state.game.banditColors.BLUE:
+			banditX = this.state.blue.x;
+			this.y = this.state.blue.y - 35;
+			break;
+	}
+	switch (this.number){
+				case 1: 
+					this.x = banditX -15;
+					break;
+				case 2:
+					this.x = banditX;
+					break;
+				case 3:
+					this.x = banditX +15;
+					break;
+	}		
+}
+
+var Cracks = function(state, x, y){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
+	this.state = state;
+	this.animation.add('cracks',[114],0.1,false);
+	this.animation.play('cracks');
+
+	this.gridPosition = this.state.getGridPosition(x,y);
+}
+Kiwi.extend(Cracks, Kiwi.GameObjects.Sprite);
+
+var BreakingBlock = function(state, x, y){
+	Cracks.call(this, state, x, y);
+	this.animation.add('moreCracks',[233],0.1,false);
+	this.gridPosition = state.getGridPosition(x,y);
+	this.row = this.gridPosition[0];
+	this.col = this.gridPosition[1];
+
+	this.breakingTimer = this.state.game.time.clock.createTimer('breakingBlockTimer', 0.5, 0, false);
+	this.breakingTimerEvent = this.breakingTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.breakingBlockTimer, this);
+}
+Kiwi.extend(BreakingBlock, Cracks);
+
+BreakingBlock.prototype.update = function(){
+	var redGridPosition = this.state.getGridPosition(this.state.red.x, this.state.red.y, 'middle');
+	if(redGridPosition[0] + 1 == this.row && redGridPosition[1] == this.col){
+		this.animation.play('moreCracks');
+		this.breakingTimer.start();
+	}
+}
+
+BreakingBlock.prototype.breakingBlockTimer = function(){
+	var hiddenBlock = this.state.addHiddenBlock([this.row, this.col])
+	this.state.updateBlocksAfterAddingHiddenBlock(hiddenBlock);
+	this.animation.play('cracks');
+}
+
+var BanditStageCoach = function(state, x, y){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['banditStagecoach'], x, y, false);
+	this.state = state;
+	this.animation.add('move',[0,1,2,3,4,5,6,7],0.07,true);	
+	this.animation.play('move');
+}
+Kiwi.extend(BanditStageCoach, Kiwi.GameObjects.Sprite);
+
+var StageCoach = function(state, x, y){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['stagecoach'], x, y, false);
+	this.state = state;
+	this.animation.add('move',[0,1,2,3,4,5,6,7],0.07,true);
+	this.animation.add('turbo',[8,9,10,11,12,13,14,15],0.07, true);
+}
+Kiwi.extend(StageCoach, Kiwi.GameObjects.Sprite);
+
+StageCoach.prototype.update = function(){
+	Kiwi.GameObjects.Sprite.prototype.update.call(this);
+	if(this.x < this.state.bps * (this.state.GRID_COLS +2)){
+		this.x += 6 * this.state.game.time.rate;
+	}
+}
+
+var Horse = function(state, x, y){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['horses'], x, y, false);
+	this.state = state;
+	this.animation.add('bluerun',[0,1,2,3,4,5,6,7],0.07,true);
+	this.animation.add('redrun',[8,9,10,11,12,13,14,15],0.07,true);
+}
+Kiwi.extend(Horse, Kiwi.GameObjects.Sprite);
+
+Horse.prototype.update = function(){
+	Kiwi.GameObjects.Sprite.prototype.update.call(this);
+	if(this.state.name == 'gameState'){
+		if(this.x < this.state.bps * (this.state.GRID_COLS +2)){
+			this.x += 6 * this.state.game.time.rate;
+		}
+	}
+}
+
+var Cloud = function(state, number){
+	Kiwi.GameObjects.StaticImage.call(this, state, state.textures['cloud' + number], 0, 0);
+	this.state = state;
+	this.speed = 0.2; 
+	this.direction = -1;
+	this.anchorPointX = 0;
+	this.anchorPointY = 0;
+	if(number == 1 || number == 2 || number == 10){
+		this.alpha = 0.5;
+	}
+}
+Kiwi.extend(Cloud, Kiwi.GameObjects.StaticImage);
+
+Cloud.prototype.update = function(){
+	Kiwi.GameObjects.StaticImage.prototype.update.call(this);
+	this.x += this.speed * this.direction;
+
+	if(this.direction < 0){
+		if(this.x < -1.2 * this.width * this.scaleX){
+			this.randomSpeedAndY();
+			this.randomScale();
+			this.x = 1200;
+		}
+	}else{
+		if(this.x > 1100){
+			this.randomSpeedAndY();
+			this.randomScale();
+			this.x = -1.2 * this.width * this.scaleX;
+		}
+	}
+}
+
+Cloud.prototype.randomSpeedAndY = function(){
+	this.speed = this.state.random.integerInRange(1, 10)/10;
+	this.y = this.state.random.integerInRange(0, 300);
+}
+
+Cloud.prototype.randomX = function(){
+	this.x = this.state.random.integerInRange(0, 800);
+}
+
+Cloud.prototype.randomXToRight = function(){
+	this.x = this.state.random.integerInRange(1200, 3000);
+}
+
+Cloud.prototype.randomScale = function(){
+	//this.scaleX = this.state.random.realInRange(1, 1.5);
+	//this.scaleX = this.state.random.realInRange(1, 1.5);
+}
+
+
+var Bomb = function(state, x, y){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
+	this.state = state;
+
+	this.rowPlaced = -1;
+	this.colPlaced = -1;
+
+	this.timerStarted = false; 
+	
+	this.placedBy = null;
+	this.placedByBandit = null;
+
+	this.animation.add('idle',[57],0.1,false);
+	this.animation.add('idleground',[60],0.1,false);
+	this.animation.add('explode',[61,341,64,340,63,339,62,338,58,59],0.12,false);
+	this.animation.play('idle');
+
+	this.animation.getAnimation('explode').onComplete.add(function(){this.explode();}, this);
+
+	this.timerAnimation = this.state.game.time.clock.createTimer('bombAnimation',1,0,false);
+	this.timerAnimationEvent = this.timerAnimation.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.explodeAnimation, this);
+
+}
+Kiwi.extend(Bomb, Kiwi.GameObjects.Sprite);
+
+Bomb.prototype.explode = function(){
+	this.state.blastBlock([this.rowPlaced, this.colPlaced-1],this.placedBy); 
+	this.state.blastBlock([this.rowPlaced, this.colPlaced-2],this.placedBy);
+	this.state.blastBlock([this.rowPlaced, this.colPlaced],this.placedBy);	
+	this.state.blastBlock([this.rowPlaced, this.colPlaced+1],this.placedBy); 
+	this.state.blastBlock([this.rowPlaced, this.colPlaced+2],this.placedBy);
+	var bandits = this.state.banditGroup.members;
+	var ghouls = this.state.ghoulGroup.members;
+	if(this.state.soundOptions.soundsOn){
+		this.state.bombSound.play();	
+	}
+	for(var i = 0; i < bandits.length; i++){
+		gridPosition = this.state.getGridPosition(bandits[i].x, bandits[i].y, 'middle');
+		if(gridPosition[0] == this.rowPlaced && gridPosition[1] >= this.colPlaced-2 && gridPosition[1] <= this.colPlaced+2){
+			bandits[i].isAlive = false;
+		}
+	}
+	for(var i = 0; i < ghouls.length; i++){
+		gridPosition = this.state.getGridPosition(ghouls[i].x, ghouls[i].y, 'middle');
+		if(gridPosition[0] == this.rowPlaced && gridPosition[1] >= this.colPlaced-2 && gridPosition[1] <= this.colPlaced+2){
+			ghouls[i].animation.play('diestatic'+ghouls[i].facing);
+			ghouls[i].facing = 'none';
+			ghouls[i].bombed = true;
+			ghouls[i].singleBlockDeath('fast');	
+			if(ghouls[i].objType() == 'Ghoul'){
+				this.placedByBandit.grayGhoulsKilled++;
+			}else if(ghouls[i].objType() == 'BlueGhoul'){
+				this.placedByBandit.blueGhoulsKilled++;
+			}else if(ghouls[i].objType() == 'RedGhoul'){
+				this.placedByBandit.redGhoulsKilled++;
+			}else if(ghouls[i].objType() == 'BlackGhoul'){
+				this.placedByBandit.blackGhoulsKilled++;
+			}
+			this.state.addGhoulKill(this.placedByBandit.color);						
+		}
+	}	
+	this.destroy();
+}
+
+Bomb.prototype.explodeAnimation = function(){
+	this.animation.play('explode');
+}
+
+Bomb.prototype.startTimer = function(){
+	this.timerStarted = true;
+	this.timerAnimation.start();
+}
+
+Bomb.prototype.destroy = function(immediate){
+	this.timerAnimation.removeTimerEvent(this.timerAnimationEvent);
+	Kiwi.GameObjects.Sprite.prototype.destroy.call(this, immediate);
+}
+
+Bomb.prototype.hide = function(){
+	this.x = -3*this.state.bps;
+	this.y = -3*this.state.bps;
+}
+
+var Potion = function(state, x, y, type){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
+	this.state = state;
+	this.type = type; 
+
+	this.animation.add('whiskey',[116],0.1,false);
+	this.animation.play('whiskey');
+}
+Kiwi.extend(Potion, Kiwi.GameObjects.Sprite);
+
+Potion.prototype.objType = function(){
+	return 'Potion';
+}
+
+var Digit = function(state, x, y, color, index){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['digits'], x, y, false);
+	this.color = color;
+	this.state = state;
+	this.index = index; 
+	this.originalx = x;
+	this.originaly = y;
+
+	switch(color){
+		case this.state.game.banditColors.BLUE:
+			this.animation.add('0',[0],0.1,false);
+			this.animation.add('1',[1],0.1,false); 
+			this.animation.add('2',[2],0.1,false);
+			this.animation.add('3',[3],0.1,false); 
+			this.animation.add('4',[4],0.1,false);
+			this.animation.add('5',[5],0.1,false); 
+			this.animation.add('6',[6],0.1,false);
+			this.animation.add('7',[7],0.1,false); 
+			this.animation.add('8',[8],0.1,false);
+			this.animation.add('9',[9],0.1,false); 	
+			this.animation.add('bomb',[10],0.1,false);											
+			break;
+		case this.state.game.banditColors.RED:
+			this.animation.add('0',[11],0.1,false);
+			this.animation.add('1',[12],0.1,false); 
+			this.animation.add('2',[13],0.1,false);
+			this.animation.add('3',[14],0.1,false); 
+			this.animation.add('4',[15],0.1,false);
+			this.animation.add('5',[16],0.1,false); 
+			this.animation.add('6',[17],0.1,false);
+			this.animation.add('7',[18],0.1,false); 
+			this.animation.add('8',[19],0.1,false);
+			this.animation.add('9',[20],0.1,false); 	
+			this.animation.add('bomb',[10],0.1,false);																									
+			break;
+		case this.state.game.banditColors.GHOUL_DIGIT:
+			this.animation.add('skull',[21],0.1,false);
+			this.animation.add('dot',[22],0.1,false);
+			break;
+	}
+
+	Digit.prototype.resetCounter = function(){
+		this.animation.play('0');
+	}
+}
+Kiwi.extend(Digit, Kiwi.GameObjects.Sprite);
+
+Digit.prototype.increaseByOne = function(){
+	if(this.animation.currentAnimation.name == '5' && this.index == 3){
+		this.animation.play('0');
+		return 1;
+	}else{
+		if(this.animation.currentAnimation.name == '9'){
+			this.animation.play('0');
+			return 1; 
+		}else{
+			this.animation.play((parseInt(this.animation.currentAnimation.name)+1).toString());
+			return 0;
+		}
+	}
+}
+
+var BigDigit = function(state, x, y, color, index, type){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['sprites'], x, y, false);
+	this.color = color;
+	this.state = state;
+	this.index = index;
+	this.type = type; 
+	this.originalx = x;
+	this.originaly = y;
+
+	switch(color){
+		case this.state.game.banditColors.BLUE:
+			this.animation.add('0',[152],0.1,false);
+			this.animation.add('1',[153],0.1,false); 
+			this.animation.add('2',[154],0.1,false);
+			this.animation.add('3',[155],0.1,false); 
+			this.animation.add('4',[156],0.1,false);
+			this.animation.add('5',[157],0.1,false); 
+			this.animation.add('6',[158],0.1,false);
+			this.animation.add('7',[159],0.1,false); 
+			this.animation.add('8',[160],0.1,false);
+			this.animation.add('9',[161],0.1,false); 	
+			this.animation.add('cycle',[152,153,154,155,156,157,158,159,160,161],0.06,true);
+			this.animation.add('bomb',[10],0.1,false);											
+			break;
+		case this.state.game.banditColors.RED:
+			this.animation.add('0',[170],0.1,false);
+			this.animation.add('1',[171],0.1,false); 
+			this.animation.add('2',[172],0.1,false);
+			this.animation.add('3',[173],0.1,false); 
+			this.animation.add('4',[174],0.1,false);
+			this.animation.add('5',[175],0.1,false); 
+			this.animation.add('6',[176],0.1,false);
+			this.animation.add('7',[177],0.1,false); 
+			this.animation.add('8',[178],0.1,false);
+			this.animation.add('9',[179],0.1,false); 
+			this.animation.add('cycle',[170,171,172,173,174,175,176,177,178,179],0.06,true);	
+			this.animation.add('bomb',[10],0.1,false);																									
+			break;
+		case this.state.game.banditColors.BLACK:
+			this.animation.add('0',[188],0.1,false);
+			this.animation.add('1',[189],0.1,false); 
+			this.animation.add('2',[190],0.1,false);
+			this.animation.add('3',[191],0.1,false); 
+			this.animation.add('4',[192],0.1,false);
+			this.animation.add('5',[193],0.1,false); 
+			this.animation.add('6',[194],0.1,false);
+			this.animation.add('7',[195],0.1,false); 
+			this.animation.add('8',[196],0.1,false);
+			this.animation.add('9',[197],0.1,false); 
+			this.animation.add('cycle',[188,189,190,191,192,193,194,195,196,197],0.06,true);	
+			break;
+	}
+
+	BigDigit.prototype.resetCounter = function(){
+		this.animation.play('0');
+	}
+}
+Kiwi.extend(BigDigit, Kiwi.GameObjects.Sprite);
+
+var BetweenScreenIcon = function(state, type, x, y){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['betweenScreen'], x, y, false);
+
+	this.state = state;
+	this.type = type;
+
+	this.animation.add('money',[3],0.1,false);
+	this.animation.add('death',[2],0.1,false);
+	this.animation.add('time',[4],0.1,false);
+	this.animation.add('bonus2',[0],0.1,false);
+	this.animation.add('bonus3',[1],0.1, false);
+	this.animation.add('star',[5],0.1,false);
+
+	if(this.type == 'bonus'){
+		this.animation.play('bonus2');		
+	}else{
+		this.animation.play(type);
+	}
+}
+Kiwi.extend(BetweenScreenIcon, Kiwi.GameObjects.Sprite);
+
+var BetweenScreenStar = function(state, x, y){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['icons'], x, y, false);
+
+	this.state = state; 
+
+	this.animation.add('star', [10], 0.1, false);
+	this.animation.play('star');
+}
+Kiwi.extend(BetweenScreenStar, Kiwi.GameObjects.Sprite);
+
+
+var Icon = function(state, x, y, type){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['icons'], x, y, true);
+
+	this.state = state;
+	this.type = type;
+	this.isDown = false;
+
+	switch(type){
+		case 'play':
+			this.animation.add('on', [2], 0.1, false);
+			this.animation.add('hover', [3], 0.1, false);
+		 	break;
+		case 'restart':
+			this.animation.add('on', [4], 0.1, false);
+			this.animation.add('hover', [5], 0.1, false);
+			break;
+		case 'home':
+			this.animation.add('on', [0], 0.1, false);
+			this.animation.add('hover', [1], 0.1, false);
+			break;
+	}
+
+	this.animation.play('on');
+	this.alpha = 0.3;
+
+	this.input.onEntered.add(Icon.prototype.playHover, this);
+	this.input.onLeft.add(Icon.prototype.playOff, this);
+	this.input.onUp.add(Icon.prototype.mouseClicked, this);
+	this.input.onDown.add(MenuIcon.prototype.playDown, this);	
+}
+Kiwi.extend(Icon, Kiwi.GameObjects.Sprite);
+
+Icon.prototype.mouseClicked = function(){
+	if(this.isDown == true){
+		this.y -= 2;
+		this.isDown = false;
+		if(this.state.game.soundOptions.soundsOn){
+			this.state.game.playClickOffSound(this.state.random.integerInRange(0,3));
+		}		
+	}
+	switch(this.type){
+		case 'play':
+			this.state.stopCutScene();
+			this.state.tweenOutCurtains(this.state.showLevelScreen);
+			break;
+		case 'restart':
+			this.state.stopCutScene();
+			this.state.currentLevel-=2;
+			if(this.state.soundOptions.musicOn){
+				this.state.currentMusic.stop();
+			}
+			this.state.tweenOutCurtains(this.state.restartLevel);
+			break;
+		case 'home':
+			this.state.stopCutScene();
+			if(this.state.soundOptions.musicOn){
+				this.state.currentMusic.stop();
+			}
+			this.state.tweenOutCurtains(this.state.switchToTitleStateFromBetweenScreen);
+			break;			
+	}
+}
+
+Icon.prototype.playHover = function(){
+	MenuIcon.prototype.playHover.call(this);
+	this.alpha = 1;
+	switch(this.type){
+		case 'home':
+			this.state.availableBetweenScreenMenuIconsIndex = 1;
+			break;
+		case 'restart':
+			this.state.availableBetweenScreenMenuIconsIndex = 2;
+			break;
+		case 'play':
+			this.state.availableBetweenScreenMenuIconsIndex = 0;
+			break;
+	}
+	this.state.selectedBetweenScreenIcon = this.state.iconGroup.members[this.state.availableBetweenScreenMenuIconsIndex];
+}
+
+Icon.prototype.playOff = function(){
+	MenuIcon.prototype.playOff.call(this);
+	this.alpha = 0.3;
+}
+
+Icon.prototype.playDown = function(){
+	MenuIcon.prototype.playDown.call(this);
+}
+
+var MenuIcon = function(state, x, y, type){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['menu'], x, y, true);
+
+	this.state = state;
+	this.type = type; 
+	this.isDown = false;
+
+	switch(type){
+		case 'sound':
+			this.animation.add('off',[0],0.1,false);
+			this.animation.add('on',[4],0.1,false);
+			this.animation.add('hoveroff',[2],0.1,false);
+			this.animation.add('hoveron',[8],0.1,false);
+			break;
+		case 'music':
+			this.animation.add('off',[1],0.1,false);
+			this.animation.add('on',[5],0.1,false);
+			this.animation.add('hoveroff',[3],0.1,false);
+			this.animation.add('hoveron',[9],0.1,false);
+			break;
+		case 'restart':
+			this.animation.add('on',[6],0.1,false);
+			this.animation.add('hover',[10],0.1,false);	
+			break;
+		case 'home':
+			this.animation.add('on',[7],0.1,false);
+			this.animation.add('hover',[11],0.1,false);		
+			break;	
+		case 'backLevelSelection':
+			this.animation.add('on',[18],0.1,false);
+			this.animation.add('hover',[19],0.1,false);
+			break;						
+	}
+	this.animation.play('on');
+	this.alpha = 0.5; 
+
+	this.input.onEntered.add(MenuIcon.prototype.playHover, this);
+	this.input.onLeft.add(MenuIcon.prototype.playOff, this);
+	this.input.onUp.add(MenuIcon.prototype.mouseClicked, this);
+	this.input.onDown.add(MenuIcon.prototype.playDown, this);
+}
+Kiwi.extend(MenuIcon, Kiwi.GameObjects.Sprite);
+
+MenuIcon.prototype.playDown = function(){
+	if(this.isDown == false){
+		this.y += 2; 
+		this.isDown = true;
+		if(this.state.game.soundOptions.soundsOn){
+			this.state.game.playClickOnSound(this.state.random.integerInRange(0,3));
+		}
+	}
+}
+
+MenuIcon.prototype.mouseClicked = function(){
+	if(this.isDown == true){
+		this.y -= 2;
+		this.isDown = false;
+		if(this.state.game.soundOptions.soundsOn){
+			this.state.game.playClickOffSound(this.state.random.integerInRange(0,3));	
+		}	
+	}
+	switch(this.type){
+		case 'sound':
+			if(this.state.soundOptions.soundsOn == true){
+				this.state.soundOptions.soundsOn = false;
+				this.animation.play('hoveroff');
+			}else{
+				this.state.soundOptions.soundsOn = true;
+				this.animation.play('hoveron');
+			}
+			break;
+		case 'music':
+			if(this.state.soundOptions.musicOn == true){
+				this.state.soundOptions.musicOn = false;
+				this.state.currentMusic.pause();
+				this.animation.play('hoveroff');
+			}else{
+				this.state.soundOptions.musicOn = true;
+				this.state.currentMusic.resume();
+				this.animation.play('hoveron');
+			}
+			break;
+		case 'restart':
+			this.state.currentLevel--;
+			this.state.closeMenu('noresume');
+			if(this.state.soundOptions.musicOn){
+				this.state.currentMusic.stop();
+			}
+			this.playOff();
+			this.timer = this.state.game.time.clock.createTimer('restartLevelTimer',0.9,0,false);
+			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.restartLevel, this);
+			this.timer.start();
+			break;
+		case 'home':
+			if(this.state.game.gamepads){
+				this.state.removeAllGamepadSignals();
+			}
+			if(this.state.soundOptions.musicOn){
+				this.state.currentMusic.stop();
+			}
+			this.timer = this.state.game.time.clock.createTimer('homeTimer', 0.2, 0, false);
+			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.switchToTitleStateAfterDestroyingEverything, this);
+			this.timer.start();	
+			break;
+		case '1player':
+			this.state.game.numPlayers = 1;
+			this.timer = this.state.game.time.clock.createTimer('1playerTimer', 0.2, 0, false);
+			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.state.startGame, this.state);
+			this.timer.start();
+			break;
+		case '2player':
+			this.state.game.numPlayers = 2;
+			this.timer = this.state.game.time.clock.createTimer('2playerTimer', 0.2, 0, false);
+			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.state.startGame, this.state);
+			this.timer.start();
+			break;
+		case 'controls':
+			this.timer = this.state.game.time.clock.createTimer('controlsTimer', 0.2, 0, false);
+			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.state.showControls, this.state);
+			this.timer.start();
+			break;
+		case 'yes':
+			this.timer = this.state.game.time.clock.createTimer('quitYesTimer', 0.2, 0, false);
+			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.state.quitGame, this.state);
+			this.timer.start();
+			break;	
+		case 'no':
+			this.timer = this.state.game.time.clock.createTimer('quitNoTimer', 0.2, 0, false);
+			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.state.closeQuitDialog, this.state);
+			this.timer.start();
+			break;						
+		case 'backControls':
+			this.timer = this.state.game.time.clock.createTimer('backControlsTimer', 0.2, 0, false);
+			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.state.hideControls, this.state);
+			this.timer.start();
+			break;
+		case 'backLevelSelection':
+			this.timer = this.state.game.time.clock.createTimer('backLevelSelectionTimer', 0.2, 0, false);
+			this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.switchToTitleState, this);
+			this.timer.start();		
+			break;
+	}
+}
+
+MenuIcon.prototype.switchToTitleStateAfterDestroyingEverything = function(){
+	this.state.destroyEverything(true);
+	this.state.gameTimer.removeTimerEvent(this.state.gameTimerEvent);
+	this.state.game.states.switchState('titleState');
+}
+
+MenuIcon.prototype.switchToTitleState = function(){
+	this.game.states.switchState('titleState');
+}
+
+MenuIcon.prototype.restartLevel = function(){
+	this.state.destroyEverything(false);
+	this.state.moveBanditsOffscreen();
+	this.state.iconsDuringLevelScreen();
+	this.state.levelOver(false);
+	this.state.resumeGame();
+}
+
+MenuIcon.prototype.playHover = function(){
+	this.alpha = 1; 
+	if (this.type == 'backLevelSelection'){
+		LevelSelectionIcon.prototype.removeAllHovers.call(this);
+		this.state.changeSelectedIconByLevel(this.state.availableIcons.length + 1); //so that selected icon is the back button
+		this.animation.play('hover');
+	}else{
+		TitleIcon.prototype.removeAllHovers.call(this);		
+		if(this.type == 'sound'){
+			if(this.state.soundOptions.soundsOn){
+				this.animation.play('hoveron');
+			}else{
+				this.animation.play('hoveroff');
+			}
+			this.state.availableMenuIconsIndex = 0;
+			this.state.selectedIcon = this.state.menuGroup.members[this.state.availableMenuIconsIndex];
+		}else if (this.type == 'music'){
+			if(this.state.soundOptions.musicOn){
+				this.animation.play('hoveron');
+			}else{
+				this.animation.play('hoveroff');
+			}
+			this.state.availableMenuIconsIndex = 1;
+			this.state.selectedIcon = this.state.menuGroup.members[this.state.availableMenuIconsIndex];
+		}else if(this.type == 'restart'){
+			this.animation.play('hover');
+			this.state.availableMenuIconsIndex = 2;
+			this.state.selectedIcon = this.state.menuGroup.members[this.state.availableMenuIconsIndex];
+		}else if(this.type == 'home'){
+			this.animation.play('hover');
+			this.state.availableMenuIconsIndex = 3;
+			this.state.selectedIcon = this.state.menuGroup.members[this.state.availableMenuIconsIndex];
+		}else{
+			this.animation.play('hover');
+		}
+	}
+}
+
+MenuIcon.prototype.playOff = function(){
+	this.alpha = 0.5;
+	if(this.isDown == true){
+		this.y -= 2;
+		this.isDown = false;
+	}	
+	if(this.type == 'sound'){
+		if(this.state.soundOptions.soundsOn){
+			this.animation.play('on');
+		}else{
+			this.animation.play('off');
+		}
+	}else if(this.type == 'music'){
+		if(this.state.soundOptions.musicOn){
+			this.animation.play('on');
+		}else{
+			this.animation.play('off');
+		}
+	}else{
+		this.animation.play('on');
+	}
+}
+
+var TitleIcon = function(state, x, y, type){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['menu'], x, y, true);
+
+	this.state = state;
+	this.type = type;
+	this.isDown = false;
+	this.group = this.state.buttonGroup;
+
+	switch(type){
+		case '1player':
+			this.animation.add('on',[12],0.1,false);
+			this.animation.add('hover',[13],0.1,false);
+			break;
+		case '2player':
+			this.animation.add('on',[14],0.1,false);
+			this.animation.add('hover',[15],0.1,false);
+			break;
+		case 'controls':
+			this.animation.add('on',[16],0.1,false);
+			this.animation.add('hover',[17],0.1,false);
+			break;
+		case 'backControls':
+			this.animation.add('on',[18],0.1,false);
+			this.animation.add('hover',[19],0.1,false);
+			break;			
+	}
+	this.animation.play('on');
+	this.alpha = 0.5;
+
+	this.input.onEntered.add(TitleIcon.prototype.playHover, this);
+	this.input.onLeft.add(MenuIcon.prototype.playOff, this);
+	this.input.onUp.add(MenuIcon.prototype.mouseClicked, this);
+	this.input.onDown.add(MenuIcon.prototype.playDown, this);	
+}
+Kiwi.extend(TitleIcon, Kiwi.GameObjects.Sprite);
+Kiwi.extend(TitleIcon, MenuIcon);
+
+TitleIcon.prototype.playHover = function(){
+	this.removeAllHovers();
+	if(this.state.name == "titleState"){
+		this.state.changeSelectedMenuIconByType(this.type);
+	}
+	this.alpha = 1;
+	this.animation.play('hover');
+}
+
+TitleIcon.prototype.removeAllHovers = function(){
+	if(this.parent.objType() != "State"){
+		var icons = this.parent.members;
+		for(var i = 0; i < icons.length; i++){
+			if(icons[i].animation.currentAnimation.name.substring(0,5) == 'hover'){
+				icons[i].playOff();
+			}
+		}
+	}	
+}
+
+var QuitIcon = function(state, x, y, type){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['quit'], x, y, true);
+
+	this.state = state;
+	this.type = type;
+	this.isDown = false;
+	this.group = this.state.quitButtonGroup;
+
+	switch(type){
+		case 'yes':
+			this.animation.add('on', [0], 0.1, false);
+			this.animation.add('hover', [1], 0.1, false);
+			break;
+		case 'no':
+			this.animation.add('on', [2], 0.1, false);
+			this.animation.add('hover', [3], 0.1, false);
+			break;
+	}
+
+	this.animation.play('on');
+	this.alpha = 0.5;
+
+	this.input.onEntered.add(TitleIcon.prototype.playHover, this);
+	this.input.onLeft.add(MenuIcon.prototype.playOff, this);
+	this.input.onUp.add(MenuIcon.prototype.mouseClicked, this);
+	this.input.onDown.add(MenuIcon.prototype.playDown, this);
+}
+Kiwi.extend(QuitIcon, Kiwi.GameObjects.Sprite);
+Kiwi.extend(QuitIcon, MenuIcon);
+Kiwi.extend(QuitIcon, TitleIcon);
+
+
+var LevelSelectionIcon = function(state, x, y, number){
+	Kiwi.GameObjects.Sprite.call(this, state, state.textures['level_selection'], x, y, true);
+
+	this.state = state;
+	this.number = number;
+	this.isDown = false;
+
+	switch(this.number){
+		case 10:
+			this.animation.add('off', [0], 0.1, false);
+			this.animation.add('on0', [1], 0.1, false);
+			this.animation.add('hover0', [2], 0.1, false);
+			this.animation.add('on1', [3], 0.1, false);
+			this.animation.add('hover1', [4], 0.1, false);
+			this.animation.add('on2', [5], 0.1, false);
+			this.animation.add('hover2', [6], 0.1, false);
+			this.animation.add('on3', [7], 0.1, false);
+			this.animation.add('hover3', [8], 0.1, false);
+			break;
+		case 11:
+			this.animation.add('off', [9], 0.1, false);
+			this.animation.add('on0', [10], 0.1, false);
+			this.animation.add('hover0', [11], 0.1, false);
+			this.animation.add('on1', [12], 0.1, false);
+			this.animation.add('hover1', [13], 0.1, false);
+			this.animation.add('on2', [14], 0.1, false);
+			this.animation.add('hover2', [15], 0.1, false);
+			this.animation.add('on3', [16], 0.1, false);
+			this.animation.add('hover3', [17], 0.1, false);
+			break;		
+		case 12:
+			this.animation.add('off', [18], 0.1, false);
+			this.animation.add('on0', [19], 0.1, false);
+			this.animation.add('hover0', [20], 0.1, false);
+			this.animation.add('on1', [21], 0.1, false);
+			this.animation.add('hover1', [22], 0.1, false);
+			this.animation.add('on2', [23], 0.1, false);
+			this.animation.add('hover2', [24], 0.1, false);
+			this.animation.add('on3', [25], 0.1, false);
+			this.animation.add('hover3', [26], 0.1, false);
+			break;		
+		case 13:
+			this.animation.add('off',[27],0.1,false);
+			this.animation.add('on0', [28], 0.1, false);
+			this.animation.add('hover0', [29], 0.1, false);
+			this.animation.add('on1',[30],0.1,false);
+			this.animation.add('hover1',[31],0.1 ,false);
+			this.animation.add('on2', [32], 0.1, false);
+			this.animation.add('hover2', [33], 0.1, false);
+			this.animation.add('on3', [34], 0.1, false);
+			this.animation.add('hover3', [35], 0.1, false);
+			break;		
+		case 14:
+			this.animation.add('off',[36],0.1,false);
+			this.animation.add('on0', [37], 0.1, false);
+			this.animation.add('hover0', [38], 0.1, false);
+			this.animation.add('on1',[39],0.1,false);
+			this.animation.add('hover1',[40],0.1 ,false);
+			this.animation.add('on2', [41], 0.1, false);
+			this.animation.add('hover2', [42], 0.1, false);
+			this.animation.add('on3', [43], 0.1, false);
+			this.animation.add('hover3', [44], 0.1, false);
+			break;		
+		case 15:
+			this.animation.add('off',[45],0.1,false);
+			this.animation.add('on0', [46], 0.1, false);
+			this.animation.add('hover0', [47], 0.1, false);
+			this.animation.add('on1',[48],0.1,false);
+			this.animation.add('hover1',[49],0.1 ,false);
+			this.animation.add('on2', [50], 0.1, false);
+			this.animation.add('hover2', [51], 0.1, false);
+			this.animation.add('on3', [52], 0.1, false);
+			this.animation.add('hover3', [53], 0.1, false);
+			break;		
+		case 16:
+			this.animation.add('off',[54],0.1,false);
+			this.animation.add('on0', [55], 0.1, false);
+			this.animation.add('hover0', [56], 0.1, false);
+			this.animation.add('on1',[57],0.1,false);
+			this.animation.add('hover1',[58],0.1 ,false);
+			this.animation.add('on2', [59], 0.1, false);
+			this.animation.add('hover2', [60], 0.1, false);
+			this.animation.add('on3', [61], 0.1, false);
+			this.animation.add('hover3', [62], 0.1, false);
+			break;
+		case 17:
+			this.animation.add('off',[63],0.1,false);
+			this.animation.add('on0', [64], 0.1, false);
+			this.animation.add('hover0', [65], 0.1, false);
+			this.animation.add('on1',[66],0.1,false);
+			this.animation.add('hover1',[67],0.1 ,false);
+			this.animation.add('on2', [68], 0.1, false);
+			this.animation.add('hover2', [69], 0.1, false);
+			this.animation.add('on3', [70], 0.1, false);
+			this.animation.add('hover3', [71], 0.1, false);
+			break;		
+		case 18:
+			this.animation.add('off',[72],0.1,false);
+			this.animation.add('on0', [73], 0.1, false);
+			this.animation.add('hover0', [74], 0.1, false);
+			this.animation.add('on1',[75],0.1,false);
+			this.animation.add('hover1',[76],0.1 ,false);
+			this.animation.add('on2', [77], 0.1, false);
+			this.animation.add('hover2', [78], 0.1, false);
+			this.animation.add('on3', [79], 0.1, false);
+			this.animation.add('hover3', [80], 0.1, false);
+			break;		
+		case 19:
+			this.animation.add('off',[81],0.1,false);
+			this.animation.add('on0', [82], 0.1, false);
+			this.animation.add('hover0', [83], 0.1, false);
+			this.animation.add('on1',[84],0.1,false);
+			this.animation.add('hover1',[85],0.1 ,false);
+			this.animation.add('on2', [86], 0.1, false);
+			this.animation.add('hover2', [87], 0.1, false);
+			this.animation.add('on3', [88], 0.1, false);
+			this.animation.add('hover3', [89], 0.1, false);
+			break;			
+		case 1:
+			this.animation.add('off',[90],0.1,false);
+			this.animation.add('on0', [91], 0.1, false);
+			this.animation.add('hover0', [92], 0.1, false);
+			this.animation.add('on1',[93],0.1,false);
+			this.animation.add('hover1',[94],0.1 ,false);
+			this.animation.add('on2', [95], 0.1, false);
+			this.animation.add('hover2', [96], 0.1, false);
+			this.animation.add('on3', [97], 0.1, false);
+			this.animation.add('hover3', [98], 0.1, false);
+			break;
+		case 20:
+			this.animation.add('off',[99],0.1,false);
+			this.animation.add('on0', [100], 0.1, false);
+			this.animation.add('hover0', [101], 0.1, false);
+			this.animation.add('on1',[102],0.1,false);
+			this.animation.add('hover1',[103],0.1 ,false);
+			this.animation.add('on2', [104], 0.1, false);
+			this.animation.add('hover2', [105], 0.1, false);
+			this.animation.add('on3', [106], 0.1, false);
+			this.animation.add('hover3', [107], 0.1, false);
+			break;				
+		case 2:
+			this.animation.add('off',[108],0.1,false);
+			this.animation.add('on0', [109], 0.1, false);
+			this.animation.add('hover0', [110], 0.1, false);
+			this.animation.add('on1',[111],0.1,false);
+			this.animation.add('hover1',[112],0.1 ,false);
+			this.animation.add('on2', [113], 0.1, false);
+			this.animation.add('hover2', [114], 0.1, false);
+			this.animation.add('on3', [115], 0.1, false);
+			this.animation.add('hover3', [116], 0.1, false);
+			break;
+		case 3:
+			this.animation.add('off',[117],0.1,false);
+			this.animation.add('on0', [118], 0.1, false);
+			this.animation.add('hover0', [119], 0.1, false);
+			this.animation.add('on1',[120],0.1,false);
+			this.animation.add('hover1',[121],0.1 ,false);
+			this.animation.add('on2', [122], 0.1, false);
+			this.animation.add('hover2', [123], 0.1, false);
+			this.animation.add('on3', [124], 0.1, false);
+			this.animation.add('hover3', [125], 0.1, false);
+			break;
+		case 4:
+			this.animation.add('off',[126],0.1,false);
+			this.animation.add('on0', [127], 0.1, false);
+			this.animation.add('hover0', [128], 0.1, false);
+			this.animation.add('on1',[129],0.1,false);
+			this.animation.add('hover1',[130],0.1 ,false);
+			this.animation.add('on2', [131], 0.1, false);
+			this.animation.add('hover2', [132], 0.1, false);
+			this.animation.add('on3', [133], 0.1, false);
+			this.animation.add('hover3', [134], 0.1, false);
+			break;
+		case 5:
+			this.animation.add('off',[135],0.1,false);
+			this.animation.add('on0', [136], 0.1, false);
+			this.animation.add('hover0', [137], 0.1, false);
+			this.animation.add('on1',[138],0.1,false);
+			this.animation.add('hover1',[139],0.1 ,false);
+			this.animation.add('on2', [140], 0.1, false);
+			this.animation.add('hover2', [141], 0.1, false);
+			this.animation.add('on3', [142], 0.1, false);
+			this.animation.add('hover3', [143], 0.1, false);
+			break;
+		case 6:
+			this.animation.add('off',[144],0.1,false);
+			this.animation.add('on0', [145], 0.1, false);
+			this.animation.add('hover0', [146], 0.1, false);
+			this.animation.add('on1',[147],0.1,false);
+			this.animation.add('hover1',[148],0.1 ,false);
+			this.animation.add('on2', [149], 0.1, false);
+			this.animation.add('hover2', [150], 0.1, false);
+			this.animation.add('on3', [151], 0.1, false);
+			this.animation.add('hover3', [152], 0.1, false);
+			break;
+		case 7:
+			this.animation.add('off',[153],0.1,false);
+			this.animation.add('on0', [154], 0.1, false);
+			this.animation.add('hover0', [155], 0.1, false);
+			this.animation.add('on1',[156],0.1,false);
+			this.animation.add('hover1',[157],0.1 ,false);
+			this.animation.add('on2', [158], 0.1, false);
+			this.animation.add('hover2', [159], 0.1, false);
+			this.animation.add('on3', [160], 0.1, false);
+			this.animation.add('hover3', [161], 0.1, false);
+			break;
+		case 8:
+			this.animation.add('off',[162],0.1,false);
+			this.animation.add('on0', [163], 0.1, false);
+			this.animation.add('hover0', [164], 0.1, false);
+			this.animation.add('on1',[165],0.1,false);
+			this.animation.add('hover1',[166],0.1 ,false);
+			this.animation.add('on2', [167], 0.1, false);
+			this.animation.add('hover2', [168], 0.1, false);
+			this.animation.add('on3', [169], 0.1, false);
+			this.animation.add('hover3', [170], 0.1, false);
+			break;
+		case 9:
+			this.animation.add('off',[171],0.1,false);
+			this.animation.add('on0', [172], 0.1, false);
+			this.animation.add('hover0', [173], 0.1, false);
+			this.animation.add('on1',[174],0.1,false);
+			this.animation.add('hover1',[175],0.1 ,false);
+			this.animation.add('on2', [176], 0.1, false);
+			this.animation.add('hover2', [177], 0.1, false);
+			this.animation.add('on3', [178], 0.1, false);
+			this.animation.add('hover3', [179], 0.1, false);
+			break;
+	}
+}
+Kiwi.extend(LevelSelectionIcon, Kiwi.GameObjects.Sprite);
+
+LevelSelectionIcon.prototype.playHover = function(){
+	this.removeAllHovers();
+	this.state.changeSelectedIconByLevel(this.number);
+	var stars = this.state.game.levelsData[this.number-1][this.state.game.numPlayers-1].stars;
+	this.animation.play('hover' + stars);
+}
+
+LevelSelectionIcon.prototype.playOn = function(){
+	var stars = this.state.game.levelsData[this.number-1][this.state.game.numPlayers-1].stars;
+	this.animation.play('on' + stars);
+}
+
+LevelSelectionIcon.prototype.playDown = function(){
+	if(this.isDown == false){
+		this.y += 2;
+		this.isDown = true;
+		if(this.state.game.soundOptions.soundsOn){
+			this.state.game.playClickOnSound(this.state.random.integerInRange(0,3));
+		}
+	}
+}
+
+LevelSelectionIcon.prototype.removeAllHovers = function(){
+	var icons = this.state.levelSelectionGroup.members;
+	for(var i = 0; i < icons.length; i++){
+		if(icons[i].animation.currentAnimation.name.substring(0,5) == 'hover'){
+			if(icons[i].type && icons[i].type.substring(0,4) == 'back'){
+				icons[i].playOff();
+			}else{
+				icons[i].playOn();
+			}
+		}
+	}
+}
+
+LevelSelectionIcon.prototype.addHovering = function(){
+	this.input.onEntered.add(LevelSelectionIcon.prototype.playHover, this);
+	this.input.onLeft.add(LevelSelectionIcon.prototype.playOn, this);			
+}
+
+LevelSelectionIcon.prototype.addClicking = function(){
+	this.input.onUp.add(LevelSelectionIcon.prototype.startStartLevelTimer, this);
+	this.input.onDown.add(LevelSelectionIcon.prototype.playDown, this);
+}
+
+LevelSelectionIcon.prototype.startStartLevelTimer = function(){
+	if(this.isDown == true){
+		this.y -= 2;
+		this.isDown = false;
+		if(this.state.game.soundOptions.soundsOn){
+			this.state.game.playClickOffSound(this.state.random.integerInRange(0,3));
+		}		
+	}			
+	this.timer = this.state.game.time.clock.createTimer('iconTimer', 0.2, 0, false);
+	this.timerEvent = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.startLevel, this);
+	this.timer.start();
+}
+
+LevelSelectionIcon.prototype.startLevel = function(){
+	this.state.startGame(this.number);
+}
+
+LevelSelectionIcon.prototype.objType = function(){
+	return "LevelSelectionIcon";
+}
+
+
+
+
+var titleState = new Kiwi.State('titleState');
+
+titleState.preload = function(){
+	Kiwi.State.prototype.preload.call(this);
+
+}
+
+titleState.showQuitDialog = function(){
+	this.game.titleStateShowQuitDialog.call(this);
+}
+
+titleState.closeQuitDialog = function(){
+	this.game.titleStateCloseQuitDialog.call(this);
+}
+
+titleState.quitGame = function(){
+	this.game.quitGame();
+}
+
+titleState.create = function(){
+	Kiwi.State.prototype.create.call(this);
+
+	myGame.stage.color = 'AAAABB';
+	this.STAGE_WIDTH = 1024;
+	this.STAGE_HEIGHT = 768;
+	myGame.stage.color = '000000';
+	myGame.stage.resize(this.STAGE_WIDTH, this.STAGE_HEIGHT);
+
+	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['title'],0,0);
+
+
+	if(this.game.inputOptions.gamepad){
+		this.controlsScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['controlsGamepad'], 1100,0);
+		this.controlsTween = this.game.tweens.create(this.controlsScreen);
+	}else{
+		this.controlsScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['controls'],1100,0);
+		this.controlsTween = this.game.tweens.create(this.controlsScreen);
+	}
+
+	this.buttonGroup = new Kiwi.Group(this);
+	this.group = this.buttonGroup;
+
+
+	this.playerButton1 = new TitleIcon(this, 270, 1475, '1player');
+	this.playerButton2 = new TitleIcon(this, 270, 1550, '2player');
+	this.controlsButton = new TitleIcon(this, 270, 1625, 'controls');
+
+	this.background.alpha = 0;
+	this.addChild(this.background);
+	this.addChild(this.controlsScreen);
+	
+	this.game.setUpQuitDialog.call(this);
+	this.game.addQuitDialog.call(this);
+
+	this.random = new Kiwi.Utils.RandomDataGenerator();
+	
+	this.game.clickOn1Sound = new Kiwi.Sound.Audio(this.game, 'clickOn1Sound', 0.8, false);
+	this.game.clickOff1Sound = new Kiwi.Sound.Audio(this.game, 'clickOff1Sound', 0.8, false);
+	this.game.clickOn2Sound = new Kiwi.Sound.Audio(this.game, 'clickOn2Sound', 0.8, false);
+	this.game.clickOff2Sound = new Kiwi.Sound.Audio(this.game, 'clickOff2Sound', 0.8, false);
+	this.game.clickOn3Sound = new Kiwi.Sound.Audio(this.game, 'clickOn3Sound', 0.8, false);
+	this.game.clickOff3Sound = new Kiwi.Sound.Audio(this.game, 'clickOff3Sound', 0.8, false);
+
+	this.game.playClickOnSound = function(number){
+		switch(number){
+			case 0: 
+				this.clickOn1Sound.play();
+				break;
+			case 1:
+				this.clickOn2Sound.play();
+				break;
+			case 2:
+				this.clickOn3Sound.play();
+				break;
+		}
+	}
+
+	this.game.playClickOffSound = function(number){
+		switch(number){
+			case 0: 
+				this.clickOff1Sound.play();
+				break;
+			case 1:
+				this.clickOff2Sound.play();
+				break;
+			case 2:
+				this.clickOff3Sound.play();
+				break;
+		}	
+	}
+	
+	this.showingControls = false;
+
+	this.backgroundTween = this.game.tweens.create(this.background);
+	this.backgroundTween.onComplete(this.finishAddingToSreen, this);
+	this.backgroundTween.to({alpha: 1}, 500, Kiwi.Animations.Tweens.Easing.Linear.None);
+	this.backgroundTween._onCompleteCalled = false;
+	this.backgroundTween.start();
+	
+}
+
+
+titleState.finishAddingToSreen = function(){
+	this.buttonGroup.addChild(this.playerButton1);
+	this.buttonGroup.addChild(this.playerButton2);
+	this.buttonGroup.addChild(this.controlsButton);
+	this.addChild(this.buttonGroup);
+
+	this.button1 = this.game.tweens.create(this.playerButton1);
+	this.button1.to({y: 475}, 500, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+	this.button2 = this.game.tweens.create(this.playerButton2);
+	this.button2.to({y: 550}, 500, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+	this.button3 = this.game.tweens.create(this.controlsButton);
+	this.button3.to({y: 625}, 500, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+
+	this.button1.chain(this.button2);
+	this.button2.chain(this.button3);
+
+	this.button1.start();
+
+	this.mouse = this.game.input.mouse;
+
+	this.backButton = new TitleIcon(this, 50, 675, 'backControls');
+	this.backButton.visible = false;
+	this.addChild(this.backButton);
+
+	if(this.game.gamepads){
+		this.game.gamepads.gamepadConnected.add(this.gamepadConnected, this);
+		this.addGamepadSignalsTitle();
+	}
+
+	this.debounce = 0;
+
+	this.group = this.buttonGroup;
+	this.selectedMenuIconIndex = 0;
+	this.changeSelectedMenuIcon(this.selectedMenuIconIndex);
+
+	this.backgroundTween.onComplete(null, null);
+	this.game.input.keyboard.onKeyDown.add(this.onPressTitle, this);
+	this.game.input.keyboard.onKeyUp.add(this.onKeyUpCallback, this);
+}
+
+titleState.addGamepadSignalsTitle = function(){
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceAButton, this);
+	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpAButton, this);
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceArrowPad, this);
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce, this);
+}
+
+titleState.addGamepadSignalsControls = function(){
+	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpAButton, this);	
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceAButton, this);	
+}
+
+titleState.addGamepadSignalsQuit = function(){
+	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpAButton, this);	
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceAButton, this);
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceArrowPad, this);	
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce2, this);
+}
+
+titleState.showControls = function(){
+	this.showingControls = true;
+	this.controlsTween.to({x: 0}, 500, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+	this.controlsTween.onComplete(this.finishShowingControls, this);
+	this.controlsTween._onCompleteCalled = false;
+	this.backgroundTween.to({x: -1100, alpha: 1}, 500, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+	this.buttonGroup.visible = false;
+	this.buttonGroup.active = false;	
+	this.controlsTween.start();
+	this.backgroundTween.start();
+	this.game.input.keyboard.onKeyDown.removeAll();	
+	if(this.game.gamepads){
+		this.removeAllGamepadSignals();
+	}
+}
+
+titleState.finishShowingControls = function(){
+	this.backButton.visible = true;
+	this.backButton.active = true;
+	this.controlsTween.onComplete(null, null);
+	this.changeSelectedMenuIcon('back');
+	this.game.input.keyboard.onKeyDown.add(this.onPressControls, this);
+	if(this.game.gamepads){
+		this.addGamepadSignalsControls();
+	}
+}
+
+titleState.hideControls = function(){
+	this.controlsTween.to({x: 1100}, 500, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+	this.controlsTween.onComplete(this.finishHidingControls, this);
+	this.controlsTween._onCompleteCalled = false;
+	this.backgroundTween.to({x: 0, alpha: 1}, 500, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+	this.backButton.visible = false;
+	this.backButton.active = false;
+	this.controlsTween.start();
+	this.backgroundTween.start();
+	this.game.input.keyboard.onKeyDown.removeAll();	
+	if(this.game.gamepads){
+		this.removeAllGamepadSignals();
+	}
+}
+
+titleState.finishHidingControls = function(){
+	this.showingControls = false;
+	this.buttonGroup.visible = true;
+	this.buttonGroup.active = true;
+	this.controlsTween.onComplete(null, null);
+	this.changeSelectedMenuIcon(0);
+	this.game.input.keyboard.onKeyDown.add(this.onPressTitle, this);
+	if(this.game.gamepads){
+		this.addGamepadSignalsTitle();
+	}
+}
+
+titleState.startGame = function(){
+	if(this.game.gamepads){
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
+	}
+	this.game.tweens.remove(this.button1);
+	this.game.tweens.remove(this.button2);
+	this.game.tweens.remove(this.button3);
+	this.game.states.switchState('levelSelectionState');
+}
+
+titleState.update = function(){
+	Kiwi.State.prototype.update.call(this);
+	if(this.showingControls == false){
+		this.checkController();
+	}
+}
+
+titleState.gamepadConnected = function(){
+	this.selectedMenuIcon.playHover();
+}
+
+titleState.changeSelectedMenuIcon = function(index){
+	if(this.selectedMenuIcon){
+		this.selectedMenuIcon.playOff();
+	}
+	if(index == 'back'){
+		this.selectedMenuIconIndex = -1;
+		this.selectedMenuIcon = this.backButton;
+		this.selectedMenuIcon.alpha = 1;
+		this.selectedMenuIcon.animation.play('hover');
+	}else{
+		this.selectedMenuIconIndex = index;
+		this.selectedMenuIcon = this.group.members[this.selectedMenuIconIndex];
+		this.selectedMenuIcon.alpha = 1;
+		this.selectedMenuIcon.animation.play('hover');
+	}
+}
+
+titleState.changeSelectedMenuIconByType = function(type){
+	switch(type){
+		case '1player':
+			var index = 0;
+			this.group = this.buttonGroup;
+			break;
+		case '2player':
+			var index = 1;
+			this.group = this.buttonGroup;
+			break;
+		case 'controls':
+			var index = 2;
+			this.group = this.buttonGroup;
+			break;
+		case 'backControls':
+			var index = 'back';
+			break;
+		case 'yes':
+			var index = 0;
+			this.group = this.quitButtonGroup;
+			break;
+		case 'no':
+			var index = 1;
+			this.group = this.quitButtonGroup;
+			break;
+	}
+	if(index == 'back'){
+		this.selectedMenuIconIndex - 1;
+		this.selectedMenuIcon = this.backButton;
+	}else{
+		this.selectedMenuIconIndex = index;
+		this.selectedMenuIcon = this.group.members[this.selectedMenuIconIndex];
+	}
+}
+
+titleState.getIncreasedIndex = function(){
+	var index = this.selectedMenuIconIndex + 1;
+	if(index >= this.group.members.length){
+		index = 0;
+	}
+	return index;
+}
+
+titleState.getDecreasedIndex = function(){
+	var index = this.selectedMenuIconIndex - 1;
+	if(index < 0){
+		index = this.group.members.length - 1;
+	}
+	return index;
+}
+
+titleState.buttonOnDownOnceArrowPad = function(button){
+	switch(button.name){
+		case "XBOX_DPAD_LEFT":
+			this.changeSelectedMenuIcon(this.getDecreasedIndex());
+			break;
+		case "XBOX_DPAD_RIGHT":
+			this.changeSelectedMenuIcon(this.getIncreasedIndex());
+			break;
+		case "XBOX_DPAD_UP":
+			this.changeSelectedMenuIcon(this.getDecreasedIndex());
+			break;
+		case "XBOX_DPAD_DOWN":
+			this.changeSelectedMenuIcon(this.getIncreasedIndex());
+			break;
+		default:		
+	}
+}
+
+titleState.buttonOnDownOnceAButton = function(button){
+	switch( button.name ){
+		case "XBOX_A":
+			this.selectedMenuIcon.playDown();
+			break;
+		case "XBOX_B":
+			break;
+		case "XBOX_X":
+			break;
+		case "XBOX_Y":
+			break;
+		case "XBOX_BACK":
+			this.showQuitDialog();
+			break;
+	}
+}
+
+titleState.buttonOnUpAButton = function(button){
+	if(button.name == "XBOX_A"){
+		this.selectedMenuIcon.mouseClicked();
+	}
+}
+
+titleState.thumbstickOnDownOnce = function(stick){
+	switch ( stick.name ) {
+		case "XBOX_LEFT_HORZ":
+			break;
+		case "XBOX_LEFT_VERT":
+			if(stick.value < 0){
+				this.changeSelectedMenuIcon(this.getDecreasedIndex());
+				this.debounce = 0;
+			}else if (stick.value > 0){
+				this.changeSelectedMenuIcon(this.getIncreasedIndex());
+				this.debounce = 0;
+			}
+			break;
+		case "XBOX_RIGHT_HORZ":
+
+			break;
+		case "XBOX_RIGHT_VERT":
+
+			break;
+		default:
+			// Code
+	}	
+}
+
+titleState.thumbstickOnDownOnce2 = function(stick){
+	switch ( stick.name ) {
+		case "XBOX_LEFT_HORZ":
+			if(stick.value < 0){
+				this.changeSelectedMenuIcon(this.getDecreasedIndex());
+				this.debounce = 0;
+			}else if (stick.value > 0){
+				this.changeSelectedMenuIcon(this.getIncreasedIndex());
+				this.debounce = 0;
+			}
+			break;
+	}	
+}
+
+titleState.checkController = function(){
+	var leftright = this.game.gamepads.gamepads[0].axis0;
+	var updown = this.game.gamepads.gamepads[0].axis1;
+
+	if(leftright.value < -0.5){
+		if(Math.abs(updown.value) < 0.5){
+			if(this.checkDebounce()){
+				this.changeSelectedMenuIcon(this.getDecreasedIndex());
+			}
+		}
+	}else if(leftright.value > 0.5){
+		if(Math.abs(updown.value) < 0.5){
+			if(this.checkDebounce()){
+				this.changeSelectedMenuIcon(this.getIncreasedIndex());
+			}
+		}
+	}else if(updown.value < -0.5){
+		if(this.checkDebounce()){
+			this.changeSelectedMenuIcon(this.getDecreasedIndex());
+		}
+	}else if(updown.value > 0.5){
+		if(this.checkDebounce()){
+			this.changeSelectedMenuIcon(this.getIncreasedIndex());
+		}
+	}
+
+}
+
+titleState.checkDebounce = function(){
+	if(this.debounce == 15){
+		this.debounce = 0;
+		return true;
+	}else{
+		this.debounce++;
+		return false;
+	}
+}
+
+titleState.onPressTitle = function(keyCode){
+	if(keyCode == Kiwi.Input.Keycodes.LEFT){
+		this.changeSelectedMenuIcon(this.getDecreasedIndex());
+	}else if(keyCode == Kiwi.Input.Keycodes.RIGHT){
+		this.changeSelectedMenuIcon(this.getIncreasedIndex());
+	}else if(keyCode == Kiwi.Input.Keycodes.UP){
+		this.changeSelectedMenuIcon(this.getDecreasedIndex());
+	}else if(keyCode == Kiwi.Input.Keycodes.DOWN){
+		this.changeSelectedMenuIcon(this.getIncreasedIndex());
+	}else if(keyCode == Kiwi.Input.Keycodes.TAB){
+		this.changeSelectedMenuIcon(this.getIncreasedIndex());
+	}else if(keyCode == Kiwi.Input.Keycodes.ENTER || keyCode == Kiwi.Input.Keycodes.SPACEBAR){
+		this.selectedMenuIcon.playDown();
+	}else if(keyCode == Kiwi.Input.Keycodes.I){
+
+	}else if(keyCode == Kiwi.Input.Keycodes.Q){
+		this.closeQuitDialog();
+	}else if(keyCode == Kiwi.Input.Keycodes.ESC){
+		this.showQuitDialog();
+	}	
+}
+
+titleState.onKeyUpCallback = function(keyCode){
+	if(keyCode == Kiwi.Input.Keycodes.ENTER || keyCode == Kiwi.Input.Keycodes.SPACEBAR){
+		if(this.selectedMenuIcon){
+			this.selectedMenuIcon.mouseClicked();
+		}
+	}	
+}
+
+titleState.onPressControls = function(keyCode){
+	if(keyCode == Kiwi.Input.Keycodes.LEFT || keyCode == Kiwi.Input.Keycodes.RIGHT || keyCode == Kiwi.Input.Keycodes.UP || keyCode == Kiwi.Input.Keycodes.DOWN){
+		this.selectedMenuIcon.animation.play('hover');
+		this.selectedMenuIcon.alpha = 1;
+	}else if(keyCode == Kiwi.Input.Keycodes.ENTER || keyCode == Kiwi.Input.Keycodes.SPACEBAR){
+		this.selectedMenuIcon.playDown();
+	}
+}
+
+titleState.removeAllGamepadSignals = function(){
+	this.game.gamepads.gamepadConnected.removeAll();
+	this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
+	this.game.gamepads.gamepads[0].buttonIsDown.removeAll();
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.removeAll();
+}
+
+titleState.shutDown = function(){
+	this.removeAllGamepadSignals();
+	this.selectedMenuIcon = null;
+	this.game.input.keyboard.onKeyDown.removeAll();
+	this.game.input.keyboard.onKeyUp.removeAll();
+	this.game.tweens.removeAll();
+}
+
+/// <reference path="kiwi.d.ts"/>
+
+var gameState = new Kiwi.State('gameState');
+
+gameState.preload = function(){
+	Kiwi.State.prototype.preload.call(this);
+
+	this.BLOCK_PIXEL_SIZE = 50; 
+	this.bps = this.BLOCK_PIXEL_SIZE; 
+	this.MULTIPLIER = 1; 
+	this.numPlayers = this.game.numPlayers;
+	this.currentLevel = this.game.currentLevel; 
+	this.numberOfLevels = 21;	
+
+}
+
+gameState.create = function(){
+	Kiwi.State.prototype.create.call(this);
+
+	this.isPaused = false;
+	this.soundOptions = this.game.soundOptions;
+
+	this.STAGE_Y_OFFSET = 32 * this.MULTIPLIER;
+	this.STAGE_X_OFFSET = 38 * this.MULTIPLIER;
+
+	this.x = this.bps - this.STAGE_X_OFFSET;
+	this.y = this.bps - this.STAGE_Y_OFFSET;
+
+	this.GRID_ROWS = 15;
+	this.GRID_COLS = 20;	
+
+	myGame.stage.color = '000000';
+
+	this.winScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['win'],-18*this.MULTIPLIER,-18*this.MULTIPLIER);
+	this.loseScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['lose'],-18*this.MULTIPLIER,-18*this.MULTIPLIER);
+
+	this.curtainLeftX = -1 * this.STAGE_X_OFFSET/2;
+	this.curtainRightX = 1000 - (50 - this.STAGE_X_OFFSET/2);
+	this.curtainRight = new Kiwi.GameObjects.StaticImage(this, this.textures['curtain'], 1100, -18);
+	this.curtainRight.scaleX = -1;
+	this.curtainLeft = new Kiwi.GameObjects.StaticImage(this, this.textures['curtain'], -100, -18);
+	this.curtainLeftTween = this.game.tweens.create(this.curtainLeft);
+	this.curtainRightTween = this.game.tweens.create(this.curtainRight);
+
+	this.mouse = this.game.input.mouse;
+	this.mouse.onUp.add(this.mouseClicked, this);
+
+	this.menuBackground = new Kiwi.GameObjects.StaticImage(this, this.textures['menuBackground'],250,-800);
+	this.menuTween = this.game.tweens.create(this.menuBackground);	
+	this.menuArrow = new Kiwi.GameObjects.Sprite(this, this.textures['menuArrow'], 450, -18*this.MULTIPLIER);
+	this.menuArrow.name = 'menu';
+
+	this.menuArrowTween = this.game.tweens.create(this.menuArrow);
+	this.menuBackground.name = 'menu';
+
+	this.menuGroup = new Kiwi.Group(this);
+	this.MENU_XPOS = 250; 
+	this.menuSound_yPosition = 330;
+	this.menuMusic_yPosition = 400;
+	this.menuRestart_yPosition = 470;
+	this.menuHome_yPosition = 540;
+	
+	this.menuSound = new MenuIcon(this, this.MENU_XPOS, this.menuSound_yPosition, 'sound');
+	this.menuMusic = new MenuIcon(this, this.MENU_XPOS, this.menuMusic_yPosition, 'music');
+	this.menuRestart = new MenuIcon(this, this.MENU_XPOS, this.menuRestart_yPosition, 'restart');
+	this.menuHome = new MenuIcon(this, this.MENU_XPOS, this.menuHome_yPosition, 'home');
+
+	this.menuGroup.addChild(this.menuSound);
+	this.menuGroup.addChild(this.menuMusic);
+	this.menuGroup.addChild(this.menuRestart);
+	this.menuGroup.addChild(this.menuHome);
+
+	this.availableMenuIcons = [0,1,2,3];
+	this.availableMenuIconsIndex = 0;
+	this.selectedIcon = null;
+
+	this.menuGroup.y = -800;
+	this.menuGroupTween = this.game.tweens.create(this.menuGroup);
+
+	this.betweenScreenGroup = new Kiwi.Group(this);
+
+	this.BETWEEN_SCREEN_SPACING = 80; 
+	this.MONEY_YPOS = 124;
+	this.DEATH_YPOS = this.MONEY_YPOS + this.BETWEEN_SCREEN_SPACING + 4;
+	this.TIME_YPOS = this.DEATH_YPOS + this.BETWEEN_SCREEN_SPACING;		
+	if(this.numPlayers == 1){
+		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'time', 310, this.TIME_YPOS));
+		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'death', 310, this.DEATH_YPOS));
+		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'money', 310, this.MONEY_YPOS));		
+	}else{
+		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'time', 110, this.TIME_YPOS));
+		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'death', 110, this.DEATH_YPOS));
+		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'money', 110, this.MONEY_YPOS));	
+		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'time', 560, this.TIME_YPOS));
+		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'death', 560, this.DEATH_YPOS));
+		this.betweenScreenGroup.addChild(new BetweenScreenIcon(this,'money', 560, this.MONEY_YPOS));	
+	}
+
+	//this.alphaBox = new Kiwi.GameObjects.StaticImage(this, this.textures['alphaBox'], 250, this.MONEY_YPOS-60);
+	if(this.numPlayers == 1){
+		var params = {state: this, width: 395, height: 398, centerOnTransform: false, x: 298, y: 114, alpha: 0.5, color: [1,1,1], strokeColor: [0,0,0], strokeWidth: 3};
+		this.alphaBox = new Kiwi.Plugins.Primitives.Rectangle(params);
+	
+	}else{
+		var params1 = {state: this, width: 365, height: 398, centerOnTransform: false, x: 93, y: 114, alpha: 0.5, color: [1,1,1], strokeColor: [0,0,0], strokeWidth: 3};
+		var params2 = {state: this, width: 365, height: 398, centerOnTransform: false, x: 543, y: 114, alpha: 0.5, color: [1,1,1], strokeColor: [0,0,0], strokeWidth: 3};
+		this.alphaBox = new Kiwi.Plugins.Primitives.Rectangle(params1);
+		this.alphaBox2 = new Kiwi.Plugins.Primitives.Rectangle(params2);
+	}
+
+	this.iconGroup = new Kiwi.Group(this);
+	this.iconTweens = [];
+
+	this.playIcon = new Icon(this, 700, 600, 'play');
+	this.iconGroup.addChild(this.playIcon);
+	this.iconTweens.push(this.game.tweens.create(this.playIcon));
+	this.homeIcon = new Icon(this, 200, 600, 'home');
+	this.iconGroup.addChild(this.homeIcon);
+	this.iconTweens.push(this.game.tweens.create(this.homeIcon));	
+	this.restartIcon = new Icon(this, 450, 600, 'restart');
+	this.iconGroup.addChild(this.restartIcon);
+	this.iconTweens.push(this.game.tweens.create(this.restartIcon));
+
+
+	this.availableBetweenScreenMenuIcons = [0,1,2];
+	this.availableBetweenScreenMenuIconsIndex = 0;
+
+	this.bigDigitGroup = new Kiwi.Group(this);
+	this.SCORE_LEVEL_YPOS = this.TIME_YPOS+ this.BETWEEN_SCREEN_SPACING +9; 
+	this.SCORE_TOTAL_YPOS = this.SCORE_LEVEL_YPOS + this.BETWEEN_SCREEN_SPACING - 5; 
+		
+	if(this.numPlayers == 1){
+		for(var i = 1; i < 6; i++){
+			if(i > 1){
+				var bigDigit = new BigDigit(this, 370+(i*52), this.SCORE_LEVEL_YPOS, this.game.banditColors.RED, 6-i, 'level');
+				bigDigit.animation.play('cycle');
+				this.bigDigitGroup.addChild(bigDigit);
+			}
+			var bigDigit2 = new BigDigit(this, 370+(i*52), this.SCORE_TOTAL_YPOS, this.game.banditColors.RED, 6-i, 'total');
+			bigDigit2.animation.play('0');
+			this.bigDigitGroup.addChild(bigDigit2);
+			if(i>2){
+				var bigDigit = new BigDigit(this, 370+(i*52), this.MONEY_YPOS+24, this.game.banditColors.BLACK, 'money'+(6-i));
+				bigDigit.visible = false;
+				this.betweenScreenGroup.addChild(bigDigit);
+				var bigDigit = new BigDigit(this, 370+(i*52), this.DEATH_YPOS+19, this.game.banditColors.BLACK, 'death'+(6-i));
+				bigDigit.visible = false;
+				this.betweenScreenGroup.addChild(bigDigit);
+				var bigDigit = new BigDigit(this, 370+(i*52), this.TIME_YPOS+14, this.game.banditColors.BLACK, 'time'+(6-i));
+				bigDigit.visible = false;	
+				this.betweenScreenGroup.addChild(bigDigit);							
+			}
+		}			
+	}else{
+		var colors = [this.game.banditColors.RED, this.game.banditColors.BLUE];
+		for (var j = 0; j < 2; j++){
+			for(var i = 1; i < 6; i++){
+				if(i>1){
+					var bigDigit = new BigDigit(this, 120+(i*52)+(j*450), this.SCORE_LEVEL_YPOS, colors[j], 6-i, 'level');
+					bigDigit.animation.play('cycle');
+					this.bigDigitGroup.addChild(bigDigit);
+				}
+				var bigDigit2 = new BigDigit(this, 120+(i*52)+(j*450), this.SCORE_TOTAL_YPOS, colors[j], 6-i, 'total');
+				bigDigit2.animation.play('0');
+				this.bigDigitGroup.addChild(bigDigit2);			
+				if(i>2){
+					var bigDigit = new BigDigit(this, 120+(i*52)+(j*450), this.MONEY_YPOS+15, this.game.banditColors.BLACK, 'money'+(6-i));
+					bigDigit.visible = false;
+					this.betweenScreenGroup.addChild(bigDigit);
+					var bigDigit = new BigDigit(this, 120+(i*52)+(j*450), this.DEATH_YPOS+15, this.game.banditColors.BLACK, 'death'+(6-i));
+					bigDigit.visible = false;
+					this.betweenScreenGroup.addChild(bigDigit);
+					var bigDigit = new BigDigit(this, 120+(i*52)+(j*450), this.TIME_YPOS+15, this.game.banditColors.BLACK, 'time'+(6-i));
+					bigDigit.visible = false;	
+					this.betweenScreenGroup.addChild(bigDigit);	
+				}						
+			}	
+		}
+	}
+
+	this.bonusGroup = new Kiwi.Group(this);
+	this.bonusTweens = [];
+
+	if(this.numPlayers == 1){
+		var bonusRed = new BetweenScreenIcon(this, 'bonus', 383, this.MONEY_YPOS + 10);
+		this.bonusGroup.addChild(bonusRed);
+		this.bonusTweens.push(this.game.tweens.create(bonusRed));
+	}else{
+		var bonusRed = new BetweenScreenIcon(this, 'bonus', 183, this.MONEY_YPOS + 10);
+		var bonusBlue = new BetweenScreenIcon(this, 'bonus', 633, this.MONEY_YPOS + 10);
+		this.bonusGroup.addChild(bonusRed);
+		this.bonusGroup.addChild(bonusBlue);
+		this.bonusTweens.push(this.game.tweens.create(bonusRed));
+		this.bonusTweens.push(this.game.tweens.create(bonusBlue));
+	}
+
+	this.destroyingNow = false;
+
+	this.digitGroup = new Kiwi.Group(this);
+	this.timerDigitGroup = new Kiwi.Group(this);
+	this.bombIconGroup = new Kiwi.Group(this);
+	this.ghoulKillCountGroup = [];
+
+	
+	this.ghoulKillCountGroup[0] = new Kiwi.Group(this);
+	//var skull = new Digit(this, 118,-18,'ghoul',1);
+	//skull.animation.play('skull');
+	//this.ghoulKillCountGroup[0].addChild(skull);
+	for(var i = 0; i < 17; i++){
+		var dot = new Digit(this, 118+18*i, -18, this.game.banditColors.GHOUL_DIGIT, 1);
+		dot.animation.play('dot');
+		this.ghoulKillCountGroup[0].addChild(dot);
+	}		
+	if(this.numPlayers == 2){
+		this.ghoulKillCountGroup[1] = new Kiwi.Group(this);
+		//var skull = new Digit(this, 866,-18,'ghoul',1);
+		//skull.animation.play('skull');
+		//this.ghoulKillCountGroup[1].addChild(skull);	
+		for(var i = 0; i < 17; i++){
+			var dot = new Digit(this, 866-18*i, -18, this.game.banditColors.GHOUL_DIGIT, 1);
+			dot.animation.play('dot');
+			this.ghoulKillCountGroup[1].addChild(dot);
+		}			
+	}
+
+	if(this.numPlayers==1){
+		for (var i = 0; i<4; i++){
+			if(i<2){
+				var digit = new Digit(this, (i*18), -18, this.game.banditColors.RED, i+1);
+			}else{
+				var digit = new Digit(this, 6+(i*18), -18, this.game.banditColors.RED, i+1);			
+			}
+			digit.animation.play('0');
+			this.timerDigitGroup.addChild(digit);
+		}
+	}
+
+	for (var i = 0; i<3; i++){
+		var digit = new Digit(this, 10+(i*18),-18, this.game.banditColors.RED, 3-i);
+		digit.animation.play('0');
+		this.digitGroup.addChild(digit);
+	}
+	for (var i = 0; i<3; i++){
+		var bomb = new Digit(this, 10+((3+i)*18),-18, this.game.banditColors.RED, i+7);
+		bomb.animation.play('bomb');
+		this.bombIconGroup.addChild(bomb);
+	}
+	if(this.numPlayers == 2){
+		for (var i = 0; i<3; i++){
+			var digit = new Digit(this, 938+(i*18),-18, this.game.banditColors.BLUE, 3-i);
+			digit.animation.play('0');
+			this.digitGroup.addChild(digit);
+		}	
+		for (var i = 0; i<3; i++){
+			var bomb = new Digit(this, 938-(18*(i+1)),-18, this.game.banditColors.BLUE, i+7);
+			bomb.animation.play('bomb');
+			this.bombIconGroup.addChild(bomb);
+		}
+	}
+
+	for(var i = 0; i <this.bombIconGroup.members.length; i++){
+		this.bombIconGroup.members[i].x = -2*this.bps;
+	}
+
+
+	this.BANDIT_HITBOX_X_PERCENTAGE = 0.2;
+	this.BANDIT_HITBOX_Y_PERCENTAGE = 0.1;
+
+	this.COIN_HITBOX_X_PERCENTAGE = 0.46;
+	this.COIN_HITBOX_Y_PERCENTAGE = 0.46;
+
+	this.BOMB_HITBOX_X_PERCENTAGE = 0.33;
+	this.BOMB_HITBOX_Y_PERCENTAGE = 0.33;	
+
+	this.horseGroup = new Kiwi.Group(this);
+	this.redHorse = new Horse(this, this.bps*(this.GRID_COLS+2), 580);
+	this.redHorse.animation.play('redrun');
+	this.blueHorse = new Horse(this, this.bps*(this.GRID_COLS+2), 610);
+	this.blueHorse.animation.play('bluerun');
+	this.horseGroup.addChild(this.redHorse);
+	if(this.numPlayers == 2){
+		this.horseGroup.addChild(this.blueHorse);
+	}
+
+	this.stageCoach = new StageCoach(this, this.bps*(this.GRID_COLS+2), 500);
+	this.stageCoach.animation.play('move');
+	this.horseGroup.addChild(this.stageCoach);
+
+	this.alphaBoxGroup = new Kiwi.Group(this);
+	this.alphaBoxGroup.addChild(this.alphaBox);
+	if(this.numPlayers == 2){
+		this.alphaBoxGroup.addChild(this.alphaBox2);
+	}
+
+	var starXPositions = [317, 450, 582];
+	this.stars = [];
+	this.starTweens = [];
+	this.starTweens2 = [];
+	for(var i = 0; i < starXPositions.length; i++){
+		var star = new BetweenScreenStar(this, starXPositions[i], 5);
+		this.starTweens.push(this.game.tweens.create(star));
+		this.starTweens2.push(this.game.tweens.create(star));
+		this.stars.push(star);
+		this.horseGroup.addChild(star);
+	}
+
+	this.cloudGroup = new Kiwi.Group(this);
+	for(var i = 1; i <= 10; i++){
+		this.cloudGroup.addChild(new Cloud(this, i));
+	}
+
+	this.banditGroup = new Kiwi.Group(this);
+
+	this.red = new Bandit(this,-(this.bps),-(this.bps), this.game.banditColors.RED);
+	this.red.animation.play('idleleft');
+	this.banditGroup.addChild(this.red);
+	this.redHeartsGroup = new Kiwi.Group(this);
+
+	if(this.numPlayers == 2){
+		this.blue = new Bandit(this,-(this.bps),-(this.bps), this.game.banditColors.BLUE);
+		this.blue.animation.play('idleleft');
+		this.banditGroup.addChild(this.blue);
+		this.blueHeartsGroup = new Kiwi.Group(this);	
+	}
+
+	for(var i =1; i<=3; i++){
+		var redHeart = new Heart(this, this.game.banditColors.RED, i);
+		this.redHeartsGroup.addChild(redHeart);
+		
+		if(this.numPlayers == 2){
+			var blueHeart = new Heart(this, this.game.banditColors.BLUE, i);
+			this.blueHeartsGroup.addChild(blueHeart);
+		}
+	}
+
+	this.banditFlashGroup = new Kiwi.Group(this);
+	this.banditFlashGroup.addChild(new Flash(this, this.red));
+	this.red.flash = this.banditFlashGroup.members[0];
+	if(this.numPlayers == 2){
+		this.banditFlashGroup.addChild(new Flash(this, this.blue));
+		this.blue.flash = this.banditFlashGroup.members[1];
+	}
+
+	this.game.input.keyboard.onKeyDown.add(this.onKeyDownCallback, this);
+	this.game.input.keyboard.onKeyUp.add(this.onKeyUpCallback, this);
+	this.debugKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.I);
+
+	this.coinGroup = new Kiwi.Group(this);
+	this.potionGroup = new Kiwi.Group(this);
+	this.bombGroup = new Kiwi.Group(this);
+	this.ghoulGroup = new Kiwi.Group(this);
+	this.hiddenBlockGroup = new Kiwi.Group(this);
+	this.cracksGroup = new Kiwi.Group(this);
+
+	this.random = new Kiwi.Utils.RandomDataGenerator();
+
+	this.bombSound = new Kiwi.Sound.Audio(this.game, 'bombSound', 0.3, false);
+	this.bombSound.addMarker('start',0,1,false);
+	this.coinSound = new Kiwi.Sound.Audio(this.game, 'coinSound', 0.1, false);
+	this.coinSound.addMarker('start',0,1,false);
+	this.gunSound = new Kiwi.Sound.Audio(this.game, 'gunSound', 0.1, false);
+	this.gunSound.addMarker('start',0,1,false);
+	this.shotgunSound = new Kiwi.Sound.Audio(this.game, 'shotgunSound', 0.05, false);
+	this.shotgunSound.addMarker('start',0,3,false);
+
+	this.blockReappearSound = new Kiwi.Sound.Audio(this.game, 'blockReappearSound',0.3,false);
+	this.blockReappearSound.addMarker('start',.5,1,false);
+
+	this.banditDeathSound = new Kiwi.Sound.Audio(this.game, 'banditDeathSound',0.3, false);
+	this.banditDeathSound.addMarker('start',0,1,false);
+	this.diamondSound = new Kiwi.Sound.Audio(this.game, 'diamondSound', 0.1, false);
+	this.diamondSound.addMarker('start',0,1,false);
+
+	this.ghoulTeleportOutSound = new Kiwi.Sound.Audio(this.game, 'ghoulTeleportOutSound', 0.2, false);
+	this.ghoulTeleportOutSound.addMarker('start', 0, 1, false);
+	this.ghoulTeleportInSound = new Kiwi.Sound.Audio(this.game, 'ghoulTeleportInSound', 0.2, false);
+	this.ghoulTeleportInSound.addMarker('start', 0, 1, false);
+	this.ghoulDeathSound = new Kiwi.Sound.Audio(this.game, 'ghoulDeathSound', 0.2, false);
+	this.ghoulDeathSound.addMarker('start', 0, 1, false);
+
+	this.wagonSound = new Kiwi.Sound.Audio(this.game, 'wagonSound', 0.2, false);
+	this.wagonSound.addMarker('start', 1, 15, false);
+
+	this.horseGallopSound = new Kiwi.Sound.Audio(this.game, 'horseGallopSound', 1, false);
+	this.horseGallopSound.addMarker('start', 0, 8, false);
+	this.horseGallopSound2 = new Kiwi.Sound.Audio(this.game, 'horseGallopSound', 1, false);
+	this.horseGallopSound2.addMarker('start', 0, 8, false);
+
+	this.flipSound = new Kiwi.Sound.Audio(this.game, 'flipSound', 0.3, true);
+	this.dingSound = new Kiwi.Sound.Audio(this.game, 'dingSound', 0.1, false);
+	this.dingSound.addMarker('start', 0, 0.8, false);
+	this.starSound = new Kiwi.Sound.Audio(this.game, 'starSound', 0.3, false);
+	this.starSound.addMarker('start', 0, 1, false);
+	this.starDingSound = new Kiwi.Sound.Audio(this.game, 'starDingSound', 0.2, false);
+	this.starDingSound.addMarker('start', 0, 1, false);
+
+	this.whiskeySound = new Kiwi.Sound.Audio(this.game, 'whiskeySound', 0.3, false);
+	this.evilLaughSound = new Kiwi.Sound.Audio(this.game, 'evilLaughSound', 0.3, false);
+
+	this.voicesSound = new Kiwi.Sound.Audio(this.game, 'voicesSound', 0.3, false);
+	this.voicesSound.addMarker('bombPickup',0,1.3845,false);
+	this.voicesSound.addMarker('bombPlace',1.3845,3.1347,false);
+	this.voicesSound.addMarker('bombPlace2',3.1347,4.2057,false);
+	this.voicesSound.addMarker('critters',4.2057,6.4261,false);
+	this.voicesSound.addMarker('dontTread',6.4261,7.6016,false);
+	this.voicesSound.addMarker('ghoulKiller',7.6016,9.0645,false);
+	this.voicesSound.addMarker('hotDamnSon',9.0645,10.5535,false);
+	this.voicesSound.addMarker('killAllThemGhouls',10.5535, 12.3820,false);
+	this.voicesSound.addMarker('laugh1',12.3820,19.7747,false);
+	this.voicesSound.addMarker('money1',19.7747,21.6555,false);
+	this.voicesSound.addMarker('money2',21.6555, 23.1967, false);
+	this.voicesSound.addMarker('restInPieces',23.1967, 25.2082, false);
+	this.voicesSound.addMarker('rideOut',25.2082, 26.3837, false);
+	this.voicesSound.addMarker('sixFeetUnder',26.3837,28.3429, false);
+	this.voicesSound.addMarker('standYourGround',28.3429,30.3804,false);
+	this.voicesSound.addMarker('tenFootTall',30.3804, 33.0971, false);
+	this.voicesSound.addMarker('westBest',33.0971,34.8996,false);
+	this.voicesSound.addMarker('whatBlazes',34.8996, 36.2580, false);
+	this.voicesSound.addMarker('whoa1',36.2580, 37.6424, false);
+	this.voicesSound.addMarker('whoa2',37.6424, 39.0008, false);
+	this.voicesSound.addMarker('yaaahhh',39.0008,40.5682, false);
+	this.voicesSound.addMarker('yeehaw',40.5682, 42.6057, false);
+
+	this.musicSound1 = new Kiwi.Sound.Audio(this.game, 'musicSound1', 0.2, true);
+	this.musicSound2 = new Kiwi.Sound.Audio(this.game, 'musicSound2', 0.2, true);
+	this.musicSound3 = new Kiwi.Sound.Audio(this.game, 'musicSound3', 0.7, true);
+	this.musicSoundList = [this.musicSound1, this.musicSound2, this.musicSound3];
+
+	this.beginningLevelVoices = ['critters','dontTread','killAllThemGhouls','westBest'];
+
+	this.gameTimer = this.game.time.clock.createTimer('updateTimer',1,-1,false);
+	this.gameTimerEvent = this.gameTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.updateTimer, this);
+	this.gameTimer.start();
+	this.gameTimer.pause();
+
+	this.game.setUpQuitDialog.call(this);
+	
+	this.pressUpSignLocations = [[515, 650], [515, 650], [165, 650]];
+	this.signGridPositions = [[14, 12], [14, 12], [14, 5]];
+
+	this.pointThresholds = [
+	[
+		[100, 500, 750], //  1
+		[100, 400, 735], //
+		[100, 400, 719], //
+		[100, 400, 730], 
+		[100, 600, 900], 
+		[100, 400, 780], //  6
+		[100, 400, 830], 
+		[100, 400, 785], 
+		[100, 600, 920], 
+		[100, 600, 960], 
+		[100, 400, 920], //  11
+		[100, 700, 1000], 
+		[100, 600, 980], 
+		[100, 700, 1000], 
+		[100, 700, 1110], 
+		[100, 600, 930], //  16
+		[100, 700, 1130], 
+		[100, 700, 1080], 
+		[100, 950, 1400], 
+		[100, 800, 1180], 										
+	],
+	[		
+		[100, 950, 1320], //  1
+		[100, 900, 1250], 
+		[100, 900, 1200], 
+		[100, 900, 1250], 
+		[100, 900, 1160], 
+		[100, 850, 1160], //  6
+		[100, 850, 1115], 
+		[100, 900, 1040], 
+		[100, 900, 1190], 
+		[100, 950, 1350], 
+		[100, 960, 1220], //  11
+		[100, 1000, 1380], 
+		[100, 1000, 1430], 
+		[100, 1000, 1400], 
+		[100, 1000, 1420], 
+		[100, 1000, 1460], //  16
+		[100, 1000, 1400], 
+		[100, 1100, 1470], 
+		[100, 1200, 1610], 
+		[100, 1000, 1470], 	
+	]
+	];
+
+	this.timePointsFactor = [100, 100, 100, 100, 100, 110, 120, 130, 140, 150, 
+							160, 170, 180, 200, 320, 340, 340, 350, 360, 400,
+							400];
+
+	this.showLevelScreen();
+	
+	
+}
+
+gameState.showLevelScreen = function(){
+	this.showingLevelScreen = true;
+	this.horseGroup.visible = false;
+	this.iconGroup.active = false;
+
+	this.levelScreen = new Kiwi.GameObjects.StaticImage(this, this.textures['level'+this.currentLevel],0,-18*this.MULTIPLIER);
+	this.levelScreen.x = -1024;
+	this.levelScreen.name = 'levelScreen';
+	this.addChild(this.levelScreen);
+
+	this.levelScreenTweenIn = this.game.tweens.create(this.levelScreen, this);
+	this.levelScreenTweenOut = this.game.tweens.create(this.levelScreen, this);
+	this.levelScreenTweenIn.to({ x: 0 }, 700, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+	this.levelScreenTweenOut.to({ x: 1124 }, 700, Kiwi.Animations.Tweens.Easing.Cubic.Out);
+
+	this.levelScreenTweenIn.onComplete(this.onLevelScreenInComplete, this);
+	this.levelScreenTweenOut.onComplete(this.createLevel, this);
+
+	this.levelScreenTweenIn.chain(this.levelScreenTweenOut);
+	this.levelScreenTweenIn.start();
+}
+
+gameState.createLevel = function(){
+	if(this.game.gamepads){
+		this.removeAllGamepadSignals();
+		this.addGamepadSignalsGame();
+	}
+	
+	this.destroyingNow = false;
+
+	var blockArrays = this.parseBlocks('level_tilemap'+this.currentLevel);
+	this.permBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
+
+	//coins
+	var coinsLayerArray = blockArrays[4];
+	var width = blockArrays[8];
+	var tileWidth = blockArrays[7];
+
+	var coinHitboxX = Math.round(this.bps*this.COIN_HITBOX_X_PERCENTAGE);
+	var coinHitboxY = Math.round(this.bps*this.COIN_HITBOX_Y_PERCENTAGE);
+
+	for(var i = 0; i<coinsLayerArray.length;i++){
+		if(coinsLayerArray[i] == 67){
+			var coinPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+			var coin = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],coinPixels[0],coinPixels[1]);
+			coin.animation.add('spin',[66,67,68,69],0.1,true);
+			coin.animation.play('spin');
+			coin.box.hitbox = new Kiwi.Geom.Rectangle(coinHitboxX,coinHitboxY,this.bps - 2*coinHitboxX,this.bps-2*coinHitboxY);			
+			this.coinGroup.addChild(coin);
+		}else if(coinsLayerArray[i] == 89){
+				var diamondPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+				var diamond = new Kiwi.GameObjects.Sprite(this, this.textures['sprites'],diamondPixels[0], diamondPixels[1]);
+				diamond.animation.add('shine',[88],0.1,false);
+				diamond.animation.play('shine');
+				diamond.box.hitbox = new Kiwi.Geom.Rectangle(coinHitboxX,coinHitboxY,this.bps - 2*coinHitboxX,this.bps-2*coinHitboxY);			
+				this.coinGroup.addChild(diamond);
+		}
+		else if(coinsLayerArray[i] == 117){
+			var potionPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+			var potion = new Potion(this, potionPixels[0], potionPixels[1], 'whiskey');
+			potion.box.hitbox = new Kiwi.Geom.Rectangle(coinHitboxX,coinHitboxY,this.bps - 2*coinHitboxX,this.bps-2*coinHitboxY);			
+			this.potionGroup.addChild(potion);
+		}
+	}
+
+	//bombs and cracks
+	var bombsLayerArray = blockArrays[6];
+
+	var bombHitboxX = Math.round(this.bps*this.BOMB_HITBOX_X_PERCENTAGE);
+	var bombHitboxY = Math.round(this.bps*this.BOMB_HITBOX_Y_PERCENTAGE);
+
+	for(var i = 0; i<bombsLayerArray.length; i++){
+		if(bombsLayerArray[i] == 58){
+			var bombPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+			var bomb = new Bomb(this, bombPixels[0], bombPixels[1]);
+			bomb.box.hitbox = new Kiwi.Geom.Rectangle(bombHitboxX, bombHitboxY, this.bps-2*bombHitboxX, this.bps-2*bombHitboxY);
+			this.bombGroup.addChild(bomb);
+		}else{
+			if(bombsLayerArray[i] == 69){
+				var cracksPixel = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+				var cracks = new Cracks(this, cracksPixel[0], cracksPixel[1]);
+				this.cracksGroup.addChild(cracks);
+				this.permBlocks[this.getRow(i, width)][this.getCol(i,width)] = 1;
+			}
+		}
+	}
+
+	/*
+	//breaking blocks
+	this.breakingBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
+	this.breakingBlocks[8][14] = 1;
+	this.breakingBlocks[8][15] = 1;
+	this.breakingBlocks[8][16] = 1;
+	this.breakingBlocks[8][17] = 1;
+	var pixels = this.getPixelPositionFromRowCol(8, 14);
+	var breakingBlock = new BreakingBlock(this, pixels[0], pixels[1]);
+	this.cracksGroup.addChild(breakingBlock);
+	var pixels = this.getPixelPositionFromRowCol(8, 15);
+	var breakingBlock = new BreakingBlock(this, pixels[0], pixels[1]);
+	this.cracksGroup.addChild(breakingBlock);
+	var pixels = this.getPixelPositionFromRowCol(8, 16);
+	var breakingBlock = new BreakingBlock(this, pixels[0], pixels[1]);
+	this.cracksGroup.addChild(breakingBlock);
+	var pixels = this.getPixelPositionFromRowCol(8, 17);
+	var breakingBlock = new BreakingBlock(this, pixels[0], pixels[1]);
+	this.cracksGroup.addChild(breakingBlock);	
+	*/
+
+	//ghouls
+	var ghoulsLayerArray = blockArrays[3];
+	for(var i = 0; i<ghoulsLayerArray.length;i++){
+		if(ghoulsLayerArray[i]==74){
+			var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+			var ghoul = new Ghoul(this,ghoulPixels[0],ghoulPixels[1],'left','gray');
+			this.ghoulGroup.addChild(ghoul);
+		}else{
+			if(ghoulsLayerArray[i]==91){
+				var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+				var ghoul = new RedGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
+				this.ghoulGroup.addChild(ghoul);
+			}else{
+				if(ghoulsLayerArray[i]==104){
+					var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+					var ghoul = new BlueGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
+					this.ghoulGroup.addChild(ghoul);					
+				}else{
+					if(ghoulsLayerArray[i]==127){
+						var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+						var ghoul = new BlackGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
+						this.blackGhoul = ghoul;
+						this.ghoulGroup.addChild(ghoul);
+					}else{
+						if(ghoulsLayerArray[i]==167){
+							var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+							var ghoul = new KingGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
+							this.ghoulGroup.addChild(ghoul);
+							this.kingGhoul = ghoul;
+						}else{
+							if(ghoulsLayerArray[i]==164){
+								var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+								var ghoul = new TurboKingGhoul(this,ghoulPixels[0],ghoulPixels[1],'left');
+								this.ghoulGroup.addChild(ghoul);
+								this.turbo = ghoul;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	var count = 0;
+
+	for(var i = 0; i<ghoulsLayerArray.length; i++){
+		if(ghoulsLayerArray[i] == 163){
+			var ghoulPixels = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+			var ghouliath = new Ghouliath(this, ghoulPixels[0], ghoulPixels[1], 'right');
+			count++;
+			//if(count == 3){
+				this.ghoulGroup.addChild(ghouliath);					
+			//}					
+		}else{
+			if(ghoulsLayerArray[i] == 1){
+				this.red.startingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+			}
+			if(this.numPlayers == 2){
+				if(ghoulsLayerArray[i] == 19){
+					this.blue.startingPixelLocations = this.getPixelPositionFromArrayIndex(i, tileWidth, width);
+				}	
+			}	
+		}
+	}
+
+	//this.ghoulGroup.addChild(ghouliath);
+	//this.ghouliath = ghouliath;
+
+	this.red.resetPropertiesAtBeginningOfLevel();
+	this.updateCoinCounter(this.red);
+	this.updateBombCounter(this.red);
+	this.addGhoulKill(this.red.color); //reseting ghoul kill counter.
+	for(var i = 0; i < this.redHeartsGroup.members.length; i++){
+		this.redHeartsGroup.members[i].banditX = this.red.startingPixelLocations[0];
+		this.redHeartsGroup.members[i].banditY = this.red.startingPixelLocations[1];
+		this.redHeartsGroup.members[i].shouldBeGone = false;
+		this.redHeartsGroup.members[i].timerStarted = false;		
+		this.redHeartsGroup.members[i].showSelf();
+	}
+		
+	if(this.numPlayers==2){
+		this.blue.resetPropertiesAtBeginningOfLevel();
+		this.updateCoinCounter(this.blue);
+		this.updateBombCounter(this.blue);
+		this.addGhoulKill(this.blue.color); //reseting ghoul kill counter.
+		for(var i = 0; i < this.blueHeartsGroup.members.length; i++){
+			this.blueHeartsGroup.members[i].banditX = this.blue.startingPixelLocations[0];
+			this.blueHeartsGroup.members[i].banditY = this.blue.startingPixelLocations[1];	
+			this.blueHeartsGroup.members[i].shouldBeGone = false;
+			this.blueHeartsGroup.members[i].timerStarted = false;		
+			this.blueHeartsGroup.members[i].showSelf();
+		}	
+	}
+
+	this.removeGhoulDots();
+
+
+	if(this.currentLevel <= 3){
+		this.tutorialSign = new Kiwi.GameObjects.StaticImage(this, this.textures['tutorial' + this.currentLevel],125*this.MULTIPLIER, this.GRID_ROWS * this.bps);
+		this.tutorialSignTween = this.game.tweens.create(this.tutorialSign);	
+		var pressUpSignLocation = this.pressUpSignLocations[this.currentLevel - 1];
+		this.pressUpSign = new Kiwi.GameObjects.StaticImage(this, this.textures['pressup'], pressUpSignLocation[0], pressUpSignLocation[1])
+		this.pressUpSign.alpha = 0;
+		this.pressUpSignTween = this.game.tweens.create(this.pressUpSign);
+	}
+
+	this.background = new Kiwi.GameObjects.StaticImage(this, this.textures['background'+this.currentLevel],-this.bps,-this.bps);
+	this.background.name = 'background';
+	this.background2 = new Kiwi.GameObjects.StaticImage(this, this.textures['background'+this.currentLevel],-this.bps,-this.bps);
+	this.background2.alpha = 0;
+	
+	this.background2Tween = this.game.tweens.create(this.background2);
+	this.background2Tween.onComplete(this.showCutScene, this);
+	this.background2Tween.to({ alpha: 1 }, 1000, Kiwi.Animations.Tweens.Easing.Sinusoidal.Out);
+
+	this.tilemap = new Kiwi.GameObjects.Tilemap.TileMap(this,'level_tilemap'+this.currentLevel, this.textures.sprites);
+	
+	
+	this.groundBlocks = this.getGroundBlocks(blockArrays[0],width);
+	this.originalGroundBlocks = this.getGroundBlocks(blockArrays[0],width);
+	this.ladderBlocks = this.getLadderBlocks(blockArrays[1],width);
+	this.firstLadderBlocks = this.getFirstLadderBlocks(this.ladderBlocks);
+
+	this.topLadderBlocks = this.getTopBlocks(this.ladderBlocks);
+
+	this.originalLeftBlockedBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
+	this.getBlockedBlocks(this.originalGroundBlocks,'leftghoul',this.originalLeftBlockedBlocks);
+	this.originalRightBlockedBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
+	this.getBlockedBlocks(this.originalGroundBlocks,'rightghoul', this.originalRightBlockedBlocks);
+	this.originalTopGroundBlocks = this.getTopBlocks(this.originalGroundBlocks);
+
+	this.leftBlockedBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
+	this.rightBlockedBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
+	this.topGroundBlocks = this.getTopBlocks(this.groundBlocks);
+
+	this.updateTopGroundBlocks();
+	this.updateBlockedBlocks();
+	
+	this.ghoulBlocks = this.getGhoulBlocks();
+
+
+	this.removeBackgroundImages();
+
+	var params1 = {state: this, width: this.STAGE_X_OFFSET, height: 768, x: -1* this.STAGE_X_OFFSET, y: -1*this.STAGE_Y_OFFSET, color: [0,0,0], strokeColor: [0,0,0], strokeWidth: 0};
+	var params2 = {state: this, width: this.STAGE_X_OFFSET, height: 768, x: 1000, y: -1*this.STAGE_Y_OFFSET, color: [0,0,0], strokeColor: [0,0,0], strokeWidth: 0}; 
+	this.blackSide1 = new Kiwi.Plugins.Primitives.Rectangle(params1);
+	this.blackSide2 = new Kiwi.Plugins.Primitives.Rectangle(params2);
+
+	this.addChild(this.background);
+	this.resetClouds();
+	this.addChild(this.cloudGroup);
+		
+	this.addChild(this.tilemap.layers[0]);
+	this.addChild(this.cracksGroup);	
+	this.addChild(this.hiddenBlockGroup);	
+	this.addChild(this.tilemap.layers[1]);
+	this.addChild(this.tilemap.layers[2]);
+
+	this.addChild(this.coinGroup);
+	this.addChild(this.potionGroup);
+	this.addChild(this.ghoulGroup);
+	this.addChild(this.banditGroup);
+	this.addChild(this.banditFlashGroup);
+	
+	this.addChild(this.blackSide1);
+	this.addChild(this.blackSide2);
+
+	//this.addChild(this.ghouliath);
+
+
+	this.addChild(this.tilemap.layers[5]);
+	this.addChild(this.bombGroup);
+
+	this.addChild(this.redHeartsGroup);
+	if(this.numPlayers == 2){
+		this.addChild(this.blueHeartsGroup);
+	}	
+
+	
+	this.addChild(this.alphaBoxGroup);
+	this.iconsNotDuringCutscene();
+	this.betweenScreenGroup.addChild(this.bonusGroup);
+	this.addChild(this.betweenScreenGroup);
+	this.addChild(this.bigDigitGroup);
+
+	this.addChild(this.horseGroup);
+	this.horseGroup.active = false;
+	this.horseGroup.visible = false;
+
+	this.addChild(this.digitGroup);
+	this.addChild(this.bombIconGroup);
+	this.addChild(this.timerDigitGroup);
+	this.timerDigitGroup.x = 920;
+	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
+		this.addChild(this.ghoulKillCountGroup[i]);
+	}
+
+
+	this.addChild(this.menuArrow);
+	this.addChild(this.menuBackground);
+	this.addChild(this.menuGroup);
+	this.addChild(this.background2);
+
+	this.addChild(this.iconGroup);
+	this.horseGroup.addChild(this.curtainRight);
+	this.horseGroup.addChild(this.curtainLeft);
+
+	if(this.currentLevel <= 3){
+		this.addChild(this.pressUpSign);		
+		this.addChild(this.tutorialSign);
+	}
+	
+	var fadeOutParams = {state: this, width: 1000, height: this.game.stage.height + this.STAGE_Y_OFFSET, x: 0, y: -1*this.STAGE_Y_OFFSET, color: [1,1,1]};
+	this.blackBox = new Kiwi.Plugins.Primitives.Rectangle(fadeOutParams);
+	this.blackBox.alpha = 0;
+	this.addChild(this.blackBox);
+	
+	this.game.addQuitDialog.call(this);
+
+	this.rideOutPlayed = false;
+	if(this.soundOptions.soundsOn){
+		var toPlay = this.beginningLevelVoices[this.random.integerInRange(0,this.beginningLevelVoices.length)];
+		this.voicesSound.play(toPlay,true);
+	}	
+	
+	this.timer = this.game.time.clock.createTimer('levelOver',2,0,false);
+	this.timer_event = this.timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.levelOver,this);
+
+	if(this.currentLevel > 19){
+		this.bossMusicSound = new Kiwi.Sound.Audio(this.game, 'bossMusicSound', 0.2, true);
+	}
+	
+	if(this.currentLevel < 20){
+		this.currentMusic = this.musicSoundList[this.currentLevel % 3];
+	}else{
+		this.currentMusic = this.bossMusicSound;
+	}
+
+	this.currentMusic.play();
+	if(!this.soundOptions.musicOn){
+		this.currentMusic.pause();
+	}
+	
+	this.gameTimeSeconds = 0;
+	if(this.numPlayers==1){
+		for (var i = 0; i < this.timerDigitGroup.members.length; i++){
+			this.timerDigitGroup.members[i].resetCounter();
+		}
+	}
+	this.gameTimer.resume();
+
+	this.resumeGame();
+
+	this.selectedBetweenScreenIcon = this.playIcon;
+
+	this.showingBetweenScreenIcons = false;
+	this.showingLevelScreen = false;
+	this.showingTutorial = false;
+	this.showingPressUp = false;
+}
+
+gameState.showQuitDialog = function(){
+	if(this.isPaused == false){
+		this.pauseGame();
+		
+		this.quitButtonGroup.active = true;
+		this.selectedQuitIcon.playHover();
+	
+		if(this.game.gamepads){
+			this.removeAllGamepadSignals();
+			this.addGamepadSignalsQuit();
+		}
+	
+		this.quitTween.to({y: 300}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+		this.quitTween2.to({y: 300}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);  
+	} 
+}
+
+gameState.closeQuitDialog = function(){
+	this.resumeGame();
+	this.quitButtonGroup.active = false;
+
+	if(this.game.gamepads){
+        this.removeAllGamepadSignals();
+		if(this.gameIsOver){
+			this.addGamepadSignalsGameOver();
+		}else if (this.showingLevelScreen){
+			this.addGamepadSignalsBetweenScreen();
+		}else {
+			this.addGamepadSignalsGame();
+		}
+		
+    }	
+
+	this.quitTween.to({y: -500}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	
+	this.quitTween2.to({y: -500}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	  
+}
+
+gameState.quitGame = function(){
+	this.game.quitGame.call(this);
+}
+
+gameState.resetClouds = function(){
+	var randomInt = this.random.integerInRange(0, 2);
+	if(randomInt == 0){
+		var direction = -1;
+	}else{
+		var direction = 1;
+	}
+
+	for (var i = 0; i < this.cloudGroup.members.length; i++){
+		if(this.random.frac() < 0.2){
+			this.cloudGroup.members[i].visible = true;
+			this.cloudGroup.members[i].active = true;
+		}else{
+			this.cloudGroup.members[i].visible = false;
+			this.cloudGroup.members[i].active = false;
+		}
+		this.cloudGroup.members[i].direction = direction;
+		this.cloudGroup.members[i].randomSpeedAndY();
+		this.cloudGroup.members[i].randomX();
+		this.cloudGroup.members[i].randomScale();
+	}
+}
+
+gameState.addGhoulKill = function(bandit){
+	switch(bandit){
+		case this.game.banditColors.RED:
+			var index = 0;
+			break;
+		case this.game.banditColors.BLUE:
+			var index = 1;
+			break;
+	}		
+	var ghoulsKilled = this.banditGroup.members[index].totalGhoulKills();
+	var tensKilled = Math.floor(ghoulsKilled/10);
+	var onesKilled = ghoulsKilled % 10; 
+	for(var i = 0; i < tensKilled; i++){
+		this.ghoulKillCountGroup[index].members[i].animation.play('skull');
+		this.ghoulKillCountGroup[index].members[i].visible = true;
+	}
+	for(var i = tensKilled; i < 17; i++){
+		if(i < tensKilled + onesKilled){
+			this.ghoulKillCountGroup[index].members[i].animation.play('dot');
+			this.ghoulKillCountGroup[index].members[i].visible = true;
+		}else{
+			this.ghoulKillCountGroup[index].members[i].visible = false;
+		}
+	}	
+}
+
+gameState.removeGhoulDots = function(){
+	for(var i = 0; i < this.banditGroup.members.length; i++){
+		var dots = this.ghoulKillCountGroup[i].members;
+		for (var j = 0; j<dots.length; j++){
+			if(dots[j].animation.currentAnimation.name != 'skull'){
+				dots[j].visible = false;
+			}
+		}
+	}
+}
+
+
+gameState.updateTimer = function(){
+	this.gameTimeSeconds++;
+	if(this.numPlayers==1){
+		var minutes = Math.round(this.gameTimeSeconds / 60);
+		var seconds = this.gameTimeSeconds % 60; 
+		var ones = seconds % 10;
+
+		var increaseNext = this.timerDigitGroup.members[3].increaseByOne();
+		if(increaseNext == 1){
+			var increaseNext = this.timerDigitGroup.members[2].increaseByOne();
+		}
+		if(increaseNext == 1){
+			var increaseNext = this.timerDigitGroup.members[1].increaseByOne();
+		}
+		if(increaseNext == 1){
+			var increaseNext = this.timerDigitGroup.members[0].increaseByOne();
+		}	
+	}
+}
+
+gameState.onKeyDownCallback = function(keyCode){
+	if(this.numPlayers == 2){
+		if(keyCode == this.blue.fireKey.keyCode){
+			if(!this.isPaused && !this.showingLevelScreen && this.blue.isAlive){
+				if(this.soundOptions.soundsOn){
+					this.gunSound.play('start', true);
+				}
+				this.blue.blastBlock();
+			}
+		}
+	}
+
+	if(keyCode == this.red.fireKey.keyCode){
+		if(!this.isPaused && !this.showingLevelScreen && this.red.isAlive){
+			if(this.soundOptions.soundsOn){
+				this.gunSound.play('start', true);
+			}
+			this.red.blastBlock();
+		}
+	}
+
+	if(keyCode == Kiwi.Input.Keycodes.ESC){
+		this.showQuitDialog();
+	}
+
+	if(keyCode == Kiwi.Input.Keycodes.T){
+		this.launchFullscreen();
+	}
+	if(keyCode == Kiwi.Input.Keycodes.U){
+		this.logAllTimers();
+	}
+
+	if(this.quitButtonGroup.active == false){
+		if(keyCode == Kiwi.Input.Keycodes.P){
+			if(!this.isPaused){
+				this.openMenu();
+				this.availableMenuIconsIndex = 0;
+				this.selectedIcon = this.menuGroup.members[this.availableMenuIconsIndex];
+				this.menuGroup.members[this.availableMenuIconsIndex].playHover();
+			}else{
+				if(this.selectedIcon){
+					this.selectedIcon.playOff();
+				}
+				this.closeMenu();
+			}
+		}
+
+
+		if(this.showingLevelScreen){
+			if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+				if(this.selectedBetweenScreenIcon){
+					this.selectedBetweenScreenIcon.playDown();
+				}
+			}
+			if(this.showingBetweenScreenIcons){
+				if(keyCode == Kiwi.Input.Keycodes.LEFT || keyCode == Kiwi.Input.Keycodes.A){
+					this.backwardBetweenScreenMenuIcon();
+				}else if(keyCode == Kiwi.Input.Keycodes.RIGHT || keyCode == Kiwi.Input.Keycodes.D){
+					this.forwardBetweenScreenMenuIcon();
+				}
+			}			
+		}
+
+	}
+
+	if(this.isPaused){
+		//If paused, then game is either in menu or in quit dialog. 
+
+		if(this.quitButtonGroup.active){
+			if(keyCode == Kiwi.Input.Keycodes.UP || keyCode == Kiwi.Input.Keycodes.W){
+				this.forwardQuitIcon();
+			}else if(keyCode == Kiwi.Input.Keycodes.DOWN || keyCode == Kiwi.Input.Keycodes.S){
+				this.forwardQuitIcon();
+			}else if(keyCode == Kiwi.Input.Keycodes.LEFT || keyCode == Kiwi.Input.Keycodes.A){
+				this.forwardQuitIcon();
+			}else if(keyCode == Kiwi.Input.Keycodes.RIGHT || keyCode == Kiwi.Input.Keycodes.D){
+				this.forwardQuitIcon();
+			}else if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+				if(this.selectedQuitIcon){
+					this.selectedQuitIcon.playDown();
+				}
+			}			
+		}else{
+
+			if(keyCode == Kiwi.Input.Keycodes.UP || keyCode == Kiwi.Input.Keycodes.W){
+				this.backwardMenuIcon();
+			}else if(keyCode == Kiwi.Input.Keycodes.DOWN || keyCode == Kiwi.Input.Keycodes.S){
+				this.forwardMenuIcon();
+			}else if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+				if(this.selectedIcon){
+					this.selectedIcon.playDown();
+				}
+			}else if(keyCode == Kiwi.Input.Keycodes.ESC){
+				if(this.selectedIcon){
+					this.selectedIcon.playOff();
+				}
+				this.closeMenu();			
+			}	
+		}	
+	}
+	
+	if(this.gameIsOver){
+		if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+			this.levelOver(false);		
+		}		
+	}
+}
+
+gameState.onKeyUpCallback = function(keyCode){
+	if(this.quitButtonGroup.active == false){
+		//if not in quit dialog, either paused, in game, or showing level screen.
+		if(this.isPaused){
+			if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+				if(this.selectedIcon){
+					this.selectedIcon.mouseClicked();
+				}
+			}
+		}else if(this.showingLevelScreen){
+			if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+				if(this.selectedBetweenScreenIcon){
+					this.selectedBetweenScreenIcon.mouseClicked();
+				}
+			}			
+		}
+	}else{
+		//in quit dialog
+		if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+			if(this.selectedQuitIcon){
+					this.selectedQuitIcon.mouseClicked();
+			}
+		}		
+	}
+}
+
+gameState.checkCollisions = function(){
+	this.checkCoinCollision();
+	this.checkPotionCollision();
+	this.checkGhoulCollision();
+	this.checkBombCollision();
+}
+
+gameState.checkBombCollision = function(){
+	var bombs = this.bombGroup.members;
+	var bandits = this.banditGroup.members; 
+	
+	for (var i = 0; i <bombs.length; i++){
+		for (var j = 0; j<bandits.length; j++){
+			if(bombs[i].timerStarted == false){
+				var bombBox = bombs[i].box.hitbox;
+				if(bandits[j].box.bounds.intersects(bombBox)){
+					if(bandits[j].bombsCollected < 3){
+						bandits[j].bombsCollected ++;
+						bandits[j].bombs.push(bombs[i]);
+
+						bombs[i].hide();
+						this.updateBombCounter(bandits[j]);
+						if(this.soundOptions.soundsOn){
+							this.voicesSound.play('bombPickup',true);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+gameState.checkPotionCollision = function(){
+	var potions = this.potionGroup.members;
+	var bandits = this.banditGroup.members;
+
+	for (var i = 0; i <potions.length; i++){
+		for (var j = 0; j<bandits.length; j++){	
+			var potionBox = potions[i].box.hitbox;
+			if(bandits[j].box.bounds.intersects(potionBox)){
+				if(potions[i].type == 'whiskey'){
+					if(bandits[j].numberOfHearts < 3){
+						if(this.soundOptions.soundsOn){
+							this.whiskeySound.play();
+						}
+						bandits[j].numberOfHearts ++;
+						this.showHearts(bandits[j].color);
+						potions[i].destroy();
+					}
+				}
+			}
+		}
+	}			
+}
+
+gameState.checkCoinCollision = function(){
+	var coins = this.coinGroup.members;
+	var bandits = this.banditGroup.members;
+
+	for (var i = 0; i <coins.length; i++){
+		for (var j = 0; j<bandits.length; j++){
+			var coinBox = coins[i].box.hitbox;
+			if(bandits[j].box.bounds.intersects(coinBox)){
+				if(coins[i].animation.currentAnimation.name == 'shine'){
+					bandits[j].coinsCollected += 10;
+					if(this.soundOptions.soundsOn){
+						this.diamondSound.play('start',true);
+					}
+				}else{
+					bandits[j].coinsCollected ++;
+					if(this.soundOptions.soundsOn){
+						this.coinSound.play('start',true);
+						if(bandits[j].coinsCollected == 40){
+							this.voicesSound.play('money2',true);
+						}else if(bandits[j].coinsCollected == 80){
+							this.voicesSound.play('money1',true);
+						}else if(bandits[j].coinsCollected == 120){
+							this.voicesSound.play('yeehaw',true);
+						}
+					}
+				}
+				this.updateCoinCounter(bandits[j]);
+				coins[i].destroy();
+			}
+		}
+	}
+}
+
+gameState.updateBombCounter = function(bandit){
+	var numBombs = bandit.bombsCollected;
+	var bombIcons = bandit.bombIconGroup.members;
+	switch(numBombs){
+		case 0:
+			for (var i =0; i<bombIcons.length; i++){
+				var bombIcon = bombIcons[i];
+				if(bombIcon.color == bandit.color){
+					bombIcon.x = -2*this.bps;
+				}
+			}
+			break;
+		case 1:
+			for (var i =0; i<bombIcons.length; i++){
+				var bombIcon = bombIcons[i];
+				if(bombIcon.color == bandit.color){	
+					if(bombIcon.index == 7)
+						bombIcon.x = bombIcon.originalx;
+					else
+						bombIcon.x = -2*this.bps;
+				}
+			}		
+			break;
+		case 2:
+			for (var i =0; i<bombIcons.length; i++){
+				var bombIcon = bombIcons[i];
+				if(bombIcon.color == bandit.color){
+					if(bombIcon.index <9)
+						bombIcon.x = bombIcon.originalx;
+					else
+						bombIcon.x = -2*this.bps;
+				}
+			}
+			break;
+		case 3:
+			for (var i =0; i<bombIcons.length; i++){
+				var bombIcon = bombIcons[i];
+				if(bombIcon.color == bandit.color){
+					if(bombIcon.index <10)
+						bombIcon.x = bombIcon.originalx;
+					else
+						bombIcon.x = -2*this.bps;
+				}
+			}	
+			break;				
+	}
+}
+
+gameState.updateCoinCounter = function(bandit){
+	var ones = bandit.coinsCollected % 10; 
+	var tens = Math.floor(bandit.coinsCollected / 10) % 10;
+	var huns = Math.floor(bandit.coinsCollected / 100) % 10;
+	digits = this.digitGroup.members;
+	for(var i =0; i<digits.length; i++){
+		if(digits[i].color == bandit.color){
+			if(digits[i].index == 1){
+				digits[i].animation.play(ones.toString());
+			}else if (digits[i].index == 2){
+				digits[i].animation.play(tens.toString());
+			}else if(digits[i].index == 3){
+				digits[i].animation.play(huns.toString());
+			}
+		}
+	}
+}
+
+gameState.checkGhoulCollision = function(){
+	var ghouls = this.ghoulGroup.members;
+	var bandits = this.banditGroup.members;
+
+	for (var i = 0; i<ghouls.length; i++){
+		for (var j = 0; j<bandits.length; j++){		
+			var ghoulBox = ghouls[i].box.hitbox;
+			if(bandits[j].box.hitbox.intersects(ghoulBox)){
+				if(bandits[j].isAlive){
+					if(this.soundOptions.soundsOn){
+						this.banditDeathSound.play('start',false);
+					}
+					bandits[j].isAlive = false;
+					if(ghouls[i].objType() == 'Bullet'){
+						ghouls[i].explode();
+					}
+				}
+			}
+		}
+	}
+}
+
+gameState.showHearts = function(color){
+	switch(color){
+		case this.game.banditColors.RED:
+			var heartsGroup = this.redHeartsGroup;
+			var numberOfHearts = this.red.numberOfHearts;
+			break;
+		case this.game.banditColors.BLUE:
+			var heartsGroup = this.blueHeartsGroup;
+			var numberOfHearts = this.blue.numberOfHearts;
+			break;
+	}
+
+	var hearts = heartsGroup.members;
+	for(var i = 0; i< hearts.length; i++){
+		hearts[i].disappear();
+		if(i<numberOfHearts){
+			hearts[i].shouldBeGone = false;
+			hearts[i].timerStarted = false;
+		}
+	}
+}
+
+//code below to build map logic
+gameState.make2DArray = function(rows, cols){
+	var zero2DArray = [];
+	for(var i = 0; i<rows; i++){
+		var newRow = [];
+		for(var j = 0; j<cols; j++){
+			newRow.push(0);
+		}
+		zero2DArray.push(newRow);
+
+	}
+	return zero2DArray;
+}
+
+gameState.empty2Darray = function(nonzero2DArray){
+	for (var i = 0; i < nonzero2DArray.length; i++){
+		for(var j = 0; j<nonzero2DArray[i].length; j++){
+			nonzero2DArray[i][j] = 0;
+		}
+	}
+	return nonzero2DArray;
+}
+
+gameState.getGhoulBlocks = function(){
+	var ghoulBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
+	for (var i = 0; i<this.GRID_ROWS; i++){
+		for (var j = 0; j<this.GRID_COLS; j++){
+			var ghoulCode = 1; 
+			if(this.originalTopGroundBlocks[i][j]==1){
+				if(this.originalRightBlockedBlocks[i][j] == 0){
+					ghoulCode *= 2;
+				}
+				if(this.originalLeftBlockedBlocks[i][j] == 0){
+					ghoulCode *= 3;
+				}
+			}
+			if(this.ladderBlocks[i][j] == 1){
+				ghoulCode *= 5;
+				if(this.firstLadderBlocks[i][j] == 0){
+					ghoulCode *=7;
+				}
+			}
+			if(this.topLadderBlocks[i][j] == 1){
+				ghoulCode *= 7;
+			}
+
+			ghoulBlocks[i][j] = ghoulCode; 
+		}
+	}
+	return ghoulBlocks;
+}
+
+gameState.updateGhoulBlocks = function(){
+	for (var i = 0; i<this.GRID_ROWS; i++){
+		for (var j = 0; j<this.GRID_COLS; j++){
+			var ghoulCode = 1; 
+			if(this.originalTopGroundBlocks[i][j]==1){
+				if(this.originalRightBlockedBlocks[i][j] == 0){
+					ghoulCode *= 2;
+				}
+				if(this.originalLeftBlockedBlocks[i][j] == 0){
+					ghoulCode *= 3;
+				}
+			}
+			if(this.ladderBlocks[i][j] == 1){
+				ghoulCode *= 5;
+				if(this.firstLadderBlocks[i][j] == 0){
+					ghoulCode *=7;
+				}
+			}
+			if(this.topLadderBlocks[i][j] == 1){
+				ghoulCode *= 7;
+			}
+
+			this.ghoulBlocks[i][j] = ghoulCode; 
+		}
+	}	
+}
+
+/**
+* getGroundBlocks returns a 2d array containing a 1 where there is a ground block and 0 otherwise. 
+*/
+
+gameState.getGroundBlocks = function(groundLayerArray, width){
+	var groundBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
+	for (var i = 0; i<groundLayerArray.length; i++){
+		if(groundLayerArray[i] != 0){
+			groundBlocks[this.getRow(i,width)][this.getCol(i,width)] = 1;
+		}
+	}
+	return groundBlocks;	
+}
+
+gameState.getLadderBlocks = function(ladderLayerArray, width){
+	var ladderBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
+	for (var i = 0; i <ladderLayerArray.length; i++){
+		if(ladderLayerArray[i] != 0){
+			ladderBlocks[this.getRow(i,width)][this.getCol(i,width)] = 1;
+		}
+	}
+	return ladderBlocks;
+}
+
+
+gameState.getTopBlocks = function(blocks){
+	var topBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
+	for (var i = 0; i<this.GRID_ROWS-1; i++){
+		var thisRow = blocks[i];
+		var nextRow = blocks[i+1];
+		for(var j = 0; j<this.GRID_COLS; j++){
+			if(thisRow[j] == 0 && nextRow[j]==1){
+				topBlocks[i][j] = 1; 
+			}
+		}
+	}	
+
+	return topBlocks;
+}
+
+gameState.getBlockedBlocks = function(groundBlocks, direction, blockedBlocks){
+	switch (direction){
+		case 'left': 
+			for(var i = 0;i<this.GRID_ROWS; i++){
+				for(var j=0; j<this.GRID_COLS; j++){
+					if(j==0){
+						blockedBlocks[i][j] = 1;
+					}else{
+						if(groundBlocks[i][j] ==0 && groundBlocks[i][j-1] == 1){
+							blockedBlocks[i][j] = 1;
+						}else{
+							blockedBlocks[i][j] = 0; 
+						}
+					}
+				}
+			}
+			break;
+		case 'right':
+			for(var i =0; i<this.GRID_ROWS; i++){
+				for(var j=0; j<this.GRID_COLS; j++){
+					if(j==this.GRID_COLS-1){
+						blockedBlocks[i][j] = 1;
+					}else{
+						if(groundBlocks[i][j]==0 && groundBlocks[i][j+1] == 1){
+							blockedBlocks[i][j] = 1;
+						}else{
+							blockedBlocks[i][j] = 0;
+						}
+					}
+				}
+			}
+			break;
+		case 'rightghoul':
+			for(var i =0; i<this.GRID_ROWS; i++){
+				for(var j=0; j<this.GRID_COLS; j++){
+					if(j==this.GRID_COLS-1){
+						blockedBlocks[i][j] = 1;
+					}else{
+						if(groundBlocks[i][j]==0){
+							if(groundBlocks[i][j+1] == 1){
+								blockedBlocks[i][j] = 1;
+							}else{
+								if(i+1<this.GRID_ROWS && groundBlocks[i+1][j+1] == 0){
+									blockedBlocks[i][j] = 1;
+								}else{
+									blockedBlocks[i][j] = 0;
+								}
+							}
+						}
+					}			
+				}
+			}
+			break;			
+		case 'leftghoul':
+			for(var i =0; i<this.GRID_ROWS; i++){
+				for(var j=0; j<this.GRID_COLS; j++){
+					if(j==0){
+						blockedBlocks[i][j] = 1;
+					}else{
+						if(groundBlocks[i][j] == 0){
+							if(groundBlocks[i][j-1] == 1){
+								blockedBlocks[i][j] = 1;
+							}else{
+								if(i+1<this.GRID_ROWS && groundBlocks[i+1][j-1] == 0){
+									blockedBlocks[i][j] = 1; 
+								}else{
+									blockedBlocks[i][j] = 0;
+								}
+							}
+						}
+					}
+				}
+			}			
+			break;
+	}
+}
+
+
+gameState.getFirstLadderBlocks = function(ladderBlocks){
+	var firstLadderBlocks = this.make2DArray(this.GRID_ROWS, this.GRID_COLS);
+
+	for(var i = 0; i<this.GRID_ROWS-1; i++){
+		for(var j= 0; j<this.GRID_COLS; j++){
+			if(ladderBlocks[i][j] == 1 && ladderBlocks[i+1][j] == 0){
+				firstLadderBlocks[i][j] = 1;
+			}
+		}
+	}
+	for (var j=0; j<this.GRID_COLS; j++){
+		if(ladderBlocks[this.GRID_ROWS-1][j] == 1){
+			firstLadderBlocks[this.GRID_ROWS-1][j] = 1;
+		}
+	}
+
+	return firstLadderBlocks;
+}
+
+
+gameState.parseBlocks = function(level_tilemap){
+	var json = JSON.parse(this.game.fileStore.getFile(level_tilemap).data);
+	var groundLayerArray = json.layers[0].data;
+	var ladderLayerArray = json.layers[1].data;
+	var backObjectsLayerArray = json.layers[2].data;
+	var ghoulsLayerArray = json.layers[3].data;
+	var coinsLayerArray = json.layers[4].data;
+	var frontObjectsLayerArray = json.layers[5].data;
+	var bombsLayerArray = json.layers[6].data;
+	var width = json.width;
+	var tileWidth = json.tilewidth;
+
+	return [groundLayerArray, ladderLayerArray, backObjectsLayerArray, ghoulsLayerArray, coinsLayerArray, frontObjectsLayerArray, bombsLayerArray, tileWidth, width];
+}
+
+gameState.getPixelPositionFromArrayIndex = function(index, tileWidth, width){
+	var row = this.getRow(index,width);
+	var col = this.getCol(index,width);
+	return [(col)*tileWidth, (row)*tileWidth];
+}
+
+gameState.getPixelPositionFromRowCol = function(row, col){
+	return [(col)*this.bps, (row)*this.bps];
+}
+
+gameState.getRow = function(index,width){
+	return Math.floor(index/width);
+}
+
+gameState.getCol = function(index,width){
+	return index%width;
+}
+
+gameState.getGridPosition = function(x,y,cardinal){
+	switch (cardinal){
+		case 'north':
+			return [Math.floor((y-3)/this.bps), Math.floor((x+this.bps/2)/this.bps)];
+		case 'south':
+			return [Math.floor((y+this.bps-1)/this.bps), Math.floor((x+this.bps/2)/this.bps)];
+		case 'east':
+			return [Math.floor((y+this.bps-1)/this.bps), Math.floor((x+this.bps-2)/this.bps)];
+		case 'west':
+			return [Math.floor((y+this.bps-1)/this.bps), Math.floor((x+1)/this.bps)];
+		case 'middle':
+			return [Math.floor((y+this.bps/2)/this.bps), Math.floor((x+this.bps/2)/this.bps)];
+		default: 
+			return [Math.floor(y/this.bps), Math.floor(x/this.bps)];
+	}
+	return 0;
+}
+
+gameState.onBlockType = function(blocks, gridPosition){
+	if(gridPosition[0]<this.GRID_ROWS && gridPosition[0]>=0 && gridPosition[1]<this.GRID_COLS && gridPosition[1]>=0){
+		if(blocks[gridPosition[0]][gridPosition[1]] == 1)
+			return true;
+		else
+			return false;
+	}else{
+		return false;
+	}
+}
+ 
+gameState.getPixelNumberForGridPosition = function(gridPosition, cardinal){
+	switch (cardinal){
+		case 'north':
+			return gridPosition[0]*this.bps; 
+		case 'south':
+			return (gridPosition[0]+1)*this.bps - 1;
+		case 'west':
+			return gridPosition[1]*this.bps;
+		case 'east':
+			return (gridPosition[1]+1)*this.bps - 1;
+	}
+}
+
+gameState.getBlastedBlockPosition = function(gridPosition, facing){
+	var firedPosition = [21, 21];
+	switch(facing){
+		case 'left':
+			if(gridPosition[1]-1>=0 && gridPosition[0]+1<16){
+				firedPosition[0] = gridPosition[0]+1;
+				firedPosition[1] = gridPosition[1]-1;
+			}
+			break;
+		case 'right':
+			if(gridPosition[1]+1<20 && gridPosition[0]+1<16){
+				firedPosition[0] = gridPosition[0]+1;
+				firedPosition[1] = gridPosition[1]+1;
+			}
+			break;
+	}
+	return firedPosition;
+}
+
+gameState.levelOver = function(showCutScene){
+	//default is showing cutscene. Pass false to level over at end of game.
+	showCutScene = typeof showCutScene !== 'undefined' ? showCutScene : true;
+	if(this.gameIsOver){
+		this.destroyEverything(true);
+		this.gameTimer.pause();
+		this.game.states.switchState('titleState');
+	}else{
+		this.currentLevel += 1;
+		if(this.currentLevel > this.numberOfLevels+1){
+			this.destroyEverything(true);
+			this.game.states.switchState('titleState');
+		}else if(this.currentLevel > this.numberOfLevels){
+			//this.addChild(this.winScreen);
+			this.goToCredits();
+		}else{
+			this.unlockLevel(this.currentLevel);
+			if(showCutScene){
+				this.showingLevelScreen = true;	
+				this.background2Tween.start();
+				//when the background2Tween finishes, this.showCutScene() is called
+			}else{
+				this.showLevelScreen();
+			}
+		}
+	}
+}
+
+gameState.goToCredits = function(){
+	this.gameTimer.pause();
+	this.background3Tween = this.game.tweens.create(this.background2);
+	this.background3Tween.onComplete(this.fadeToCredits, this);
+	this.background3Tween.to({ alpha: 1 }, 1000, Kiwi.Animations.Tweens.Easing.Sinusoidal.Out, false);
+	this.background3Tween.start();	
+}
+
+gameState.fadeToCredits = function(){
+	this.blackBoxTween = this.game.tweens.create(this.blackBox);
+	this.blackBoxTween.onComplete(this.switchToCredits, this);
+	this.blackBoxTween.to({alpha: 1}, 1400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+}
+
+gameState.switchToCredits = function(){
+	this.switchToState('creditsState');
+}
+
+gameState.unlockLevel = function(level){
+	if(level <= 20){
+		this.game.levelsData[level-1][this.numPlayers-1].unlocked = true;
+		this.game.saveManager.localStorage.edit('levelsData', this.game.levelsData, true );
+	}
+}
+
+gameState.setHighScoreOnePlayer = function(levelScore){
+	if(this.currentLevel <= 21){
+		if(levelScore > this.game.levelsData[this.currentLevel-2][this.numPlayers-1].highScore){
+			this.game.levelsData[this.currentLevel-2][this.numPlayers-1].highScore = levelScore;
+			this.game.saveManager.localStorage.edit('levelsData', this.game.levelsData, true);
+		}
+	}
+}
+
+gameState.setHighScoreTwoPlayer = function(levelScore1, levelScore2){
+
+	if(this.currentLevel <= 21){
+		if(levelScore1 > this.game.levelsData[this.currentLevel-2][this.numPlayers-1].highScore1){
+			this.game.levelsData[this.currentLevel-2][this.numPlayers-1].highScore1 = levelScore1;
+			this.game.saveManager.localStorage.edit('levelsData', this.game.levelsData, true);
+		}
+		if(levelScore2 > this.game.levelsData[this.currentLevel-2][this.numPlayers-1].highScore2){
+			this.game.levelsData[this.currentLevel-2][this.numPlayers-1].highScore2 = levelScore2;
+			this.game.saveManager.localStorage.edit('levelsData', this.game.levelsData, true);
+		}		
+	}
+
+}
+
+gameState.setStarsForPreviousLevel = function(stars){
+	if(this.currentLevel <= 21){
+		this.game.levelsData[this.currentLevel-2][this.numPlayers-1].stars = stars;
+		this.game.saveManager.localStorage.edit('levelsData', this.game.levelsData, true );
+	}
+}
+
+gameState.getTotalScores = function(){
+	var totalScores = [0, 0];
+	if(this.numPlayers == 1){
+		for(var i = 0; i < this.currentLevel - 1; i++){
+			totalScores[0] += this.game.levelsData[i][0].highScore;
+		}
+	}else{
+		for(var i = 0; i < this.currentLevel - 1; i++){
+			totalScores[0] += this.game.levelsData[i][1].highScore1;
+			totalScores[1] += this.game.levelsData[i][1].highScore2;
+		}
+	}
+	return totalScores;
+}
+
+gameState.showCutScene = function(){
+	this.destroyEverything(false);
+	this.iconsDuringCutScene();
+
+	if(this.soundOptions.musicOn){
+		this.currentMusic.stop();
+	}
+
+	var members = this.banditGroup.members;
+	for(var i = 0; i<members.length; i++){
+		members[i].totalCoinsCollected += members[i].coinsCollected;
+	}
+
+	var totalPoints = this.addPointCounters();	
+	for(var i =0; i<members.length; i++){
+		members[i].totalCoinsCollected = totalPoints[i];		
+	}
+
+	if(this.numPlayers == 1){
+		var previousLevelPoints = totalPoints[0]
+		this.setHighScoreOnePlayer(totalPoints[0]);
+	}else{
+		var previousLevelPoints = totalPoints[0] + totalPoints[1];
+		this.setHighScoreTwoPlayer(totalPoints[0], totalPoints[1]);
+	}
+		
+	if(previousLevelPoints > this.pointThresholds[this.numPlayers-1][this.currentLevel-2][2]){
+		this.setStarsForPreviousLevel(3);
+		this.showStars(3);
+	}else if(previousLevelPoints > this.pointThresholds[this.numPlayers-1][this.currentLevel-2][1]){
+		this.setStarsForPreviousLevel(2);
+		this.showStars(2);
+	}else if(previousLevelPoints > this.pointThresholds[this.numPlayers-1][this.currentLevel-2][0]){
+		this.setStarsForPreviousLevel(1);
+		this.showStars(1);
+	}else{
+		this.setStarsForPreviousLevel(0);
+	}
+
+	this.addBonusIcons();
+	
+	this.updateBigCoinCounter();
+
+	this.totalScores = this.getTotalScores();
+	this.updateBigCoinCounterTotalTimer = this.game.time.clock.createTimer('updateBigCoinTotal', 3, 0, false);
+	this.updateBigCoinCounterTotalTimerEvent = this.updateBigCoinCounterTotalTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.updateBigCoinCounterTotal, this);
+	this.updateBigCoinCounterTotalTimer.start();
+
+	if(this.game.gamepads){
+		this.removeAllGamepadSignals();
+		this.addGamepadSignalsBetweenScreen();
+	}
+
+	this.moveBanditsOffscreen();
+	this.tweenInCurtains();
+	this.showStageCoachAndHorses();
+
+	this.showIconsTimer = this.game.time.clock.createTimer('showIconsTimer',7,0,false);
+	this.showIconsTimerEvent = this.showIconsTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,this.addIcons,this);
+	
+	this.showIconsTimer.start();	
+}
+
+gameState.showStars = function(numStars){
+	this.stars[0].visible = false;
+	this.stars[1].visible = false;
+	this.stars[2].visible = false;
+
+	this.showStarsIndex = 0;
+	this.showStarsTimer = this.game.time.clock.createTimer('showStarsTimer', 0.5, numStars, false);
+	this.showStarsTimerEvent = this.showStarsTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.tickStars, this);
+	this.showStarsTimer.start();
+}
+
+gameState.tickStars = function(){
+	this.stars[this.showStarsIndex].visible = true;
+	this.stars[this.showStarsIndex].scaleX = 0;
+	this.stars[this.showStarsIndex].scaleY = 0;
+	this.stars[this.showStarsIndex].rotation = -1 * Math.PI;
+	this.starTweens[this.showStarsIndex].to({scaleX: 2.5, scaleY: 2.5, rotation: 0}, 300, Kiwi.Animations.Tweens.Easing.Cubic.Out, false);
+	this.starTweens2[this.showStarsIndex].to({scaleX: 1.0, scaleY: 1.0}, 500, Kiwi.Animations.Tweens.Easing.Bounce.Out, false);
+	this.starTweens[this.showStarsIndex].chain(this.starTweens2[this.showStarsIndex]);
+	this.starTweens[this.showStarsIndex].onComplete(function(){
+		if(this.soundOptions.soundsOn){
+			this.starDingSound.play('start', true);
+		}
+	}, this);
+	this.starTweens[this.showStarsIndex].start();
+	this.showStarsIndex++;
+	if(this.soundOptions.soundsOn){
+		this.starSound.play('start', true);
+	}	
+}
+
+gameState.tweenInCurtains = function(){
+	this.curtainRightTween.onComplete(null, null);
+	this.curtainLeftTween.to({x: this.curtainLeftX}, 250, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	
+	this.curtainRightTween.to({x: this.curtainRightX}, 250, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+}
+
+gameState.tweenOutCurtains = function(onCompleteCallback){
+	this.curtainRightTween.onComplete(onCompleteCallback, this);
+	this.curtainLeftTween.to({x: -100}, 250, Kiwi.Animations.Tweens.Easing.Cubic.In, true);	
+	this.curtainRightTween.to({x: 1100}, 250, Kiwi.Animations.Tweens.Easing.Cubic.In, true);	
+}
+
+gameState.restartLevel = function(){
+	this.destroyEverything(false);
+	this.iconsDuringLevelScreen();
+	this.levelOver(false);
+}
+
+gameState.switchToTitleStateFromBetweenScreen = function(){
+	this.destroyEverything(true);
+	this.gameTimer.removeTimerEvent(this.gameTimerEvent);
+	this.game.states.switchState('titleState');
+}
+
+gameState.switchToState = function(stateName){
+	this.gameTimer.removeTimerEvent(this.gameTimerEvent);
+	this.destroyEverything(true);
+	this.game.states.switchState(stateName);
+}
+
+gameState.addIcons = function(){
+	this.showingBetweenScreenIcons = true;
+	this.iconGroup.active = true;
+	this.iconGroup.visible = true;
+	for(var i = 0; i < this.iconGroup.members.length; i++){
+		var icon = this.iconGroup.members[i];
+		icon.alpha = 0;
+		icon.scaleX = 3;
+		icon.scaleY = 3;
+		if(icon.type == 'play'){
+			this.iconTweens[i].to({alpha: 1, scaleX: 1, scaleY: 1}, 500, Kiwi.Animations.Tweens.Easing.Sinusoidal.Out, true);
+		}else{
+			this.iconTweens[i].to({alpha: 0.3, scaleX: 1, scaleY: 1}, 500, Kiwi.Animations.Tweens.Easing.Sinusoidal.Out, true);
+		}
+	}
+}
+
+gameState.addBonusIcons = function(){
+	for(var i = 0; i < this.bonusGroup.members.length; i++){
+		var bonus = this.bonusGroup.members[i];
+		bonus.alpha = 0; 
+		bonus.scaleX = 3;
+		bonus.scaleY = 3;
+		if(this.banditGroup.members[i].numberOfHearts == 1){
+			bonus.visible = false;
+		}else{
+			bonus.animation.play('bonus' + this.banditGroup.members[i].numberOfHearts);
+			bonus.visible = true;
+			this.bonusTweens[i].to({alpha: 0.8, scaleX: 1, scaleY: 1}, 500, Kiwi.Animations.Tweens.Easing.Sinusoidal.Out, true);
+		}
+	}
+}
+
+gameState.addPointCounters = function(){
+	totalPoints = [];
+	var factor = this.timePointsFactor[this.currentLevel - 2];
+	var timePoints = Math.round(600.0/Math.exp(this.gameTimeSeconds/factor));
+
+	if(this.numPlayers == 1){
+		var addWhat = 1;
+	}else{
+		var addWhat = 2;
+	}
+	for(var j = 0; j < this.banditGroup.members.length; j++){
+		var moneyPoints = this.banditGroup.members[j].coinsCollected * this.banditGroup.members[j].numberOfHearts;
+		var deathPoints = this.banditGroup.members[j].totalGhoulKills()*10;
+
+		var moneyPointsArray = [Math.floor(moneyPoints/100), Math.floor((moneyPoints - 100*Math.floor(moneyPoints/100))/10), moneyPoints % 10];
+		var startingIndex = this.getStartingIndex(moneyPointsArray);
+		for (var i = 0; i < moneyPointsArray.length; i++){
+			if(i >= startingIndex){
+				this.betweenScreenGroup.members[(i+addWhat)*3+(j*9)].animation.play(''+moneyPointsArray[i]);
+				this.betweenScreenGroup.members[(i+addWhat)*3+(j*9)].visible = true;
+			}else{
+				this.betweenScreenGroup.members[(i+addWhat)*3+(j*9)].visible = false;
+			}
+		}
+		var deathPointsArray = [Math.floor(deathPoints/100), Math.floor((deathPoints - 100*Math.floor(deathPoints/100))/10), deathPoints % 10];
+		var startingIndex = this.getStartingIndex(deathPointsArray);
+		for (var i = 0; i < deathPointsArray.length; i++){
+			if(i >= startingIndex){
+				this.betweenScreenGroup.members[(i+addWhat)*3+1+(j*9)].animation.play(''+deathPointsArray[i]);
+				this.betweenScreenGroup.members[(i+addWhat)*3+1+(j*9)].visible = true;
+			}else{
+				this.betweenScreenGroup.members[(i+addWhat)*3+1+(j*9)].visible = false;
+			}
+		}
+		var timePointsArray = [Math.floor(timePoints/100), Math.floor((timePoints - 100*Math.floor(timePoints/100))/10), timePoints % 10];
+		var startingIndex = this.getStartingIndex(timePointsArray);		
+		for (var i = 0; i < timePointsArray.length; i++){
+			if(i >= startingIndex){
+				this.betweenScreenGroup.members[(i+addWhat)*3+2+(j*9)].animation.play(''+timePointsArray[i]);
+				this.betweenScreenGroup.members[(i+addWhat)*3+2+(j*9)].visible = true;
+			}else{
+				this.betweenScreenGroup.members[(i+addWhat)*3+2+(j*9)].visible = false;
+			}
+		}	
+		totalPoints[j] = moneyPoints + deathPoints + timePoints; 
+	}
+	return totalPoints;
+}
+
+gameState.getStartingIndex = function(threeArray){
+	if(threeArray[0]>0){
+		return 0;
+	}else if(threeArray[1]>0){
+		return 1;
+	}else if(threeArray[2]>0){
+		return 2;
+	}else{
+		return 3; 
+	}
+}
+
+gameState.updateBigCoinCounter = function(){
+	this.bigCoinCounterStep = 6;
+	var bigDigits = this.bigDigitGroup.members;
+	for(var i = 0; i < bigDigits.length; i++){
+		bigDigits[i].animation.play('cycle');
+	}
+	
+	this.bigCoinTimer = this.game.time.clock.createTimer('bigCoin',0.1,6,false);
+	this.bigCoinTimerEvent = this.bigCoinTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.tickBigCoinCounter, this);
+	this.bigCoinTimer.start();
+	if(this.soundOptions.soundsOn){
+		this.flipSound.play();
+	}
+}
+
+gameState.tickBigCoinCounter = function(){
+	var bandits = this.banditGroup.members;	
+	for(var i =0; i <bandits.length; i++){
+		this.stepBigCoinCounter(bandits[i], this.bigCoinCounterStep);
+	}	
+	this.bigCoinCounterStep--;
+}
+
+gameState.stepBigCoinCounter = function(bandit, bigCoinCounterStep){
+	var value = Math.floor(bandit.totalCoinsCollected/(Math.pow(10,bigCoinCounterStep-1)))% 10;
+	bigDigits = this.bigDigitGroup.members;
+	for(var i = 0; i<bigDigits.length; i++){
+		if(bigDigits[i].color == bandit.color){
+			if(bigDigits[i].index == bigCoinCounterStep && bigDigits[i].type == 'level'){
+				bigDigits[i].animation.play(value.toString());
+			}
+		}
+	}
+	if(this.soundOptions.soundsOn){
+		if(this.bigCoinCounterStep <= 4){
+			this.dingSound.play('start', true);
+		}
+	}
+}
+
+gameState.updateBigCoinCounterTotal = function(){
+	this.bigCoinCounterStepTotal = 6;
+	var bigDigits = this.bigDigitGroup.members;
+	for(var i = 0; i < bigDigits.length; i++){
+		if(bigDigits[i].type == 'total'){
+			bigDigits[i].animation.play('cycle');
+		}
+	}
+	
+	this.bigCoinTimerTotal = this.game.time.clock.createTimer('bigCoinTotal',0.1,6,false);
+	this.bigCoinTimerEventTotal = this.bigCoinTimerTotal.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.tickBigCoinCounterTotal, this);
+	this.bigCoinTimerTotal.start();
+}
+
+gameState.tickBigCoinCounterTotal = function(){
+	var bandits = this.banditGroup.members;	
+	for(var i =0; i <bandits.length; i++){
+		this.stepBigCoinCounterTotal(bandits[i], i, this.bigCoinCounterStepTotal);
+	}	
+	this.bigCoinCounterStepTotal--;
+}
+
+gameState.stepBigCoinCounterTotal = function(bandit, banditIndex, bigCoinCounterStep){
+	var value = Math.floor(this.totalScores[banditIndex]/(Math.pow(10,bigCoinCounterStep-1)))% 10;
+	bigDigits = this.bigDigitGroup.members;
+	for(var i = 0; i<bigDigits.length; i++){
+		if(bigDigits[i].color == bandit.color){
+			if(bigDigits[i].index == bigCoinCounterStep && bigDigits[i].type == 'total'){
+				bigDigits[i].animation.play(value.toString());
+			}
+		}
+	}
+	if(this.soundOptions.soundsOn){
+		if(this.bigCoinCounterStepTotal <= 5){
+			this.dingSound.play('start', true);
+		}
+		if(this.bigCoinCounterStepTotal == 1){
+			this.flipSound.stop();
+		}
+	}
+}
+
+gameState.onLevelScreenInComplete = function(){
+	var members = this.members;
+	for(var i = 0; i<members.length; i++){
+		if(members[i].objType()!='Group' && members[i].name!='menu'){
+			 if(members[i].name!='levelScreen'){
+				members[i].destroy();
+			}
+		}
+	}
+	this.iconsDuringLevelScreen();
+}
+
+gameState.iconsDuringCutScene = function(){
+	this.alphaBoxGroup.visible = true;
+	this.bigDigitGroup.visible = true;
+	this.betweenScreenGroup.visible = true;
+
+	this.cloudGroup.visible = false;
+	this.menuArrow.visible = false;
+	this.digitGroup.visible = false;
+	this.timerDigitGroup.visible = false;
+	this.bombIconGroup.visible = false;	
+	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
+		this.ghoulKillCountGroup[i].visible = false;
+	}
+	this.redHeartsGroup.visible = false;
+	if(this.numPlayers == 2){
+		this.blueHeartsGroup.visible = false;
+	}	
+}
+
+gameState.iconsDuringLevelScreen = function(){
+	this.alphaBoxGroup.visible = false;
+	this.bigDigitGroup.visible = false;
+	this.betweenScreenGroup.visible = false;
+
+	this.iconGroup.visible = false;
+
+	this.cloudGroup.visible = false;
+	this.menuArrow.visible = false;	
+	this.digitGroup.visible = false;
+	this.timerDigitGroup.visible = false;
+	this.bombIconGroup.visible = false;	
+	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
+		this.ghoulKillCountGroup[i].visible = false;
+	}	
+	this.redHeartsGroup.visible = false;
+	if(this.numPlayers == 2){
+		this.blueHeartsGroup.visible = false;
+	}	
+}
+
+gameState.iconsNotDuringCutscene = function(){
+	this.alphaBoxGroup.visible = false;
+	this.bigDigitGroup.visible = false;
+	this.betweenScreenGroup.visible = false;	
+	this.iconGroup.visible = false;
+	this.iconGroup.active = false;
+
+	this.cloudGroup.visible = true;
+	this.menuArrow.visible = true;
+	this.digitGroup.visible = true;
+	this.timerDigitGroup.visible = true;
+	this.bombIconGroup.visible = true;
+	for (var i = 0; i < this.ghoulKillCountGroup.length; i++){
+		this.ghoulKillCountGroup[i].visible = true;
+	}
+	this.redHeartsGroup.visible = true;
+	if(this.numPlayers == 2){
+		this.blueHeartsGroup.visible = true;
+	}			
+}
+
+gameState.showStageCoachAndHorses = function(){
+	this.horseGroup.active = true;
+	this.horseGroup.visible = true;
+	this.redHorse.x = -1200;
+	if(this.numPlayers == 2){
+		this.blueHorse.x = -1000;
+	}
+	this.stageCoach.x = -500;
+	if(this.currentLevel > 20){
+		this.stageCoach.animation.play('turbo');
+	}else{
+		this.stageCoach.animation.play('move');
+	}
+	if(this.soundOptions.soundsOn){
+		this.wagonSound.play('start', true);
+		this.horseGallopSound.play('start', true);
+		if(this.numPlayers == 2){
+			this.horseGallopTimer = this.game.time.clock.createTimer('horseGallopTimer',1,0,false);
+			this.horseGallopTimerEvent = this.horseGallopTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.playHorseGallopSound2, this);
+			this.horseGallopTimer.start();
+		}
+
+	}
+}
+
+gameState.playHorseGallopSound2 = function(){
+	this.horseGallopSound2.play('start', true);
+}
+
+gameState.stopCutScene = function(){
+	this.showingBetweenScreenIcons = false;
+	if(this.showIconsTimer){
+		this.showIconsTimer.removeTimerEvent(this.showIconsTimerEvent);
+	}
+	if(this.bigCoinTimer){
+		this.bigCoinTimer.removeTimerEvent(this.bigCoinTimerEvent);
+	}
+	if(this.bigCoinTimerTotal){
+		this.bigCoinTimerTotal.removeTimerEvent(this.bigCoinTimerEventTotal)
+	}
+	if(this.updateBigCoinCounterTotalTimer){
+		this.updateBigCoinCounterTotalTimer.removeTimerEvent(this.updateBigCoinCounterTotalTimerEvent);
+	}
+	this.horseGallopSound.stop();
+	this.horseGallopSound2.stop();
+	this.wagonSound.stop();
+	this.flipSound.stop();
+}
+
+gameState.pauseCutSceneSounds = function(){
+	this.horseGallopSound.pause();
+	if(this.numPlayers == 2){
+		this.horseGallopSound2.pause();
+	}
+	this.wagonSound.pause();
+	this.flipSound.pause();	
+}
+
+gameState.resumeCutSceneSounds = function(){
+	this.horseGallopSound.resume();
+	if(this.numPlayers == 2){
+		this.horseGallopSound2.resume();
+	}
+	this.wagonSound.resume();
+	this.flipSound.resume();		
+}
+
+gameState.moveBanditsOffscreen = function(){
+	for(var i = 0; i<this.banditGroup.members.length; i++){
+		this.banditGroup.members[i].x = this.bps * (this.GRID_COLS + 2);
+	}
+}
+
+gameState.destroyEverything = function(removeBackground){
+	this.destroyingNow = true;
+	this.destroyAllMembersOfGroup(this.game.banditColors.GROUP_GHOUL);
+	this.destroyAllMembersOfGroup(this.game.banditColors.GROUP_COIN);
+	this.destroyAllMembersOfGroup(this.game.banditColors.GROUP_POTION);
+	this.destroyAllMembersOfGroup(this.game.banditColors.GROUP_BOMB);
+	this.destroyAllMembersOfGroup(this.game.banditColors.GROUP_HIDDENBLOCK);
+	this.destroyAllMembersOfGroup(this.game.banditColors.GROUP_CRACKS);
+	if(removeBackground){
+		this.removeBackgroundImages(false);	
+	}else{
+		this.removeBackgroundImages(true);
+	}
+}
+
+gameState.removeBackgroundImages = function(leaveBackground){
+	leaveBackground = typeof leaveBackground !== 'undefined' ? leaveBackground : false;
+	var members = this.members;
+	for(var i = 0; i<members.length; i++){
+		if(members[i].objType()!='Group' && members[i].name!='menu'){
+			if(leaveBackground){
+			  	if(members[i].name!='background'){
+					members[i].destroy();
+				}
+			}else{
+				members[i].destroy(); 
+			}
+		}
+	}
+}
+
+gameState.destroyAllMembersOfGroup = function(group){
+	switch(group){
+		case this.game.banditColors.GROUP_GHOUL:
+			var members = this.ghoulGroup.members;
+			break;
+		case this.game.banditColors.GROUP_COIN:
+			var members = this.coinGroup.members;
+			break;
+		case this.game.banditColors.GROUP_BOMB:
+			var members = this.bombGroup.members;
+			break;
+		case this.game.banditColors.GROUP_HIDDENBLOCK:
+			var members = this.hiddenBlockGroup.members;
+			break;
+		case this.game.banditColors.GROUP_CRACKS:
+			var members = this.cracksGroup.members;	
+			break;
+		case this.game.banditColors.GROUP_POTION:
+			var members = this.potionGroup.members;
+			break;
+		case this.game.banditColors.GROUP_REDHEARTS:
+			var members = this.redHeartsGroup.members;
+			break;
+		case this.game.banditColors.GROUP_BLUEHEARTS:
+			var members = this.blueHeartsGroup.members;
+			break;
+	}
+	for (var i =0; i<members.length; i++){
+		members[i].destroy();
+	}
+
+}
+
+gameState.isLevelOver = function(){
+	if(this.coinGroup.members.length==0){
+		if(this.soundOptions.soundsOn){	
+			if(this.rideOutPlayed == false){
+				this.voicesSound.play('rideOut',false);
+				this.rideOutPlayed = true;
+			}
+		}
+		this.timer.start();
+	}else if(!this.blue && !this.red){
+		this.timer.start();
+	}
+}
+
+gameState.isGameOver = function(){
+	var bandits = this.banditGroup.members;
+	this.gameIsOver = true;
+	for(var i = 0; i < bandits.length; i++){
+		if(bandits[i].numberOfHearts > 0){
+			this.gameIsOver = false;
+		}
+	}
+	if(this.gameIsOver){
+		if(this.soundOptions.musicOn){
+			this.currentMusic.stop();
+		}
+		this.addChild(this.loseScreen);
+		this.pauseAllTimers();
+		if(this.game.gamepads){
+			this.removeAllGamepadSignals();
+			this.addGamepadSignalsGameOver();
+		}
+		//this.destroyEverything(false);
+		this.showingLevelScreen = true;
+		this.iconsDuringCutScene();
+		this.iconsDuringLevelScreen();
+		this.moveBanditsOffscreen();
+	}
+}
+
+gameState.getArrayIndexFromRowCol = function(row, col){
+	return (row)*this.GRID_COLS + col + (this.GRID_COLS+1) + (row+1);
+}
+
+gameState.getArrayIndexForTilemapFromRowCol = function(row, col){
+	return (row)*this.GRID_COLS + col;
+}
+
+gameState.blastBlock = function(blastedBlockPosition, banditColor){
+	var hiddenBlocks = this.hiddenBlockGroup.members;
+	var alreadyExists = false;
+	var wasAGroundBlock = this.onBlockType(this.groundBlocks, blastedBlockPosition);
+	for (var i = 0; i<hiddenBlocks.length; i++){
+		var hiddenBlock = hiddenBlocks[i];
+		if(hiddenBlock.row == blastedBlockPosition[0] && hiddenBlock.col == blastedBlockPosition[1]){
+			alreadyExists = true;
+		}
+	}
+	
+	if(!alreadyExists && wasAGroundBlock){
+		var hiddenBlock = this.addHiddenBlock(blastedBlockPosition);
+		hiddenBlock.blastedBy = banditColor;
+		this.updateBlocksAfterAddingHiddenBlock(hiddenBlock);
+
+		this.removeCracksAtRowCol(hiddenBlock.row, hiddenBlock.col);
+
+		var index = this.getArrayIndexForTilemapFromRowCol(hiddenBlock.row, hiddenBlock.col);
+		var tileType = this.tilemap.layers[0].getTileFromIndex(index);
+		hiddenBlock.tileType = tileType.index;
+		this.tilemap.layers[0].setTileByIndex(index, 0);
+		this.tilemap.layers[0].dirty = true;
+
+		if(hiddenBlock.row > 0){
+			if(this.groundBlocks[hiddenBlock.row - 1][hiddenBlock.col] == 0){
+				var index = this.getArrayIndexForTilemapFromRowCol(hiddenBlock.row - 1, hiddenBlock.col);
+				var tileTypeAbove = this.tilemap.layers[5].getTileFromIndex(index)
+				hiddenBlock.tileTypeAboveFront = (tileTypeAbove.index);
+				this.tilemap.layers[5].setTileByIndex(index, 0);
+				this.tilemap.layers[5].dirty = true;
+				var tileTypeAbove = this.tilemap.layers[2].getTileFromIndex(index)
+				hiddenBlock.tileTypeAboveBack = (tileTypeAbove.index);		
+				this.tilemap.layers[2].setTileByIndex(index, 0);
+				this.tilemap.layers[2].dirty = true;	
+			}
+		}
+
+		if(this.soundOptions.soundsOn){
+			if(this.random.frac() <= 0.05){
+				this.voicesSound.play('sixFeetUnder',true);
+			}
+		}
+	}
+}
+
+gameState.removeCracksAtRowCol = function(row, col){
+	for(var i = 0; i < this.cracksGroup.members.length; i++){
+		if(this.cracksGroup.members[i].gridPosition[0] == row){
+			if(this.cracksGroup.members[i].gridPosition[1] == col){
+				var cracks = this.cracksGroup.removeChildAt(i);
+				this.updateGhoulBlocksAfterRemovingCracks(cracks);
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
+gameState.addHiddenBlock = function(blockPosition){
+	var pixels = this.getPixelPositionFromRowCol(blockPosition[0],blockPosition[1]);
+	var hiddenBlock = new HiddenBlock(this, pixels[0],pixels[1]);
+	hiddenBlock.animation.add('hide',[this.getArrayIndexFromRowCol(blockPosition[0],blockPosition[1])],0.1,false);
+	hiddenBlock.animation.play('hide');
+	this.hiddenBlockGroup.addChild(hiddenBlock);
+	return hiddenBlock
+}
+
+gameState.updateBlocksAfterAddingHiddenBlock = function(hiddenBlock){
+	this.removeFromGroundBlocks([hiddenBlock.row, hiddenBlock.col]);
+	this.updateTopGroundBlocks();
+	this.updateBlockedBlocks();	
+}
+
+gameState.updateGhoulBlocksAfterRemovingCracks = function(cracks){
+	this.removeFromGroundBlocksGhoul(cracks.gridPosition);
+	this.updateTopGroundBlocksGhoul();
+	this.updateBlockedBlocksGhoul();
+	this.updateGhoulBlocks();
+}
+
+gameState.addToBlocks = function(row, col, blocks){
+	blocks[row][col] = 1;
+}
+
+gameState.removeFromGroundBlocks = function(blastedBlockPosition){
+	this.groundBlocks[blastedBlockPosition[0]][blastedBlockPosition[1]] = 0;
+}
+
+gameState.removeFromGroundBlocksGhoul = function(gridPosition){
+	this.originalGroundBlocks[gridPosition[0]][gridPosition[1]] = 0;
+}
+
+gameState.updateTopGroundBlocks = function(){
+	for (var i = 0; i<this.GRID_ROWS-1; i++){
+		var thisRow = this.groundBlocks[i];
+		var nextRow = this.groundBlocks[i+1];
+		for(var j = 0; j<this.GRID_COLS; j++){
+			if(thisRow[j] == 0 && nextRow[j]==1){
+				this.topGroundBlocks[i][j] = 1;
+			}else{
+				this.topGroundBlocks[i][j] = 0;
+			}
+		}
+	}	
+}
+
+gameState.updateTopGroundBlocksGhoul = function(){
+	for (var i = 0; i<this.GRID_ROWS-1; i++){
+		var thisRow = this.originalGroundBlocks[i];
+		var nextRow = this.originalGroundBlocks[i+1];
+		for(var j = 0; j<this.GRID_COLS; j++){
+			if(thisRow[j] == 0 && nextRow[j]==1){
+				this.originalTopGroundBlocks[i][j] = 1;
+			}else{
+				this.originalTopGroundBlocks[i][j] = 0;
+			}
+		}
+	}	
+}
+
+gameState.updateBlockedBlocks = function(){
+	this.getBlockedBlocks(this.groundBlocks,'left',this.leftBlockedBlocks);
+	this.getBlockedBlocks(this.groundBlocks,'right',this.rightBlockedBlocks);
+}
+
+gameState.updateBlockedBlocksGhoul = function(){
+	this.getBlockedBlocks(this.originalGroundBlocks,'leftghoul',this.originalLeftBlockedBlocks);
+	this.getBlockedBlocks(this.originalGroundBlocks,'rightghoul',this.originalRightBlockedBlocks);
+}
+
+gameState.mouseClicked = function(){
+	if(this.game.states.current.name == "gameState"){
+		if(this.isPaused == true){
+			if(this.mouse.x > 250 && this.mouse.x < 750){
+				if(this.mouse.x > 450 && this.mouse.x < 600){
+					if(this.mouse.y > 620 && this.mouse.y < 680){
+						this.closeMenu();
+					}
+				}
+			}
+		}else if(this.showingLevelScreen == false){
+			if(this.mouse.x > 400 && this.mouse.x < 700 && this.mouse.y < 25 * this.MULTIPLIER){
+				this.openMenu();
+			}
+		}	
+	}	
+}
+
+gameState.showPressUp = function(){
+	this.pressUpSignTween.onComplete(function(){
+		this.showingPressUp = true;
+	}, this);	
+	this.pressUpSignTween.to({alpha: 1}, 250, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+}
+
+gameState.hidePressUp = function(){
+	this.pressUpSignTween.onComplete(function(){
+		this.showingPressUp = false;
+	}, this);		
+	this.pressUpSignTween.to({alpha: 0}, 1000, Kiwi.Animations.Tweens.Easing.Linear.Out, true);	
+}
+
+gameState.openTutorial = function(){
+	this.tutorialSignTween.onComplete(function(){
+		this.showingTutorial = true;	
+		if(this.game.gamepads){
+			this.addGamepadSignalsTutorial();
+		}
+	}, this);		
+	this.tutorialSignTween.to({y: 125}, 600, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+	this.pauseGame();
+	if(this.game.gamepads){
+		this.removeAllGamepadSignals();
+	}		
+}
+
+gameState.closeTutorial = function(){
+	this.tutorialSignTween.onComplete(function(){
+		this.showingTutorial = false;
+		if(this.game.gamepads){
+			this.addGamepadSignalsGame();
+		}
+		this.resumeGame();
+	}, this);	
+	this.tutorialSignTween.to({y: this.GRID_ROWS * this.bps}, 600, Kiwi.Animations.Tweens.Easing.Linear.Out, true);
+	if(this.game.gamepads){
+		this.removeAllGamepadSignals();
+	}	
+}
+
+gameState.openMenu = function(){
+	if(this.isPaused == false){
+		this.menuGroup.active = true;
+		this.pauseGame();
+		this.menuArrow.alpha = 0;
+		this.menuTween.to({y: -this.STAGE_Y_OFFSET}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+		this.menuGroupTween.to({y: -this.STAGE_Y_OFFSET}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+		if(this.game.gamepads){
+			this.removeAllGamepadSignals();
+			this.addGamepadSignalsMenu();
+		}	
+	}
+}
+
+gameState.closeMenu = function(param){
+	this.menuGroup.active = false;
+	if(param != 'noresume'){
+		this.resumeGame();
+	}
+	this.menuArrowTween.to({alpha: 1}, 1000, Kiwi.Animations.Tweens.Easing.Linear.Out,true);
+	this.menuTween.to({y: -800}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+	this.menuGroupTween.to({y: -800}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	
+	if(this.game.gamepads){
+		this.removeAllGamepadSignals();
+		this.addGamepadSignalsGame();
+	}			
+}
+
+gameState.checkIfOnSign = function(banditGridPosition){
+	if(this.currentLevel <= 3){
+		var signGridPosition = this.signGridPositions[this.currentLevel - 1];
+		if(banditGridPosition[0] == signGridPosition[0] && banditGridPosition[1] == signGridPosition[1]){
+			return true;
+		}else{
+			return false;
+		}
+	}else{
+		return false;
+	}
+}
+
+gameState.checkPressUp = function(){
+	var bandits = this.banditGroup.members;
+	var signGridPosition = this.signGridPositions[this.currentLevel - 1];
+	for (var i = 0; i < bandits.length; i++){
+		banditGridPosition = this.getGridPosition(bandits[i].x, bandits[i].y, 'middle');
+		if(banditGridPosition[0] == signGridPosition[0] && banditGridPosition[1] == signGridPosition[1]){
+			return true;
+		}
+	}
+	return false;
+}
+
+gameState.update = function(){
+	if(this.isPaused == false){
+		Kiwi.State.prototype.update.call(this);
+
+		if(this.gameIsOver){
+			if(this.mouse.isDown){
+				this.levelOver(false);
+				this.game.input.mouse.reset();
+			}						
+		}
+
+		if(this.showingLevelScreen == false){
+			this.checkCollisions();
+			this.isLevelOver();
+			this.isGameOver();
+
+			if(this.currentLevel <= 3){
+				if(this.checkPressUp()){
+					if(this.rideOutPlayed == false){
+						this.showPressUp();
+					}
+				}else{
+					if(this.showingPressUp == true){
+						this.hidePressUp();
+					}
+				}
+			}
+
+			if(this.debugKey.isDown){
+				this.switchToState('creditsState');
+			}
+		
+			if(this.mouse.isDown){
+				if(this.mouse.y > this.bps*this.GRID_ROWS && this.mouse.x < 20){
+					this.levelOver(true);
+					this.game.input.mouse.reset();
+				}
+				if(this.mouse.y > this.bps*this.GRID_ROWS && this.mouse.x > 980){
+					this.currentLevel = 15;
+					this.levelOver(true);
+					this.game.input.mouse.reset();
+				}		
+			}
+		}
+	}else if(this.showingTutorial){
+		if(this.mouse.justReleased()){
+			this.closeTutorial();
+		}else if(this.game.input.keyboard.anyKeyJustPressed()){
+			this.closeTutorial();
+		}
+	}else{
+		//menu is down
+		Kiwi.Group.prototype.update.call(this.menuGroup);
+	}
+}
+
+gameState.launchFullscreen = function(){
+	this.game.fullscreen.launchFullscreen()
+}
+
+gameState.pauseGame = function(){
+	this.isPaused = true;
+	if(this.showingLevelScreen){
+		this.pauseCutSceneSounds();
+	}
+	this.pauseAllTimers();
+}
+
+gameState.resumeGame = function(){
+	this.isPaused = false;
+	if(this.showingLevelScreen){
+		this.resumeCutSceneSounds();
+	}
+	this.resumeAllTimers();
+}
+
+gameState.pauseAllTimers = function(){
+	for (var i = 0; i < this.game.time.clock.timers.length; i++){
+		this.game.time.clock.timers[i].pause();
+	}
+}
+
+gameState.resumeAllTimers = function(){
+	for (var i = 0; i < this.game.time.clock.timers.length; i++){
+		this.game.time.clock.timers[i].resume();
+	}	
+}
+
+gameState.logAllTimers = function(){
+	for (var i = 0; i < this.game.time.clock.timers.length; i++){
+		console.log(this.game.time.clock.timers[i].name);
+	}		
+}
+
+gameState.removeAllGamepadSignals = function(){
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
+	this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
+	this.game.gamepads.gamepads[0].buttonIsDown.removeAll();
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.removeAll();
+
+	if(this.numPlayers == 2){
+		this.game.gamepads.gamepads[1].buttonOnDownOnce.removeAll();
+		this.game.gamepads.gamepads[1].buttonOnUp.removeAll();	
+		this.game.gamepads.gamepads[1].buttonIsDown.removeAll();	
+		this.game.gamepads.gamepads[1].thumbstickOnDownOnce.removeAll();		
+	}
+}
+
+gameState.addGamepadSignalsGame = function(){
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce0, this);
+	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp0, this);
+	this.game.gamepads.gamepads[0].buttonIsDown.add(this.buttonIsDown0, this)
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);
+	if(this.numPlayers == 2){
+		this.game.gamepads.gamepads[1].buttonOnDownOnce.add(this.buttonOnDownOnce1, this);
+		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUp1, this);
+		this.game.gamepads.gamepads[1].buttonIsDown.add(this.buttonIsDown1, this)
+		this.game.gamepads.gamepads[1].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);
+	}	
+}
+
+gameState.addGamepadSignalsGameOver = function(){
+	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringGameOver, this);
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);	
+	if(this.numPlayers == 2){
+		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringGameOver, this);
+		this.game.gamepads.gamepads[1].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);	
+	}	
+}
+
+gameState.addGamepadSignalsQuit = function(){
+	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringQuit, this);
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceDuringQuit, this);
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringQuit, this);
+	if(this.numPlayers == 2){
+		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringQuit, this);
+		this.game.gamepads.gamepads[1].buttonOnDownOnce.add(this.buttonOnDownOnceDuringQuit, this);
+		this.game.gamepads.gamepads[1].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringQuit, this);
+	}
+}
+
+gameState.addGamepadSignalsMenu = function(){
+	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringMenu, this);
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringMenu, this);
+	if(this.numPlayers == 2){
+		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringMenu, this);
+		this.game.gamepads.gamepads[1].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringMenu, this);
+	}
+}
+
+gameState.addGamepadSignalsBetweenScreen = function(){
+	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringBetweenScreen, this);
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringBetweenScreen, this);	
+	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);	
+	if(this.numPlayers == 2){
+		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringBetweenScreen, this);
+		this.game.gamepads.gamepads[1].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringBetweenScreen, this);
+		this.game.gamepads.gamepads[1].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);	
+	}
+}
+
+gameState.addGamepadSignalsTutorial = function(){
+	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringTutorial, this);
+	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.buttonOnUpDuringTutorial, this);
+
+	if(this.numPlayers == 2){
+		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringTutorial, this);
+		this.game.gamepads.gamepads[1].thumbstickOnDownOnce.add(this.buttonOnUpDuringTutorial, this);		
+	}	
+}
+
+gameState.buttonOnUpDuringTutorial = function(){
+	this.closeTutorial();
+}
+
+gameState.buttonOnDownOnceForQuitting = function(button){
+	if(button.name == "XBOX_BACK"){
+		this.showQuitDialog();
+	}
+}
+
+gameState.buttonOnDownOnce0 = function(button){
+	switch ( button.name ) {
+		case "XBOX_A":
+			if(!this.isPaused && !this.showingLevelScreen && this.red.isAlive){
+				this.red.goFire = true;
+				this.gunSound.play('start',true);
+				this.red.blastBlock();
+			}
+			break;
+		case "XBOX_B":
+			this.red.goBomb = true;
+			break;
+		case "XBOX_X":
+			this.red.goBomb = true;
+			break;
+		case "XBOX_Y":
+
+			break;
+		case "XBOX_DPAD_LEFT":
+			this.red.goLeft = true;
+			this.red.goRight = false;
+			break;
+		case "XBOX_DPAD_RIGHT":
+			this.red.goLeft = false;
+			this.red.goRight = true;
+			break;
+		case "XBOX_DPAD_UP":
+			this.red.goDown = false;
+			this.red.goUp = true;
+			break;
+		case "XBOX_DPAD_DOWN":
+			this.red.goDown = true;
+			this.red.goUp = false;
+			break;
+		default:
+			// Code
+	}
+
+}
+
+gameState.buttonIsDown0 = function(button){
+	switch ( button.name ) {
+		case "XBOX_DPAD_LEFT":
+			this.red.goLeft = true;
+			this.red.goRight = false;
+			break;
+		case "XBOX_DPAD_RIGHT":
+			this.red.goLeft = false;
+			this.red.goRight = true;
+			break;
+		case "XBOX_DPAD_UP":
+			this.red.goDown = false;
+			this.red.goUp = true;
+			break;
+		case "XBOX_DPAD_DOWN":
+			this.red.goDown = true;
+			this.red.goUp = false;
+			break;
+		default:
+			// Code
+	}
+}
+
+gameState.forwardMenuIcon = function(){
+	this.menuGroup.members[this.availableMenuIconsIndex].playOff();
+	if(this.availableMenuIconsIndex == this.availableMenuIcons.length - 1){
+		this.availableMenuIconsIndex = 0;
+	}else{
+		this.availableMenuIconsIndex++;
+	}
+	this.selectedIcon = this.menuGroup.members[this.availableMenuIconsIndex];
+	this.menuGroup.members[this.availableMenuIconsIndex].playHover();
+}
+
+gameState.backwardMenuIcon = function(){
+	this.menuGroup.members[this.availableMenuIconsIndex].playOff();
+	if(this.availableMenuIconsIndex == 0){
+		this.availableMenuIconsIndex = this.availableMenuIcons.length - 1;
+	}else{
+		this.availableMenuIconsIndex--;
+	}
+	this.selectedIcon = this.menuGroup.members[this.availableMenuIconsIndex];
+	this.menuGroup.members[this.availableMenuIconsIndex].playHover();	
+}
+
+gameState.buttonOnUpDuringGameOver = function(button){
+	this.levelOver(false);
+}
+
+gameState.buttonOnUpDuringMenu = function (button){
+	switch(button.name){
+		case "XBOX_A":
+			if(this.selectedIcon){
+				this.selectedIcon.mouseClicked();
+			}
+			break;
+		case "XBOX_B":
+			if(this.selectedIcon){
+				this.selectedIcon.playOff();
+			}
+			this.closeMenu();
+			break;
+		case "XBOX_X":
+			break;
+		case "XBOX_Y":
+			break;
+		case "XBOX_START":
+			if(this.selectedIcon){
+				this.selectedIcon.playOff();
+			}
+			this.closeMenu();
+			break;			
+		case "XBOX_DPAD_LEFT":
+			break;
+		case "XBOX_DPAD_RIGHT":
+			break;
+		case "XBOX_DPAD_UP":
+			this.backwardMenuIcon();
+			break;
+		case "XBOX_DPAD_DOWN":
+			this.forwardMenuIcon();
+			break;
+		default:
+			// Code
+	}
+}
+
+gameState.thumbstickOnDownOnceDuringMenu = function(stick){
+	switch ( stick.name ) {
+		case "XBOX_LEFT_VERT":
+			if(stick.value < 0){
+				this.backwardMenuIcon();
+			}else if (stick.value > 0){
+				this.forwardMenuIcon();
+			}
+			break;
+	}	
+}
+
+gameState.forwardQuitIcon = function(){
+	this.quitButtonGroup.members[this.quitIndex].playOff();
+	if(this.quitIndex == 0){
+		this.quitIndex = 1;
+	}else{
+		this.quitIndex = 0;
+	}
+	this.selectedQuitIcon = this.quitButtonGroup.members[this.quitIndex];
+	this.selectedQuitIcon.playHover();
+}
+
+gameState.thumbstickOnDownOnceDuringQuit = function(stick){
+	switch ( stick.name ) {
+		case "XBOX_LEFT_HORZ":
+			this.forwardQuitIcon();
+			break;
+	}	
+}
+
+gameState.buttonOnUpDuringQuit = function(button){
+	switch(button.name){
+		case "XBOX_A":
+			if(this.selectedQuitIcon){
+				this.selectedQuitIcon.mouseClicked();
+			}
+			break;		
+	}	
+}
+
+gameState.buttonOnDownOnceDuringQuit = function(button){
+	if(button.name == "XBOX_A"){
+		if(this.selectedQuitIcon){
+			this.selectedQuitIcon.playDown();
+		}
+	}
+}
+
+
+gameState.forwardBetweenScreenMenuIcon = function(){
+	this.iconGroup.members[this.availableBetweenScreenMenuIconsIndex].playOff();
+	if(this.availableBetweenScreenMenuIconsIndex == this.availableBetweenScreenMenuIcons.length - 1){
+		this.availableBetweenScreenMenuIconsIndex = 0;
+	}else{
+		this.availableBetweenScreenMenuIconsIndex++;
+	}
+	this.selectedBetweenScreenIcon = this.iconGroup.members[this.availableBetweenScreenMenuIconsIndex];
+	this.iconGroup.members[this.availableBetweenScreenMenuIconsIndex].playHover();
+}
+
+gameState.backwardBetweenScreenMenuIcon = function(){
+	this.iconGroup.members[this.availableBetweenScreenMenuIconsIndex].playOff();
+	if(this.availableBetweenScreenMenuIconsIndex == 0){
+		this.availableBetweenScreenMenuIconsIndex = this.availableBetweenScreenMenuIcons.length - 1;
+	}else{
+		this.availableBetweenScreenMenuIconsIndex--;
+	}
+	this.selectedBetweenScreenIcon = this.iconGroup.members[this.availableBetweenScreenMenuIconsIndex];
+	this.iconGroup.members[this.availableBetweenScreenMenuIconsIndex].playHover();	
+}
+
+gameState.buttonOnUpDuringBetweenScreen = function(button){
+	switch(button.name){
+		case "XBOX_A":
+			if(this.selectedBetweenScreenIcon){
+				this.selectedBetweenScreenIcon.mouseClicked();
+			}
+			break;
+		case "XBOX_B":
+			break;
+		case "XBOX_X":
+			break;
+		case "XBOX_Y":
+			break;
+		case "XBOX_START":
+			this.playIcon.mouseClicked();
+			break;			
+		case "XBOX_DPAD_LEFT":
+			this.backwardBetweenScreenMenuIcon();
+			break;
+		case "XBOX_DPAD_RIGHT":
+			this.forwardBetweenScreenMenuIcon();
+			break;
+		case "XBOX_DPAD_UP":
+			break;
+		case "XBOX_DPAD_DOWN":
+			break;
+		default:
+			// Code		
+	}
+}
+
+gameState.thumbstickOnDownOnceDuringBetweenScreen = function(stick){
+	switch ( stick.name ) {
+		case "XBOX_LEFT_HORZ":
+			if(stick.value < 0){
+				this.backwardBetweenScreenMenuIcon();
+			}else if (stick.value > 0){
+				this.forwardBetweenScreenMenuIcon();
+			}
+			break;
+	}	
+}
+
+gameState.buttonOnUp0 = function( button ){
+	// console.log("UP:  ", button.name);
+	switch ( button.name ) {
+		case "XBOX_A":
+			this.red.goFire = false;
+			break;
+		case "XBOX_B":
+			this.red.goBomb = false;
+			break;
+		case "XBOX_X":
+			this.red.goBomb = false;
+			break;
+		case "XBOX_Y":
+			this.red.goBomb = false;
+			break;
+		case "XBOX_START":
+			if(!this.isPaused){
+				this.openMenu();
+				this.availableMenuIconsIndex = 0;
+				this.selectedIcon = this.menuGroup.members[this.availableMenuIconsIndex];
+				this.menuGroup.members[this.availableMenuIconsIndex].playHover();
+			}
+			break;			
+		case "XBOX_DPAD_LEFT":
+			this.red.goLeft = false;
+			this.red.goRight = false;
+			break;
+		case "XBOX_DPAD_RIGHT":
+			this.red.goLeft = false;
+			this.red.goRight = false;
+			break;
+		case "XBOX_DPAD_UP":
+			this.red.goDown = false;
+			this.red.goUp = false;	
+			break;
+		case "XBOX_DPAD_DOWN":
+			this.red.goDown = false;
+			this.red.goUp = false;	
+			break;
+		default:
+			// Code
+	}
+}
+
+gameState.buttonOnDownOnce1 = function(button){
+	switch ( button.name ) {
+		case "XBOX_A":
+			if(this.blue.isAlive){
+				this.blue.goFire = true;
+				this.gunSound.play('start',true);
+				this.blue.blastBlock();
+			}
+			break;
+		case "XBOX_B":
+			this.blue.goBomb = true;
+			break;
+		case "XBOX_X":
+			this.blue.goBomb = true;
+			break;
+		case "XBOX_Y":
+			break;
+		case "XBOX_DPAD_LEFT":
+			this.blue.goLeft = true;
+			this.blue.goRight = false;
+			break;
+		case "XBOX_DPAD_RIGHT":
+			this.blue.goLeft = false;
+			this.blue.goRight = true;
+			break;
+		case "XBOX_DPAD_UP":
+			this.blue.goDown = false;
+			this.blue.goUp = true;
+			break;
+		case "XBOX_DPAD_DOWN":
+			this.blue.goDown = true;
+			this.blue.goUp = false;
+			break;
+		default:
+			// Code
+	}
+
+}
+
+gameState.buttonIsDown1 = function(button){
+	switch ( button.name ) {
+		case "XBOX_DPAD_LEFT":
+			this.blue.goLeft = true;
+			this.blue.goRight = false;
+			break;
+		case "XBOX_DPAD_RIGHT":
+			this.blue.goLeft = false;
+			this.blue.goRight = true;
+			break;
+		case "XBOX_DPAD_UP":
+			this.blue.goDown = false;
+			this.blue.goUp = true;
+			break;
+		case "XBOX_DPAD_DOWN":
+			this.blue.goDown = true;
+			this.blue.goUp = false;
+			break;
+		default:
+			// Code
+	}
+}
+
+gameState.buttonOnUp1 = function( button ){
+	// console.log("UP:  ", button.name);
+	switch ( button.name ) {
+		case "XBOX_A":
+			this.blue.goFire = false;
+			break;
+		case "XBOX_B":
+			this.blue.goBomb = false;
+			break;
+		case "XBOX_X":
+			this.blue.goBomb = false;
+			break;
+		case "XBOX_Y":
+			this.blue.goBomb = false;
+			break;
+		case "XBOX_START":
+			if(!this.isPaused){
+				this.openMenu();
+				this.availableMenuIconsIndex = 0;
+				this.selectedIcon = this.menuGroup.members[this.availableMenuIconsIndex];
+				this.menuGroup.members[this.availableMenuIconsIndex].playHover();
+			}
+			break;			
+		case "XBOX_DPAD_LEFT":
+			this.blue.goLeft = false;
+			this.blue.goRight = false;
+			break;
+		case "XBOX_DPAD_RIGHT":
+			this.blue.goLeft = false;
+			this.blue.goRight = false;
+			break;
+		case "XBOX_DPAD_UP":
+			this.blue.goDown = false;
+			this.blue.goUp = false;	
+			break;
+		case "XBOX_DPAD_DOWN":
+			this.blue.goDown = false;
+			this.blue.goUp = false;	
+			break;
+		default:
+			// Code
+	}
+}
+
+
+gameState.checkController = function(bandit){
+	if(bandit.color == this.game.banditColors.RED){
+		var index = 0;
+	}else if(bandit.color == this.game.banditColors.BLUE){
+		var index = 1;
+	}
+	var leftright = this.game.gamepads.gamepads[index].axis0;
+	var updown = this.game.gamepads.gamepads[index].axis1;
+
+	if(leftright.value < 0){
+		if(leftright.value < -0.5){
+			if(Math.abs(updown.value) < 0.3 || Math.abs(leftright.value) > Math.abs(updown.value)){
+				bandit.goLeft = true;
+				bandit.goRight = false;
+			}else{
+				bandit.goLeft = false;
+				bandit.goRight = false;
+			}
+		}else{
+			if(leftright.value < -0.3){
+				if(bandit.facing = 'right'){
+					bandit.facing = 'left';
+					bandit.goFire = false;
+				}
+			}
+			bandit.goLeft = false;
+			bandit.goRight = false;			
+		}
+	}else{
+		if(leftright.value > 0.5){
+			if(Math.abs(updown.value) < 0.3 || Math.abs(leftright.value) > Math.abs(updown.value)){
+				bandit.goLeft = false;
+				bandit.goRight = true;
+			}else{
+				bandit.goLeft = false;
+				bandit.goRight = false;
+			}
+		}else{
+			if(leftright.value > 0.3){
+				if(bandit.facing = 'left'){
+					bandit.facing = 'right';
+					bandit.goFire = false;
+				}
+			}
+			bandit.goLeft = false;
+			bandit.goRight = false;			
+		}
+	}
+	
+	if(updown.value < 0){
+		if(updown.value < -0.3){
+			if(Math.abs(leftright.value) < 0.3 || Math.abs(updown.value) > Math.abs(leftright.value)){
+				bandit.goDown = false;
+				bandit.goUp = true;
+			}else{
+				bandit.goDown = false;
+				bandit.goUp = false;
+			}
+		}else{
+			bandit.goDown = false;
+			bandit.goUp = false;			
+		}
+	}else{
+		if(updown.value > 0.3){
+			if(Math.abs(leftright.value) < 0.3 || Math.abs(updown.value) > Math.abs(leftright.value)){
+				bandit.goDown = true;
+				bandit.goUp = false;
+			}else{
+				bandit.goDown = false;
+				bandit.goUp = false;
+			}
+		}else{
+			bandit.goDown = false;
+			bandit.goUp = false;			
+		}
+	}
+}
+
+gameState.changeToHappyMusic = function(){
+	if(this.currentMusic.isPlaying){
+		this.musicTween = this.game.tweens.create(this.currentMusic);
+		this.musicTween.onComplete(this.changeToHappyMusic2, this);
+		this.musicTween.to({volume: 0}, 600, Kiwi.Animations.Tweens.Easing.Linear.In, true);
+	}
+}
+
+gameState.changeToHappyMusic2 = function(){
+	if(this.soundOptions.musicOn){
+		this.game.currentMusic = this.musicSoundList[0];
+		this.game.currentMusic.play();
+	}
+}
+
+gameState.shutDown = function(){
+	var removingHeartTimers = true;
+	while(removingHeartTimers){
+		removingHeartTimers = this.game.time.clock.removeTimer(null, 'heartTimer');
+	}
+	this.removeAllGamepadSignals();
+	this.game.input.keyboard.onKeyDown.removeAll();
+	this.game.input.keyboard.onKeyUp.removeAll();
+	if(this.currentMusic.isPlaying){
+		this.currentMusic.stop();
+	}
+	this.game.tweens.removeAll();
+}
+/// <reference path="kiwi.d.ts"/>
+
+var gameOptions = {debug: Kiwi.DEBUG_OFF, 
+    plugins: ["Fullscreen", "Gamepad", "SaveGame", "Primitives"],
+    width: 1024,
+    height: 768,
+    scaleType: Kiwi.Stage.SCALE_FIT,
+	name: "Bandit"}
+
+var myGame = new Kiwi.Game('game','Bandit',null, gameOptions);
+
+myGame.levelsUnlocked = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+myGame.soundOptions = {soundsOn: true, musicOn: true};  
+myGame.inputOptions = {gamepad: false};
+
+myGame.banditColors = {RED: 200, BLUE: 405, BLACK: 102, GHOUL_DIGIT: 104,
+	GROUP_GHOUL: 110,
+	GROUP_COIN: 202,
+	GROUP_POTION: 5,
+	GROUP_BOMB: 10,
+	GROUP_HIDDENBLOCK: 23,
+	GROUP_CRACKS: 45,
+	GROUP_BLUEHEARTS: 1,
+	GROUP_REDHEARTS: 2
+};
+
+myGame.setUpQuitDialog = function(){
+	this.quitDialog = new Kiwi.GameObjects.StaticImage(this, this.textures['quitDialog'], 0, -500);
+	this.quitDialog.name = 'menu';
+	this.quitDialog.x = this.game.stage.width/2-this.quitDialog.width/2;
+	this.quitTween = this.game.tweens.create(this.quitDialog);   
+	this.quitButtonGroup = new Kiwi.Group(this);
+    this.yesButton = new QuitIcon(this, 340, 90, 'yes');
+	this.noButton = new QuitIcon(this, 530, 90, 'no');
+	this.quitButtonGroup.addChild(this.yesButton);
+	this.quitButtonGroup.addChild(this.noButton);
+	this.quitButtonGroup.y = -500;
+	this.quitButtonGroup.active = false;
+	this.quitTween2 = this.game.tweens.create(this.quitButtonGroup);    
+	this.quitIndex = 0;   
+	this.selectedQuitIcon = this.quitButtonGroup.members[this.quitIndex];
+}
+
+myGame.addQuitDialog = function(){
+    this.addChild(this.quitDialog);
+	this.addChild(this.quitButtonGroup); 	
+}
+
+myGame.titleStateShowQuitDialog = function(){
+	this.buttonGroup.active = false;
+	this.quitButtonGroup.active = true;
+	this.selectedMenuIconIndex = 0;
+	this.group = this.quitButtonGroup;
+	this.changeSelectedMenuIcon(0);
+
+	if(this.game.gamepads){
+		this.removeAllGamepadSignals();
+		this.addGamepadSignalsQuit();
+	}
+
+	this.quitTween.to({y: 300}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+	this.quitTween2.to({y: 300}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);    
+}
+
+myGame.titleStateCloseQuitDialog = function(){
+	this.buttonGroup.active = true;
+	this.quitButtonGroup.active = false;
+	this.group = this.buttonGroup;
+	if(this.showingControls){
+		this.changeSelectedMenuIcon('back');
+	}else{
+		this.selectedMenuIconIndex = 0;
+		this.changeSelectedMenuIcon(0);
+	}
+
+	if(this.game.gamepads){
+        this.removeAllGamepadSignals();
+        if(this.showingControls){
+            this.addGamepadSignalsControls();
+        }else{
+            this.addGamepadSignalsTitle();
+        }
+    }	
+
+	this.quitTween.to({y: -500}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	
+	this.quitTween2.to({y: -500}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	  
+}
+
+myGame.quitGame = function(){
+    window.close();
+}
+
+myGame.states.addState(loadingState);
+myGame.states.addState(inputState);
+myGame.states.addState(titleState);
+myGame.states.addState(levelSelectionState);
+myGame.states.addState(gameState);
+myGame.states.addState(creditsState);
+myGame.states.switchState('loadingState');
