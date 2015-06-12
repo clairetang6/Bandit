@@ -1,6 +1,6 @@
 /// <reference path="kiwi.d.ts"/>
 
-var gameOptions = {debug: Kiwi.DEBUG_ON, 
+var gameOptions = {debug: Kiwi.DEBUG_OFF, 
     plugins: ["Fullscreen", "Gamepad", "SaveGame", "Primitives"],
     width: 1024,
     height: 768,
