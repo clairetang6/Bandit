@@ -231,7 +231,6 @@ titleState.update = function(){
 }
 
 titleState.gamepadConnected = function(){
-	console.log('gamepad started');
 	this.selectedMenuIcon.playHover();
 }
 
@@ -456,8 +455,6 @@ titleState.onPressControls = function(keyCode){
 		this.selectedMenuIcon.alpha = 1;
 	}else if(keyCode == Kiwi.Input.Keycodes.ENTER || keyCode == Kiwi.Input.Keycodes.SPACEBAR){
 		this.selectedMenuIcon.playDown();
-	}else if(keyCode == Kiwi.Input.Keycodes.I){
-		console.log(this.selectedMenuIcon);
 	}
 }
 

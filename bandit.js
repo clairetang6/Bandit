@@ -302,7 +302,6 @@ Bandit.prototype.update = function(){
 
 Bandit.prototype.tryPlacingBomb = function(southGridPosition){
 	if(this.state.onBlockType(this.state.topGroundBlocks, southGridPosition)){
-		console.log(this.bombClock.elapsed());
 		if(this.bombClock.elapsed() > 5){
 			this.placeBomb();
 		}
@@ -765,7 +764,7 @@ var Bomb = function(state, x, y){
 	this.animation.add('explode',[61,341,64,340,63,339,62,338,58,59],0.12,false);
 	this.animation.play('idle');
 
-	this.animation.getAnimation('explode').onComplete.add(function(){console.log(this);this.explode();}, this);
+	this.animation.getAnimation('explode').onComplete.add(function(){this.explode();}, this);
 
 	this.timerAnimation = this.state.game.time.clock.createTimer('bombAnimation',1,0,false);
 	this.timerAnimationEvent = this.timerAnimation.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP, this.explodeAnimation, this);

@@ -1682,18 +1682,15 @@ gameState.unlockLevel = function(level){
 }
 
 gameState.setHighScoreOnePlayer = function(levelScore){
-	console.log(levelScore);
 	if(this.currentLevel <= 21){
 		if(levelScore > this.game.levelsData[this.currentLevel-2][this.numPlayers-1].highScore){
 			this.game.levelsData[this.currentLevel-2][this.numPlayers-1].highScore = levelScore;
 			this.game.saveManager.localStorage.edit('levelsData', this.game.levelsData, true);
 		}
 	}
-	console.log(this.game.levelsData);
 }
 
 gameState.setHighScoreTwoPlayer = function(levelScore1, levelScore2){
-	console.log(levelScore1 + ' ' + levelScore2);
 
 	if(this.currentLevel <= 21){
 		if(levelScore1 > this.game.levelsData[this.currentLevel-2][this.numPlayers-1].highScore1){
@@ -1704,8 +1701,7 @@ gameState.setHighScoreTwoPlayer = function(levelScore1, levelScore2){
 			this.game.levelsData[this.currentLevel-2][this.numPlayers-1].highScore2 = levelScore2;
 			this.game.saveManager.localStorage.edit('levelsData', this.game.levelsData, true);
 		}		
-	}	
-	console.log(this.game.levelsData);
+	}
 
 }
 
@@ -1799,7 +1795,6 @@ gameState.showStars = function(numStars){
 	this.stars[1].visible = false;
 	this.stars[2].visible = false;
 
-	console.log('showing stars ' + numStars)
 	this.showStarsIndex = 0;
 	this.showStarsTimer = this.game.time.clock.createTimer('showStarsTimer', 0.5, numStars, false);
 	this.showStarsTimerEvent = this.showStarsTimer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_COUNT, this.tickStars, this);
