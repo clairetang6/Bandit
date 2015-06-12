@@ -474,4 +474,5 @@ titleState.shutDown = function(){
 	this.selectedMenuIcon = null;
 	this.game.input.keyboard.onKeyDown.removeAll();
 	this.game.input.keyboard.onKeyUp.removeAll();
+	this.game.tweens.removeAll();
 }

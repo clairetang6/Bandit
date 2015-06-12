@@ -105,6 +105,10 @@ creditsState.create = function(){
 	this.blackBox = new Kiwi.Plugins.Primitives.Rectangle(fadeOutParams);
 	this.blackBox.alpha = 0;
 	this.blackBoxTween = this.game.tweens.create(this.blackBox);
+	var fadeInParams = {state: this, width: this.game.stage.width, height: this.game.stage.height, x: 0, y: 0, color: [0,0,0]};
+	this.whiteBox = new Kiwi.Plugins.Primitives.Rectangle(fadeInParams);
+	this.whiteBox.alpha = 1;
+	this.whiteBoxTween = this.game.tweens.create(this.whiteBox);
 
 	this.addChild(this.parallaxBackground);
 	this.addChild(this.cloudGroup2);
@@ -122,6 +126,7 @@ creditsState.create = function(){
 	this.addChild(this.cloudGroup);
 	
 	this.addChild(this.blackBox);
+	this.addChild(this.whiteBox);
 	
 	this.game.addQuitDialog.call(this);
 
@@ -137,7 +142,8 @@ creditsState.create = function(){
 	
 	this.random = new Kiwi.Utils.RandomDataGenerator();
 	this.showingNameClouds = true;
-	this.isPaused = false;
+
+	this.hasFadedIn = false;
 }
 
 creditsState.fadeOut = function(){
@@ -179,6 +185,10 @@ creditsState.forwardQuitIcon = function(){
 }
 
 creditsState.update = function(){
+	if(this.hasFadedIn == false){
+		this.whiteBoxTween.to({alpha: 0}, 1400, Kiwi.Animations.Tweens.Easing.Cubic.In, true);
+		this.hasFadedIn = true;
+	}
 	if(this.isPaused == false){
 		Kiwi.State.prototype.update.call(this);
 		this.parallaxMountain.x -= this.mountainSpeed;
@@ -387,4 +397,8 @@ creditsState.shutDown = function(){
 	this.removeAllGamepadSignals();
 	this.game.input.keyboard.onKeyDown.removeAll();
 	this.game.input.keyboard.onKeyUp.removeAll();
+	if(this.game.currentMusic.isPlaying){
+		this.game.currentMusic.stop();
+	}
+	this.game.tweens.removeAll();
 }

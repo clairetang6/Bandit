@@ -814,6 +814,11 @@ gameState.createLevel = function(){
 		this.addChild(this.tutorialSign);
 	}
 	
+	var fadeOutParams = {state: this, width: 1000, height: this.game.stage.height + this.STAGE_Y_OFFSET, x: 0, y: -1*this.STAGE_Y_OFFSET, color: [1,1,1]};
+	this.blackBox = new Kiwi.Plugins.Primitives.Rectangle(fadeOutParams);
+	this.blackBox.alpha = 0;
+	this.addChild(this.blackBox);
+	
 	this.game.addQuitDialog.call(this);
 
 	this.rideOutPlayed = false;
@@ -1636,7 +1641,8 @@ gameState.levelOver = function(showCutScene){
 			this.destroyEverything(true);
 			this.game.states.switchState('titleState');
 		}else if(this.currentLevel > this.numberOfLevels){
-			this.addChild(this.winScreen);
+			//this.addChild(this.winScreen);
+			this.goToCredits();
 		}else{
 			this.unlockLevel(this.currentLevel);
 			if(showCutScene){
@@ -1648,6 +1654,24 @@ gameState.levelOver = function(showCutScene){
 			}
 		}
 	}
+}
+
+gameState.goToCredits = function(){
+	this.gameTimer.pause();
+	this.background3Tween = this.game.tweens.create(this.background2);
+	this.background3Tween.onComplete(this.fadeToCredits, this);
+	this.background3Tween.to({ alpha: 1 }, 1000, Kiwi.Animations.Tweens.Easing.Sinusoidal.Out, false);
+	this.background3Tween.start();	
+}
+
+gameState.fadeToCredits = function(){
+	this.blackBoxTween = this.game.tweens.create(this.blackBox);
+	this.blackBoxTween.onComplete(this.switchToCredits, this);
+	this.blackBoxTween.to({alpha: 1}, 1400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+}
+
+gameState.switchToCredits = function(){
+	this.switchToState('creditsState');
 }
 
 gameState.unlockLevel = function(level){
@@ -1827,8 +1851,8 @@ gameState.switchToTitleStateFromBetweenScreen = function(){
 }
 
 gameState.switchToState = function(stateName){
-	this.destroyEverything(true);
 	this.gameTimer.removeTimerEvent(this.gameTimerEvent);
+	this.destroyEverything(true);
 	this.game.states.switchState(stateName);
 }
 
@@ -2112,12 +2136,16 @@ gameState.playHorseGallopSound2 = function(){
 
 gameState.stopCutScene = function(){
 	this.showingBetweenScreenIcons = false;
-	this.showIconsTimer.removeTimerEvent(this.showIconsTimerEvent);
-	this.bigCoinTimer.removeTimerEvent(this.bigCoinTimerEvent);
-	try{
+	if(this.showIconsTimer){
+		this.showIconsTimer.removeTimerEvent(this.showIconsTimerEvent);
+	}
+	if(this.bigCoinTimer){
+		this.bigCoinTimer.removeTimerEvent(this.bigCoinTimerEvent);
+	}
+	if(this.bigCoinTimerTotal){
 		this.bigCoinTimerTotal.removeTimerEvent(this.bigCoinTimerEventTotal)
-	}catch(err){
-	}finally{
+	}
+	if(this.updateBigCoinCounterTotalTimer){
 		this.updateBigCoinCounterTotalTimer.removeTimerEvent(this.updateBigCoinCounterTotalTimerEvent);
 	}
 	this.horseGallopSound.stop();
@@ -3168,8 +3196,8 @@ gameState.changeToHappyMusic = function(){
 
 gameState.changeToHappyMusic2 = function(){
 	if(this.soundOptions.musicOn){
-		this.currentMusic = this.musicSoundList[0];
-		this.currentMusic.play();
+		this.game.currentMusic = this.musicSoundList[0];
+		this.game.currentMusic.play();
 	}
 }
 
@@ -3184,4 +3212,5 @@ gameState.shutDown = function(){
 	if(this.currentMusic.isPlaying){
 		this.currentMusic.stop();
 	}
+	this.game.tweens.removeAll();
 }
