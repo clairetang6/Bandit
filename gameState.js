@@ -2557,21 +2557,6 @@ gameState.update = function(){
 				}
 			}
 
-			if(this.debugKey.isDown){
-				this.switchToState('creditsState');
-			}
-		
-			if(this.mouse.isDown){
-				if(this.mouse.y > this.bps*this.GRID_ROWS && this.mouse.x < 20){
-					this.levelOver(true);
-					this.game.input.mouse.reset();
-				}
-				if(this.mouse.y > this.bps*this.GRID_ROWS && this.mouse.x > 980){
-					this.currentLevel = 15;
-					this.levelOver(true);
-					this.game.input.mouse.reset();
-				}		
-			}
 		}
 	}else if(this.showingTutorial){
 		if(this.mouse.justReleased()){
