@@ -1,7 +1,7 @@
 {
 	"name": "Bandit",
 	"main": "index.html",
-	"version": "0.8.7",
+	"version": "0.8.8",
 	"window": {
 		"title": "Bandit",
 		"toolbar": true,
