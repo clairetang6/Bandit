@@ -857,6 +857,7 @@ gameState.createLevel = function(){
 
 	this.selectedBetweenScreenIcon = this.playIcon;
 
+	this.showingCutScene = false;
 	this.showingBetweenScreenIcons = false;
 	this.showingLevelScreen = false;
 	this.showingTutorial = false;
@@ -1035,8 +1036,10 @@ gameState.onKeyDownCallback = function(keyCode){
 
 		if(this.showingLevelScreen){
 			if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
-				if(this.selectedBetweenScreenIcon){
-					this.selectedBetweenScreenIcon.playDown();
+				if(this.showingCutScene){
+					if(this.selectedBetweenScreenIcon){
+						this.selectedBetweenScreenIcon.playDown();
+					}
 				}
 			}
 			if(this.showingBetweenScreenIcons){
@@ -1103,9 +1106,11 @@ gameState.onKeyUpCallback = function(keyCode){
 				}
 			}
 		}else if(this.showingLevelScreen){
-			if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
-				if(this.selectedBetweenScreenIcon){
-					this.selectedBetweenScreenIcon.mouseClicked();
+			if(this.showingCutScene){
+				if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+					if(this.selectedBetweenScreenIcon){
+						this.selectedBetweenScreenIcon.mouseClicked();
+					}
 				}
 			}			
 		}
@@ -1728,6 +1733,7 @@ gameState.getTotalScores = function(){
 }
 
 gameState.showCutScene = function(){
+	this.showingCutScene = true;
 	this.destroyEverything(false);
 	this.iconsDuringCutScene();
 
@@ -2130,6 +2136,7 @@ gameState.playHorseGallopSound2 = function(){
 }
 
 gameState.stopCutScene = function(){
+	this.showingCutScene = false;
 	this.showingBetweenScreenIcons = false;
 	if(this.showIconsTimer){
 		this.showIconsTimer.removeTimerEvent(this.showIconsTimerEvent);
