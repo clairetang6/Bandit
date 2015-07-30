@@ -857,6 +857,7 @@ gameState.createLevel = function(){
 
 	this.selectedBetweenScreenIcon = this.playIcon;
 
+	this.showingCutScene = false;
 	this.showingBetweenScreenIcons = false;
 	this.showingLevelScreen = false;
 	this.showingTutorial = false;
@@ -1035,8 +1036,10 @@ gameState.onKeyDownCallback = function(keyCode){
 
 		if(this.showingLevelScreen){
 			if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
-				if(this.selectedBetweenScreenIcon){
-					this.selectedBetweenScreenIcon.playDown();
+				if(this.showingCutScene){
+					if(this.selectedBetweenScreenIcon){
+						this.selectedBetweenScreenIcon.playDown();
+					}
 				}
 			}
 			if(this.showingBetweenScreenIcons){
@@ -1103,9 +1106,11 @@ gameState.onKeyUpCallback = function(keyCode){
 				}
 			}
 		}else if(this.showingLevelScreen){
-			if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
-				if(this.selectedBetweenScreenIcon){
-					this.selectedBetweenScreenIcon.mouseClicked();
+			if(this.showingCutScene){
+				if(keyCode == Kiwi.Input.Keycodes.SPACEBAR || keyCode == Kiwi.Input.Keycodes.ENTER){
+					if(this.selectedBetweenScreenIcon){
+						this.selectedBetweenScreenIcon.mouseClicked();
+					}
 				}
 			}			
 		}
@@ -1732,6 +1737,7 @@ gameState.getTotalScores = function(){
 }
 
 gameState.showCutScene = function(){
+	this.showingCutScene = true;
 	this.destroyEverything(false);
 	this.iconsDuringCutScene();
 
@@ -1833,6 +1839,7 @@ gameState.tweenInCurtains = function(){
 }
 
 gameState.tweenOutCurtains = function(onCompleteCallback){
+	console.log('tweening out curtain');
 	this.curtainRightTween.onComplete(onCompleteCallback, this);
 	this.curtainLeftTween.to({x: -100}, 250, Kiwi.Animations.Tweens.Easing.Cubic.In, true);	
 	this.curtainRightTween.to({x: 1100}, 250, Kiwi.Animations.Tweens.Easing.Cubic.In, true);	
@@ -2135,6 +2142,7 @@ gameState.playHorseGallopSound2 = function(){
 }
 
 gameState.stopCutScene = function(){
+	this.showingCutScene = false;
 	this.showingBetweenScreenIcons = false;
 	if(this.showIconsTimer){
 		this.showIconsTimer.removeTimerEvent(this.showIconsTimerEvent);
