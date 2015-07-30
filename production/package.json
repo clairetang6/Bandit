@@ -1,10 +1,10 @@
 {
 	"name": "Bandit",
 	"main": "index.html",
-	"version": "0.8.6",
+	"version": "0.8.7",
 	"window": {
 		"title": "Bandit",
-		"toolbar": false,
+		"toolbar": true,
 		"fullscreen": true,
 		"frame": false
 	}
