@@ -1,5 +1,6 @@
 /// <reference path="kiwi.d.ts"/>
 
+(function(){
 /**
 *
 * @module Kiwi
@@ -45425,3 +45426,5 @@ myGame.states.addState(levelSelectionState);
 myGame.states.addState(gameState);
 myGame.states.addState(creditsState);
 myGame.states.switchState('loadingState');
+
+})();
