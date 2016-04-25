@@ -72,7 +72,7 @@ loadingState.preload = function(){
 	for (var i = 1; i<=this.numberOfLevels; i++){
 		this.addImage('background'+i,'assets/canvases/canvas'+i+'.png',true);
 		this.addSpriteSheet('backgroundSpriteSheet'+i,'assets/canvases/canvas'+i+'.png',this.bps,this.bps);
-		this.addJSON('level_tilemap'+i,'level'+i+'.json');		
+		this.addJSON('level_tilemap'+i,'levels/level'+i+'.json');		
 	}
 	this.addSpriteSheet('digits','assets/digits.png',18*this.MULTIPLIER,18*this.MULTIPLIER);	
 	this.addSpriteSheet('level_selection','assets/level_selection_spritesheet.png',132,132);
