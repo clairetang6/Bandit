@@ -209,7 +209,9 @@ Bandit.prototype.blastBlock = function(){
 Bandit.prototype.update = function(){
 	Kiwi.GameObjects.Sprite.prototype.update.call(this);
 	if(this.state.showingLevelScreen == false){
-		this.state.checkController(this);
+		if(this.state.game.gamepads){
+			this.state.checkController(this);
+		}
 		if(!this.isDeadAndOnGround){
 			var southGridPosition = this.state.getGridPosition(this.x, this.y, 'south');
 		 	if(this.isAlive){

@@ -125,7 +125,9 @@ titleState.finishAddingToSreen = function(){
 	this.addChild(this.backButton);
 
 	if(this.game.gamepads){
-		this.game.gamepads.gamepadConnected.add(this.gamepadConnected, this);
+		if(this.game.gamepads.gamepadConnected){
+			this.game.gamepads.gamepadConnected.add(this.gamepadConnected, this);
+		}
 		this.addGamepadSignalsTitle();
 	}
 
@@ -141,22 +143,28 @@ titleState.finishAddingToSreen = function(){
 }
 
 titleState.addGamepadSignalsTitle = function(){
-	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceAButton, this);
-	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpAButton, this);
-	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceArrowPad, this);
-	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce, this);
+	if(this.game.gamepads.gamepads.length > 0){
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceAButton, this);
+		this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpAButton, this);
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceArrowPad, this);
+		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce, this);
+	}
 }
 
 titleState.addGamepadSignalsControls = function(){
-	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpAButton, this);	
-	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceAButton, this);	
+	if(this.game.gamepads.gamepads.length > 0){
+		this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpAButton, this);	
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceAButton, this);
+	}	
 }
 
 titleState.addGamepadSignalsQuit = function(){
-	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpAButton, this);	
-	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceAButton, this);
-	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceArrowPad, this);	
-	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce2, this);
+	if(this.game.gamepads.gamepads.length > 0){
+		this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpAButton, this);	
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceAButton, this);
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceArrowPad, this);	
+		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce2, this);
+	}
 }
 
 titleState.showControls = function(){
@@ -215,7 +223,9 @@ titleState.finishHidingControls = function(){
 
 titleState.startGame = function(){
 	if(this.game.gamepads){
-		this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
+		if(this.game.gamepads.gamepads.length > 0){
+			this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
+		}
 	}
 	this.game.tweens.remove(this.button1);
 	this.game.tweens.remove(this.button2);
@@ -226,7 +236,9 @@ titleState.startGame = function(){
 titleState.update = function(){
 	Kiwi.State.prototype.update.call(this);
 	if(this.showingControls == false){
-		this.checkController();
+		if(this.game.gamepads && this.game.gamepads.gamepads.length > 0){
+			this.checkController();
+		}
 	}
 }
 
@@ -459,15 +471,21 @@ titleState.onPressControls = function(keyCode){
 }
 
 titleState.removeAllGamepadSignals = function(){
-	this.game.gamepads.gamepadConnected.removeAll();
-	this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
-	this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
-	this.game.gamepads.gamepads[0].buttonIsDown.removeAll();
-	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.removeAll();
+	if(this.game.gamepads.gamepadConnected){
+		this.game.gamepads.gamepadConnected.removeAll();
+	}
+	if(this.game.gamepads.gamepads.length > 0){
+		this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
+		this.game.gamepads.gamepads[0].buttonIsDown.removeAll();
+		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.removeAll();
+	}
 }
 
 titleState.shutDown = function(){
-	this.removeAllGamepadSignals();
+	if(this.game.gamepads){
+		this.removeAllGamepadSignals();
+	}
 	this.selectedMenuIcon = null;
 	this.game.input.keyboard.onKeyDown.removeAll();
 	this.game.input.keyboard.onKeyUp.removeAll();

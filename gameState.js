@@ -2616,12 +2616,14 @@ gameState.logAllTimers = function(){
 }
 
 gameState.removeAllGamepadSignals = function(){
-	this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
-	this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
-	this.game.gamepads.gamepads[0].buttonIsDown.removeAll();
-	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.removeAll();
+	if(this.game.gamepads.gamepads.length > 0){
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
+		this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
+		this.game.gamepads.gamepads[0].buttonIsDown.removeAll();
+		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.removeAll();
+	}
 
-	if(this.numPlayers == 2){
+	if(this.numPlayers == 2 && this.game.gamepads.gamepads.length > 1){
 		this.game.gamepads.gamepads[1].buttonOnDownOnce.removeAll();
 		this.game.gamepads.gamepads[1].buttonOnUp.removeAll();	
 		this.game.gamepads.gamepads[1].buttonIsDown.removeAll();	
@@ -2630,11 +2632,13 @@ gameState.removeAllGamepadSignals = function(){
 }
 
 gameState.addGamepadSignalsGame = function(){
-	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce0, this);
-	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp0, this);
-	this.game.gamepads.gamepads[0].buttonIsDown.add(this.buttonIsDown0, this)
-	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);
-	if(this.numPlayers == 2){
+	if(this.game.gamepads.gamepads.length > 0){
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce0, this);
+		this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp0, this);
+		this.game.gamepads.gamepads[0].buttonIsDown.add(this.buttonIsDown0, this)
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);
+	}
+	if(this.numPlayers == 2 && this.game.gamepads.gamepads.length > 1){
 		this.game.gamepads.gamepads[1].buttonOnDownOnce.add(this.buttonOnDownOnce1, this);
 		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUp1, this);
 		this.game.gamepads.gamepads[1].buttonIsDown.add(this.buttonIsDown1, this)
@@ -2643,19 +2647,23 @@ gameState.addGamepadSignalsGame = function(){
 }
 
 gameState.addGamepadSignalsGameOver = function(){
-	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringGameOver, this);
-	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);	
-	if(this.numPlayers == 2){
+	if(this.game.gamepads.gamepads.length > 0){
+		this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringGameOver, this);
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);	
+	}
+	if(this.numPlayers == 2 && this.game.gamepads.gamepads.length > 1){
 		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringGameOver, this);
 		this.game.gamepads.gamepads[1].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);	
 	}	
 }
 
 gameState.addGamepadSignalsQuit = function(){
-	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringQuit, this);
-	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceDuringQuit, this);
-	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringQuit, this);
-	if(this.numPlayers == 2){
+	if(this.game.gamepads.gamepads.length > 0){
+		this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringQuit, this);
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceDuringQuit, this);
+		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringQuit, this);
+	}
+	if(this.numPlayers == 2 && this.game.gamepads.gamepads.length > 1){
 		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringQuit, this);
 		this.game.gamepads.gamepads[1].buttonOnDownOnce.add(this.buttonOnDownOnceDuringQuit, this);
 		this.game.gamepads.gamepads[1].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringQuit, this);
@@ -2663,19 +2671,23 @@ gameState.addGamepadSignalsQuit = function(){
 }
 
 gameState.addGamepadSignalsMenu = function(){
-	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringMenu, this);
-	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringMenu, this);
-	if(this.numPlayers == 2){
+	if(this.game.gamepads.gamepads.length > 0){
+		this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringMenu, this);
+		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringMenu, this);
+	}
+	if(this.numPlayers == 2 && this.game.gamepads.gamepads.length > 1){
 		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringMenu, this);
 		this.game.gamepads.gamepads[1].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringMenu, this);
 	}
 }
 
 gameState.addGamepadSignalsBetweenScreen = function(){
-	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringBetweenScreen, this);
-	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringBetweenScreen, this);	
-	this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);	
-	if(this.numPlayers == 2){
+	if(this.game.gamepads.gamepads.length > 0){
+		this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringBetweenScreen, this);
+		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringBetweenScreen, this);	
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);
+	}	
+	if(this.numPlayers == 2 && this.game.gamepads.gamepads.length > 1){
 		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringBetweenScreen, this);
 		this.game.gamepads.gamepads[1].thumbstickOnDownOnce.add(this.thumbstickOnDownOnceDuringBetweenScreen, this);
 		this.game.gamepads.gamepads[1].buttonOnDownOnce.add(this.buttonOnDownOnceForQuitting, this);	
@@ -2683,10 +2695,11 @@ gameState.addGamepadSignalsBetweenScreen = function(){
 }
 
 gameState.addGamepadSignalsTutorial = function(){
-	this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringTutorial, this);
-	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.buttonOnUpDuringTutorial, this);
-
-	if(this.numPlayers == 2){
+	if(this.game.gamepads.gamepads.length > 0){
+		this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUpDuringTutorial, this);
+		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.buttonOnUpDuringTutorial, this);
+	}
+	if(this.numPlayers == 2 && this.game.gamepads.gamepads.length > 1){
 		this.game.gamepads.gamepads[1].buttonOnUp.add(this.buttonOnUpDuringTutorial, this);
 		this.game.gamepads.gamepads[1].thumbstickOnDownOnce.add(this.buttonOnUpDuringTutorial, this);		
 	}	
@@ -3101,74 +3114,76 @@ gameState.checkController = function(bandit){
 	}else if(bandit.color == this.game.banditColors.BLUE){
 		var index = 1;
 	}
-	var leftright = this.game.gamepads.gamepads[index].axis0;
-	var updown = this.game.gamepads.gamepads[index].axis1;
+	if(this.game.gamepads.gamepads.length > index){
+		var leftright = this.game.gamepads.gamepads[index].axis0;
+		var updown = this.game.gamepads.gamepads[index].axis1;
 
-	if(leftright.value < 0){
-		if(leftright.value < -0.5){
-			if(Math.abs(updown.value) < 0.3 || Math.abs(leftright.value) > Math.abs(updown.value)){
-				bandit.goLeft = true;
-				bandit.goRight = false;
-			}else{
-				bandit.goLeft = false;
-				bandit.goRight = false;
-			}
-		}else{
-			if(leftright.value < -0.3){
-				if(bandit.facing = 'right'){
-					bandit.facing = 'left';
-					bandit.goFire = false;
+		if(leftright.value < 0){
+			if(leftright.value < -0.5){
+				if(Math.abs(updown.value) < 0.3 || Math.abs(leftright.value) > Math.abs(updown.value)){
+					bandit.goLeft = true;
+					bandit.goRight = false;
+				}else{
+					bandit.goLeft = false;
+					bandit.goRight = false;
 				}
-			}
-			bandit.goLeft = false;
-			bandit.goRight = false;			
-		}
-	}else{
-		if(leftright.value > 0.5){
-			if(Math.abs(updown.value) < 0.3 || Math.abs(leftright.value) > Math.abs(updown.value)){
-				bandit.goLeft = false;
-				bandit.goRight = true;
 			}else{
-				bandit.goLeft = false;
-				bandit.goRight = false;
-			}
-		}else{
-			if(leftright.value > 0.3){
-				if(bandit.facing = 'left'){
-					bandit.facing = 'right';
-					bandit.goFire = false;
+				if(leftright.value < -0.3){
+					if(bandit.facing = 'right'){
+						bandit.facing = 'left';
+						bandit.goFire = false;
+					}
 				}
-			}
-			bandit.goLeft = false;
-			bandit.goRight = false;			
-		}
-	}
-	
-	if(updown.value < 0){
-		if(updown.value < -0.3){
-			if(Math.abs(leftright.value) < 0.3 || Math.abs(updown.value) > Math.abs(leftright.value)){
-				bandit.goDown = false;
-				bandit.goUp = true;
-			}else{
-				bandit.goDown = false;
-				bandit.goUp = false;
+				bandit.goLeft = false;
+				bandit.goRight = false;			
 			}
 		}else{
-			bandit.goDown = false;
-			bandit.goUp = false;			
+			if(leftright.value > 0.5){
+				if(Math.abs(updown.value) < 0.3 || Math.abs(leftright.value) > Math.abs(updown.value)){
+					bandit.goLeft = false;
+					bandit.goRight = true;
+				}else{
+					bandit.goLeft = false;
+					bandit.goRight = false;
+				}
+			}else{
+				if(leftright.value > 0.3){
+					if(bandit.facing = 'left'){
+						bandit.facing = 'right';
+						bandit.goFire = false;
+					}
+				}
+				bandit.goLeft = false;
+				bandit.goRight = false;			
+			}
 		}
-	}else{
-		if(updown.value > 0.3){
-			if(Math.abs(leftright.value) < 0.3 || Math.abs(updown.value) > Math.abs(leftright.value)){
-				bandit.goDown = true;
-				bandit.goUp = false;
+		
+		if(updown.value < 0){
+			if(updown.value < -0.3){
+				if(Math.abs(leftright.value) < 0.3 || Math.abs(updown.value) > Math.abs(leftright.value)){
+					bandit.goDown = false;
+					bandit.goUp = true;
+				}else{
+					bandit.goDown = false;
+					bandit.goUp = false;
+				}
 			}else{
 				bandit.goDown = false;
-				bandit.goUp = false;
+				bandit.goUp = false;			
 			}
 		}else{
-			bandit.goDown = false;
-			bandit.goUp = false;			
+			if(updown.value > 0.3){
+				if(Math.abs(leftright.value) < 0.3 || Math.abs(updown.value) > Math.abs(leftright.value)){
+					bandit.goDown = true;
+					bandit.goUp = false;
+				}else{
+					bandit.goDown = false;
+					bandit.goUp = false;
+				}
+			}else{
+				bandit.goDown = false;
+				bandit.goUp = false;			
+			}
 		}
 	}
 }
@@ -3193,7 +3208,9 @@ gameState.shutDown = function(){
 	while(removingHeartTimers){
 		removingHeartTimers = this.game.time.clock.removeTimer(null, 'heartTimer');
 	}
-	this.removeAllGamepadSignals();
+	if(this.game.gamepads){
+		this.removeAllGamepadSignals();
+	}
 	this.game.input.keyboard.onKeyDown.removeAll();
 	this.game.input.keyboard.onKeyUp.removeAll();
 	if(this.currentMusic.isPlaying){

@@ -79,9 +79,11 @@ levelSelectionState.create = function(){
 	this.availableIconsIndex = this.map[this.selectedIconRow][this.selectedIconCol] - 1;
 	
 	if(this.game.gamepads){
-		this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce, this);
-		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce, this);
-		this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp, this);	
+		if(this.game.gamepads.gamepads.length > 0){
+			this.game.gamepads.gamepads[0].buttonOnDownOnce.add(this.buttonOnDownOnce, this);
+			this.game.gamepads.gamepads[0].thumbstickOnDownOnce.add(this.thumbstickOnDownOnce, this);
+			this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp, this);
+		}	
 	}
 
 	this.debounce = 0;
@@ -89,7 +91,9 @@ levelSelectionState.create = function(){
 
 levelSelectionState.update = function(){
 	Kiwi.State.prototype.update.call(this);
-	this.checkController();
+	if(this.game.gamepads && this.game.gamepads.gamepads.length > 0){
+		this.checkController();
+	}
 }
 
 levelSelectionState.onPress = function(keyCode){
@@ -166,7 +170,7 @@ levelSelectionState.getRowColOfHighestUnlockedLevel = function(){
 
 levelSelectionState.startGame = function(levelSelected){
 	this.game.currentLevel = levelSelected;
-	if(this.game.gamepads){
+	if(this.game.gamepads && this.game.gamepads.gamepads.length > 0){
 		this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
 	}
 	this.game.states.switchState('gameState');
@@ -451,15 +455,19 @@ levelSelectionState.checkDebounce = function(){
 }
 
 levelSelectionState.removeAllGamepadSignals = function(){
-	this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
-	this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
-	this.game.gamepads.gamepads[0].buttonIsDown.removeAll();
-	this.game.gamepads.gamepads[0].thumbstickOnDownOnce.removeAll();
+	if(this.game.gamepads.gamepads.length > 0){
+		this.game.gamepads.gamepads[0].buttonOnDownOnce.removeAll();
+		this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
+		this.game.gamepads.gamepads[0].buttonIsDown.removeAll();
+		this.game.gamepads.gamepads[0].thumbstickOnDownOnce.removeAll();
+	}
 }
 
 
 levelSelectionState.shutDown = function(){
-	this.removeAllGamepadSignals();
+	if(this.game.gamepads){
+		this.removeAllGamepadSignals();
+	}
 	this.selectedIcon = null;
 	this.game.input.keyboard.onKeyDown.removeAll();
 	this.game.input.keyboard.onKeyUp.removeAll();

@@ -22,8 +22,12 @@ inputState.create = function(){
 	this.addChild(this.pressa);
 
 	if(this.game.gamepads){
-		this.game.gamepads.gamepadConnected.add(this.gamepadConnected, this);
-		this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp, this);
+		if(this.game.gamepads.gamepadConnected){
+			this.game.gamepads.gamepadConnected.add(this.gamepadConnected, this);
+		}
+		if(this.game.gamepads.gamepads.length > 0){
+			this.game.gamepads.gamepads[0].buttonOnUp.add(this.buttonOnUp, this);
+		}
 	}
 
 	this.game.input.keyboard.onKeyDown.add(this.onKeyDown, this);
@@ -62,12 +66,18 @@ inputState.update = function(){
 }
 
 inputState.shutDown = function(){
-	this.removeAllGamepadSignals();
+	if(this.game.gamepads){
+		this.removeAllGamepadSignals();
+	}
 	this.game.input.keyboard.onKeyDown.removeAll();
+	this.game.input.mouse.onUp.removeAll();
 }
 
 inputState.removeAllGamepadSignals = function(){
-	this.game.gamepads.gamepadConnected.removeAll();
-	this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
-	this.game.input.mouse.onUp.removeAll();
+	if(this.game.gamepads.gamepadConnected){
+		this.game.gamepads.gamepadConnected.removeAll();
+	}
+	if(this.game.gamepads.gamepads.length > 0){
+		this.game.gamepads.gamepads[0].buttonOnUp.removeAll();
+	}
 }

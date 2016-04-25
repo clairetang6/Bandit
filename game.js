@@ -74,13 +74,13 @@ myGame.titleStateCloseQuitDialog = function(){
 	}
 
 	if(this.game.gamepads){
-        this.removeAllGamepadSignals();
-        if(this.showingControls){
-            this.addGamepadSignalsControls();
-        }else{
-            this.addGamepadSignalsTitle();
-        }
-    }	
+		this.removeAllGamepadSignals();
+		if(this.showingControls){
+			this.addGamepadSignalsControls();
+	}else{
+			this.addGamepadSignalsTitle();
+		}
+	}
 
 	this.quitTween.to({y: -500}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	
 	this.quitTween2.to({y: -500}, 400, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);	  
