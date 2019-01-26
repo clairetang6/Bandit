@@ -1,5 +1,7 @@
 # Bandit
 
+Play at [rydairegames.com/bandit](http://rydairegames.com/bandit)!
+
 Navigate through colorful landscapes.   
 Collect all the loot stolen by the ghouls.  
 Defeat the ghoul menace.  
